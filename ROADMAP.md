@@ -1,6 +1,3 @@
-# 🗺️ **ROADMAP.md** (For Portfolio Repo)
-
-```markdown
 # Portfolio Website Roadmap
 
 **Project Start:** November 11, 2025  
@@ -11,17 +8,22 @@
 
 ## 📅 Timeline Overview
 
-Week 1-2: Foundation (MVP) Week 3-4: Content + SEO (Full Launch) Week 5: Polish + Launch (Public) Ongoing: Growth + Iteration
+- **Week 1-2:** Foundation (MVP)
+- **Week 3-4:** Content + SEO (Full Launch)
+- **Week 5:** Polish + Launch (Public)
+- **Ongoing:** Growth + Iteration
 
 ---
 
 ## 🎯 Phases & Milestones
 
-### **Phase 1: Foundation - MVP Launch**
-**Timeline:** Weeks 1-2 (Nov 11-24, 2025)  
+### Phase 1: Foundation - MVP Launch
+
+**Timeline:** Weeks 1-2 (Nov 11-24, 2025)
 **Goal:** Working portfolio with 3 case studies deployed to Vercel
 
-#### **Week 1: Setup + Content Migration**
+#### Week 1: Setup + Content Migration
+
 **Focus:** Infrastructure + Content
 
 **Tasks:**
@@ -51,7 +53,8 @@ Week 1-2: Foundation (MVP) Week 3-4: Content + SEO (Full Launch) Week 5: Polish 
 
 ---
 
-#### **Week 2: Design System + Pages**
+#### Week 2: Design System + Pages
+
 **Focus:** UI/UX + Core Pages
 
 **Tasks:**
@@ -92,11 +95,13 @@ Week 1-2: Foundation (MVP) Week 3-4: Content + SEO (Full Launch) Week 5: Polish 
 
 ---
 
-### **Phase 2: Content + SEO - Full Launch**
-**Timeline:** Weeks 3-4 (Nov 25 - Dec 8, 2025)  
+### Phase 2: Content + SEO - Full Launch
+
+**Timeline:** Weeks 3-4 (Nov 25 - Dec 8, 2025)
 **Goal:** Complete, SEO-optimized portfolio ready for public launch
 
-#### **Week 3: Complete Content**
+#### Week 3: Complete Content
+
 **Focus:** Missing Pages + Assets
 
 **Tasks:**
@@ -144,7 +149,8 @@ Week 1-2: Foundation (MVP) Week 3-4: Content + SEO (Full Launch) Week 5: Polish 
 
 ---
 
-#### **Week 4: SEO Optimization**
+#### Week 4: SEO Optimization
+
 **Focus:** Search Engine Optimization + Quality
 
 **Tasks:**
@@ -188,11 +194,13 @@ Week 1-2: Foundation (MVP) Week 3-4: Content + SEO (Full Launch) Week 5: Polish 
 
 ---
 
-### **Phase 3: Polish + Public Launch**
-**Timeline:** Week 5 (Dec 9-16, 2025)  
+### Phase 3: Polish + Public Launch
+
+**Timeline:** Week 5 (Dec 9-16, 2025)
 **Goal:** Public launch with polish and promotion
 
-#### **Week 5: Final Polish + Launch**
+#### Week 5: Final Polish + Launch
+
 **Focus:** Animations, QA, Promotion
 
 **Tasks:**
@@ -249,11 +257,12 @@ Week 1-2: Foundation (MVP) Week 3-4: Content + SEO (Full Launch) Week 5: Polish 
 
 ---
 
-### **Phase 4: Growth + Iteration**
-**Timeline:** Ongoing (Dec 16, 2025+)  
+### Phase 4: Growth + Iteration
+
+**Timeline:** Ongoing (Dec 16, 2025+)
 **Goal:** Continuous improvement and content expansion
 
-#### **Short-Term (1-3 Months)**
+#### Short-Term (1-3 Months)
 - [ ] Add remaining case studies:
   - [ ] Masiv (2018-21) case study
   - [ ] PayU Latam (2016-18) case study
@@ -270,7 +279,8 @@ Week 1-2: Foundation (MVP) Week 3-4: Content + SEO (Full Launch) Week 5: Polish 
   - [ ] Optimize underperforming pages
   - [ ] Build backlinks (guest posts, interviews, etc.)
 
-#### **Medium-Term (3-6 Months)**
+#### Medium-Term (3-6 Months)
+
 - [ ] Blog section:
   - [ ] Design blog layout
   - [ ] Write first 3-5 articles on design systems, leadership, etc.
@@ -286,7 +296,8 @@ Week 1-2: Foundation (MVP) Week 3-4: Content + SEO (Full Launch) Week 5: Polish 
   - [ ] Resources/tools page
   - [ ] Design system documentation (public AquaDS docs)
 
-#### **Long-Term (6-12 Months)**
+#### Long-Term (6-12 Months)
+
 - [ ] Community building:
   - [ ] Newsletter signup (Substack, ConvertKit, etc.)
   - [ ] Regular blog posts (2-4 per month)
@@ -304,16 +315,19 @@ Week 1-2: Foundation (MVP) Week 3-4: Content + SEO (Full Launch) Week 5: Polish 
 
 ## 📊 Success Metrics
 
-### **Launch Success (Week 5)**
-- [x] Lighthouse score 95+ on all categories
-- [x] All pages have unique meta titles/descriptions
-- [x] WCAG 2.1 AA compliant
-- [x] <1s First Contentful Paint
-- [x] Mobile-responsive (tested on 3+ devices)
-- [x] Zero accessibility violations
-- [x] Deployed to custom domain
+### Launch Success (Week 5)
 
-### **30-Day Success**
+- [ ] Lighthouse score 95+ on all categories
+- [ ] All pages have unique meta titles/descriptions
+- [ ] WCAG 2.1 AA compliant
+- [ ] <1s First Contentful Paint
+- [ ] Mobile-responsive (tested on 3+ devices)
+- [ ] Zero accessibility violations
+- [ ] Deployed to custom domain
+
+### 30-Day Success
+
+
 - [ ] 100+ unique visitors
 - [ ] Indexed by Google for "Nicolás Botero Product Designer"
 - [ ] 2+ minute average session duration
@@ -321,7 +335,9 @@ Week 1-2: Foundation (MVP) Week 3-4: Content + SEO (Full Launch) Week 5: Polish 
 - [ ] 5+ backlinks to portfolio
 - [ ] 1+ interview request
 
-### **90-Day Success**
+### 90-Day Success
+
+
 - [ ] 500+ unique visitors
 - [ ] Top 10 ranking for 3+ target keywords
 - [ ] 5+ minute average session duration
@@ -353,19 +369,24 @@ Week 1-2: Foundation (MVP) Week 3-4: Content + SEO (Full Launch) Week 5: Polish 
 
 ## 🎯 Key Decisions
 
-### **Tech Stack**
+### Tech Stack
+
 - **Framework:** Next.js 15 (chosen for SEO, performance, ease of deployment)
 - **Styling:** Tailwind CSS (chosen for speed, consistency, small bundle size)
 - **Content:** MDX + Contentlayer (chosen for type safety, flexibility)
 - **Hosting:** Vercel (chosen for free tier, instant deploys, edge network)
 
-### **Scope Decisions**
+### Scope Decisions
+
+
 - **Launch with 3 case studies** (Sainapsis, Ocean, AquaDS) - Add Masiv/PayU post-launch
 - **No blog at launch** - Add in Phase 4 after validating portfolio traction
 - **Dark mode optional** - Nice-to-have, not required for launch
 - **Contact form optional** - Email link sufficient for launch
 
-### **SEO Priorities**
+### SEO Priorities
+
+
 - **Primary focus:** Case study pages (longest content, most valuable)
 - **Secondary focus:** Home page, About page
 - **Tertiary focus:** Resume, Contact pages
