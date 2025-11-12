@@ -1,19 +1,38 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, useTransition } from 'react';
+import { authenticateCaseStudy } from '@/actions/authActions';
+import { useRouter } from 'next/navigation';
 
-interface PasswordPromptProps {
-  onSubmit: (password: string) => void;
-  error?: string;
+interface ServerPasswordPromptProps {
+  slug: string;
   caseStudyTitle: string;
 }
 
-export default function PasswordPrompt({ onSubmit, error, caseStudyTitle }: PasswordPromptProps) {
+export default function ServerPasswordPrompt({
+  slug,
+  caseStudyTitle
+}: ServerPasswordPromptProps) {
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit(password);
+    setError('');
+
+    startTransition(async () => {
+      const result = await authenticateCaseStudy(slug, password);
+
+      if (result.success) {
+        // Authentication successful, refresh the page to show content
+        router.refresh();
+      } else {
+        setError(result.error || 'Authentication failed');
+        setPassword(''); // Clear password on error
+      }
+    });
   };
 
   return (
@@ -68,6 +87,7 @@ export default function PasswordPrompt({ onSubmit, error, caseStudyTitle }: Pass
                 placeholder="Enter password"
                 autoFocus
                 required
+                disabled={isPending}
               />
             </div>
 
@@ -81,9 +101,10 @@ export default function PasswordPrompt({ onSubmit, error, caseStudyTitle }: Pass
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full rounded-lg bg-gray-900 px-6 py-3 font-medium text-white transition-colors hover:bg-gray-800"
+              disabled={isPending}
+              className="w-full rounded-lg bg-gray-900 px-6 py-3 font-medium text-white transition-colors hover:bg-gray-800 disabled:opacity-50"
             >
-              Unlock Case Study
+              {isPending ? 'Verifying...' : 'Unlock Case Study'}
             </button>
           </form>
 
