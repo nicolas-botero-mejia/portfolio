@@ -16,3 +16,9 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
 }
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Account for fixed header */
+}

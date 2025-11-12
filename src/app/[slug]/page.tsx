@@ -97,10 +97,10 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
       <footer className="mt-16 border-t border-gray-200 pt-8">
         <div className="flex items-center justify-between">
           <a
-            href="/work"
+            href="/#work"
             className="text-sm font-medium text-gray-600 hover:text-gray-900"
           >
-            ← Back to all work
+            ← Back to portfolio
           </a>
           <div className="text-sm text-gray-500">
             {frontmatter.company} · {frontmatter.year}
