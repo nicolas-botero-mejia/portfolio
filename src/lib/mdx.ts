@@ -20,6 +20,8 @@ export interface CaseStudyFrontmatter {
     metaDescription: string;
     keywords: string[];
   };
+  password?: string; // Optional: Dedicated password for this case study
+  locked?: boolean;  // Optional: Whether this case study requires password
 }
 
 export interface CaseStudy {
