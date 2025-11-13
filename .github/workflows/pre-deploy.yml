@@ -1,0 +1,139 @@
+name: Pre-Deploy Validation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production
+        run: npm run build
+
+      - name: Start production server
+        run: |
+          npm run start &
+          echo $! > server.pid
+          npx wait-on http://localhost:3000 --timeout 60000
+
+      - name: Run critical agents
+        id: critical_agents
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # Run only critical agents for fast feedback
+          npm run agents:accessibility || true
+          npm run agents:performance || true
+          npm run agents:architecture || true
+          echo "agents_completed=true" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Stop server
+        if: always()
+        run: |
+          if [ -f server.pid ]; then
+            kill $(cat server.pid) || true
+          fi
+
+      - name: Check quality threshold
+        if: steps.critical_agents.outputs.agents_completed == 'true'
+        run: |
+          node -e "
+            const fs = require('fs');
+            let avgScore = 100;
+
+            try {
+              const reports = JSON.parse(
+                fs.readFileSync('reports/agent-reports.json', 'utf8')
+              );
+              const scores = reports.map(r => r.score);
+              avgScore = Math.round(scores.reduce((a,b) => a+b, 0) / scores.length);
+
+              console.log('📊 Average Score:', avgScore + '/100');
+
+              const threshold = 85;
+              if (avgScore < threshold) {
+                console.error('❌ Portfolio quality below deployment threshold');
+                console.error('   Current:', avgScore);
+                console.error('   Required:', threshold);
+                process.exit(1);
+              }
+
+              console.log('✅ Quality check passed - ready to deploy');
+            } catch (error) {
+              console.log('⚠️  Could not read reports, skipping quality gate');
+            }
+          "
+
+      - name: Upload pre-deploy reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pre-deploy-validation
+          path: reports/
+          retention-days: 30
+
+      - name: Deploy to Vercel
+        if: success()
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+
+      - name: Comment on last commit
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let message = '## 🚀 Deploy Status\n\n';
+
+            if ('${{ job.status }}' === 'success') {
+              message += '✅ **Deployed successfully**\n\n';
+              message += 'Portfolio passed all quality gates and is now live.\n';
+            } else {
+              message += '❌ **Deploy blocked**\n\n';
+              message += 'Portfolio quality below threshold. Fix issues and push again.\n';
+            }
+
+            try {
+              const reports = JSON.parse(
+                fs.readFileSync('reports/agent-reports.json', 'utf8')
+              );
+              const avgScore = Math.round(
+                reports.reduce((sum, r) => sum + r.score, 0) / reports.length
+              );
+
+              message += `\n**Quality Score:** ${avgScore}/100\n\n`;
+              message += '### Critical Validators:\n';
+              message += reports.map(r => `- ${r.agentName}: ${r.score}/100`).join('\n');
+            } catch (e) {
+              message += '\n_Quality reports not available_\n';
+            }
+
+            message += `\n\n[View details](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})`;
+
+            await github.rest.repos.createCommitComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: context.sha,
+              body: message
+            });

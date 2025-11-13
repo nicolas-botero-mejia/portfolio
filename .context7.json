@@ -1,0 +1,103 @@
+{
+  "$schema": "https://context7.dev/schema.json",
+  "version": "1.0",
+  "project": {
+    "name": "Portfolio - Staff Product Designer",
+    "type": "nextjs",
+    "description": "Staff/Lead Product Designer portfolio with design system infrastructure"
+  },
+  "analysis": {
+    "enabled": true,
+    "scope": [
+      "src/**/*.{ts,tsx,js,jsx}",
+      "content/**/*.mdx",
+      "scripts/**/*.{ts,js}",
+      ".github/workflows/*.yml"
+    ],
+    "exclude": [
+      "node_modules/**",
+      ".next/**",
+      "out/**",
+      "reports/**"
+    ]
+  },
+  "checks": {
+    "dependencies": {
+      "enabled": true,
+      "checkOutdated": true,
+      "checkVulnerabilities": true,
+      "checkUnused": true
+    },
+    "typescript": {
+      "enabled": true,
+      "strict": true,
+      "checkTypes": true
+    },
+    "architecture": {
+      "enabled": true,
+      "rules": [
+        {
+          "name": "atomic-design",
+          "description": "Components should follow Atomic Design structure",
+          "pattern": "src/components/(atoms|molecules|organisms|templates)/**/*.tsx"
+        },
+        {
+          "name": "no-circular-deps",
+          "description": "No circular dependencies allowed"
+        }
+      ]
+    },
+    "bestPractices": {
+      "enabled": true,
+      "rules": [
+        "use-design-tokens",
+        "storybook-coverage",
+        "accessibility-standards",
+        "performance-budgets"
+      ]
+    }
+  },
+  "validation": {
+    "designSystem": {
+      "tokensRequired": true,
+      "tokenPath": "src/tokens",
+      "figmaIntegration": true
+    },
+    "testing": {
+      "storybook": {
+        "required": true,
+        "coverageThreshold": 80
+      },
+      "playwright": {
+        "required": true,
+        "e2eTests": true
+      },
+      "chromatic": {
+        "required": true,
+        "visualRegression": true
+      }
+    },
+    "documentation": {
+      "required": ["README.md", "docs/"],
+      "components": {
+        "storiesRequired": true,
+        "propsDocumented": true
+      }
+    }
+  },
+  "recommendations": {
+    "framework": "next@latest",
+    "react": "react@latest",
+    "typescript": "typescript@latest",
+    "testing": {
+      "unit": "vitest",
+      "e2e": "playwright",
+      "visual": "chromatic"
+    },
+    "tools": {
+      "storybook": "@storybook/nextjs@latest",
+      "linting": "eslint@latest",
+      "formatting": "prettier@latest"
+    }
+  }
+}
