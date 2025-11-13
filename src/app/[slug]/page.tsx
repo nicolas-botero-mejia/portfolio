@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 import { getCaseStudies, getCaseStudyBySlug } from '@/lib/mdx';
 import { generatePageMetadata } from '@/lib/seo';
 import { Metadata } from 'next';
+import { requiresPassword, isAuthenticated } from '@/lib/serverPasswordAuth';
+import ServerPasswordPrompt from '@/components/ServerPasswordPrompt';
 
 interface CaseStudyPageProps {
   params: Promise<{
@@ -42,6 +44,21 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
     notFound();
   }
 
+  // Server-side authentication check
+  const needsPassword = requiresPassword(caseStudy);
+  const authenticated = needsPassword ? await isAuthenticated(slug) : true;
+
+  // Show password prompt if locked and not authenticated
+  if (needsPassword && !authenticated) {
+    return (
+      <ServerPasswordPrompt
+        slug={slug}
+        caseStudyTitle={caseStudy.frontmatter.title}
+      />
+    );
+  }
+
+  // Render case study content
   const { frontmatter, content } = caseStudy;
 
   return (
