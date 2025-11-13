@@ -80,7 +80,7 @@ Long-tail: [phrase 1], [phrase 2]
 ## Example Usage
 
 ```bash
-Analyze the SEO of /app/work/sainapsis/page.tsx and provide specific recommendations to improve rankings for "design systems case study" and "productivity transformation"
+Analyze the SEO of /sainapsis and provide specific recommendations to improve rankings for "design systems case study" and "productivity transformation"
 ```
 
 ## Best Practices

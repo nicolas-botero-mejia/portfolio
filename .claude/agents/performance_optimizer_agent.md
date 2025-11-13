@@ -139,7 +139,7 @@ Recommendations:
 ## Example Usage
 
 ```bash
-Analyze the performance of /app/work/[slug]/page.tsx and optimize for Core Web Vitals, targeting Lighthouse score 95+
+Analyze the performance of /app/[slug]/page.tsx and optimize for Core Web Vitals, targeting Lighthouse score 95+
 ```
 
 ## Common Optimizations

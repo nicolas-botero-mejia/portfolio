@@ -40,14 +40,11 @@
 ### Next.js App Router Structure
 ```
 app/
-├── page.tsx                    # Home page
-├── work/
-│   ├── page.tsx               # Work overview
-│   └── [slug]/page.tsx        # Dynamic case study pages
-├── about/page.tsx
-├── resume/page.tsx
-└── contact/page.tsx
+├── page.tsx                    # Home page (includes Work, Workflow, About, Resume, Contact sections)
+└── [slug]/page.tsx             # Dynamic case study pages
 ```
+
+**Note:** Workflow, About, Resume, and Contact are sections within the home page (accessed via hash links like `#workflow`, `#about`, `#resume`, `#contact`), not separate pages.
 
 ### Content Layer
 - **Location:** `content/case-studies/*.mdx`
@@ -434,7 +431,7 @@ npm run lint                     # Lint codebase
 
 ### Key Files
 - `app/page.tsx` - Home page
-- `app/work/[slug]/page.tsx` - Case study template
+- `app/[slug]/page.tsx` - Case study template
 - `content/case-studies/*.mdx` - Case study content
 - `lib/serverPasswordAuth.ts` - Password validation
 - `.env.local` - Local environment variables (NOT committed)

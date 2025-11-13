@@ -5,11 +5,11 @@ import { usePathname } from 'next/navigation';
 import { useState, useRef, useEffect } from 'react';
 
 const navigation = [
-  { name: 'Work', href: '#work', isDropdown: true },
-  { name: 'Workflow', href: '#workflow' },
-  { name: 'About', href: '#about' },
-  { name: 'Resume', href: '#resume' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Work', href: '/#work', isDropdown: true },
+  { name: 'Workflow', href: '/#workflow' },
+  { name: 'About', href: '/#about' },
+  { name: 'Resume', href: '/#resume' },
+  { name: 'Contact', href: '/#contact' },
 ];
 
 interface NavigationProps {
@@ -40,14 +40,17 @@ export default function Navigation({ caseStudies }: NavigationProps) {
   }, []);
 
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.startsWith('#')) {
+    // Only smooth scroll if we're on the home page and the link has a hash
+    if (pathname === '/' && href.includes('#')) {
       e.preventDefault();
-      const element = document.querySelector(href);
+      const hash = href.split('#')[1];
+      const element = document.querySelector(`#${hash}`);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         setDropdownOpen(false);
       }
     }
+    // Otherwise, let Next.js handle navigation (goes to home page with hash)
   };
 
   return (

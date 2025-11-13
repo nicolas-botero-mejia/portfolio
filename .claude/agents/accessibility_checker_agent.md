@@ -125,10 +125,10 @@ Check the accessibility of /app/page.tsx and ensure it meets WCAG 2.1 AA standar
 ### Non-Descriptive Links
 ```tsx
 // Bad
-<a href="/work/sainapsis">Click here</a>
+<a href="/sainapsis">Click here</a>
 
 // Good
-<a href="/work/sainapsis">Read Sainapsis case study on 16x productivity transformation</a>
+<a href="/sainapsis">Read Sainapsis case study on 16x productivity transformation</a>
 ```
 
 ### Missing Form Labels

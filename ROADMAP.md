@@ -74,11 +74,11 @@
   - [ ] Home page (`app/page.tsx`)
     - [ ] Hero section
     - [ ] Featured work section (3 case studies)
-    - [ ] About teaser
-    - [ ] Contact CTA
-  - [ ] Work overview page (`app/work/page.tsx`)
-  - [ ] Case study template (`app/work/[slug]/page.tsx`)
-  - [ ] Contact page (`app/contact/page.tsx`)
+    - [ ] Workflow section
+    - [ ] About section
+    - [ ] Resume section
+    - [ ] Contact section
+  - [ ] Case study template (`app/[slug]/page.tsx`)
 - [ ] Collect/create assets:
   - [ ] Professional headshot
   - [ ] Case study hero images (placeholder if needed)
@@ -102,19 +102,23 @@
 
 #### Week 3: Complete Content
 
-**Focus:** Missing Pages + Assets
+**Focus:** Complete Home Page Sections + Assets
 
 **Tasks:**
-- [ ] Write and build additional pages:
-  - [ ] About page (`app/about/page.tsx`)
+- [ ] Complete home page sections:
+  - [ ] Workflow section (on `app/page.tsx`)
+    - [ ] Process overview content
+  - [ ] About section (on `app/page.tsx`)
     - [ ] Extended biography
     - [ ] Skills/expertise section
-    - [ ] Workflow/process section
     - [ ] Fun facts/personal touch
-  - [ ] Resume page (`app/resume/page.tsx`)
+  - [ ] Resume section (on `app/page.tsx`)
     - [ ] Experience timeline
     - [ ] Skills list
     - [ ] Download PDF CTA
+  - [ ] Contact section (on `app/page.tsx`)
+    - [ ] Contact information
+    - [ ] Social links
 - [ ] Create missing content:
   - [ ] Workflow/process content (300-500 words)
   - [ ] Extended about copy (500-800 words)
@@ -156,10 +160,10 @@
 **Tasks:**
 - [ ] Implement advanced SEO:
   - [ ] Schema.org markup:
-    - [ ] Person schema (About page)
-    - [ ] CreativeWork schema (Case studies)
-    - [ ] Article schema (Case studies)
-  - [ ] Open Graph tags for all pages
+    - [ ] Person schema (home page - About section)
+    - [ ] CreativeWork schema (case studies)
+    - [ ] Article schema (case studies)
+  - [ ] Open Graph tags for home page and case studies
   - [ ] Twitter Card tags
   - [ ] Canonical URLs
 - [ ] Run AI agents on all pages:
@@ -269,10 +273,10 @@
 - [ ] Gather testimonials:
   - [ ] Request testimonial from Sainapsis colleagues
   - [ ] Request testimonial from Masiv colleagues
-  - [ ] Add testimonials section to About page
+  - [ ] Add testimonials to About section on home page
 - [ ] Content enhancements:
-  - [ ] Add project thumbnails/previews to Work page
-  - [ ] Add filtering to Work page (by year, type)
+  - [ ] Add project thumbnails/previews to Work section on home page
+  - [ ] Add filtering to Work section (by year, type)
   - [ ] Add "Related projects" section to case studies
 - [ ] SEO iteration:
   - [ ] Monitor Google Search Console
@@ -386,10 +390,8 @@
 
 ### SEO Priorities
 
-
 - **Primary focus:** Case study pages (longest content, most valuable)
-- **Secondary focus:** Home page, About page
-- **Tertiary focus:** Resume, Contact pages
+- **Secondary focus:** Home page (includes all sections: Work, Workflow, About, Resume, Contact)
 
 ---
 

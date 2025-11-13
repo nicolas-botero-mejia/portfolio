@@ -176,7 +176,7 @@ This project uses Claude AI agents to automate optimization tasks:
 #### 1. SEO Optimizer
 
 ```bash
-Use SEO Optimizer agent to analyze /work/sainapsis
+Use SEO Optimizer agent to analyze /sainapsis
 ```
 
 - Checks meta titles/descriptions
