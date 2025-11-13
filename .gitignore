@@ -40,3 +40,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# PR drafts (local only, never committed)
+PR_INFO.md
+PR_*.md
