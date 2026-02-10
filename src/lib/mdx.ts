@@ -39,7 +39,7 @@ export function getCaseStudies(): CaseStudy[] {
 
   const fileNames = fs.readdirSync(caseStudiesPath);
   const caseStudies = fileNames
-    .filter((fileName) => fileName.endsWith('.mdx'))
+    .filter((fileName) => fileName.endsWith('.mdx') && !fileName.startsWith('_'))
     .map((fileName) => {
       const slug = fileName.replace(/\.mdx$/, '');
       const fullPath = path.join(caseStudiesPath, fileName);
