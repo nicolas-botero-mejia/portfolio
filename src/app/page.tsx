@@ -1,8 +1,5 @@
-import { getFeaturedCaseStudies } from '@/lib/mdx';
-import HomeClient from '@/components/home/HomeClient';
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  const featuredWork = getFeaturedCaseStudies();
-
-  return <HomeClient featuredWork={featuredWork} />;
+  redirect('/work');
 }

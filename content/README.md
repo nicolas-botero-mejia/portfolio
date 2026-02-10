@@ -53,6 +53,8 @@ year: "2021-2024"
 duration: "3 years"
 type: "Platform Design"
 featured: true
+date: "2024-06-15"            # For sorting (YYYY-MM-DD format)
+category: "work"               # Content category
 heroImage: "/images/work/ocean/hero.png"
 tags: ["design systems", "platform", "global"]
 locked: false                  # Password protection (optional)

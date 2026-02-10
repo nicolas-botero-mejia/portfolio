@@ -1,11 +1,12 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { getCaseStudies, getCaseStudyBySlug } from '@/lib/mdx';
+import { getCaseStudies, getCaseStudyBySlug, getAdjacentCaseStudies } from '@/lib/mdx';
 import { generatePageMetadata } from '@/lib/seo';
 import { Metadata } from 'next';
 import { requiresPassword, isAuthenticated } from '@/lib/serverPasswordAuth';
 import ServerPasswordPrompt from '@/components/ServerPasswordPrompt';
 import CaseStudyTracker from '@/components/CaseStudyTracker';
+import ContentNavigation from '@/components/ui/ContentNavigation';
 
 interface CaseStudyPageProps {
   params: Promise<{
@@ -62,6 +63,9 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
 
   // Render case study content
   const { frontmatter, content } = caseStudy;
+  
+  // Get adjacent case studies for next/prev navigation
+  const { prev, next } = getAdjacentCaseStudies(slug);
 
   return (
     <>
@@ -114,6 +118,13 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         <div
           className="prose prose-gray prose-lg max-w-none"
           dangerouslySetInnerHTML={{ __html: content }}
+        />
+
+        {/* Next/Previous Navigation */}
+        <ContentNavigation
+          prev={prev ? { slug: prev.slug, title: prev.frontmatter.title } : null}
+          next={next ? { slug: next.slug, title: next.frontmatter.title } : null}
+          basePath="/work"
         />
         </div>
       </article>

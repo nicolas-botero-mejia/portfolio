@@ -12,10 +12,11 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
   const pathname = usePathname();
 
   const navigation = [
-    { name: 'Work', href: '/#work' },
-    { name: 'Workflow', href: '/#workflow' },
-    { name: 'Experience', href: '/#experience' },
-    { name: 'Contact', href: '/#contact' },
+    { name: 'Work', href: '/work' },
+    { name: 'Experiments', href: '/experiments' },
+    { name: 'Reading', href: '/reading' },
+    { name: 'Writing', href: '/writing' },
+    { name: 'About', href: '/about' },
   ];
 
 
@@ -26,15 +27,8 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
       properties: { section, from: pathname },
     });
 
-    if (href.includes('#') && pathname === '/') {
-      e.preventDefault();
-      const hash = href.split('#')[1];
-      const element = document.getElementById(hash);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
-    // If we're not on home page and clicking a hash link, let it navigate normally
+    // No need for hash scrolling anymore - all are full pages
+    // Just let Next.js handle navigation
   };
 
   const handleExternalLinkClick = (url: string, label: string) => {
@@ -59,7 +53,7 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
           {/* Top Section */}
           <div>
             {/* Name/Logo */}
-            <Link href="/" className="block mb-8">
+            <Link href="/work" className="block mb-8">
               <h1 className="text-2xl font-bold text-gray-900">
                 Nicolás Botero
               </h1>
@@ -161,7 +155,12 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                 </a>
               </div>
               <div className="text-gray-500 pt-2">
-                Bogotá, Colombia
+                <div>Bogotá, Colombia</div>
+                <div className="text-xs mt-1">Remote-ready worldwide</div>
+              </div>
+              <div className="text-gray-500 border-t border-gray-100 mt-3 pt-3">
+                <div className="text-gray-700 font-medium">Open to opportunities</div>
+                <div className="text-xs mt-1">Freelance • Consulting • Full-time</div>
               </div>
             </div>
           </div>
