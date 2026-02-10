@@ -69,7 +69,7 @@ export function getCaseStudyBySlug(slug: string): CaseStudy | null {
       frontmatter: data as CaseStudyFrontmatter,
       content,
     };
-  } catch (error) {
+  } catch {
     return null;
   }
 }

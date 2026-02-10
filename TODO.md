@@ -11,27 +11,42 @@ After componentization is complete, review and potentially remove:
 
 **Action:** Run `npm uninstall <package>` for each unused dependency after confirming they won't be needed.
 
-### 2. Add Analytics & Event Tracking
+### 2. Add Analytics & Event Tracking ✅
 
-#### Google Analytics
-- [ ] Install `@next/third-parties` or `react-ga4`
-- [ ] Add GA measurement ID to environment variables
-- [ ] Create analytics utility/component
-- [ ] Add to layout for tracking page views
+#### Google Analytics ✅
+- [x] Install `@next/third-parties`
+- [x] Add GA measurement ID to environment variables
+- [x] Create analytics utility/component
+- [x] Add to layout for tracking page views
+- [ ] Configure GA account and add measurement ID to `.env.local`
 - [ ] Test in production
 
-#### Amplitude Event Tracking
-- [ ] Install `@amplitude/analytics-browser`
-- [ ] Add Amplitude API key to environment variables
-- [ ] Create event tracking utilities
-- [ ] Define key events to track:
-  - Page views
-  - Case study views
-  - External link clicks
-  - Contact button clicks
-  - Password entry attempts
-- [ ] Implement tracking calls
-- [ ] Test in development and production
+#### Amplitude Event Tracking ✅
+- [x] Install `@amplitude/analytics-browser`
+- [x] Add Amplitude API key to environment variables
+- [x] Create event tracking utilities (`src/lib/analytics.ts`)
+- [x] Define key events to track:
+  - Page views ✅
+  - Case study views ✅
+  - External link clicks ✅
+  - Contact button clicks ✅
+  - Password entry attempts ✅
+  - Work card clicks ✅
+  - Navigation clicks ✅
+- [x] Implement tracking calls across components
+- [x] Create comprehensive documentation (README_ANALYTICS.md)
+- [ ] Configure Amplitude account and add API key to `.env.local`
+- [ ] Test in production
+
+#### Completed Implementation
+- ✅ `AnalyticsProvider` component with Suspense boundary
+- ✅ `CaseStudyTracker` component for case study views
+- ✅ Type-safe event tracking with TypeScript
+- ✅ Tracking on home page (work cards, contact links)
+- ✅ Tracking in sidebar (navigation, external links, contact)
+- ✅ Tracking on case study pages
+- ✅ Password attempt tracking
+- ✅ Console logging in development mode
 
 ### 3. Current Work in Progress
 - [x] Delete unused components (Header, Footer, Navigation)

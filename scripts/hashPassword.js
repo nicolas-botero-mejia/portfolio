@@ -10,6 +10,7 @@
  * This will output a SHA-256 hash that you can use in your .env.local file.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const crypto = require('crypto');
 
 function hashPassword(password) {

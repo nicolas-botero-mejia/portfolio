@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { trackEvent } from '@/lib/analytics';
 
 interface SplitLayoutProps {
   children: React.ReactNode;
@@ -17,13 +18,14 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
     { name: "Let's Work Together", href: '/#contact' },
   ];
 
-  const isActive = (href: string) => {
-    // For hash links, we can't really track active state easily
-    // so we'll just return false and rely on scroll position
-    return false;
-  };
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, section: string) => {
+    // Track navigation click
+    trackEvent({
+      name: 'navigation_click',
+      properties: { section, from: pathname },
+    });
+
     if (href.includes('#') && pathname === '/') {
       e.preventDefault();
       const hash = href.split('#')[1];
@@ -33,6 +35,20 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
       }
     }
     // If we're not on home page and clicking a hash link, let it navigate normally
+  };
+
+  const handleExternalLinkClick = (url: string, label: string) => {
+    trackEvent({
+      name: 'external_link_click',
+      properties: { url, label, section: 'sidebar' },
+    });
+  };
+
+  const handleContactClick = (method: 'email' | 'linkedin') => {
+    trackEvent({
+      name: 'contact_click',
+      properties: { method, section: 'sidebar' },
+    });
   };
 
   return (
@@ -67,21 +83,39 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
               </p>
               <p className="text-gray-700">
                 Previously at{' '}
-                <a href="https://www.sainapsis.com/" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900 transition-colors">
+                <a 
+                  href="https://www.sainapsis.com/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-gray-900 transition-colors"
+                  onClick={() => handleExternalLinkClick('https://www.sainapsis.com/', 'Sainapsis')}
+                >
                   Sainapsis
                 </a>
                 ,{' '}
-                <a href="https://www.masiv.com/" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900 transition-colors">
+                <a 
+                  href="https://www.masiv.com/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-gray-900 transition-colors"
+                  onClick={() => handleExternalLinkClick('https://www.masiv.com/', 'Masiv')}
+                >
                   Masiv
                 </a>
                 ,{' '}
-                <a href="https://corporate.payu.com/colombia/" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900 transition-colors">
+                <a 
+                  href="https://corporate.payu.com/colombia/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-gray-900 transition-colors"
+                  onClick={() => handleExternalLinkClick('https://corporate.payu.com/colombia/', 'PayU Latam')}
+                >
                   PayU Latam
                 </a>
                 .
               </p>
               <p>
-                If you'd like to learn more about me or my work, feel free to reach out!
+                If you&apos;d like to learn more about me or my work, feel free to reach out!
               </p>
             </div>
 
@@ -92,7 +126,7 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                   <li key={item.name}>
                     <a
                       href={item.href}
-                      onClick={(e) => handleNavClick(e, item.href)}
+                      onClick={(e) => handleNavClick(e, item.href, item.name)}
                       className="block py-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
                     >
                       {item.name}
@@ -110,6 +144,7 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                 <a
                   href="mailto:n.boterom@gmail.com"
                   className="text-gray-600 hover:text-gray-900 transition-colors"
+                  onClick={() => handleContactClick('email')}
                 >
                   n.boterom@gmail.com
                 </a>
@@ -120,6 +155,7 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-600 hover:text-gray-900 transition-colors"
+                  onClick={() => handleContactClick('linkedin')}
                 >
                   LinkedIn ↗
                 </a>

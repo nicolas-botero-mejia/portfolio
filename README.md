@@ -28,6 +28,7 @@ This portfolio showcases my work as a Product Designer, featuring detailed case 
 - ♿️ WCAG 2.1 AA accessible
 - 📱 Mobile-first responsive design
 - 🔒 Password protection for selective case study access
+- 📊 Comprehensive analytics (Google Analytics + Amplitude)
 - 🤖 AI agents for content optimization
 
 ---
@@ -133,6 +134,7 @@ portfolio/
 │
 ├── .env.example                   # Environment variable examples
 ├── README_PASSWORD_PROTECTION.md  # Quick password setup reference
+├── README_ANALYTICS.md            # Analytics implementation guide
 ├── contentlayer.config.ts         # Contentlayer configuration
 ├── tailwind.config.ts             # Tailwind configuration
 └── next.config.js                 # Next.js configuration
@@ -295,6 +297,43 @@ npm run hash-password "yourpassword"
 
 **Use for:** Client portfolios, WIP case studies, professional courtesy
 **Not for:** HIPAA/PCI compliance, enterprise security, audit requirements
+
+---
+
+## 📊 Analytics & Tracking
+
+Comprehensive analytics implementation with Google Analytics 4 and Amplitude for detailed user insights.
+
+**Features:**
+- Automatic page view tracking
+- User interaction events (clicks, navigation)
+- Case study engagement metrics
+- Password unlock analytics
+- Type-safe event tracking with TypeScript
+- Privacy-friendly (no PII collected)
+
+**Tracked Events:**
+- Page views across all routes
+- Work card clicks with position tracking
+- Case study views and engagement
+- Contact button interactions
+- External link clicks
+- Navigation usage patterns
+- Password attempt success/failure
+
+**Quick Setup:**
+```bash
+# Add to .env.local
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_AMPLITUDE_API_KEY=your-amplitude-api-key
+```
+
+**Documentation:**
+- **Complete Guide:** [README_ANALYTICS.md](README_ANALYTICS.md) - Setup, usage, event definitions, and best practices
+
+**Get API Keys:**
+- Google Analytics: https://analytics.google.com/
+- Amplitude: https://analytics.amplitude.com/
 
 ---
 

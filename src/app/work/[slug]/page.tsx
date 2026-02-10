@@ -1,9 +1,11 @@
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import { getCaseStudies, getCaseStudyBySlug } from '@/lib/mdx';
 import { generatePageMetadata } from '@/lib/seo';
 import { Metadata } from 'next';
 import { requiresPassword, isAuthenticated } from '@/lib/serverPasswordAuth';
 import ServerPasswordPrompt from '@/components/ServerPasswordPrompt';
+import CaseStudyTracker from '@/components/CaseStudyTracker';
 
 interface CaseStudyPageProps {
   params: Promise<{
@@ -62,15 +64,21 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { frontmatter, content } = caseStudy;
 
   return (
-    <article className="px-8 py-16 lg:px-16 lg:py-24">
-      <div className="max-w-3xl">
+    <>
+      <CaseStudyTracker 
+        slug={slug} 
+        title={frontmatter.title} 
+        company={frontmatter.company} 
+      />
+      <article className="px-8 py-16 lg:px-16 lg:py-24">
+        <div className="max-w-3xl">
         {/* Back Link */}
-        <a
+        <Link
           href="/"
           className="inline-flex items-center text-sm text-gray-500 hover:text-gray-900 mb-8 transition-colors"
         >
           ← Back to work
-        </a>
+        </Link>
 
         {/* Header */}
         <header className="mb-12">
@@ -107,7 +115,8 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
           className="prose prose-gray prose-lg max-w-none"
           dangerouslySetInnerHTML={{ __html: content }}
         />
-      </div>
-    </article>
+        </div>
+      </article>
+    </>
   );
 }

@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useTransition } from 'react';
+import Link from 'next/link';
 import { authenticateCaseStudy } from '@/actions/authActions';
 import { useRouter } from 'next/navigation';
+import { trackEvent } from '@/lib/analytics';
 
 interface ServerPasswordPromptProps {
   slug: string;
@@ -24,6 +26,12 @@ export default function ServerPasswordPrompt({
 
     startTransition(async () => {
       const result = await authenticateCaseStudy(slug, password);
+
+      // Track password attempt
+      trackEvent({
+        name: 'case_study_password_attempt',
+        properties: { slug, success: result.success },
+      });
 
       if (result.success) {
         // Authentication successful, refresh the page to show content
@@ -110,12 +118,12 @@ export default function ServerPasswordPrompt({
 
           {/* Back Link */}
           <div className="mt-6 text-center">
-            <a
+            <Link
               href="/#work"
               className="text-sm text-gray-600 transition-colors hover:text-gray-900"
             >
               ← Back to portfolio
-            </a>
+            </Link>
           </div>
         </div>
       </div>
