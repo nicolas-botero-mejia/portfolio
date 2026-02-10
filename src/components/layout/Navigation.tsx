@@ -6,9 +6,7 @@ import { useState, useRef, useEffect } from 'react';
 
 const navigation = [
   { name: 'Work', href: '/#work', isDropdown: true },
-  { name: 'Workflow', href: '/#workflow' },
-  { name: 'About', href: '/#about' },
-  { name: 'Resume', href: '/#resume' },
+  { name: 'About', href: '/about' },
   { name: 'Contact', href: '/#contact' },
 ];
 
@@ -49,6 +47,9 @@ export default function Navigation({ caseStudies }: NavigationProps) {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         setDropdownOpen(false);
       }
+    } else if (!href.includes('#')) {
+      // For non-hash links (like /about), just navigate normally
+      setDropdownOpen(false);
     }
     // Otherwise, let Next.js handle navigation (goes to home page with hash)
   };
@@ -80,7 +81,7 @@ export default function Navigation({ caseStudies }: NavigationProps) {
                     {caseStudies.map((study) => (
                       <Link
                         key={study.slug}
-                        href={`/${study.slug}`}
+                        href={`/work/${study.slug}`}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         role="menuitem"
                         onClick={() => setDropdownOpen(false)}

@@ -47,7 +47,7 @@ export default function Home() {
             {featuredWork.map((work) => (
               <Link
                 key={work.slug}
-                href={`/${work.slug}`}
+                href={`/work/${work.slug}`}
                 className="group block rounded-lg bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
               >
                 <div className="mb-4 aspect-video w-full overflow-hidden rounded-lg bg-gray-200">

@@ -7,7 +7,7 @@
 
 > SEO-optimized portfolio showcasing 10+ years of product design leadership, design systems, and strategic transformation work.
 
-**Live Site:** [nicolasbotero.com](#) *(coming soon)*
+**Live Site:** [nicolas-botero-mejia.com](#) *(coming soon)*
 **Status:** 🚧 In Development
 **Current Phase:** Phase 1 - Foundation
 
@@ -373,7 +373,7 @@ vercel --prod
 
 ```bash
 # .env.local
-NEXT_PUBLIC_SITE_URL=https://nicolasbotero.com
+NEXT_PUBLIC_SITE_URL=https://www.nicolas-botero-mejia.com
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 
 # Password Protection (optional)
