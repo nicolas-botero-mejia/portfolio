@@ -31,7 +31,7 @@ export interface CaseStudy {
 }
 
 export function getCaseStudies(): CaseStudy[] {
-  const caseStudiesPath = path.join(contentDirectory, 'case-studies');
+  const caseStudiesPath = path.join(contentDirectory, 'work', 'case-studies');
 
   if (!fs.existsSync(caseStudiesPath)) {
     return [];
@@ -60,7 +60,7 @@ export function getCaseStudies(): CaseStudy[] {
 
 export function getCaseStudyBySlug(slug: string): CaseStudy | null {
   try {
-    const fullPath = path.join(contentDirectory, 'case-studies', `${slug}.mdx`);
+    const fullPath = path.join(contentDirectory, 'work', 'case-studies', `${slug}.mdx`);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
 

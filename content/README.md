@@ -1,0 +1,234 @@
+# Content Structure
+
+This folder contains all content for the portfolio site, organized by type.
+
+## Structure
+
+```
+content/
+├── work/                      # Professional work
+│   ├── case-studies/          # Full platform/project stories
+│   ├── features/              # Granular product features
+│   └── side-projects/         # Personal/experimental projects
+│
+├── writing/                   # Written content
+│   ├── posts/                 # Long-form articles
+│   ├── thoughts/              # Quick takes, notes
+│   └── quotes/                # Curated quotes with context
+│
+├── experiments/               # Creative explorations
+│   ├── design/               # Design experiments
+│   ├── code/                 # Code experiments
+│   └── prototypes/           # Interactive prototypes
+│
+├── reading/                   # Reading-related content
+│   ├── books/                # Book notes/reviews
+│   └── articles/             # Article summaries
+│
+└── pages/                     # Special static pages
+    ├── about.mdx
+    └── uses.mdx
+```
+
+## File Naming
+
+- **Use lowercase** for all filenames (e.g., `ocean-platform.mdx`)
+- **Use hyphens** for multi-word names (not underscores or spaces)
+- **No prefixes** - the folder structure provides the namespace
+- **Descriptive names** that reflect the content
+
+## Frontmatter
+
+All MDX files require frontmatter with specific fields depending on content type.
+
+### Case Studies (`work/case-studies/`)
+
+```yaml
+---
+title: "Ocean — Global CPaaS Platform"
+description: "Short description for listings (150-160 chars)"
+company: "RouteMobile"
+role: "Lead Product Designer"
+year: "2021-2024"
+duration: "3 years"
+type: "Platform Design"
+featured: true
+heroImage: "/images/work/ocean/hero.png"
+tags: ["design systems", "platform", "global"]
+locked: false                  # Password protection (optional)
+seo:
+  metaTitle: "Ocean CPaaS Platform | Nicolás Botero"
+  metaDescription: "How I designed Ocean, a platform serving 300M+ messages monthly"
+  keywords: ["cpaas platform", "messaging platform"]
+---
+```
+
+### Features (`work/features/`)
+
+```yaml
+---
+title: "Ocean Billing System"
+description: "Redesigned billing dashboard for 1000+ enterprise clients"
+parent: "ocean"                # Links to parent case study
+type: "feature"
+year: "2023"
+duration: "3 months"
+featured: false
+heroImage: "/images/work/ocean/billing.png"
+tags: ["enterprise", "billing", "dashboard"]
+seo:
+  metaTitle: "Ocean Billing System | Nicolás Botero"
+  metaDescription: "Enterprise billing dashboard design"
+  keywords: ["billing dashboard", "enterprise ux"]
+---
+```
+
+### Posts (`writing/posts/`)
+
+```yaml
+---
+title: "Building Design Systems That Scale"
+description: "Lessons from building 3 design systems"
+date: "2025-02-09"
+featured: true
+tags: ["design systems", "process", "scale"]
+seo:
+  metaTitle: "Building Design Systems That Scale"
+  metaDescription: "Practical lessons from building design systems"
+  keywords: ["design systems", "scalability"]
+---
+```
+
+### Quotes (`writing/quotes/`)
+
+```yaml
+---
+title: "Perfect is the Enemy of Progress"
+quote: "Perfect is the enemy of good"
+author: "Voltaire"
+source: "La Bégueule (1772)"
+date: "2025-02-09"              # Date you added it
+featured: false
+tags: ["philosophy", "iteration", "perfectionism"]
+context: |
+  Why this resonates with my design process
+---
+
+Your personal reflection on why this quote matters to you,
+how it applies to your work, examples of when you've seen
+this principle in action, etc.
+```
+
+### Experiments (`experiments/`)
+
+```yaml
+---
+title: "Micro-interactions for Loading States"
+description: "Exploring playful loading animations"
+type: "design"                 # design, code, or prototype
+date: "2025-02-09"
+featured: true
+tags: ["animation", "micro-interactions", "ui"]
+demo: "https://codepen.io/..."  # Optional demo link
+---
+```
+
+### Books (`reading/books/`)
+
+```yaml
+---
+title: "Thinking in Systems"
+author: "Donella Meadows"
+date: "2025-02-09"            # Date you read/reviewed it
+rating: 5                      # Out of 5
+tags: ["systems thinking", "complexity"]
+---
+```
+
+## Password Protection
+
+To password-protect content (typically case studies):
+
+1. **Set `locked: true` in frontmatter:**
+   ```yaml
+   locked: true
+   ```
+
+2. **Add password hash to `.env.local`:**
+   ```bash
+   # Generate hash first
+   npm run hash-password "clientpassword"
+   
+   # Add to .env.local (NEVER commit this file)
+   CASE_STUDY_OCEAN_PASSWORD=hash-here
+   ```
+
+3. **For global password (all locked content):**
+   ```bash
+   CASE_STUDY_GLOBAL_PASSWORD=hash-here
+   ```
+
+**Password priority:**
+1. Case study's `CASE_STUDY_[SLUG]_PASSWORD` env var
+2. Global `CASE_STUDY_GLOBAL_PASSWORD` env var
+
+**⚠️ Never put passwords in frontmatter in production!**
+
+## URL Structure
+
+Content is automatically mapped to URLs:
+
+| File | URL |
+|------|-----|
+| `work/case-studies/ocean.mdx` | `/work/case-studies/ocean` |
+| `work/features/ocean-billing.mdx` | `/work/features/ocean-billing` |
+| `writing/posts/design-systems.mdx` | `/writing/posts/design-systems` |
+| `writing/quotes/perfect-is-enemy.mdx` | `/writing/quotes/perfect-is-enemy` |
+| `experiments/design/loading.mdx` | `/experiments/design/loading` |
+| `reading/books/thinking-in-systems.mdx` | `/reading/books/thinking-in-systems` |
+
+## Adding New Content
+
+1. Create MDX file in appropriate folder
+2. Add required frontmatter
+3. Write content using Markdown or MDX components
+4. Add images to `public/images/[category]/[slug]/`
+5. Test locally: `npm run dev`
+6. Commit and push
+
+## Images
+
+Store images in:
+```
+public/images/
+├── work/
+│   ├── ocean/
+│   ├── sainapsis/
+│   └── feature-name/
+├── experiments/
+│   └── experiment-name/
+└── writing/
+    └── post-slug/
+```
+
+Reference in MDX:
+```markdown
+![Alt text](/images/work/ocean/hero.png)
+```
+
+## Design System Components
+
+All content can use design system components (coming soon):
+
+```mdx
+<Section title="The Challenge">
+  <Grid cols={2}>
+    <Card>Problem 1</Card>
+    <Card>Problem 2</Card>
+  </Grid>
+</Section>
+```
+
+---
+
+**Last Updated:** February 9, 2026

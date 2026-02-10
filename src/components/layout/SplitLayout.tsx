@@ -12,10 +12,10 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
   const pathname = usePathname();
 
   const navigation = [
-    { name: 'Selected Work', href: '/#work' },
-    { name: 'My Workflow', href: '/#workflow' },
+    { name: 'Work', href: '/#work' },
+    { name: 'Workflow', href: '/#workflow' },
     { name: 'Experience', href: '/#experience' },
-    { name: "Let's Work Together", href: '/#contact' },
+    { name: 'Contact', href: '/#contact' },
   ];
 
 

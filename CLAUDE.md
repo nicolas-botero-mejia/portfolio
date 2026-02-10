@@ -47,10 +47,32 @@ app/
 **Note:** Workflow, About, Resume, and Contact are sections within the home page (accessed via hash links like `#workflow`, `#about`, `#resume`, `#contact`), not separate pages.
 
 ### Content Layer
-- **Location:** `content/case-studies/*.mdx`
+- **Location:** `content/` with organized taxonomy
+- **Structure:** Hierarchical folders by content type (work, writing, experiments, reading)
 - **Processing:** gray-matter parses frontmatter + MDX content
 - **Validation:** Zod schemas validate frontmatter structure
 - **Rendering:** MDX components render in Next.js pages
+
+**Content Taxonomy:**
+```
+content/
+├── work/               # Professional work
+│   ├── case-studies/   # Full platform/project stories
+│   ├── features/       # Granular product features
+│   └── side-projects/  # Personal projects
+├── writing/            # Written content
+│   ├── posts/         # Long-form articles
+│   ├── thoughts/      # Quick takes
+│   └── quotes/        # Curated quotes with context
+├── experiments/        # Creative explorations
+│   ├── design/
+│   ├── code/
+│   └── prototypes/
+├── reading/            # Reading-related
+│   ├── books/
+│   └── articles/
+└── pages/             # Special static pages
+```
 
 ### Password Protection System
 - **Type:** Server-side validation with HTTP-only cookies
@@ -81,10 +103,19 @@ portfolio/
 │   ├── home/                    # Home page sections
 │   └── ServerPasswordPrompt.tsx # Password protection UI
 ├── content/
-│   ├── case-studies/            # MDX case studies (sainapsis, ocean, aquads)
-│   └── pages/                   # MDX pages (about, workflow)
+│   ├── work/
+│   │   ├── case-studies/        # MDX case studies (sainapsis, ocean, aquads)
+│   │   ├── features/            # Granular features (coming soon)
+│   │   └── side-projects/       # Personal projects (coming soon)
+│   ├── writing/                 # Posts, thoughts & quotes (coming soon)
+│   ├── experiments/             # Design/code experiments (coming soon)
+│   ├── reading/                 # Books & articles (coming soon)
+│   └── pages/                   # Special static pages (coming soon)
 ├── public/
-│   └── images/case-studies/     # Case study images organized by project
+│   └── images/
+│       ├── work/                # Work-related images
+│       ├── experiments/         # Experiment images
+│       └── writing/             # Writing images
 ├── lib/
 │   ├── contentlayer.ts          # Content utilities
 │   ├── seo.ts                   # SEO utilities
@@ -101,7 +132,14 @@ portfolio/
 - **Files:** `kebab-case.tsx` (e.g., `server-password-prompt.tsx`)
 - **Components:** `PascalCase.tsx` (e.g., `ServerPasswordPrompt.tsx`)
 - **MDX:** `lowercase.mdx` or `kebab-case.mdx` (e.g., `sainapsis.mdx`, `my-project.mdx`)
+- **Folders:** All lowercase, no spaces (e.g., `case-studies/`, not `Case-Studies/`)
 - **Images:** `kebab-case.png` or descriptive names (e.g., `handoff-timeline.png`)
+
+**Content Naming Rules:**
+- Use lowercase for all MDX filenames
+- Use hyphens for multi-word names (not underscores)
+- No prefixes needed - folder structure provides namespace
+- Descriptive names that reflect content
 
 ---
 
