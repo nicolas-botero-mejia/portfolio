@@ -1,5 +1,8 @@
 import Link from 'next/link';
 import { getFeaturedCaseStudies } from '@/lib/mdx';
+import { experience } from '@/data/experience';
+import { workflowPhases, designPrinciples } from '@/data/workflow';
+import CheckIcon from '@/components/ui/CheckIcon';
 
 export default function Home() {
   const featuredWork = getFeaturedCaseStudies();
@@ -57,28 +60,7 @@ export default function Home() {
           </div>
 
           <div className="grid gap-12 md:grid-cols-2">
-            {[
-              {
-                step: '01',
-                title: 'Discover',
-                description: 'Research users, audit existing solutions, and identify core problems through interviews and data analysis.',
-              },
-              {
-                step: '02',
-                title: 'Define',
-                description: 'Synthesize findings into clear problem statements, user personas, and strategic design principles.',
-              },
-              {
-                step: '03',
-                title: 'Design',
-                description: 'Create solutions through iterative prototyping, testing concepts with users, and refining based on feedback.',
-              },
-              {
-                step: '04',
-                title: 'Deliver',
-                description: 'Partner with engineering for implementation, measure impact, and continuously optimize based on data.',
-              },
-            ].map((phase) => (
+            {workflowPhases.map((phase) => (
               <div key={phase.step}>
                 <div className="mb-3 text-4xl font-bold text-gray-200">{phase.step}</div>
                 <h3 className="mb-2 text-lg font-semibold text-gray-900">{phase.title}</h3>
@@ -90,30 +72,14 @@ export default function Home() {
           <div className="mt-12 rounded-lg border border-gray-200 p-8">
             <h3 className="mb-6 text-lg font-semibold text-gray-900">Design Principles</h3>
             <ul className="space-y-4">
-              <li className="flex items-start text-sm">
-                <svg className="mr-3 mt-0.5 h-5 w-5 flex-shrink-0 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span className="text-gray-700"><strong>User-First:</strong> Design for real people with real needs</span>
-              </li>
-              <li className="flex items-start text-sm">
-                <svg className="mr-3 mt-0.5 h-5 w-5 flex-shrink-0 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span className="text-gray-700"><strong>Data-Informed:</strong> Let metrics guide decisions, not dictate them</span>
-              </li>
-              <li className="flex items-start text-sm">
-                <svg className="mr-3 mt-0.5 h-5 w-5 flex-shrink-0 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span className="text-gray-700"><strong>Systems Thinking:</strong> Build scalable, maintainable solutions</span>
-              </li>
-              <li className="flex items-start text-sm">
-                <svg className="mr-3 mt-0.5 h-5 w-5 flex-shrink-0 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span className="text-gray-700"><strong>Iterate Fast:</strong> Perfect is the enemy of progress</span>
-              </li>
+              {designPrinciples.map((principle, index) => (
+                <li key={index} className="flex items-start text-sm">
+                  <CheckIcon className="mr-3 mt-0.5 h-5 w-5 shrink-0 text-gray-900" />
+                  <span className="text-gray-700">
+                    <strong>{principle.title}</strong> {principle.description}
+                  </span>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
@@ -130,52 +96,7 @@ export default function Home() {
           </div>
 
           <div className="space-y-12">
-            {[
-              {
-                company: 'Sainapsis',
-                role: 'UX Advisor · Design System Lead',
-                period: '2024 - 2025',
-                description: 'Led comprehensive design system transformation achieving 16x productivity increase. Mentored team of 3 designers and established scalable workflows.',
-                highlights: [
-                  '16x productivity increase through design system',
-                  '24x team output growth quarter over quarter',
-                  'Built component library with 90% reusability',
-                ],
-              },
-              {
-                company: 'RouteMobile',
-                role: 'Lead Product Designer · Design System Architect',
-                period: '2021 - 2024',
-                description: 'Designed Ocean CPaaS platform serving 300M+ messages monthly. Built AquaDS design system adopted across 12+ products.',
-                highlights: [
-                  'Scaled platform to 300M+ messages per month',
-                  'Created design system with 80-90% adoption',
-                  '80% faster design-to-development delivery',
-                ],
-              },
-              {
-                company: 'Masiv',
-                role: 'Senior Product Designer',
-                period: '2018 - 2021',
-                description: 'Designed enterprise communication platform and led UX strategy for B2B SaaS products.',
-                highlights: [
-                  'Redesigned core platform serving 1000+ enterprise clients',
-                  'Established design process and research practice',
-                  'Led design for 3 major product launches',
-                ],
-              },
-              {
-                company: 'PayU Latam',
-                role: 'Product Designer',
-                period: '2016 - 2018',
-                description: 'Designed payment solutions for Latin American markets, focusing on conversion optimization and user trust.',
-                highlights: [
-                  'Improved checkout conversion by 25%',
-                  'Designed solutions for 6 LATAM countries',
-                  'Conducted extensive user research across markets',
-                ],
-              },
-            ].map((job, index) => (
+            {experience.map((job, index) => (
               <div key={index} className="relative pl-8 before:absolute before:left-0 before:top-0 before:h-full before:w-px before:bg-gray-200">
                 <div className="absolute -left-1 top-0 h-2 w-2 rounded-full bg-gray-900"></div>
                 <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
@@ -187,9 +108,7 @@ export default function Home() {
                 <ul className="space-y-1">
                   {job.highlights.map((highlight, i) => (
                     <li key={i} className="flex items-start text-sm text-gray-600">
-                      <svg className="mr-2 mt-0.5 h-4 w-4 flex-shrink-0 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
+                      <CheckIcon className="mr-2 mt-0.5 h-4 w-4 shrink-0 text-gray-900" />
                       {highlight}
                     </li>
                   ))}
