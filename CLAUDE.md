@@ -8,6 +8,33 @@
 
 ---
 
+## Communication Preferences
+
+**Be Direct and Honest:**
+- When I propose something wrong or suboptimal, say so directly
+- Don't use condescending phrases like "What do you think?" when you know the better approach
+- Don't present multiple options as equally valid when one is clearly superior
+- When presenting options, if there's a clear winner, say which one and why
+- Challenge my ideas with technical reasoning, not politeness
+- I value directness over diplomacy - be straightforward about what will/won't work
+
+**Clarity Over Speed:**
+- Propose the approach and scope BEFORE implementing
+- Wait for confirmation on what to build
+- Then execute efficiently without over-explaining
+- Don't implement more than what was asked for
+- "Clarity Beats Sophistication" - simple, clear plans beat complex solutions
+
+**Component Creation:**
+- Before creating ANY component, evaluate: "Is this design system or page-specific?"
+- Design System components (reusable UI) → `src/components/ui/` or design system structure
+- Page-specific logic → Can be standalone in feature folders
+- Never duplicate component structures - maintain single source of truth
+- If similar components exist, refactor to use shared design system components
+- MDX components should use the SAME UI components as JSX pages
+
+---
+
 ## Tech Stack
 
 ### Core Framework
@@ -40,18 +67,25 @@
 ### Next.js App Router Structure
 ```
 app/
-├── page.tsx                    # Home page (includes Work, Workflow, About, Resume, Contact sections)
-└── [slug]/page.tsx             # Dynamic case study pages
+├── page.tsx              # Redirects to /work
+├── work/
+│   ├── page.tsx          # Work listing page
+│   └── [slug]/page.tsx   # Individual work items
+├── about/page.tsx        # About page (renders about.mdx)
+├── now/page.tsx          # Now page (renders now.mdx)
+├── uses/page.tsx         # Uses page (renders uses.mdx)
+├── experiments/page.tsx  # Experiments listing
+├── reading/page.tsx      # Reading listing
+└── writing/page.tsx      # Writing listing
 ```
-
-**Note:** Workflow, About, Resume, and Contact are sections within the home page (accessed via hash links like `#workflow`, `#about`, `#resume`, `#contact`), not separate pages.
 
 ### Content Layer
 - **Location:** `content/` with organized taxonomy
-- **Structure:** Hierarchical folders by content type (work, writing, experiments, reading)
-- **Processing:** gray-matter parses frontmatter + MDX content
-- **Validation:** Zod schemas validate frontmatter structure
-- **Rendering:** MDX components render in Next.js pages
+- **Structure:** Hierarchical folders by content type (work, writing, experiments, reading, pages)
+- **Processing:** gray-matter parses frontmatter + MDX content via next-mdx-remote
+- **Structured Data:** TypeScript files in `src/data/` (experience, workflow)
+- **Rendering:** MDX components import and render structured data
+- **Architecture:** See [docs/CONTENT_ARCHITECTURE.md](docs/CONTENT_ARCHITECTURE.md)
 
 **Content Taxonomy:**
 ```
@@ -61,9 +95,9 @@ content/
 │   ├── features/       # Granular product features
 │   └── side-projects/  # Personal projects
 ├── writing/            # Written content
-│   ├── posts/         # Long-form articles
-│   ├── thoughts/      # Quick takes
-│   └── quotes/        # Curated quotes with context
+│   ├── posts/          # Long-form articles
+│   ├── thoughts/       # Quick takes
+│   └── quotes/         # Curated quotes with context
 ├── experiments/        # Creative explorations
 │   ├── design/
 │   ├── code/
@@ -71,7 +105,7 @@ content/
 ├── reading/            # Reading-related
 │   ├── books/
 │   └── articles/
-└── pages/             # Special static pages
+└── pages/              # Special static pages
 ```
 
 ### Password Protection System
@@ -362,7 +396,7 @@ npm run lint                     # Lint codebase
 1. Push to `main` branch → auto-deploys to production
 2. Set environment variables in Vercel dashboard:
    ```
-   NEXT_PUBLIC_SITE_URL=https://nicolasbotero.com
+   NEXT_PUBLIC_SITE_URL=https://nicolas-botero-mejia.com
    CASE_STUDY_GLOBAL_PASSWORD=hash-here
    ```
 3. Verify deployment at live URL

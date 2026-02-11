@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { trackEvent } from '@/lib/analytics';
+import { navigation } from '@/data/navigation';
+import { profile } from '@/data/profile';
 
 interface SplitLayoutProps {
   children: React.ReactNode;
@@ -10,14 +12,7 @@ interface SplitLayoutProps {
 
 export default function SplitLayout({ children }: SplitLayoutProps) {
   const pathname = usePathname();
-
-  const navigation = [
-    { name: 'Work', href: '/work' },
-    { name: 'Experiments', href: '/experiments' },
-    { name: 'Reading', href: '/reading' },
-    { name: 'Writing', href: '/writing' },
-    { name: 'About', href: '/about' },
-  ];
+  const visibleNav = navigation.filter(item => item.visible);
 
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, section: string) => {
@@ -55,57 +50,32 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
             {/* Name/Logo */}
             <Link href="/work" className="block mb-8">
               <h1 className="text-2xl font-bold text-gray-900">
-                Nicolás Botero
+                {profile.name}
               </h1>
-              <p className="text-sm text-gray-600 mt-1">Product Designer</p>
+              <p className="text-sm text-gray-600 mt-1">{profile.title}</p>
             </Link>
 
             {/* Short Bio */}
             <div className="mb-8 text-sm text-gray-600 leading-relaxed space-y-3">
-              <p>
-                Product Design Leader with 11+ years of experience designing 
-                product systems that stay coherent as complexity increases.
-              </p>
-              <p>
-                I work on system-level product design problems: unifying fragmented 
-                SaaS platforms, scaling design and delivery infrastructure, and 
-                integrating AI in ways that enhance human judgment.
-              </p>
-              <p>
-                My focus is on building durable foundations that allow teams and 
-                products to evolve without losing clarity.
-              </p>
+              {profile.bio.map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
               <p className="text-gray-700">
                 Previously at{' '}
-                <a 
-                  href="https://www.sainapsis.com/" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="hover:text-gray-900 transition-colors"
-                  onClick={() => handleExternalLinkClick('https://www.sainapsis.com/', 'Sainapsis')}
-                >
-                  Sainapsis
-                </a>
-                ,{' '}
-                <a 
-                  href="https://www.masiv.com/" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="hover:text-gray-900 transition-colors"
-                  onClick={() => handleExternalLinkClick('https://www.masiv.com/', 'Masiv')}
-                >
-                  Masiv
-                </a>
-                ,{' '}
-                <a 
-                  href="https://corporate.payu.com/colombia/" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="hover:text-gray-900 transition-colors"
-                  onClick={() => handleExternalLinkClick('https://corporate.payu.com/colombia/', 'PayU Latam')}
-                >
-                  PayU Latam
-                </a>
+                {profile.companies.map((company, index) => (
+                  <span key={company.name}>
+                    <a 
+                      href={company.url}
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="hover:text-gray-900 transition-colors"
+                      onClick={() => handleExternalLinkClick(company.url, company.name)}
+                    >
+                      {company.name}
+                    </a>
+                    {index < profile.companies.length - 1 && ', '}
+                  </span>
+                ))}
                 .
               </p>
               <p>
@@ -116,7 +86,7 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
             {/* Navigation */}
             <nav className="mb-8">
               <ul className="space-y-2">
-                {navigation.map((item) => (
+                {visibleNav.map((item) => (
                   <li key={item.name}>
                     <a
                       href={item.href}
@@ -136,16 +106,16 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
             <div className="space-y-3 text-sm">
               <div>
                 <a
-                  href="mailto:n.boterom@gmail.com"
+                  href={`mailto:${profile.contact.email}`}
                   className="text-gray-600 hover:text-gray-900 transition-colors"
                   onClick={() => handleContactClick('email')}
                 >
-                  n.boterom@gmail.com
+                  {profile.contact.email}
                 </a>
               </div>
               <div>
                 <a
-                  href="https://linkedin.com/in/nicolas-botero"
+                  href={`https://linkedin.com/in/${profile.contact.linkedin}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-600 hover:text-gray-900 transition-colors"
@@ -155,12 +125,12 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                 </a>
               </div>
               <div className="text-gray-500 pt-2">
-                <div>Bogotá, Colombia</div>
-                <div className="text-xs mt-1">Remote-ready worldwide</div>
+                <div>{profile.contact.location}</div>
+                <div className="text-xs mt-1">{profile.contact.locationSubtext}</div>
               </div>
               <div className="text-gray-500 border-t border-gray-100 mt-3 pt-3">
-                <div className="text-gray-700 font-medium">Open to opportunities</div>
-                <div className="text-xs mt-1">Freelance • Consulting • Full-time</div>
+                <div className="text-gray-700 font-medium">{profile.contact.availability}</div>
+                <div className="text-xs mt-1">{profile.contact.availabilityTypes}</div>
               </div>
             </div>
           </div>

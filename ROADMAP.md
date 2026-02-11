@@ -230,7 +230,7 @@
   - [ ] Accessibility final check
   - [ ] Performance final check
 - [ ] Custom domain setup:
-  - [ ] Register domain (nicolasbotero.com or similar)
+  - [ ] Register domain (nicolas-botero-mejia.com or similar)
   - [ ] Configure DNS
   - [ ] Enable SSL
   - [ ] Update environment variables

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nicolasbotero.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nicolas-botero-mejia.com';
 const siteName = 'Nicolás Botero - Product Designer';
 const siteDescription = 'Product Designer with 10+ years of experience in design systems, product leadership, and strategic transformation. Featured work: Sainapsis, Ocean, AquaDS.';
 

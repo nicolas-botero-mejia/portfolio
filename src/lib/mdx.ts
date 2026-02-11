@@ -104,6 +104,43 @@ export function getAdjacentCaseStudies(currentSlug: string): AdjacentContent {
 }
 
 // ============================================================================
+// PAGES (about, now, uses, etc.)
+// ============================================================================
+
+export interface PageFrontmatter {
+  title: string;
+  description: string;
+  lastUpdated?: string;
+  seo: {
+    metaTitle: string;
+    metaDescription: string;
+    keywords: string[];
+  };
+}
+
+export interface Page {
+  slug: string;
+  frontmatter: PageFrontmatter;
+  content: string;
+}
+
+export function getPageBySlug(slug: string): Page | null {
+  try {
+    const fullPath = path.join(contentDirectory, 'pages', `${slug}.mdx`);
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    const { data, content } = matter(fileContents);
+
+    return {
+      slug,
+      frontmatter: data as PageFrontmatter,
+      content,
+    };
+  } catch {
+    return null;
+  }
+}
+
+// ============================================================================
 // ALL WORK (Combined case studies + features)
 // ============================================================================
 
