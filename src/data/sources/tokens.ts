@@ -53,17 +53,33 @@ export const colors = {
 } as const;
 
 // =============================================================================
-// SEMANTIC COLORS
+// SEMANTIC COLORS (Role-based)
+// Components map to roles; no component names in this layer.
 // =============================================================================
 
 export const semanticColors = {
-  badge: {
-    default: { bg: colors.gray[100], text: colors.gray[700], border: colors.gray[200] },
-    success: { bg: colors.green[50], text: colors.green[800], border: colors.green[200] },
-    warning: { bg: colors.amber[50], text: colors.amber[800], border: colors.amber[200] },
-    neutral: { bg: colors.gray[50], text: colors.gray[600], border: colors.gray[100] },
+  /** Page, card, and surface backgrounds */
+  background: {
+    primary: colors.gray[900],
+    subtle: colors.gray[100],
+    surface: colors.white,
+    muted: colors.gray[50],
   },
-  button: {
+  /** Foreground/text colors */
+  content: {
+    primary: colors.gray[900],
+    secondary: colors.gray[700],
+    muted: colors.gray[600],
+    inverted: colors.white,
+  },
+  /** Border colors */
+  border: {
+    subtle: colors.gray[100],
+    default: colors.gray[200],
+    strong: colors.gray[300],
+  },
+  /** CTA / button actions */
+  action: {
     primary: {
       bg: colors.gray[900],
       text: colors.white,
@@ -86,13 +102,11 @@ export const semanticColors = {
       disabled: colors.gray[400],
     },
   },
-  surface: {
-    background: colors.white,
-    foreground: colors.gray[900],
-  },
-  card: {
-    bg: colors.white,
-    border: colors.gray[100],
+  /** Status indicators (badges, alerts) */
+  status: {
+    success: { bg: colors.green[50], text: colors.green[800], border: colors.green[200] },
+    warning: { bg: colors.amber[50], text: colors.amber[800], border: colors.amber[200] },
+    neutral: { bg: colors.gray[50], text: colors.gray[600], border: colors.gray[100] },
   },
 } as const;
 

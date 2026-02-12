@@ -2,14 +2,14 @@
 @import "./tokens.generated.css";
 
 @theme inline {
-  --color-background: var(--color-surface-background);
-  --color-foreground: var(--color-surface-foreground);
+  --color-background: var(--color-background-surface);
+  --color-foreground: var(--color-content-primary);
   --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 body {
-  background: var(--color-surface-background);
-  color: var(--color-surface-foreground);
+  background: var(--color-background-surface);
+  color: var(--color-content-primary);
   font-family: var(--font-sans);
 }
 

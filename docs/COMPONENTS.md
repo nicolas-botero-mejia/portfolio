@@ -6,9 +6,9 @@ Design system components for the portfolio. Token-driven; Tailwind utilities map
 
 | Component | Purpose | Variants | Token Usage |
 |-----------|---------|----------|-------------|
-| **Badge** | Labels, tags, status pills | default, success, warning, neutral | badge/\* semantic colors |
-| **Button** | Primary actions, CTAs | primary, secondary, ghost | button/\* semantic colors |
-| **Card** | Content containers, work items | — | card/\* (bg, border) |
+| **Badge** | Labels, tags, status pills | default, success, warning, neutral | background, content, border, status roles |
+| **Button** | Primary actions, CTAs | primary, secondary, ghost | action/\* roles |
+| **Card** | Content containers, work items | — | background-surface, border-subtle |
 | **CardHeader** | Card section header with CTA | — | gray scale |
 | **CardContent** | Card body | — | — |
 | **CardDescription** | Card subtitle | — | — |
@@ -57,11 +57,22 @@ If it's one-off or experimental, keep it in the feature folder.
 
 ## Token Wiring
 
-Components use Tailwind classes that resolve to our tokens:
+**Role-based semantics** – Components map to design roles, not component names:
 
-- `bg-badge-default-bg` → `--color-badge-default-bg`
-- `text-badge-default-text` → `--color-badge-default-text`
-- `rounded-md` → `--radius-md`
-- `px-2.5 py-0.5` → `--spacing-2.5`, `--spacing-0.5`
+| Role | Tokens | Used By |
+|------|--------|---------|
+| background | primary, subtle, surface, muted | Badge default, Card, body |
+| content | primary, secondary, muted, inverted | Badge, body text |
+| border | subtle, default, strong | Badge, Card, Button secondary |
+| action | primary, secondary, ghost | Button |
+| status | success, warning, neutral | Badge variants |
 
-Add semantic tokens in `sources/tokens.ts` when a component needs a dedicated token (e.g. `card.bg`). Use primitive tokens (gray-100, etc.) for general-purpose styling.
+Examples:
+
+- Badge default → `bg-background-subtle text-content-secondary border-border-default`
+- Badge success → `bg-status-success-bg text-status-success-text border-status-success-border`
+- Button primary → `bg-action-primary-bg text-action-primary-text`
+- Card → `bg-background-surface border-border-subtle`
+- Body → `background-surface`, `content-primary`
+
+Add new roles in `sources/tokens.ts` when a pattern emerges. Use primitive tokens (gray-100) for one-offs.
