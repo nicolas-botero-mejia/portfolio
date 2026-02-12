@@ -3,10 +3,11 @@ import MDXRenderer from '@/components/MDXRenderer';
 import { generatePageMetadata } from '@/lib/seo';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
+import { SLUGS } from '@/data';
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
-    const page = getPageBySlug('colophon');
+    const page = getPageBySlug(SLUGS.COLOPHON);
     if (!page) return {};
 
     const { frontmatter } = page;
@@ -21,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function ColophonPage() {
-  const page = getPageBySlug('colophon');
+  const page = getPageBySlug(SLUGS.COLOPHON);
 
   if (!page) {
     notFound();

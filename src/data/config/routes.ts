@@ -10,7 +10,7 @@ function buildRoutes(): Record<string, string> {
   const result: Record<string, string> = { home: '/' };
 
   for (const ct of contentTypes) {
-    if (ct.slug === 'pages') {
+    if (ct.route === '') {
       for (const sub of ct.subTypes) {
         result[sub.slug] = sub.route;
       }

@@ -121,8 +121,9 @@ function buildSlugs(): Record<string, string> {
     for (const sub of ct.subTypes) {
       const subKey = `${toKey(ct.slug)}_${toKey(sub.slug)}`;
       result[subKey] = sub.slug;
-      if (ct.slug === 'pages') {
+      if (ct.route === '') {
         result[`PAGES_${toKey(sub.slug)}`] = `${ct.slug}.${sub.slug}`;
+        result[toKey(sub.slug)] = sub.slug;
       }
     }
   }

@@ -4,6 +4,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import { generatePageMetadata } from '@/lib/seo';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
+import { routes } from '@/data';
 
 const LIMIT = 10;
 
@@ -90,7 +91,7 @@ export default async function NowPage({ searchParams }: NowPageProps) {
           {hasMore && (
             <div className="mt-12 text-center">
               <Link
-                href={`/now?page=${pageNum + 1}`}
+                href={`${routes.now}?page=${pageNum + 1}`}
                 className="rounded-lg border border-gray-300 px-6 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 inline-block"
               >
                 Load more

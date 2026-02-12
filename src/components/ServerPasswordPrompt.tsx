@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { authenticateCaseStudy } from '@/actions/authActions';
+import { routes } from '@/data';
 import { useRouter } from 'next/navigation';
 import { trackEvent } from '@/lib/analytics';
 
@@ -119,7 +120,7 @@ export default function ServerPasswordPrompt({
           {/* Back Link */}
           <div className="mt-6 text-center">
             <Link
-              href="/#work"
+              href={routes.work}
               className="text-sm text-gray-600 transition-colors hover:text-gray-900"
             >
               ← Back to portfolio
