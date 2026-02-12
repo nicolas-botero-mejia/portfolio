@@ -3,6 +3,8 @@
 import { revalidatePath } from 'next/cache';
 import { getCaseStudyBySlug } from '@/lib/mdx';
 import { validatePassword, setAuthCookie } from '@/lib/serverPasswordAuth';
+import { logError } from '@/lib/errors';
+import { getRoute } from '@/data';
 
 export interface AuthResult {
   success: boolean;
@@ -41,14 +43,14 @@ export async function authenticateCaseStudy(
     // Set authentication cookie
     await setAuthCookie(slug);
 
-    // Revalidate the page to show the authenticated content
-    revalidatePath(`/${slug}`);
+    // Revalidate the case study page to show the authenticated content
+    revalidatePath(getRoute('work', undefined, slug));
 
     return {
       success: true,
     };
   } catch (error) {
-    console.error('Authentication error:', error);
+    logError('authenticateCaseStudy', error);
     return {
       success: false,
       error: 'An error occurred. Please try again.',

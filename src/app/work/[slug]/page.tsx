@@ -23,21 +23,22 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: CaseStudyPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const caseStudy = getCaseStudyBySlug(slug);
+  try {
+    const { slug } = await params;
+    const caseStudy = getCaseStudyBySlug(slug);
 
-  if (!caseStudy) {
+    if (!caseStudy) return {};
+
+    const { frontmatter } = caseStudy;
+    return generatePageMetadata({
+      title: frontmatter.seo.metaTitle,
+      description: frontmatter.seo.metaDescription,
+      keywords: frontmatter.seo.keywords,
+      ogImage: frontmatter.heroImage,
+    });
+  } catch {
     return {};
   }
-
-  const { frontmatter } = caseStudy;
-
-  return generatePageMetadata({
-    title: frontmatter.seo.metaTitle,
-    description: frontmatter.seo.metaDescription,
-    keywords: frontmatter.seo.keywords,
-    ogImage: frontmatter.heroImage,
-  });
 }
 
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {

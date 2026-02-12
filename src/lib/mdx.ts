@@ -3,6 +3,7 @@ import path from 'path';
 import { cache } from 'react';
 import matter from 'gray-matter';
 import { getContentSubType, getContentType } from '@/data';
+import { logError } from './errors';
 
 const contentDirectory = path.join(process.cwd(), 'content');
 
@@ -28,19 +29,30 @@ function getItemsFromPath<F>(
   contentPath: string,
   sortBy: (a: ContentItem<F>, b: ContentItem<F>) => number
 ): ContentItem<F>[] {
-  const fullPath = path.join(contentDirectory, contentPath);
-  if (!fs.existsSync(fullPath)) return [];
+  try {
+    const fullPath = path.join(contentDirectory, contentPath);
+    if (!fs.existsSync(fullPath)) return [];
 
-  const fileNames = fs.readdirSync(fullPath);
-  return fileNames
-    .filter((f) => f.endsWith('.mdx') && !f.startsWith('_'))
-    .map((fileName) => {
-      const slug = fileName.replace(/\.mdx$/, '');
-      const filePath = path.join(fullPath, fileName);
-      const { data, content } = matter(fs.readFileSync(filePath, 'utf8'));
-      return { slug, frontmatter: data as F, content };
-    })
-    .sort(sortBy);
+    const fileNames = fs.readdirSync(fullPath);
+    const items = fileNames
+      .filter((f) => f.endsWith('.mdx') && !f.startsWith('_'))
+      .map((fileName): ContentItem<F> | null => {
+        try {
+          const slug = fileName.replace(/\.mdx$/, '');
+          const filePath = path.join(fullPath, fileName);
+          const { data, content } = matter(fs.readFileSync(filePath, 'utf8'));
+          return { slug, frontmatter: data as F, content };
+        } catch (error) {
+          logError(`getItemsFromPath file: ${fileName}`, error);
+          return null;
+        }
+      })
+      .filter((item): item is ContentItem<F> => item !== null);
+    return items.sort(sortBy);
+  } catch (error) {
+    logError(`getItemsFromPath(${contentPath})`, error);
+    return [];
+  }
 }
 
 function getItemBySlugFromPath<F>(contentPath: string, slug: string): ContentItem<F> | null {

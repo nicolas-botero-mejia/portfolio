@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import crypto from 'crypto';
 import type { CaseStudy } from './mdx';
+import { logError } from './errors';
 
 const COOKIE_PREFIX = 'cs_auth_';
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
@@ -80,15 +81,19 @@ export function validatePassword(caseStudy: CaseStudy, password: string): boolea
  * Server-side only
  */
 export async function setAuthCookie(slug: string): Promise<void> {
-  const cookieStore = await cookies();
-
-  cookieStore.set(`${COOKIE_PREFIX}${slug}`, 'authenticated', {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    maxAge: COOKIE_MAX_AGE,
-    sameSite: 'strict',
-    path: '/',
-  });
+  try {
+    const cookieStore = await cookies();
+    cookieStore.set(`${COOKIE_PREFIX}${slug}`, 'authenticated', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: COOKIE_MAX_AGE,
+      sameSite: 'strict',
+      path: '/',
+    });
+  } catch (error) {
+    logError('setAuthCookie', error);
+    throw error;
+  }
 }
 
 /**
@@ -96,10 +101,14 @@ export async function setAuthCookie(slug: string): Promise<void> {
  * Server-side only
  */
 export async function isAuthenticated(slug: string): Promise<boolean> {
-  const cookieStore = await cookies();
-  const authCookie = cookieStore.get(`${COOKIE_PREFIX}${slug}`);
-
-  return authCookie?.value === 'authenticated';
+  try {
+    const cookieStore = await cookies();
+    const authCookie = cookieStore.get(`${COOKIE_PREFIX}${slug}`);
+    return authCookie?.value === 'authenticated';
+  } catch (error) {
+    logError('isAuthenticated', error);
+    return false;
+  }
 }
 
 /**
@@ -107,8 +116,12 @@ export async function isAuthenticated(slug: string): Promise<boolean> {
  * Server-side only
  */
 export async function clearAuthCookie(slug: string): Promise<void> {
-  const cookieStore = await cookies();
-  cookieStore.delete(`${COOKIE_PREFIX}${slug}`);
+  try {
+    const cookieStore = await cookies();
+    cookieStore.delete(`${COOKIE_PREFIX}${slug}`);
+  } catch (error) {
+    logError('clearAuthCookie', error);
+  }
 }
 
 /**
@@ -116,12 +129,16 @@ export async function clearAuthCookie(slug: string): Promise<void> {
  * Server-side only
  */
 export async function clearAllAuthCookies(): Promise<void> {
-  const cookieStore = await cookies();
-  const allCookies = cookieStore.getAll();
+  try {
+    const cookieStore = await cookies();
+    const allCookies = cookieStore.getAll();
 
-  for (const cookie of allCookies) {
-    if (cookie.name.startsWith(COOKIE_PREFIX)) {
-      cookieStore.delete(cookie.name);
+    for (const cookie of allCookies) {
+      if (cookie.name.startsWith(COOKIE_PREFIX)) {
+        cookieStore.delete(cookie.name);
+      }
     }
+  } catch (error) {
+    logError('clearAllAuthCookies', error);
   }
 }

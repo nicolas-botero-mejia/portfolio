@@ -17,16 +17,20 @@ function formatDate(dateStr: string): string {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const entries = getNowEntries();
-  const latest = entries[0];
-  if (!latest) return {};
+  try {
+    const entries = getNowEntries();
+    const latest = entries[0];
+    if (!latest) return {};
 
-  const { frontmatter } = latest;
-  return generatePageMetadata({
-    title: frontmatter.seo.metaTitle,
-    description: frontmatter.seo.metaDescription,
-    keywords: frontmatter.seo.keywords,
-  });
+    const { frontmatter } = latest;
+    return generatePageMetadata({
+      title: frontmatter.seo.metaTitle,
+      description: frontmatter.seo.metaDescription,
+      keywords: frontmatter.seo.keywords,
+    });
+  } catch {
+    return {};
+  }
 }
 
 interface NowPageProps {

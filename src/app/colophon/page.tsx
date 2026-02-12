@@ -5,15 +5,19 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = getPageBySlug('colophon');
-  if (!page) return {};
+  try {
+    const page = getPageBySlug('colophon');
+    if (!page) return {};
 
-  const { frontmatter } = page;
-  return generatePageMetadata({
-    title: frontmatter.seo.metaTitle,
-    description: frontmatter.seo.metaDescription,
-    keywords: frontmatter.seo.keywords,
-  });
+    const { frontmatter } = page;
+    return generatePageMetadata({
+      title: frontmatter.seo.metaTitle,
+      description: frontmatter.seo.metaDescription,
+      keywords: frontmatter.seo.keywords,
+    });
+  } catch {
+    return {};
+  }
 }
 
 export default function ColophonPage() {
