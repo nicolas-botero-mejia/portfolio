@@ -6,6 +6,11 @@ interface BadgeProps {
   className?: string;
 }
 
+// 1. Layout & typography — primitive scale (tokens.ts → Tailwind theme)
+const LAYOUT =
+  'inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-medium';
+
+// 2. Semantic colors — role-based (variants)
 const variantStyles: Record<BadgeVariant, string> = {
   default:
     'bg-background-subtle text-content-secondary border-border-default',
@@ -20,7 +25,7 @@ const variantStyles: Record<BadgeVariant, string> = {
 export default function Badge({ children, variant = 'default', className = '' }: BadgeProps) {
   return (
     <span
-      className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-medium ${variantStyles[variant]} ${className}`}
+      className={`${LAYOUT} ${variantStyles[variant]} ${className}`}
     >
       {children}
     </span>

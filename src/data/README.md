@@ -39,6 +39,8 @@ sources (data)  →  resolvers (logic)  →  consumers
 
 **Flow:** Edit `sources/tokens.ts` → run `npm run tokens:generate` → Tailwind @theme and Figma stay in sync. No manual duplication.
 
+**Tailwind v4:** Spacing keys with decimals (e.g. `2.5`) are preserved as `--spacing-2.5` so `px-2.5` resolves to our tokens.
+
 ## Component inventory
 
 See [docs/COMPONENTS.md](../../docs/COMPONENTS.md) for component inventory, roadmap, and expansion rules.

@@ -92,7 +92,8 @@ export function getTokensForCSS(): CSSTokens {
 
   return {
     colors: Object.fromEntries(Object.entries(colorVars).map(([k, v]) => [toCssPath(k), v])),
-    spacing: Object.fromEntries(Object.entries(spacingFlat).map(([k, v]) => [toCssPath(k), v])),
+    // Preserve dots in spacing keys (e.g. 2.5) for Tailwind v4 --spacing-2.5 compatibility
+    spacing: { ...spacingFlat },
     typography: {
       fontSize: flattenObject<number>(typography.fontSize, '', { separator: '-' }),
       fontWeight: flattenObject<number>(typography.fontWeight, '', { separator: '-' }),

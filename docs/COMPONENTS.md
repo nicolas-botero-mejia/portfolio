@@ -76,3 +76,56 @@ Examples:
 - Body → `background-surface`, `content-primary`
 
 Add new roles in `sources/tokens.ts` when a pattern emerges. Use primitive tokens (gray-100) for one-offs.
+
+---
+
+## Token Convention (DRY Standard)
+
+Components use two token categories. Both are defined in `sources/tokens.ts`; Tailwind consumes them via `tokens.generated.css`.
+
+### 1. Semantic tokens (colors)
+
+**Role-based** – express meaning, not raw values. Use for color decisions.
+
+| Role | Example utilities |
+|------|-------------------|
+| background | `bg-background-surface`, `bg-background-subtle` |
+| content | `text-content-primary`, `text-content-muted` |
+| border | `border-border-default`, `border-border-subtle` |
+| action | `bg-action-primary-bg`, `text-action-primary-text` |
+| status | `bg-status-success-bg`, `text-status-success-text` |
+
+### 2. Primitive scale (layout & typography)
+
+**Scale-based** – radii, spacing, fontSize, fontWeight. Use Tailwind utilities that resolve to our theme values.
+
+| Category | Source | Example utilities |
+|----------|--------|--------------------|
+| radii | `radii.md`, `radii.lg` | `rounded-md`, `rounded-lg` |
+| spacing | `spacing.2.5`, `spacing.4` | `px-2.5`, `py-0.5`, `p-4` |
+| fontSize | `typography.fontSize.xs`, `.sm` | `text-xs`, `text-sm` |
+| fontWeight | `typography.fontWeight.medium` | `font-medium`, `font-semibold` |
+
+Values flow: `tokens.ts` → `tokens.generated.css` → Tailwind `@theme` → utilities.
+
+### Component style structure
+
+Structure component styles in three sections for readability:
+
+```tsx
+// 1. Layout & typography — primitive scale (tokens.ts → Tailwind theme)
+const LAYOUT = 'inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-medium';
+
+// 2. Semantic colors — role-based (variants)
+const variantStyles: Record<Variant, string> = {
+  default: 'bg-background-subtle text-content-secondary border-border-default',
+  // ...
+};
+
+// 3. Compose: layout + semantic + optional override
+className={`${LAYOUT} ${variantStyles[variant]} ${className}`}
+```
+
+- **LAYOUT** (or `BASE`, `SIZE`) – layout/typography from primitive scale; shared across variants.
+- **variantStyles** – semantic colors per variant.
+- **Compose** – layout + semantic + `className` override.

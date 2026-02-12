@@ -23,9 +23,9 @@ function generateCSS(): string {
     lines.push(`  ${varName}: ${value};`);
   }
 
+  // Preserve dots (e.g. 2.5) for Tailwind v4 --spacing-2.5 / px-2.5 compatibility
   for (const [key, value] of Object.entries(tokens.spacing)) {
-    const varName = `--spacing-${key.replace(/\./g, '-')}`;
-    lines.push(`  ${varName}: ${value}px;`);
+    lines.push(`  --spacing-${key}: ${value}px;`);
   }
 
   for (const [key, value] of Object.entries(tokens.typography.fontSize)) {
