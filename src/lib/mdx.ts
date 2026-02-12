@@ -5,6 +5,88 @@ import { getContentSubType, getContentType } from '@/data';
 
 const contentDirectory = path.join(process.cwd(), 'content');
 
+// ============================================================================
+// GENERIC HELPERS - single implementation for all content types
+// ============================================================================
+
+export interface ContentItem<F = unknown> {
+  slug: string;
+  frontmatter: F;
+  content: string;
+}
+
+function getItemsFromPath<F>(
+  contentPath: string,
+  sortBy: (a: ContentItem<F>, b: ContentItem<F>) => number
+): ContentItem<F>[] {
+  const fullPath = path.join(contentDirectory, contentPath);
+  if (!fs.existsSync(fullPath)) return [];
+
+  const fileNames = fs.readdirSync(fullPath);
+  return fileNames
+    .filter((f) => f.endsWith('.mdx') && !f.startsWith('_'))
+    .map((fileName) => {
+      const slug = fileName.replace(/\.mdx$/, '');
+      const filePath = path.join(fullPath, fileName);
+      const { data, content } = matter(fs.readFileSync(filePath, 'utf8'));
+      return { slug, frontmatter: data as F, content };
+    })
+    .sort(sortBy);
+}
+
+function getItemBySlugFromPath<F>(contentPath: string, slug: string): ContentItem<F> | null {
+  try {
+    const filePath = path.join(contentDirectory, contentPath, `${slug}.mdx`);
+    const { data, content } = matter(fs.readFileSync(filePath, 'utf8'));
+    return { slug, frontmatter: data as F, content };
+  } catch {
+    return null;
+  }
+}
+
+function getAdjacentFromItems<T extends { slug: string }>(
+  items: T[],
+  currentSlug: string
+): { prev: T | null; next: T | null } {
+  const i = items.findIndex((item) => item.slug === currentSlug);
+  if (i === -1) return { prev: null, next: null };
+  return {
+    prev: items[i - 1] ?? null,
+    next: items[i + 1] ?? null,
+  };
+}
+
+function getFeaturedFromItems<T extends { frontmatter: { featured?: boolean } }>(items: T[]): T[] {
+  return items.filter((item) => item.frontmatter.featured);
+}
+
+function getContentPath(parentSlug: string, subSlug?: string): string {
+  return subSlug
+    ? getContentSubType(parentSlug, subSlug)!.path
+    : getContentType(parentSlug)!.path;
+}
+
+// Sort comparators (F = frontmatter type, ContentItem<F>.frontmatter has shape F)
+const sortByYearDesc = (a: ContentItem<{ year?: string }>, b: ContentItem<{ year?: string }>) =>
+  parseInt(b.frontmatter.year ?? '0') - parseInt(a.frontmatter.year ?? '0');
+
+const sortByDateDesc = (a: ContentItem<{ date?: string }>, b: ContentItem<{ date?: string }>) =>
+  new Date(b.frontmatter.date ?? 0).getTime() - new Date(a.frontmatter.date ?? 0).getTime();
+
+const sortByDateOrYear = (
+  a: ContentItem<{ date?: string; year?: string }>,
+  b: ContentItem<{ date?: string; year?: string }>
+) => {
+  if (a.frontmatter.date && b.frontmatter.date) {
+    return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
+  }
+  return parseInt(b.frontmatter.year ?? '0') - parseInt(a.frontmatter.year ?? '0');
+};
+
+// ============================================================================
+// WORK - Case Studies & Features
+// ============================================================================
+
 export interface CaseStudyFrontmatter {
   title: string;
   description: string;
@@ -35,73 +117,27 @@ export interface CaseStudy {
   content: string;
 }
 
+const CASE_STUDIES_PATH = getContentPath('work', 'case-studies');
+
 export function getCaseStudies(): CaseStudy[] {
-  const caseStudiesPath = path.join(contentDirectory, getContentSubType('work', 'case-studies')!.path);
-
-  if (!fs.existsSync(caseStudiesPath)) {
-    return [];
-  }
-
-  const fileNames = fs.readdirSync(caseStudiesPath);
-  const caseStudies = fileNames
-    .filter((fileName) => fileName.endsWith('.mdx') && !fileName.startsWith('_'))
-    .map((fileName) => {
-      const slug = fileName.replace(/\.mdx$/, '');
-      const fullPath = path.join(caseStudiesPath, fileName);
-      const fileContents = fs.readFileSync(fullPath, 'utf8');
-      const { data, content } = matter(fileContents);
-
-      return {
-        slug,
-        frontmatter: data as CaseStudyFrontmatter,
-        content,
-      };
-    });
-
-  return caseStudies.sort((a, b) => {
-    return parseInt(b.frontmatter.year) - parseInt(a.frontmatter.year);
-  });
+  return getItemsFromPath<CaseStudyFrontmatter>(CASE_STUDIES_PATH, sortByYearDesc);
 }
 
 export function getCaseStudyBySlug(slug: string): CaseStudy | null {
-  try {
-    const fullPath = path.join(contentDirectory, getContentSubType('work', 'case-studies')!.path, `${slug}.mdx`);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-    const { data, content } = matter(fileContents);
-
-    return {
-      slug,
-      frontmatter: data as CaseStudyFrontmatter,
-      content,
-    };
-  } catch {
-    return null;
-  }
+  return getItemBySlugFromPath<CaseStudyFrontmatter>(CASE_STUDIES_PATH, slug);
 }
 
 export function getFeaturedCaseStudies(): CaseStudy[] {
-  const caseStudies = getCaseStudies();
-  return caseStudies.filter((caseStudy) => caseStudy.frontmatter.featured);
+  return getFeaturedFromItems(getCaseStudies());
 }
 
-// Navigation: Get adjacent case studies for next/prev links
 export interface AdjacentContent {
   prev: CaseStudy | null;
   next: CaseStudy | null;
 }
 
 export function getAdjacentCaseStudies(currentSlug: string): AdjacentContent {
-  const caseStudies = getCaseStudies();
-  const currentIndex = caseStudies.findIndex((study) => study.slug === currentSlug);
-
-  if (currentIndex === -1) {
-    return { prev: null, next: null };
-  }
-
-  return {
-    prev: caseStudies[currentIndex - 1] || null,
-    next: caseStudies[currentIndex + 1] || null,
-  };
+  return getAdjacentFromItems(getCaseStudies(), currentSlug) as AdjacentContent;
 }
 
 // ============================================================================
@@ -125,20 +161,10 @@ export interface Page {
   content: string;
 }
 
-export function getPageBySlug(slug: string): Page | null {
-  try {
-    const fullPath = path.join(contentDirectory, getContentType('pages')!.path, `${slug}.mdx`);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-    const { data, content } = matter(fileContents);
+const PAGES_PATH = getContentPath('pages');
 
-    return {
-      slug,
-      frontmatter: data as PageFrontmatter,
-      content,
-    };
-  } catch {
-    return null;
-  }
+export function getPageBySlug(slug: string): Page | null {
+  return getItemBySlugFromPath<PageFrontmatter>(PAGES_PATH, slug);
 }
 
 // ============================================================================
@@ -162,53 +188,18 @@ export interface NowEntry {
   content: string;
 }
 
+const NOW_PATH = getContentPath('now');
+
 export function getNowEntries(): NowEntry[] {
-  const nowPath = path.join(contentDirectory, getContentType('now')!.path);
-
-  if (!fs.existsSync(nowPath)) {
-    return [];
-  }
-
-  const fileNames = fs.readdirSync(nowPath);
-  const entries = fileNames
-    .filter((fileName) => fileName.endsWith('.mdx') && !fileName.startsWith('_'))
-    .map((fileName) => {
-      const slug = fileName.replace(/\.mdx$/, '');
-      const fullPath = path.join(nowPath, fileName);
-      const fileContents = fs.readFileSync(fullPath, 'utf8');
-      const { data, content } = matter(fileContents);
-
-      return {
-        slug,
-        frontmatter: data as NowEntryFrontmatter,
-        content,
-      };
-    });
-
-  return entries.sort((a, b) => {
-    return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
-  });
+  return getItemsFromPath<NowEntryFrontmatter>(NOW_PATH, sortByDateDesc);
 }
 
 export function getLatestNow(): NowEntry | null {
-  const entries = getNowEntries();
-  return entries[0] ?? null;
+  return getNowEntries()[0] ?? null;
 }
 
 export function getNowBySlug(slug: string): NowEntry | null {
-  try {
-    const fullPath = path.join(contentDirectory, getContentType('now')!.path, `${slug}.mdx`);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-    const { data, content } = matter(fileContents);
-
-    return {
-      slug,
-      frontmatter: data as NowEntryFrontmatter,
-      content,
-    };
-  } catch {
-    return null;
-  }
+  return getItemBySlugFromPath<NowEntryFrontmatter>(NOW_PATH, slug);
 }
 
 // ============================================================================
@@ -233,193 +224,43 @@ export function getAllWork(): CaseStudy[] {
 // FEATURES
 // ============================================================================
 
+const FEATURES_PATH = getContentPath('work', 'features');
+
 export function getFeatures(): CaseStudy[] {
-  const featuresPath = path.join(contentDirectory, getContentSubType('work', 'features')!.path);
-
-  if (!fs.existsSync(featuresPath)) {
-    return [];
-  }
-
-  const fileNames = fs.readdirSync(featuresPath);
-  const features = fileNames
-    .filter((fileName) => fileName.endsWith('.mdx') && !fileName.startsWith('_'))
-    .map((fileName) => {
-      const slug = fileName.replace(/\.mdx$/, '');
-      const fullPath = path.join(featuresPath, fileName);
-      const fileContents = fs.readFileSync(fullPath, 'utf8');
-      const { data, content } = matter(fileContents);
-
-      return {
-        slug,
-        frontmatter: data as CaseStudyFrontmatter,
-        content,
-      };
-    });
-
-  return features.sort((a, b) => {
-    // Sort by date if available, otherwise by year
-    if (a.frontmatter.date && b.frontmatter.date) {
-      return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
-    }
-    return parseInt(b.frontmatter.year) - parseInt(a.frontmatter.year);
-  });
+  return getItemsFromPath<CaseStudyFrontmatter>(FEATURES_PATH, sortByDateOrYear);
 }
 
 export function getFeatureBySlug(slug: string): CaseStudy | null {
-  try {
-    const fullPath = path.join(contentDirectory, getContentSubType('work', 'features')!.path, `${slug}.mdx`);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-    const { data, content } = matter(fileContents);
-
-    return {
-      slug,
-      frontmatter: data as CaseStudyFrontmatter,
-      content,
-    };
-  } catch {
-    return null;
-  }
+  return getItemBySlugFromPath<CaseStudyFrontmatter>(FEATURES_PATH, slug);
 }
 
 export function getAdjacentFeatures(currentSlug: string): AdjacentContent {
-  const features = getFeatures();
-  const currentIndex = features.findIndex((feature) => feature.slug === currentSlug);
-
-  if (currentIndex === -1) {
-    return { prev: null, next: null };
-  }
-
-  return {
-    prev: features[currentIndex - 1] || null,
-    next: features[currentIndex + 1] || null,
-  };
+  return getAdjacentFromItems(getFeatures(), currentSlug) as AdjacentContent;
 }
 
 export function getFeaturedFeatures(): CaseStudy[] {
-  const features = getFeatures();
-  return features.filter((feature) => feature.frontmatter.featured);
+  return getFeaturedFromItems(getFeatures());
 }
 
 // ============================================================================
-// TODO: Add utilities for other content types
+// Adding new content types
 // ============================================================================
 //
-// When adding new content types, implement these 4 methods for each:
+// Use the generic helpers above. Example for work/side-projects:
 //
-// 1. getContentType() - Get all items from folder
-// 2. getContentTypeBySlug(slug) - Get single item
-// 3. getFeaturedContentType() - Get featured items (for home page)
-// 4. getAdjacentContentType(slug) - Get prev/next navigation
-//
-// Content types to add:
-//
-// WORK:
-//   - Side Projects (work/side-projects/)
-//     - getSideProjects()
-//     - getSideProjectBySlug(slug)
-//     - getFeaturedSideProjects()
-//     - getAdjacentSideProjects(slug)
-//
-// WRITING:
-//   - Posts (writing/posts/)
-//     - getPosts()
-//     - getPostBySlug(slug)
-//     - getFeaturedPosts()
-//     - getAdjacentPosts(slug)
-//
-//   - Thoughts (writing/thoughts/)
-//     - getThoughts()
-//     - getThoughtBySlug(slug)
-//     - getFeaturedThoughts()
-//     - getAdjacentThoughts(slug)
-//
-//   - Quotes (writing/quotes/)
-//     - getQuotes()
-//     - getQuoteBySlug(slug)
-//     - getFeaturedQuotes()
-//     - getAdjacentQuotes(slug)
-//
-// EXPERIMENTS:
-//   - Design (experiments/design/)
-//     - getDesignExperiments()
-//     - getDesignExperimentBySlug(slug)
-//     - getFeaturedDesignExperiments()
-//     - getAdjacentDesignExperiments(slug)
-//
-//   - Code (experiments/code/)
-//     - getCodeExperiments()
-//     - getCodeExperimentBySlug(slug)
-//     - getFeaturedCodeExperiments()
-//     - getAdjacentCodeExperiments(slug)
-//
-//   - Prototypes (experiments/prototypes/)
-//     - getPrototypes()
-//     - getPrototypeBySlug(slug)
-//     - getFeaturedPrototypes()
-//     - getAdjacentPrototypes(slug)
-//
-// READING:
-//   - Books (reading/books/)
-//     - getBooks()
-//     - getBookBySlug(slug)
-//     - getFeaturedBooks()
-//     - getAdjacentBooks(slug)
-//
-//   - Articles (reading/articles/)
-//     - getArticles()
-//     - getArticleBySlug(slug)
-//     - getFeaturedArticles()
-//     - getAdjacentArticles(slug)
-//
-// PATTERN EXAMPLE:
-//
-//   export function getSideProjects(): CaseStudy[] {
-//     const sideProjectsPath = path.join(contentDirectory, 'work', 'side-projects');
-//     if (!fs.existsSync(sideProjectsPath)) return [];
-//     
-//     const fileNames = fs.readdirSync(sideProjectsPath);
-//     const sideProjects = fileNames
-//       .filter((fileName) => fileName.endsWith('.mdx') && !fileName.startsWith('_'))
-//       .map((fileName) => {
-//         const slug = fileName.replace(/\.mdx$/, '');
-//         const fullPath = path.join(sideProjectsPath, fileName);
-//         const fileContents = fs.readFileSync(fullPath, 'utf8');
-//         const { data, content } = matter(fileContents);
-//         return { slug, frontmatter: data as CaseStudyFrontmatter, content };
-//       });
-//     
-//     return sideProjects.sort((a, b) => {
-//       if (a.frontmatter.date && b.frontmatter.date) {
-//         return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
-//       }
-//       return parseInt(b.frontmatter.year) - parseInt(a.frontmatter.year);
-//     });
+//   const SIDE_PROJECTS_PATH = getContentPath('work', 'side-projects');
+//   export function getSideProjects() {
+//     return getItemsFromPath<CaseStudyFrontmatter>(SIDE_PROJECTS_PATH, sortByDateOrYear);
+//   }
+//   export function getSideProjectBySlug(slug: string) {
+//     return getItemBySlugFromPath<CaseStudyFrontmatter>(SIDE_PROJECTS_PATH, slug);
+//   }
+//   export function getFeaturedSideProjects() {
+//     return getFeaturedFromItems(getSideProjects());
+//   }
+//   export function getAdjacentSideProjects(currentSlug: string) {
+//     return getAdjacentFromItems(getSideProjects(), currentSlug) as AdjacentContent;
 //   }
 //
-//   export function getSideProjectBySlug(slug: string): CaseStudy | null {
-//     try {
-//       const fullPath = path.join(contentDirectory, 'work', 'side-projects', `${slug}.mdx`);
-//       const fileContents = fs.readFileSync(fullPath, 'utf8');
-//       const { data, content } = matter(fileContents);
-//       return { slug, frontmatter: data as CaseStudyFrontmatter, content };
-//     } catch {
-//       return null;
-//     }
-//   }
-//
-//   export function getFeaturedSideProjects(): CaseStudy[] {
-//     return getSideProjects().filter((project) => project.frontmatter.featured);
-//   }
-//
-//   export function getAdjacentSideProjects(currentSlug: string): AdjacentContent {
-//     const sideProjects = getSideProjects();
-//     const currentIndex = sideProjects.findIndex((project) => project.slug === currentSlug);
-//     if (currentIndex === -1) return { prev: null, next: null };
-//     return {
-//       prev: sideProjects[currentIndex - 1] || null,
-//       next: sideProjects[currentIndex + 1] || null,
-//     };
-//   }
-//
-// Copy this pattern for each content type!
+// Content types to add: writing (posts, thoughts, quotes), experiments, reading.
 // ============================================================================
