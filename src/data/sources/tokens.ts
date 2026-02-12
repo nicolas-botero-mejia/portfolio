@@ -1,6 +1,6 @@
 /**
- * Design tokens - single source of truth for colors, spacing, typography, radii, and borders.
- * Used by Tailwind/CSS and can be pushed to Figma for design-dev consistency.
+ * Design tokens - colors, spacing, typography, radii, borders.
+ * Used by Tailwind/CSS and can be pushed to Figma via getTokensForFigma().
  *
  * Values based on Tailwind default palette and current component usage.
  */
@@ -156,7 +156,7 @@ export const border = {
 } as const;
 
 // =============================================================================
-// EXPORTS FOR FIGMA (flat structure for push script)
+// TYPES
 // =============================================================================
 
 export type TokenCollection = {
@@ -166,33 +166,3 @@ export type TokenCollection = {
   radii: Record<string, number>;
   border: Record<string, number>;
 };
-
-/** Flat token structure for Figma variable creation */
-export function getTokensForFigma(): TokenCollection {
-  const colorVars: Record<string, string> = {};
-  const addColor = (path: string, hex: string) => {
-    colorVars[path] = hex;
-  };
-
-  Object.entries(colors.gray).forEach(([k, v]) => addColor(`gray/${k}`, v));
-  Object.entries(colors.green).forEach(([k, v]) => addColor(`green/${k}`, v));
-  Object.entries(colors.amber).forEach(([k, v]) => addColor(`amber/${k}`, v));
-  addColor('white', colors.white);
-
-  Object.entries(semanticColors.badge).forEach(([variant, v]) => {
-    addColor(`badge/${variant}/bg`, v.bg);
-    addColor(`badge/${variant}/text`, v.text);
-    addColor(`badge/${variant}/border`, v.border);
-  });
-
-  return {
-    colors: colorVars,
-    spacing: { ...spacing },
-    typography: {
-      ...typography.fontSize,
-      ...typography.fontWeight,
-    },
-    radii: { ...radii },
-    border: { ...border.width },
-  };
-}

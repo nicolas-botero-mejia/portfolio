@@ -20,7 +20,3 @@ export const READING_STATUS_SLUGS = {
   READING: 'reading',
   TO_READ: 'to-read',
 } as const;
-
-export function getReadingStatus(slug: string): ReadingStatus | undefined {
-  return readingStatuses.find((s) => s.slug === slug);
-}

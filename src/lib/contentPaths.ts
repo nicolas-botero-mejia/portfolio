@@ -2,7 +2,7 @@
  * Content path helpers - conventional paths for images, etc.
  */
 
-import { contentTypes } from '@/data/config/contentTypes';
+import { contentTypes } from '@/data';
 
 /** Work sub-type slugs derived from contentTypes */
 type WorkContentType = Extract<(typeof contentTypes)[number], { slug: 'work' }>;

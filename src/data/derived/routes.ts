@@ -1,11 +1,11 @@
 /**
- * Site routes - derived from contentTypes. Single source of truth.
- * Use these for linking, redirects, and programmatic navigation.
+ * Site routes - derived from contentTypes.
+ * Use for linking, redirects, and programmatic navigation.
  */
 
-import { contentTypes, getContentType, getContentSubType } from './contentTypes';
+import { contentTypes } from '../sources/contentTypes';
+import { getContentType, getContentSubType } from '../resolvers/contentTypes';
 
-/** Build flat routes object from contentTypes */
 function buildRoutes(): Record<string, string> {
   const result: Record<string, string> = { home: '/' };
 
@@ -36,7 +36,6 @@ export const routes = buildRoutes() as {
 
 export type RouteKey = keyof typeof routes;
 
-/** Get route for a content type (category or page) */
 export function getRoute(contentSlug: string, subSlug?: string, itemSlug?: string): string {
   if (subSlug) {
     const sub = getContentSubType(contentSlug, subSlug);

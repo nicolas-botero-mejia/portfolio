@@ -1,4 +1,4 @@
-import { COMPANY_SLUGS } from '../config/companies';
+import { COMPANY_SLUGS } from '../sources/companies';
 
 export interface ProfileData {
   name: string;

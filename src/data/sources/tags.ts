@@ -26,9 +26,3 @@ export const tagGroups: TagGroup[] = [
     tags: ['multi-channel', 'messaging', 'communications'],
   },
 ];
-
-export const allTags: string[] = tagGroups.flatMap((g) => g.tags);
-
-export function isValidTag(tag: string): boolean {
-  return allTags.includes(tag.toLowerCase());
-}

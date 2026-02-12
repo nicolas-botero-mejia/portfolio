@@ -2,8 +2,7 @@
  * Content type definitions - single source of truth for content taxonomy.
  * Used for navigation, filtering, breadcrumbs, and content routing.
  *
- * Route strings are defined here only. routes.ts and navigation.ts derive from this.
- * Order here matches nav order for readability; nav visibility/order configured in navigation.ts.
+ * Route strings are defined here only. routes and navigation derive from this.
  */
 
 export interface ContentSubType {
@@ -84,50 +83,3 @@ export const contentTypes: ContentType[] = [
     ],
   },
 ];
-
-/** O(1) lookup map - built once at module load */
-const contentTypeMap = new Map(contentTypes.map((ct) => [ct.slug, ct]));
-
-/** Get content type by slug */
-export function getContentType(slug: string): ContentType | undefined {
-  return contentTypeMap.get(slug);
-}
-
-/** Get sub-type by parent slug and sub-slug */
-export function getContentSubType(parentSlug: string, subSlug: string): ContentSubType | undefined {
-  const parent = getContentType(parentSlug);
-  return parent?.subTypes.find((st) => st.slug === subSlug);
-}
-
-/** Breadcrumb label: "Reading · Books" or "Work · Case Studies" */
-export function getBreadcrumbLabel(parentSlug: string, subSlug?: string): string {
-  const parent = getContentType(parentSlug);
-  if (!parent) return parentSlug;
-  if (!subSlug) return parent.label;
-  const sub = getContentSubType(parentSlug, subSlug);
-  return sub ? `${parent.label} · ${sub.label}` : parent.label;
-}
-
-/**
- * Slug constants derived from contentTypes - use these instead of string literals.
- * Single source of truth; add new slugs when adding content types.
- */
-const toKey = (slug: string) => slug.toUpperCase().replace(/-/g, '_');
-
-function buildSlugs(): Record<string, string> {
-  const result: Record<string, string> = {};
-  for (const ct of contentTypes) {
-    result[toKey(ct.slug)] = ct.slug;
-    for (const sub of ct.subTypes) {
-      const subKey = `${toKey(ct.slug)}_${toKey(sub.slug)}`;
-      result[subKey] = sub.slug;
-      if (ct.route === '') {
-        result[`PAGES_${toKey(sub.slug)}`] = `${ct.slug}.${sub.slug}`;
-        result[toKey(sub.slug)] = sub.slug;
-      }
-    }
-  }
-  return result;
-}
-
-export const CONTENT_SLUGS = buildSlugs() as Readonly<Record<string, string>>;

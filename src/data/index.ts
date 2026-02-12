@@ -1,28 +1,45 @@
-// Config - structure, taxonomy, site configuration
-export { companies, getCompany, getCompanyName, COMPANY_SLUGS } from './config/companies';
-export type { Company } from './config/companies';
+// Sources - raw reference data (no logic)
+export { companies, COMPANY_SLUGS } from './sources/companies';
+export type { Company } from './sources/companies';
+export { contentTypes } from './sources/contentTypes';
+export type { ContentType, ContentSubType } from './sources/contentTypes';
+export { readingStatuses, READING_STATUS_SLUGS } from './sources/readingStatuses';
+export type { ReadingStatus } from './sources/readingStatuses';
+export { workTypes, WORK_TYPE_SLUGS } from './sources/workTypes';
+export type { WorkType } from './sources/workTypes';
+export { site } from './sources/site';
+export { tagGroups } from './sources/tags';
+export type { TagGroup } from './sources/tags';
 export {
-  contentTypes,
+  colors,
+  semanticColors,
+  spacing,
+  typography,
+  radii,
+  border,
+} from './sources/tokens';
+export type { TokenCollection } from './sources/tokens';
+
+// Resolvers - lookup and transformation logic
+export { getCompany, getCompanyName } from './resolvers/companies';
+export {
   getContentType,
   getContentSubType,
   getBreadcrumbLabel,
   CONTENT_SLUGS,
-} from './config/contentTypes';
-export { navigation } from './config/navigation';
-export type { NavItem } from './config/navigation';
-export { routes, getRoute } from './config/routes';
-export type { RouteKey } from './config/routes';
-export { readingStatuses, getReadingStatus, READING_STATUS_SLUGS } from './config/readingStatuses';
-export type { ReadingStatus } from './config/readingStatuses';
-export { workTypes, getWorkTypeLabel, WORK_TYPE_SLUGS } from './config/workTypes';
-export type { WorkType } from './config/workTypes';
-export { site } from './config/site';
-export { tagGroups, allTags, isValidTag } from './config/tags';
-export { colors, semanticColors, spacing, typography, radii, border, getTokensForFigma } from './config/tokens';
-export type { TokenCollection } from './config/tokens';
-export type { TagGroup } from './config/tags';
+} from './resolvers/contentTypes';
+export { getReadingStatus } from './resolvers/readingStatuses';
+export { getWorkTypeLabel } from './resolvers/workTypes';
+export { allTags, isValidTag } from './resolvers/tags';
+export { getTokensForFigma } from './resolvers/tokens';
 
-// Content - profile, experience, workflow (editorial content)
+// Derived - computed from sources
+export { navigation } from './derived/navigation';
+export type { NavItem } from './derived/navigation';
+export { routes, getRoute } from './derived/routes';
+export type { RouteKey } from './derived/routes';
+
+// Content - editorial content (unchanged)
 export { profile } from './content/profile';
 export type { ProfileData } from './content/profile';
 export { experience } from './content/experience';

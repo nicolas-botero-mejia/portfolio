@@ -1,6 +1,6 @@
 /**
  * Companies - referenced in work items and profile.
- * Frontmatter uses company slug; resolve with getCompany().
+ * Frontmatter uses company slug; resolve with getCompany() from resolvers.
  */
 
 export interface Company {
@@ -22,16 +22,3 @@ export const COMPANY_SLUGS = {
   MASIV: 'masiv',
   PAYU_LATAM: 'payu-latam',
 } as const;
-
-export function getCompany(slug: string): Company | undefined {
-  const normalized = slug.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-  return companies.find(
-    (c) => c.slug === normalized || c.slug === slug
-  );
-}
-
-/** Resolve company to name (fallback to raw value if not found) */
-export function getCompanyName(slug: string): string {
-  const company = getCompany(slug);
-  return company?.name ?? slug;
-}

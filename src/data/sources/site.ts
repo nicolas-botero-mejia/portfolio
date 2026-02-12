@@ -1,6 +1,5 @@
 /**
  * Site-wide config - SEO, defaults, metadata.
- * Extracted from hardcoded values in seo.ts and layout.
  */
 
 export const site = {
