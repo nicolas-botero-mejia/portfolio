@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { MDXRemote } from 'next-mdx-remote/rsc';
 import { getCaseStudies, getCaseStudyBySlug, getAdjacentCaseStudies } from '@/lib/mdx';
 import { routes } from '@/data';
 import { generatePageMetadata } from '@/lib/seo';
@@ -117,10 +118,9 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         </div>
 
         {/* Content */}
-        <div
-          className="prose prose-gray prose-lg max-w-none"
-          dangerouslySetInnerHTML={{ __html: content }}
-        />
+        <div className="prose prose-gray prose-lg max-w-none">
+          <MDXRemote source={content} />
+        </div>
 
         {/* Next/Previous Navigation */}
         <ContentNavigation

@@ -1,7 +1,8 @@
 # 🔧 Code Review & Optimization Recommendations
 
 **Comprehensive analysis of the portfolio codebase**
-**Generated:** 2025-11-13
+**Generated:** 2025-11-13  
+**Last Reviewed:** 2026-02-12 — 6/10 implementations complete
 
 ---
 
@@ -9,13 +10,13 @@
 
 | Category | Status | Priority Issues |
 |----------|--------|-----------------|
-| Code Duplication | 🟡 Moderate | 4 instances found |
-| Architecture | 🟢 Excellent | Well-structured |
-| Performance | 🟡 Good | 2 optimizations needed |
-| Security | 🟢 Strong | 1 minor enhancement |
-| Accessibility | 🟢 Good | 2 improvements |
-| SEO | 🟢 Excellent | No issues |
-| **Overall** | 🟢 **Production Ready** | **7 recommendations** |
+| Code Duplication | 🟢 Resolved | 4/4 implemented |
+| Architecture | 🟢 Excellent | Data layer restructured |
+| Performance | 🟢 Resolved | Cache + MDX implemented |
+| Security | 🟢 Strong | Auth config centralized |
+| Accessibility | 🟡 Good | 2 improvements remaining |
+| SEO | 🟡 Good | 1 improvement (locked metadata) |
+| **Overall** | 🟢 **Production Ready** | **4 recommendations remaining** |
 
 ---
 
@@ -23,10 +24,12 @@
 
 ### 1. Code Duplication Issues
 
-#### Issue 1.1: Repeated SVG Icons (Priority: Low)
-**Location:** `src/app/page.tsx:128-148`
+#### Issue 1.1: Repeated SVG Icons (Priority: Low) — IMPLEMENTED
+**Location:** `src/components/ui/CheckIcon.tsx`
 
-**Problem:**
+**Status:** Resolved. Reusable `CheckIcon` component exists in `components/ui/`.
+
+**Problem (was):**
 Checkmark SVG is duplicated 6 times throughout the page with identical code (Design Principles section and Resume section).
 
 **Current Code:**
@@ -73,10 +76,12 @@ export function CheckIcon({ className = "h-5 w-5" }: { className?: string }) {
 
 ---
 
-#### Issue 1.2: Inline Data Arrays (Priority: Low)
-**Location:** `src/app/page.tsx:94-114, 182-191, 225-258`
+#### Issue 1.2: Inline Data Arrays (Priority: Low) — IMPLEMENTED
+**Location:** `src/data/content/`
 
-**Problem:**
+**Status:** Resolved. Data lives in `data/content/workflow.ts` (workflowPhases, designPrinciples) and `data/content/experience.ts` (experience). Profile in `data/content/profile.ts`. Architecture uses SplitLayout + data layer.
+
+**Problem (was):**
 Large data arrays (workflow phases, skills, job history) are defined inline, making the component harder to read and maintain.
 
 **Current Code:**
@@ -150,10 +155,12 @@ import { workflowPhases, coreSkills, experienceHistory } from '@/data/portfolio'
 
 ---
 
-#### Issue 1.3: Navigation Links Duplication (Priority: Medium)
-**Location:** `src/components/layout/Navigation.tsx:7-13` & `src/components/layout/Footer.tsx:3-9`
+#### Issue 1.3: Navigation Links Duplication (Priority: Medium) — IMPLEMENTED
+**Location:** `src/data/derived/navigation.ts`
 
-**Problem:**
+**Status:** Resolved. Centralized navigation in `data/derived/navigation.ts`, built from contentTypes. `SplitLayout` imports `navigation` from `@/data`. Single source of truth.
+
+**Problem (was):**
 Navigation links are defined in two places with different formats:
 - Navigation component: Hash links (`#work`, `#about`)
 - Footer component: Page links (`/work`, `/about`) that don't exist
@@ -235,10 +242,12 @@ import { mainNavigation, socialLinks } from '@/config/navigation';
 
 ### 2. Performance Optimizations
 
-#### Issue 2.1: Repeated File System Reads (Priority: High)
-**Location:** `src/components/layout/Header.tsx:6`
+#### Issue 2.1: Repeated File System Reads (Priority: High) — IMPLEMENTED
+**Location:** `src/lib/mdx.ts`
 
-**Problem:**
+**Status:** Resolved. `getCaseStudies`, `getCaseStudyBySlug`, `getFeatures`, `getPageBySlug`, `getNowEntries`, `getNowBySlug` use React `cache()` for request-level memoization.
+
+**Problem (was):**
 `getCaseStudies()` reads from file system on every page render. This function is called in the Header component which renders on every page.
 
 **Current Code:**
@@ -290,10 +299,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ---
 
-#### Issue 2.2: MDX Content Rendering (Priority: Medium)
-**Location:** `src/app/[slug]/page.tsx:110`
+#### Issue 2.2: MDX Content Rendering (Priority: Medium) — IMPLEMENTED
+**Location:** `src/app/work/[slug]/page.tsx`
 
-**Problem:**
+**Status:** Resolved. Case study page uses `MDXRemote` from next-mdx-remote/rsc for proper MDX rendering.
+
+**Problem (was):**
 Using `dangerouslySetInnerHTML` with raw content string instead of proper MDX rendering.
 
 **Current Code:**
@@ -628,65 +639,46 @@ export async function generateMetadata({ params }: CaseStudyPageProps): Promise<
 
 ## 📋 Implementation Priority
 
-### 🔴 High Priority (Do Before Phase 1)
+### ✅ Implemented
 
-1. **Issue 2.1: Cache getCaseStudies()** (5 min)
-   - Add `cache()` wrapper to prevent repeated file reads
-   - Immediate performance improvement
+1. **Issue 1.1: CheckIcon** — Reusable component in `components/ui/`
+2. **Issue 1.2: Inline Data** — Data in `data/content/` (workflow, experience, profile)
+3. **Issue 1.3: Navigation** — Centralized in `data/derived/navigation.ts`
+4. **Issue 1.4: passwords.ts** — `AUTH_COOKIE_PREFIX`, `AUTH_COOKIE_MAX_AGE` used by serverPasswordAuth
+5. **Issue 2.1: Cache** — `getCaseStudies` and all content fetchers use React `cache()`
+6. **Issue 2.2: MDX Rendering** — Case studies use `MDXRemote`
 
-2. **Issue 1.3: Fix Navigation Duplication** (10 min)
-   - Create shared navigation config
-   - Fix broken footer links
+### 🟡 Remaining (Medium Priority)
 
-### 🟡 Medium Priority (Do During Phase 1)
-
-3. **Issue 2.2: Implement Proper MDX Rendering** (15 min)
-   - Replace dangerouslySetInnerHTML with MDXRemote
-   - Enables rich content features
-
-4. **Issue 3.1: Add ARIA Live Regions** (5 min)
-   - Improve password error accessibility
+7. **Issue 3.1: ARIA Live Regions** (5 min)
+   - Add `role="alert"`, `aria-live="polite"` to password error div
    - Better WCAG compliance
 
-5. **Issue 1.2: Extract Inline Data** (15 min)
-   - Move data arrays to separate files
-   - Cleaner component code
+8. **Issue 5.1: Limited Metadata for Locked Pages** (5 min)
+   - Return reduced metadata when `requiresPassword` is true
+   - `generatePageMetadata` already supports `noIndex`
 
-### 🟢 Low Priority (Do During Phase 4)
+### 🟢 Remaining (Low Priority)
 
-6. **Issue 1.1: Extract SVG Icons** (5 min)
-   - Create reusable icon components
-   - Small bundle size win
+9. **Issue 3.2: Focus Management** (10 min)
+   - Success state + aria-live before refresh
+   - Better screen reader feedback
 
-7. **Issue 1.4: Clean Up passwords.ts** (2 min)
-   - Use constants or delete file
-   - Remove unused code
-
-8. **Issue 3.2: Focus Management** (10 min)
-   - Better UX after authentication
-   - Nice-to-have improvement
-
-9. **Issue 5.1: Limited Metadata for Locked Pages** (5 min)
-   - Better privacy presentation
-   - Professional polish
-
-10. **Issue 4.1: Add Rate Limiting** (30 min)
-    - Production security hardening
-    - Do before launch
+10. **Issue 4.1: Rate Limiting** (30 min)
+    - Document or implement (Upstash) for password attempts
+    - Do before production launch
 
 ---
 
-## 🎯 Quick Wins (< 10 minutes total)
+## 🎯 Quick Wins (< 15 minutes total)
 
-These can be done right now before starting Phase 1:
+Remaining improvements that can be done quickly:
 
 ```bash
-# 1. Add cache to getCaseStudies (2 min)
-# 2. Delete unused passwords.ts (1 min)
-# 3. Add ARIA live regions (3 min)
-# 4. Limited metadata for locked pages (3 min)
+# 1. Issue 3.1: Add ARIA live regions to ServerPasswordPrompt (5 min)
+# 2. Issue 5.1: Limited metadata for locked case studies (5 min)
 
-# Total: 9 minutes for 4 improvements
+# Total: 10 minutes for 2 improvements
 ```
 
 ---
@@ -753,29 +745,18 @@ These can be done right now before starting Phase 1:
 
 ## 🚀 Action Plan
 
-### Immediate (Before Phase 1 starts)
-```bash
-# 1. Performance: Cache getCaseStudies
-git checkout -b optimize/performance-cache
-# ... make changes ...
-git commit -m "Optimize: Add cache wrapper to getCaseStudies"
+### ✅ Completed
+- Cache on content fetchers (`getCaseStudies`, etc.)
+- Centralized navigation (`data/derived/navigation.ts`)
+- Data layer restructure (sources, resolvers, derived, content)
+- MDX rendering with `MDXRemote`
+- CheckIcon component
+- Auth cookie config
 
-# 2. Architecture: Fix navigation duplication
-# ... make changes ...
-git commit -m "Refactor: Create shared navigation config"
-
-git push
-```
-
-### Phase 1 Integration
-- Extract data arrays while building Storybook stories
-- Implement MDX rendering when documenting components
-- Add icon components as part of atoms library
-
-### Phase 4 Polish
-- Implement remaining accessibility improvements
-- Add rate limiting before production
-- Final security hardening
+### Remaining
+- **Accessibility:** ARIA live regions (Issue 3.1), focus management (Issue 3.2)
+- **SEO:** Limited metadata for locked pages (Issue 5.1)
+- **Security:** Rate limiting documentation or implementation (Issue 4.1)
 
 ---
 

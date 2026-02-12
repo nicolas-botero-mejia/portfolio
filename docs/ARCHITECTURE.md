@@ -2,9 +2,17 @@
 
 ## URL Structure: Hierarchical vs. Flat
 
-### Decision: Keep Hierarchical URLs
+### Current implementation: Flat work URLs
 
-**Format:** `/work/case-studies/ocean` (not `/work/ocean`)
+Work items use **flat** URLs: `/work/ocean`, `/work/sainapsis`, `/work/aquads`. The app route is `app/work/[slug]/page.tsx`, which serves both case studies and features from a single slug namespace. Content lives in `content/work/case-studies/` and `content/work/features/`; the slug alone identifies the item. This keeps URLs short and avoids collisions in the current content set.
+
+### Documented preference: Hierarchical URLs
+
+The content taxonomy (`contentTypes`) defines hierarchical routes (`/work/case-studies`, `/work/features`) for path resolution and future use. If the content grows and slug collisions become likely, consider migrating to hierarchical URLs: `app/work/case-studies/[slug]/page.tsx` → `/work/case-studies/ocean`.
+
+### Decision (for future migration): Prefer hierarchical when scaling
+
+**Target format:** `/work/case-studies/ocean` (not `/work/ocean`)
 
 ### The Trade-off
 

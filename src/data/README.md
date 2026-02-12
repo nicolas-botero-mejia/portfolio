@@ -29,6 +29,10 @@ sources (data)  →  resolvers (logic)  →  consumers
 - **Taxonomy** (contentTypes): source has raw array; resolver has `getContentType`, `CONTENT_SLUGS`
 - **Static config** (site, tokens): source only; tokens also has `getTokensForFigma` in resolvers
 
+## Design tokens (sources/tokens, resolvers/tokens)
+
+Tokens (`colors`, `semanticColors`, `spacing`, `typography`, `radii`, `border`) are the **design reference** for Figma sync via `getTokensForFigma()`. Components use Tailwind utility classes directly—tokens are not wired to Tailwind. To sync design and code, use tokens when adding new colors/spacing to the palette; match Tailwind class values to token values (e.g. `colors.gray[500]` → `text-gray-500`).
+
 ## Adding new data
 
 1. **Reference data** (slug → entity) → `sources/[domain].ts` + `resolvers/[domain].ts`
