@@ -16,14 +16,18 @@ content/
 │   ├── thoughts/              # Quick takes, notes
 │   └── quotes/                # Curated quotes with context
 │
+├── reading/                   # Reading-related content
+│   ├── books/                # Book notes/reviews
+│   └── articles/             # Article summaries
+│
 ├── experiments/               # Creative explorations
 │   ├── design/               # Design experiments
 │   ├── code/                 # Code experiments
 │   └── prototypes/           # Interactive prototypes
 │
-├── reading/                   # Reading-related content
-│   ├── books/                # Book notes/reviews
-│   └── articles/             # Article summaries
+├── now/                       # Now page entries (dated snapshots)
+│   ├── 2026-02-10.mdx        # Most recent shown on /now
+│   └── _example-now.mdx
 │
 └── pages/                     # Special static pages
     ├── about.mdx
@@ -132,6 +136,24 @@ Your personal reflection on why this quote matters to you,
 how it applies to your work, examples of when you've seen
 this principle in action, etc.
 ```
+
+### Now (`now/`)
+
+Dated snapshots—add a new file when you update. The most recent is shown on `/now`.
+
+```yaml
+---
+title: "What I'm Doing Now"
+description: "Current projects, focus areas, and what I'm learning right now."
+date: "2026-02-10"            # When this snapshot was written
+seo:
+  metaTitle: "Now - Nicolás Botero"
+  metaDescription: "What I'm currently working on, learning, and focusing on."
+  keywords: ["now page", "current projects", "availability"]
+---
+```
+
+Filename convention: `YYYY-MM-DD.mdx` (e.g. `2026-03-15.mdx` for your next update).
 
 ### Experiments (`experiments/`)
 

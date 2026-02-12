@@ -25,7 +25,7 @@ export const routes = {
   reading: routeFor('reading'),
   experiments: routeFor('experiments'),
   about: pageRoute('about'),
-  now: pageRoute('now'),
+  now: routeFor('now'),
   uses: pageRoute('uses'),
 } as const;
 

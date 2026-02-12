@@ -141,6 +141,76 @@ export function getPageBySlug(slug: string): Page | null {
 }
 
 // ============================================================================
+// NOW (dated snapshots - like posts)
+// ============================================================================
+
+export interface NowEntryFrontmatter {
+  title: string;
+  description: string;
+  date: string; // YYYY-MM-DD - when this snapshot was written
+  seo: {
+    metaTitle: string;
+    metaDescription: string;
+    keywords: string[];
+  };
+}
+
+export interface NowEntry {
+  slug: string;
+  frontmatter: NowEntryFrontmatter;
+  content: string;
+}
+
+export function getNowEntries(): NowEntry[] {
+  const nowPath = path.join(contentDirectory, 'now');
+
+  if (!fs.existsSync(nowPath)) {
+    return [];
+  }
+
+  const fileNames = fs.readdirSync(nowPath);
+  const entries = fileNames
+    .filter((fileName) => fileName.endsWith('.mdx') && !fileName.startsWith('_'))
+    .map((fileName) => {
+      const slug = fileName.replace(/\.mdx$/, '');
+      const fullPath = path.join(nowPath, fileName);
+      const fileContents = fs.readFileSync(fullPath, 'utf8');
+      const { data, content } = matter(fileContents);
+
+      return {
+        slug,
+        frontmatter: data as NowEntryFrontmatter,
+        content,
+      };
+    });
+
+  return entries.sort((a, b) => {
+    return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
+  });
+}
+
+export function getLatestNow(): NowEntry | null {
+  const entries = getNowEntries();
+  return entries[0] ?? null;
+}
+
+export function getNowBySlug(slug: string): NowEntry | null {
+  try {
+    const fullPath = path.join(contentDirectory, 'now', `${slug}.mdx`);
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    const { data, content } = matter(fileContents);
+
+    return {
+      slug,
+      frontmatter: data as NowEntryFrontmatter,
+      content,
+    };
+  } catch {
+    return null;
+  }
+}
+
+// ============================================================================
 // ALL WORK (Combined case studies + features)
 // ============================================================================
 

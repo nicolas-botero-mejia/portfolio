@@ -65,13 +65,19 @@ export const contentTypes: ContentType[] = [
     ],
   },
   {
+    slug: 'now',
+    label: 'Now',
+    path: 'now',
+    route: '/now',
+    subTypes: [], // Flat folder - each file is a dated snapshot
+  },
+  {
     slug: 'pages',
     label: 'Pages',
     path: 'pages',
     route: '',
     subTypes: [
       { slug: 'about', label: 'About', path: 'pages/about', route: '/about' },
-      { slug: 'now', label: 'Now', path: 'pages/now', route: '/now' },
       { slug: 'uses', label: 'Uses', path: 'pages/uses', route: '/uses' },
     ],
   },
