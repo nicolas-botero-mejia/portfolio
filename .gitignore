@@ -41,6 +41,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# generated (from sources/tokens.ts)
+src/app/tokens.generated.css
+
 # PR drafts (local only, never committed)
 PR_INFO.md
 PR_*.md

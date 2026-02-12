@@ -1,19 +1,15 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "./tokens.generated.css";
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--color-surface-background);
+  --color-foreground: var(--color-surface-foreground);
   --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-surface-background);
+  color: var(--color-surface-foreground);
   font-family: var(--font-sans);
 }
 

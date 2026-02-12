@@ -31,7 +31,8 @@ export {
 export { getReadingStatus } from './resolvers/readingStatuses';
 export { getWorkTypeLabel } from './resolvers/workTypes';
 export { allTags, isValidTag } from './resolvers/tags';
-export { getTokensForFigma } from './resolvers/tokens';
+export { getTokensForFigma, getTokensForCSS } from './resolvers/tokens';
+export type { CSSTokens } from './resolvers/tokens';
 
 // Derived - computed from sources
 export { navigation } from './derived/navigation';

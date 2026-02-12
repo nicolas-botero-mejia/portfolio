@@ -31,7 +31,13 @@ sources (data)  →  resolvers (logic)  →  consumers
 
 ## Design tokens (sources/tokens, resolvers/tokens)
 
-Tokens (`colors`, `semanticColors`, `spacing`, `typography`, `radii`, `border`) are the **design reference** for Figma sync via `getTokensForFigma()`. Components use Tailwind utility classes directly—tokens are not wired to Tailwind. To sync design and code, use tokens when adding new colors/spacing to the palette; match Tailwind class values to token values (e.g. `colors.gray[500]` → `text-gray-500`).
+**Single source of truth:** `sources/tokens.ts`
+
+- **resolvers/tokens** – `getTokensForFigma()` (Figma push), `getTokensForCSS()` (CSS generation)
+- **scripts/generateTokens.ts** – reads tokens, writes `src/app/tokens.generated.css`
+- **globals.css** – imports generated CSS; `@theme` and body use token vars
+
+**Flow:** Edit `sources/tokens.ts` → run `npm run tokens:generate` → CSS and Figma stay in sync. No manual duplication.
 
 ## Adding new data
 
