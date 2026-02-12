@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { trackEvent } from '@/lib/analytics';
-import { navigation, profile, routes } from '@/data';
+import { navigation, profile, routes, getCompany } from '@/data';
 
 interface SplitLayoutProps {
   children: React.ReactNode;
@@ -61,20 +61,24 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
               ))}
               <p className="text-gray-700">
                 Previously at{' '}
-                {profile.companies.map((company, index) => (
-                  <span key={company.name}>
-                    <a 
-                      href={company.url}
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="hover:text-gray-900 transition-colors"
-                      onClick={() => handleExternalLinkClick(company.url, company.name)}
-                    >
-                      {company.name}
-                    </a>
-                    {index < profile.companies.length - 1 && ', '}
-                  </span>
-                ))}
+                {profile.companySlugs.map((slug, index) => {
+                  const company = getCompany(slug);
+                  if (!company) return null;
+                  return (
+                    <span key={company.slug}>
+                      <a 
+                        href={company.url}
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="hover:text-gray-900 transition-colors"
+                        onClick={() => handleExternalLinkClick(company.url, company.name)}
+                      >
+                        {company.name}
+                      </a>
+                      {index < profile.companySlugs.length - 1 && ', '}
+                    </span>
+                  );
+                })}
                 .
               </p>
               <p>

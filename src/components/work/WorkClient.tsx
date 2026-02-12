@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { trackEvent } from '@/lib/analytics';
-import { getRoute } from '@/data';
+import { getRoute, getCompanyName, getWorkTypeLabel } from '@/data';
 
 interface WorkItem {
   slug: string;
@@ -12,6 +12,7 @@ interface WorkItem {
     role: string;
     year: string;
     type: string;
+    subtitle?: string;
     company: string;
     tags?: string[];
     date?: string;
@@ -60,10 +61,10 @@ export default function WorkClient({ allWork }: WorkClientProps) {
                 >
                   <div className="flex items-start justify-between gap-6">
                     <div className="flex-1">
-                      {/* Type Badge */}
+                      {/* Type / Subtitle Badge */}
                       <div className="mb-2">
                         <span className="inline-block rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">
-                          {item.frontmatter.type}
+                          {item.frontmatter.subtitle ?? getWorkTypeLabel(item.frontmatter.type)}
                         </span>
                       </div>
 
@@ -79,7 +80,7 @@ export default function WorkClient({ allWork }: WorkClientProps) {
 
                       {/* Meta */}
                       <div className="flex flex-wrap gap-3 text-sm text-gray-500">
-                        <span className="font-medium text-gray-700">{item.frontmatter.company}</span>
+                        <span className="font-medium text-gray-700">{getCompanyName(item.frontmatter.company)}</span>
                         <span>•</span>
                         <span>{item.frontmatter.role}</span>
                         <span>•</span>

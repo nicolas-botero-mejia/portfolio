@@ -1,13 +1,8 @@
-export interface CompanyLink {
-  name: string;
-  url: string;
-}
-
 export interface ProfileData {
   name: string;
   title: string;
   bio: string[];
-  companies: CompanyLink[];
+  companySlugs: string[]; // Resolve via getCompany() from companies.ts
   contact: {
     email: string;
     linkedin: string;
@@ -26,11 +21,7 @@ export const profile: ProfileData = {
     'I work on system-level product design problems: unifying fragmented SaaS platforms, scaling design and delivery infrastructure, and integrating AI in ways that enhance human judgment.',
     'My focus is on building durable foundations that allow teams and products to evolve without losing clarity.',
   ],
-  companies: [
-    { name: 'Sainapsis', url: 'https://www.sainapsis.com/' },
-    { name: 'Masiv', url: 'https://www.masiv.com/' },
-    { name: 'PayU Latam', url: 'https://corporate.payu.com/colombia/' },
-  ],
+  companySlugs: ['sainapsis', 'masiv', 'payu-latam'],
   contact: {
     email: 'n.boterom@gmail.com',
     linkedin: 'nicolas-botero',

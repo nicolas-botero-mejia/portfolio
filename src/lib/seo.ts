@@ -1,50 +1,38 @@
 import { Metadata } from 'next';
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nicolas-botero-mejia.com';
-const siteName = 'Nicolás Botero - Product Designer';
-const siteDescription = 'Product Designer with 10+ years of experience in design systems, product leadership, and strategic transformation. Featured work: Sainapsis, Ocean, AquaDS.';
+import { site } from '@/data/site';
 
 export const defaultMetadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(site.url),
   title: {
-    default: siteName,
-    template: '%s | Nicolás Botero',
+    default: site.title,
+    template: site.titleTemplate,
   },
-  description: siteDescription,
-  keywords: [
-    'Product Designer',
-    'UX Designer',
-    'Design Systems',
-    'Design Leadership',
-    'Nicolás Botero',
-    'Nico Botero',
-    'Colombia',
-    'Remote Designer',
-  ],
-  authors: [{ name: 'Nicolás Botero' }],
-  creator: 'Nicolás Botero',
+  description: site.description,
+  keywords: [...site.defaultKeywords],
+  authors: [{ name: site.name }],
+  creator: site.name,
   openGraph: {
     type: 'website',
-    locale: 'en_US',
-    url: siteUrl,
-    siteName,
-    title: siteName,
-    description: siteDescription,
+    locale: site.locale,
+    url: site.url,
+    siteName: site.title,
+    title: site.title,
+    description: site.description,
     images: [
       {
-        url: `${siteUrl}/og-image.png`,
+        url: `${site.url}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: siteName,
+        alt: site.title,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: siteName,
-    description: siteDescription,
-    images: [`${siteUrl}/og-image.png`],
-    creator: '@nicolasbotero',
+    title: site.title,
+    description: site.description,
+    images: [`${site.url}/og-image.png`],
+    creator: site.twitterHandle,
   },
   robots: {
     index: true,
@@ -75,7 +63,7 @@ export function generatePageMetadata({
   return {
     title,
     description,
-    keywords: keywords || defaultMetadata.keywords,
+    keywords: keywords || [...site.defaultKeywords],
     openGraph: {
       title,
       description,

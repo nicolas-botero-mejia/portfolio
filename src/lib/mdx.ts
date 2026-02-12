@@ -7,17 +7,17 @@ const contentDirectory = path.join(process.cwd(), 'content');
 export interface CaseStudyFrontmatter {
   title: string;
   description: string;
-  company: string;
+  company: string;   // Company slug - resolve with getCompany()
   role: string;
   year: string;
   duration: string;
-  type: string;
+  type: string;      // Work type: case-study, feature, side-project
+  subtitle?: string; // Descriptive label e.g. "Design System & Process Transformation"
   featured: boolean;
   heroImage: string;
   tags: string[];
   date?: string;     // For sorting (YYYY-MM-DD format)
   order?: number;    // For manual ordering
-  category?: string; // Content category (work, writing, etc.)
   parent?: string;   // For features: links to parent case study
   seo: {
     metaTitle: string;
