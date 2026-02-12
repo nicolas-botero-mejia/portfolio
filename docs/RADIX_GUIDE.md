@@ -80,6 +80,49 @@ Example:
 [data-state=active]:text-gray-900
 ```
 
+## Tooltip
+
+```tsx
+import Tooltip from '@/components/ui/Tooltip';
+
+<Tooltip content="Opens in new tab" side="top">
+  <button>Hover me</button>
+</Tooltip>
+```
+
+## ScrollArea
+
+```tsx
+import ScrollArea from '@/components/ui/ScrollArea';
+
+<ScrollArea className="h-64">
+  <div className="space-y-2">
+    {items.map(item => <CardListItem key={item.id} {...item} />)}
+  </div>
+</ScrollArea>
+```
+
+## Component States Reference
+
+### Button
+- `hover` — Darker background
+- `focus-visible` — Ring on keyboard focus
+- `active` — Darker on click
+- `disabled` — Faded, no pointer events
+
+### Card (when as="link")
+- `hover` — Shadow increases
+- `focus-visible` — Ring on keyboard focus
+- `active` — Shadow decreases
+
+### CardListItem
+- `hover` — Gray background
+- `focus-visible` — Gray background + ring
+- `selected` — Gray background (via prop)
+
+### Badge
+- Static display, no interactive states
+
 ## Adding more primitives
 
 When you need other behaviors, install the specific package:
