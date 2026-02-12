@@ -1,26 +1,14 @@
 /**
- * Password configuration for case studies
+ * Password and auth cookie configuration for case study protection.
  *
- * IMPORTANT: Passwords are now managed server-side via environment variables.
- * This file exists for documentation purposes only.
+ * Password values are stored in environment variables (.env.local).
+ * See .env.example for setup. This file holds the runtime config constants.
  *
- * To set passwords:
- * 1. Create a .env.local file in the project root (never commit this)
- * 2. Add password hashes (see instructions in .env.example)
- * 3. Restart your dev server
- *
- * Password priority:
- * 1. Case study's dedicated password (in frontmatter) - for testing/development
- * 2. Environment variable for specific case study: CASE_STUDY_[SLUG]_PASSWORD
- * 3. Global password: CASE_STUDY_GLOBAL_PASSWORD
- *
- * All environment variable passwords should be SHA-256 hashes, not plain text.
- * Use the password hashing utility to generate hashes.
+ * Password priority: frontmatter (dev) → CASE_STUDY_[SLUG]_PASSWORD → CASE_STUDY_GLOBAL_PASSWORD
  */
 
-export const PASSWORD_CONFIG_INFO = {
-  // Documentation only - actual passwords are in environment variables
-  description: 'Server-side password protection for case studies',
-  cookiePrefix: 'cs_auth_',
-  cookieMaxAge: 60 * 60 * 24 * 7, // 7 days
-} as const;
+/** Cookie name prefix for case study auth (e.g. cs_auth_ocean) */
+export const AUTH_COOKIE_PREFIX = 'cs_auth_';
+
+/** Cookie max age in seconds (7 days) */
+export const AUTH_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;

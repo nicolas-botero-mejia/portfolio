@@ -1,10 +1,8 @@
 import { cookies } from 'next/headers';
 import crypto from 'crypto';
+import { AUTH_COOKIE_PREFIX, AUTH_COOKIE_MAX_AGE } from '@/config/passwords';
 import type { CaseStudy } from './mdx';
 import { logError } from './errors';
-
-const COOKIE_PREFIX = 'cs_auth_';
-const COOKIE_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 
 /**
  * Hash a password using SHA-256
@@ -83,10 +81,10 @@ export function validatePassword(caseStudy: CaseStudy, password: string): boolea
 export async function setAuthCookie(slug: string): Promise<void> {
   try {
     const cookieStore = await cookies();
-    cookieStore.set(`${COOKIE_PREFIX}${slug}`, 'authenticated', {
+    cookieStore.set(`${AUTH_COOKIE_PREFIX}${slug}`, 'authenticated', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      maxAge: COOKIE_MAX_AGE,
+      maxAge: AUTH_COOKIE_MAX_AGE,
       sameSite: 'strict',
       path: '/',
     });
@@ -103,7 +101,7 @@ export async function setAuthCookie(slug: string): Promise<void> {
 export async function isAuthenticated(slug: string): Promise<boolean> {
   try {
     const cookieStore = await cookies();
-    const authCookie = cookieStore.get(`${COOKIE_PREFIX}${slug}`);
+    const authCookie = cookieStore.get(`${AUTH_COOKIE_PREFIX}${slug}`);
     return authCookie?.value === 'authenticated';
   } catch (error) {
     logError('isAuthenticated', error);
@@ -118,7 +116,7 @@ export async function isAuthenticated(slug: string): Promise<boolean> {
 export async function clearAuthCookie(slug: string): Promise<void> {
   try {
     const cookieStore = await cookies();
-    cookieStore.delete(`${COOKIE_PREFIX}${slug}`);
+    cookieStore.delete(`${AUTH_COOKIE_PREFIX}${slug}`);
   } catch (error) {
     logError('clearAuthCookie', error);
   }
@@ -134,7 +132,7 @@ export async function clearAllAuthCookies(): Promise<void> {
     const allCookies = cookieStore.getAll();
 
     for (const cookie of allCookies) {
-      if (cookie.name.startsWith(COOKIE_PREFIX)) {
+      if (cookie.name.startsWith(AUTH_COOKIE_PREFIX)) {
         cookieStore.delete(cookie.name);
       }
     }
