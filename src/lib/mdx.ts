@@ -4,6 +4,7 @@
  */
 
 import { cache } from 'react';
+import { SLUGS } from '@/data';
 import {
   ContentItem,
   getItemsFromPath,
@@ -48,7 +49,7 @@ export interface CaseStudyFrontmatter {
 
 export type CaseStudy = ContentItem<CaseStudyFrontmatter>;
 
-const CASE_STUDIES_PATH = getContentPath('work', 'case-studies');
+const CASE_STUDIES_PATH = getContentPath(SLUGS.WORK, SLUGS.WORK_CASE_STUDIES);
 
 export const getCaseStudies = cache((): CaseStudy[] =>
   getItemsFromPath<CaseStudyFrontmatter>(CASE_STUDIES_PATH, sortByYearDesc)
@@ -75,7 +76,7 @@ export function getAdjacentCaseStudies(currentSlug: string): AdjacentContent {
 // WORK - Features
 // ============================================================================
 
-const FEATURES_PATH = getContentPath('work', 'features');
+const FEATURES_PATH = getContentPath(SLUGS.WORK, SLUGS.WORK_FEATURES);
 
 export const getFeatures = cache((): CaseStudy[] =>
   getItemsFromPath<CaseStudyFrontmatter>(FEATURES_PATH, sortByDateOrYear)
@@ -120,7 +121,7 @@ export interface PageFrontmatter {
 
 export type Page = ContentItem<PageFrontmatter>;
 
-const PAGES_PATH = getContentPath('pages');
+const PAGES_PATH = getContentPath(SLUGS.PAGES);
 
 export const getPageBySlug = cache((slug: string): Page | null =>
   getItemBySlugFromPath<PageFrontmatter>(PAGES_PATH, slug)
@@ -143,7 +144,7 @@ export interface NowEntryFrontmatter {
 
 export type NowEntry = ContentItem<NowEntryFrontmatter>;
 
-const NOW_PATH = getContentPath('now');
+const NOW_PATH = getContentPath(SLUGS.NOW);
 
 export const getNowEntries = cache((): NowEntry[] =>
   getItemsFromPath<NowEntryFrontmatter>(NOW_PATH, sortByDateDesc)
@@ -163,7 +164,7 @@ export const getNowBySlug = cache((slug: string): NowEntry | null =>
 //
 // Use contentLoader helpers. Example for work/side-projects:
 //
-//   const SIDE_PROJECTS_PATH = getContentPath('work', 'side-projects');
+//   const SIDE_PROJECTS_PATH = getContentPath(SLUGS.WORK, SLUGS.WORK_SIDE_PROJECTS);
 //   export function getSideProjects() {
 //     return getItemsFromPath<CaseStudyFrontmatter>(SIDE_PROJECTS_PATH, sortByDateOrYear);
 //   }

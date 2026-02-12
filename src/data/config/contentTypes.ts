@@ -85,9 +85,12 @@ export const contentTypes: ContentType[] = [
   },
 ];
 
+/** O(1) lookup map - built once at module load */
+const contentTypeMap = new Map(contentTypes.map((ct) => [ct.slug, ct]));
+
 /** Get content type by slug */
 export function getContentType(slug: string): ContentType | undefined {
-  return contentTypes.find((ct) => ct.slug === slug);
+  return contentTypeMap.get(slug);
 }
 
 /** Get sub-type by parent slug and sub-slug */
@@ -115,8 +118,10 @@ function buildSlugs(): Record<string, string> {
   const result: Record<string, string> = {};
   for (const ct of contentTypes) {
     result[toKey(ct.slug)] = ct.slug;
-    if (ct.slug === 'pages') {
-      for (const sub of ct.subTypes) {
+    for (const sub of ct.subTypes) {
+      const subKey = `${toKey(ct.slug)}_${toKey(sub.slug)}`;
+      result[subKey] = sub.slug;
+      if (ct.slug === 'pages') {
         result[`PAGES_${toKey(sub.slug)}`] = `${ct.slug}.${sub.slug}`;
       }
     }

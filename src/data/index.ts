@@ -1,7 +1,13 @@
 // Config - structure, taxonomy, site configuration
 export { companies, getCompany, getCompanyName } from './config/companies';
 export type { Company } from './config/companies';
-export { contentTypes, getContentType, getContentSubType, getBreadcrumbLabel } from './config/contentTypes';
+export {
+  contentTypes,
+  getContentType,
+  getContentSubType,
+  getBreadcrumbLabel,
+  SLUGS,
+} from './config/contentTypes';
 export { navigation } from './config/navigation';
 export type { NavItem } from './config/navigation';
 export { routes, getRoute } from './config/routes';
