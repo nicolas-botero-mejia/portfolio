@@ -5,30 +5,34 @@
 
 import { contentTypes, getContentType, getContentSubType } from './contentTypes';
 
-/** Get route value from contentTypes (avoids hardcoding) */
-function routeFor(slug: string): string {
-  const ct = contentTypes.find((c) => c.slug === slug);
-  return ct?.route ?? '/';
+/** Build flat routes object from contentTypes */
+function buildRoutes(): Record<string, string> {
+  const result: Record<string, string> = { home: '/' };
+
+  for (const ct of contentTypes) {
+    if (ct.slug === 'pages') {
+      for (const sub of ct.subTypes) {
+        result[sub.slug] = sub.route;
+      }
+    } else {
+      result[ct.slug] = ct.route;
+    }
+  }
+
+  return result;
 }
 
-function pageRoute(slug: string): string {
-  const pages = contentTypes.find((c) => c.slug === 'pages');
-  const sub = pages?.subTypes.find((s) => s.slug === slug);
-  return sub?.route ?? '/';
-}
-
-/** Flat routes - values derived from contentTypes */
-export const routes = {
-  home: '/',
-  work: routeFor('work'),
-  writing: routeFor('writing'),
-  reading: routeFor('reading'),
-  experiments: routeFor('experiments'),
-  about: pageRoute('about'),
-  now: routeFor('now'),
-  uses: pageRoute('uses'),
-  colophon: pageRoute('colophon'),
-} as const;
+export const routes = buildRoutes() as {
+  home: '/';
+  work: string;
+  writing: string;
+  reading: string;
+  experiments: string;
+  now: string;
+  about: string;
+  uses: string;
+  colophon: string;
+};
 
 export type RouteKey = keyof typeof routes;
 

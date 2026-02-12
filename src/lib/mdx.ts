@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { getContentSubType, getContentType } from '@/data';
 
 const contentDirectory = path.join(process.cwd(), 'content');
 
@@ -35,7 +36,7 @@ export interface CaseStudy {
 }
 
 export function getCaseStudies(): CaseStudy[] {
-  const caseStudiesPath = path.join(contentDirectory, 'work', 'case-studies');
+  const caseStudiesPath = path.join(contentDirectory, getContentSubType('work', 'case-studies')!.path);
 
   if (!fs.existsSync(caseStudiesPath)) {
     return [];
@@ -64,7 +65,7 @@ export function getCaseStudies(): CaseStudy[] {
 
 export function getCaseStudyBySlug(slug: string): CaseStudy | null {
   try {
-    const fullPath = path.join(contentDirectory, 'work', 'case-studies', `${slug}.mdx`);
+    const fullPath = path.join(contentDirectory, getContentSubType('work', 'case-studies')!.path, `${slug}.mdx`);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
 
@@ -126,7 +127,7 @@ export interface Page {
 
 export function getPageBySlug(slug: string): Page | null {
   try {
-    const fullPath = path.join(contentDirectory, 'pages', `${slug}.mdx`);
+    const fullPath = path.join(contentDirectory, getContentType('pages')!.path, `${slug}.mdx`);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
 
@@ -162,7 +163,7 @@ export interface NowEntry {
 }
 
 export function getNowEntries(): NowEntry[] {
-  const nowPath = path.join(contentDirectory, 'now');
+  const nowPath = path.join(contentDirectory, getContentType('now')!.path);
 
   if (!fs.existsSync(nowPath)) {
     return [];
@@ -196,7 +197,7 @@ export function getLatestNow(): NowEntry | null {
 
 export function getNowBySlug(slug: string): NowEntry | null {
   try {
-    const fullPath = path.join(contentDirectory, 'now', `${slug}.mdx`);
+    const fullPath = path.join(contentDirectory, getContentType('now')!.path, `${slug}.mdx`);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
 
@@ -233,7 +234,7 @@ export function getAllWork(): CaseStudy[] {
 // ============================================================================
 
 export function getFeatures(): CaseStudy[] {
-  const featuresPath = path.join(contentDirectory, 'work', 'features');
+  const featuresPath = path.join(contentDirectory, getContentSubType('work', 'features')!.path);
 
   if (!fs.existsSync(featuresPath)) {
     return [];
@@ -266,7 +267,7 @@ export function getFeatures(): CaseStudy[] {
 
 export function getFeatureBySlug(slug: string): CaseStudy | null {
   try {
-    const fullPath = path.join(contentDirectory, 'work', 'features', `${slug}.mdx`);
+    const fullPath = path.join(contentDirectory, getContentSubType('work', 'features')!.path, `${slug}.mdx`);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
 
