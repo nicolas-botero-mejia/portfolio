@@ -12,6 +12,8 @@ export { workTypes, getWorkTypeLabel } from './config/workTypes';
 export type { WorkType } from './config/workTypes';
 export { site } from './config/site';
 export { tagGroups, allTags, isValidTag } from './config/tags';
+export { colors, semanticColors, spacing, typography, radii, border, getTokensForFigma } from './config/tokens';
+export type { TokenCollection } from './config/tokens';
 export type { TagGroup } from './config/tags';
 
 // Content - profile, experience, workflow (editorial content)
