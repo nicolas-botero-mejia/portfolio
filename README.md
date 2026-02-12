@@ -1,8 +1,8 @@
 # Nicolás Botero - Portfolio Website
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.0-38bdf8)](https://tailwindcss.com/)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 > SEO-optimized portfolio showcasing 10+ years of product design leadership, design systems, and strategic transformation work.
@@ -61,83 +61,43 @@ npm start
 
 ```
 portfolio/
-├── .claude/
-│   └── agents/                    # AI agents for optimization
-│       ├── seo_optimizer_agent.md
-│       ├── content_auditor_agent.md
-│       ├── accessibility_checker_agent.md
-│       ├── performance_optimizer_agent.md
-│       └── case_study_migrator_agent.md
-│
-├── app/                           # Next.js App Router
-│   ├── page.tsx                   # Home page
+├── .claude/agents/                # AI optimization agents
+├── content/                       # MDX content (source of truth)
 │   ├── work/
-│   │   ├── page.tsx              # Work overview
-│   │   ├── [slug]/
-│   │   │   └── page.tsx          # Case study template
-│   ├── about/
-│   │   └── page.tsx              # About page
-│   ├── resume/
-│   │   └── page.tsx              # Resume page
-│   └── contact/
-│       └── page.tsx              # Contact page
+│   │   ├── case-studies/          # Case studies (sainapsis, ocean, aquads)
+│   │   ├── features/              # Granular features
+│   │   └── side-projects/         # Personal projects
+│   ├── pages/                     # Static pages (about, uses, colophon)
+│   ├── now/                       # Dated snapshots
+│   ├── writing/                   # Posts, thoughts, quotes
+│   ├── experiments/               # Design, code, prototypes
+│   └── reading/                   # Books, articles
 │
-├── components/
-│   ├── ui/                        # Reusable UI components
-│   │   ├── Button.tsx
-│   │   ├── Card.tsx
-│   │   ├── Badge.tsx
-│   │   └── Typography.tsx
-│   ├── layout/
-│   │   ├── Header.tsx
-│   │   ├── Footer.tsx
-│   │   └── Navigation.tsx
-│   ├── home/
-│   │   ├── Hero.tsx
-│   │   ├── FeaturedWork.tsx
-│   │   ├── About.tsx
-│   │   └── Contact.tsx
-│   └── ServerPasswordPrompt.tsx   # Password protection UI
+├── src/
+│   ├── app/                       # Next.js App Router pages
+│   ├── components/                # UI, layout, work
+│   ├── data/                      # Reference data & lookup logic
+│   │   ├── sources/               # Raw data (companies, contentTypes, etc.)
+│   │   ├── content/               # Editorial (profile, experience, workflow)
+│   │   ├── resolvers/             # Slug→entity lookup functions
+│   │   └── derived/               # Routes, navigation (computed)
+│   ├── lib/                       # Utilities & services
+│   │   ├── contentLoader.ts       # MDX read/parse/sort
+│   │   ├── mdx.ts                 # Content API (getCaseStudies, etc.)
+│   │   ├── seo.ts                 # Metadata generation
+│   │   ├── serverPasswordAuth.ts  # Password validation
+│   │   ├── analytics.ts           # Amplitude + GA tracking
+│   │   └── errors.ts              # Error handling utilities
+│   ├── config/
+│   │   └── passwords.ts           # Auth cookie config
+│   └── actions/
+│       └── authActions.ts         # Server actions
 │
-├── content/
-│   ├── case-studies/              # MDX case studies
-│   │   ├── sainapsis.mdx
-│   │   ├── ocean.mdx
-│   │   └── aquads.mdx
-│   └── pages/                     # MDX pages
-│       ├── about.mdx
-│       └── workflow.mdx
-│
-├── public/
-│   ├── images/
-│   │   ├── case-studies/
-│   │   │   ├── sainapsis/
-│   │   │   ├── ocean/
-│   │   │   └── aquads/
-│   │   └── headshot.jpg
-│   └── resume.pdf
-│
-├── lib/
-│   ├── contentlayer.ts            # Content utilities
-│   ├── seo.ts                     # SEO utilities
-│   ├── serverPasswordAuth.ts      # Server-side password validation
-│   └── mdx.ts                     # MDX utilities
-│
-├── actions/
-│   └── authActions.ts             # Server actions for authentication
-│
-├── scripts/
-│   └── hashPassword.js            # Password hashing utility
-│
-├── docs/
-│   └── PASSWORD_PROTECTION.md     # Password protection guide
-│
-├── .env.example                   # Environment variable examples
-├── README_PASSWORD_PROTECTION.md  # Quick password setup reference
-├── README_ANALYTICS.md            # Analytics implementation guide
-├── contentlayer.config.ts         # Contentlayer configuration
-├── tailwind.config.ts             # Tailwind configuration
-└── next.config.js                 # Next.js configuration
+├── public/images/                 # Work, experiments, writing images
+├── scripts/hashPassword.js        # Password hashing utility
+├── .env.example
+├── next.config.ts
+└── docs/                          # PASSWORD_PROTECTION, CONTENT_ARCHITECTURE, etc.
 ```
 
 ---
@@ -145,27 +105,35 @@ portfolio/
 ## 🛠 Tech Stack
 
 ### Core Framework
-- **Next.js 15** - React framework with App Router
-- **TypeScript** - Type-safe JavaScript
-- **React 18** - UI library
+- **Next.js 16** - React framework with App Router
+- **TypeScript 5** - Type-safe JavaScript
+- **React 19** - UI library
 
 ### Styling & UI
-- **Tailwind CSS** - Utility-first CSS framework
+- **Tailwind CSS 4** - Utility-first CSS framework
 - **Framer Motion** - Animation library
-- **React Wrap Balancer** - Better typography
+- **React Wrap Balancer** - Typography
 
 ### Content Management
-- **Contentlayer** - Type-safe MDX content
-- **MDX** - Markdown with React components
+- **MDX** - Markdown with React components (next-mdx-remote, gray-matter)
 - **Zod** - Schema validation
 
 ### SEO & Analytics
 - **next-seo** - SEO optimization
-- **next-sitemap** - Automatic sitemap generation
-- **Vercel Analytics** - Privacy-friendly analytics
+- **next-sitemap** - Automatic sitemap
+- **Google Analytics + Amplitude** - Page views and event tracking
 
 ### Deployment
 - **Vercel** - Hosting & CI/CD
+
+---
+
+## 📚 Documentation
+
+- [ROADMAP.md](ROADMAP.md) - Development timeline
+- [src/data/README.md](src/data/README.md) - Data layer (sources, resolvers, derived)
+- [content/README.md](content/README.md) - Content structure and frontmatter
+- [docs/CONTENT_ARCHITECTURE.md](docs/CONTENT_ARCHITECTURE.md) - Content architecture
 
 ---
 
@@ -252,7 +220,7 @@ year: "2024-25"
 duration: "10 months"
 type: "Design System & Process Transformation"
 featured: true
-heroImage: "/images/case-studies/sainapsis-hero.png"
+heroImage: "/images/work/sainapsis/hero.png"
 tags: ["design systems", "process transformation", "mentorship", "productivity"]
 seo:
   metaTitle: "Sainapsis Case Study - 16x Productivity with Design Systems | Nicolás Botero"
@@ -265,11 +233,10 @@ seo:
 
 ```jsx
 <Image
-  src="/images/sainapsis/handoff-timeline.png"
+  src="/images/work/sainapsis/handoff-timeline.png"
   alt="Timeline showing 2-month handoff cycle with weekly priority changes"
   width={1200}
   height={600}
-  caption="Before/after comparison of handoff process"
 />
 ```
 
@@ -412,14 +379,13 @@ vercel --prod
 
 ```bash
 # .env.local
-NEXT_PUBLIC_SITE_URL=https://www.nicolas-botero-mejia.com
-NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_SITE_URL=https://nicolas-botero-mejia.com
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_AMPLITUDE_API_KEY=your-amplitude-api-key
 
 # Password Protection (optional)
 CASE_STUDY_GLOBAL_PASSWORD=your-password-hash-here
-# Or per-case-study:
-# CASE_STUDY_OCEAN_PASSWORD=hash-here
-# CASE_STUDY_SAINAPSIS_PASSWORD=hash-here
+# Or per-case-study: CASE_STUDY_OCEAN_PASSWORD=hash-here
 ```
 
 ### Custom Domain Setup
@@ -458,10 +424,9 @@ CASE_STUDY_GLOBAL_PASSWORD=your-password-hash-here
 
 ## 🗺 Roadmap
 
-See [ROADMAP.md](ROADMAP.md) for detailed development timeline.
+See [ROADMAP.md](ROADMAP.md) for the development timeline.
 
-**Current Status:** Phase 1 - Foundation (Weeks 1-2)
-
+**Current Status:** Phase 1 - Foundation
 **Upcoming:**
 - Phase 2: Content + SEO (Weeks 3-4)
 - Phase 3: Polish + Launch (Week 5)
