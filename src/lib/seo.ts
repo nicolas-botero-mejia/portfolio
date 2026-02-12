@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { site } from '@/data/site';
+import { site } from '@/data';
 
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(site.url),

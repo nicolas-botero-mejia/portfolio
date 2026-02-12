@@ -1,20 +1,23 @@
-export { companies, getCompany, getCompanyName } from './companies';
-export type { Company } from './companies';
-export { contentTypes, getContentType, getContentSubType, getBreadcrumbLabel } from './contentTypes';
-export { profile } from './profile';
-export type { ProfileData } from './profile';
-export { experience } from './experience';
-export type { ExperienceItem } from './experience';
-export { navigation } from './navigation';
-export type { NavItem } from './navigation';
-export { routes, getRoute } from './routes';
-export type { RouteKey } from './routes';
-export { readingStatuses, getReadingStatus } from './readingStatuses';
-export type { ReadingStatus } from './readingStatuses';
-export { workTypes, getWorkTypeLabel } from './workTypes';
-export type { WorkType } from './workTypes';
-export { workflowPhases, designPrinciples } from './workflow';
-export type { WorkflowPhase, DesignPrinciple } from './workflow';
-export { site } from './site';
-export { tagGroups, allTags, isValidTag } from './tags';
-export type { TagGroup } from './tags';
+// Config - structure, taxonomy, site configuration
+export { companies, getCompany, getCompanyName } from './config/companies';
+export type { Company } from './config/companies';
+export { contentTypes, getContentType, getContentSubType, getBreadcrumbLabel } from './config/contentTypes';
+export { navigation } from './config/navigation';
+export type { NavItem } from './config/navigation';
+export { routes, getRoute } from './config/routes';
+export type { RouteKey } from './config/routes';
+export { readingStatuses, getReadingStatus } from './config/readingStatuses';
+export type { ReadingStatus } from './config/readingStatuses';
+export { workTypes, getWorkTypeLabel } from './config/workTypes';
+export type { WorkType } from './config/workTypes';
+export { site } from './config/site';
+export { tagGroups, allTags, isValidTag } from './config/tags';
+export type { TagGroup } from './config/tags';
+
+// Content - profile, experience, workflow (editorial content)
+export { profile } from './content/profile';
+export type { ProfileData } from './content/profile';
+export { experience } from './content/experience';
+export type { ExperienceItem } from './content/experience';
+export { workflowPhases, designPrinciples } from './content/workflow';
+export type { WorkflowPhase, DesignPrinciple } from './content/workflow';
