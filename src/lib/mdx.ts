@@ -84,7 +84,7 @@ const sortByDateOrYear = (
 };
 
 // ============================================================================
-// WORK - Case Studies & Features
+// WORK - Case Studies
 // ============================================================================
 
 export interface CaseStudyFrontmatter {
@@ -141,7 +141,46 @@ export function getAdjacentCaseStudies(currentSlug: string): AdjacentContent {
 }
 
 // ============================================================================
-// PAGES (about, now, uses, etc.)
+// WORK - Features
+// ============================================================================
+
+const FEATURES_PATH = getContentPath('work', 'features');
+
+export function getFeatures(): CaseStudy[] {
+  return getItemsFromPath<CaseStudyFrontmatter>(FEATURES_PATH, sortByDateOrYear);
+}
+
+export function getFeatureBySlug(slug: string): CaseStudy | null {
+  return getItemBySlugFromPath<CaseStudyFrontmatter>(FEATURES_PATH, slug);
+}
+
+export function getAdjacentFeatures(currentSlug: string): AdjacentContent {
+  return getAdjacentFromItems(getFeatures(), currentSlug) as AdjacentContent;
+}
+
+export function getFeaturedFeatures(): CaseStudy[] {
+  return getFeaturedFromItems(getFeatures());
+}
+
+// ============================================================================
+// WORK - All (combined case studies + features)
+// ============================================================================
+
+export function getAllWork(): CaseStudy[] {
+  const caseStudies = getCaseStudies();
+  const features = getFeatures();
+  const combined = [...caseStudies, ...features];
+
+  return combined.sort((a, b) => {
+    if (a.frontmatter.date && b.frontmatter.date) {
+      return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
+    }
+    return parseInt(b.frontmatter.year ?? '0') - parseInt(a.frontmatter.year ?? '0');
+  });
+}
+
+// ============================================================================
+// PAGES (about, uses, colophon)
 // ============================================================================
 
 export interface PageFrontmatter {
@@ -168,7 +207,7 @@ export function getPageBySlug(slug: string): Page | null {
 }
 
 // ============================================================================
-// NOW (dated snapshots - like posts)
+// NOW (dated snapshots)
 // ============================================================================
 
 export interface NowEntryFrontmatter {
@@ -200,46 +239,6 @@ export function getLatestNow(): NowEntry | null {
 
 export function getNowBySlug(slug: string): NowEntry | null {
   return getItemBySlugFromPath<NowEntryFrontmatter>(NOW_PATH, slug);
-}
-
-// ============================================================================
-// ALL WORK (Combined case studies + features)
-// ============================================================================
-
-export function getAllWork(): CaseStudy[] {
-  const caseStudies = getCaseStudies();
-  const features = getFeatures();
-  const combined = [...caseStudies, ...features];
-
-  // Sort by date (newest first)
-  return combined.sort((a, b) => {
-    if (a.frontmatter.date && b.frontmatter.date) {
-      return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
-    }
-    return parseInt(b.frontmatter.year) - parseInt(a.frontmatter.year);
-  });
-}
-
-// ============================================================================
-// FEATURES
-// ============================================================================
-
-const FEATURES_PATH = getContentPath('work', 'features');
-
-export function getFeatures(): CaseStudy[] {
-  return getItemsFromPath<CaseStudyFrontmatter>(FEATURES_PATH, sortByDateOrYear);
-}
-
-export function getFeatureBySlug(slug: string): CaseStudy | null {
-  return getItemBySlugFromPath<CaseStudyFrontmatter>(FEATURES_PATH, slug);
-}
-
-export function getAdjacentFeatures(currentSlug: string): AdjacentContent {
-  return getAdjacentFromItems(getFeatures(), currentSlug) as AdjacentContent;
-}
-
-export function getFeaturedFeatures(): CaseStudy[] {
-  return getFeaturedFromItems(getFeatures());
 }
 
 // ============================================================================
