@@ -25,11 +25,11 @@ type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    'bg-gray-900 text-white hover:bg-gray-800 focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2 active:bg-gray-950 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed',
+    'bg-button-primary-bg text-button-primary-text hover:bg-button-primary-hover focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2 active:bg-button-primary-active disabled:bg-button-primary-disabled-bg disabled:text-button-primary-disabled-text disabled:cursor-not-allowed',
   secondary:
-    'border border-gray-300 bg-white text-gray-900 hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2 active:bg-gray-100 disabled:border-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed',
+    'border border-button-secondary-border bg-button-secondary-bg text-button-secondary-text hover:bg-button-secondary-hover focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2 active:bg-button-secondary-active disabled:border-button-secondary-disabled-border disabled:text-button-secondary-disabled-text disabled:cursor-not-allowed',
   ghost:
-    'text-gray-700 hover:bg-gray-100 focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2 active:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed',
+    'text-button-ghost-text hover:bg-button-ghost-hover focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2 active:bg-button-ghost-active disabled:text-button-ghost-disabled disabled:cursor-not-allowed',
 };
 
 const baseStyles =

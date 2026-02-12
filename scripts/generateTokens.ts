@@ -1,9 +1,8 @@
 #!/usr/bin/env npx tsx
 /**
  * Generate tokens.generated.css from sources/tokens.ts.
+ * Outputs @theme block for Tailwind v4 - our tokens override/extend Tailwind.
  * Run: npm run tokens:generate
- *
- * Single source of truth - no manual duplication.
  */
 
 import * as fs from 'fs';
@@ -16,7 +15,7 @@ function generateCSS(): string {
     '/* Generated from src/data/sources/tokens.ts - do not edit manually */',
     '/* Run: npm run tokens:generate */',
     '',
-    ':root {',
+    '@theme {',
   ];
 
   for (const [key, value] of Object.entries(tokens.colors)) {
@@ -30,7 +29,7 @@ function generateCSS(): string {
   }
 
   for (const [key, value] of Object.entries(tokens.typography.fontSize)) {
-    lines.push(`  --font-size-${key.replace(/\./g, '-')}: ${value}px;`);
+    lines.push(`  --text-${key.replace(/\./g, '-')}: ${value}px;`);
   }
   for (const [key, value] of Object.entries(tokens.typography.fontWeight)) {
     lines.push(`  --font-weight-${key}: ${value};`);
@@ -42,8 +41,7 @@ function generateCSS(): string {
   }
 
   for (const [key, value] of Object.entries(tokens.border)) {
-    const varName = `--border-${key}`;
-    lines.push(`  ${varName}: ${value}px;`);
+    lines.push(`  --border-${key}: ${value}px;`);
   }
 
   lines.push('}');

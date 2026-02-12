@@ -15,7 +15,7 @@ export default function Card({
   className = '',
 }: CardProps) {
   const baseStyles =
-    'rounded-lg bg-white shadow-sm border border-gray-100 transition-shadow' +
+    'rounded-lg bg-card-bg shadow-sm border border-card-border transition-shadow' +
     ' hover:shadow-md focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2' +
     ' active:shadow-sm';
 

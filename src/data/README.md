@@ -37,7 +37,11 @@ sources (data)  →  resolvers (logic)  →  consumers
 - **scripts/generateTokens.ts** – reads tokens, writes `src/app/tokens.generated.css`
 - **globals.css** – imports generated CSS; `@theme` and body use token vars
 
-**Flow:** Edit `sources/tokens.ts` → run `npm run tokens:generate` → CSS and Figma stay in sync. No manual duplication.
+**Flow:** Edit `sources/tokens.ts` → run `npm run tokens:generate` → Tailwind @theme and Figma stay in sync. No manual duplication.
+
+## Component inventory
+
+See [docs/COMPONENTS.md](../../docs/COMPONENTS.md) for component inventory, roadmap, and expansion rules.
 
 ## Adding new data
 

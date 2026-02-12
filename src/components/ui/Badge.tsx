@@ -8,13 +8,13 @@ interface BadgeProps {
 
 const variantStyles: Record<BadgeVariant, string> = {
   default:
-    'bg-gray-100 text-gray-700 border-gray-200',
+    'bg-badge-default-bg text-badge-default-text border-badge-default-border',
   success:
-    'bg-green-50 text-green-800 border-green-200',
+    'bg-badge-success-bg text-badge-success-text border-badge-success-border',
   warning:
-    'bg-amber-50 text-amber-800 border-amber-200',
+    'bg-badge-warning-bg text-badge-warning-text border-badge-warning-border',
   neutral:
-    'bg-gray-50 text-gray-600 border-gray-100',
+    'bg-badge-neutral-bg text-badge-neutral-text border-badge-neutral-border',
 };
 
 export default function Badge({ children, variant = 'default', className = '' }: BadgeProps) {
