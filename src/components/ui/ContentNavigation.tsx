@@ -12,43 +12,41 @@ interface ContentNavigationProps {
   basePath?: string; // e.g., routes.work or getRoute(CONTENT_SLUGS.WORK, CONTENT_SLUGS.WORK_CASE_STUDIES)
 }
 
+// 1. Layout — primitive scale
+const NAV_LAYOUT = 'mt-16 border-t border-border-default pt-8';
+const GRID_LAYOUT = 'grid grid-cols-1 gap-8 sm:grid-cols-2';
+const LINK_LAYOUT = 'group flex flex-col';
+const LABEL_LAYOUT = 'mb-2 text-sm font-medium';
+const TITLE_LAYOUT = 'text-lg font-semibold';
+
+// 2. Semantic colors — role-based
+const labelStyles = 'text-content-muted group-hover:text-content-secondary transition-colors';
+const titleStyles = 'text-content-primary group-hover:text-content-muted transition-colors';
+
 export default function ContentNavigation({ prev, next, basePath = routes.work }: ContentNavigationProps) {
   if (!prev && !next) {
     return null;
   }
 
   return (
-    <nav className="mt-16 border-t border-gray-200 pt-8">
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-        {/* Previous */}
+    <nav className={NAV_LAYOUT}>
+      <div className={GRID_LAYOUT}>
         {prev ? (
-          <Link
-            href={`${basePath}/${prev.slug}`}
-            className="group flex flex-col"
-          >
-            <span className="mb-2 text-sm font-medium text-gray-500 group-hover:text-gray-700 transition-colors">
-              ← Previous
-            </span>
-            <span className="text-lg font-semibold text-gray-900 group-hover:text-gray-600 transition-colors">
-              {prev.title}
-            </span>
+          <Link href={`${basePath}/${prev.slug}`} className={LINK_LAYOUT}>
+            <span className={`${LABEL_LAYOUT} ${labelStyles}`}>← Previous</span>
+            <span className={titleStyles}>{prev.title}</span>
           </Link>
         ) : (
-          <div /> // Empty div to maintain grid layout
+          <div />
         )}
 
-        {/* Next */}
         {next && (
           <Link
             href={`${basePath}/${next.slug}`}
-            className="group flex flex-col text-right sm:col-start-2"
+            className={`${LINK_LAYOUT} text-right sm:col-start-2`}
           >
-            <span className="mb-2 text-sm font-medium text-gray-500 group-hover:text-gray-700 transition-colors">
-              Next →
-            </span>
-            <span className="text-lg font-semibold text-gray-900 group-hover:text-gray-600 transition-colors">
-              {next.title}
-            </span>
+            <span className={`${LABEL_LAYOUT} ${labelStyles}`}>Next →</span>
+            <span className={titleStyles}>{next.title}</span>
           </Link>
         )}
       </div>

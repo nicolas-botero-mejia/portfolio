@@ -8,6 +8,9 @@ interface CardImageProps {
   className?: string;
 }
 
+// 1. Layout — primitive scale (rounded-md from radii)
+const LAYOUT = 'relative overflow-hidden rounded-md';
+
 export default function CardImage({
   src,
   alt,
@@ -16,9 +19,7 @@ export default function CardImage({
   className = '',
 }: CardImageProps) {
   return (
-    <div
-      className={`relative overflow-hidden rounded-md ${className}`}
-    >
+    <div className={`${LAYOUT} ${className}`}>
       <Image
         src={src}
         alt={alt}

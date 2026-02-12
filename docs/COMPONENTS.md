@@ -129,3 +129,23 @@ className={`${LAYOUT} ${variantStyles[variant]} ${className}`}
 - **LAYOUT** (or `BASE`, `SIZE`) – layout/typography from primitive scale; shared across variants.
 - **variantStyles** – semantic colors per variant.
 - **Compose** – layout + semantic + `className` override.
+
+### Components following this standard
+
+| Component | Layout constant | Semantic usage |
+|-----------|-----------------|----------------|
+| Badge | `LAYOUT` | `variantStyles` (status, background, content, border) |
+| Button | `LAYOUT` | `variantStyles` (action roles), focus ring `background-primary` |
+| Card | `LAYOUT` | `background-surface`, `border-subtle` |
+| CardHeader | `LAYOUT` | `border-subtle`, `content-muted` |
+| CardTitle | `LAYOUT` | `content-primary` |
+| CardDescription | `LAYOUT` | `content-muted` |
+| CardMeta | `LAYOUT` | `content-muted` |
+| CardContent | `LAYOUT` | — |
+| CardImage | `LAYOUT` | — |
+| CardListItem | `LAYOUT` | `background-muted/subtle`, `content-primary/muted`, focus ring |
+| ContentNavigation | `NAV_LAYOUT`, `labelStyles`, `titleStyles` | `border-default`, `content-muted/secondary/primary` |
+| Tooltip | `LAYOUT`, `COLORS` | `background-primary`, `content-inverted` |
+| Dialog | Multiple constants | `background-surface`, `content-primary/muted/secondary`, `border-strong` |
+| Tabs | `LIST_LAYOUT`, `TRIGGER_LAYOUT`, `TRIGGER_COLORS` | `border-default`, `content-muted/primary`, `background-primary` (active) |
+| ScrollArea | `ROOT_LAYOUT`, `THUMB_LAYOUT` | `border-default` (thumb) |

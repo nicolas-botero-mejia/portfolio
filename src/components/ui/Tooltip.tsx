@@ -8,6 +8,10 @@ interface TooltipProps {
   side?: 'top' | 'right' | 'bottom' | 'left';
 }
 
+// 1. Layout — primitive scale; 2. Semantic colors — dark tooltip (primary bg, inverted text)
+const LAYOUT = 'rounded-md px-3 py-2 text-sm shadow-lg';
+const COLORS = 'bg-background-primary text-content-inverted';
+
 export default function Tooltip({ content, children, side = 'top' }: TooltipProps) {
   return (
     <RadixTooltip.Provider delayDuration={300}>
@@ -19,10 +23,10 @@ export default function Tooltip({ content, children, side = 'top' }: TooltipProp
           <RadixTooltip.Content
             side={side}
             sideOffset={8}
-            className="rounded-md bg-gray-900 px-3 py-2 text-sm text-white shadow-lg"
+            className={`${LAYOUT} ${COLORS}`}
           >
             {content}
-            <RadixTooltip.Arrow className="fill-gray-900" />
+            <RadixTooltip.Arrow className="fill-background-primary" />
           </RadixTooltip.Content>
         </RadixTooltip.Portal>
       </RadixTooltip.Root>

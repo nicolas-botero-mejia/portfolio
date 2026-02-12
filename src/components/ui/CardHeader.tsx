@@ -8,6 +8,10 @@ interface CardHeaderProps {
   className?: string;
 }
 
+// 1. Layout — primitive scale; 2. Semantic colors — role-based
+const LAYOUT = 'flex items-center justify-between gap-4 border-b border-border-subtle px-6 py-4';
+const CATEGORY_STYLES = 'text-sm text-content-muted';
+
 export default function CardHeader({
   category,
   cta,
@@ -16,10 +20,8 @@ export default function CardHeader({
   className = '',
 }: CardHeaderProps) {
   return (
-    <div
-      className={`flex items-center justify-between gap-4 border-b border-gray-100 px-6 py-4 ${className}`}
-    >
-      <span className="text-sm text-gray-500">{category}</span>
+    <div className={`${LAYOUT} ${className}`}>
+      <span className={CATEGORY_STYLES}>{category}</span>
       <div className="flex items-center gap-2">
         {cta && ctaHref && (
           <Button as="link" href={ctaHref} variant="primary" className="text-sm">

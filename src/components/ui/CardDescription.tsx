@@ -3,12 +3,15 @@ interface CardDescriptionProps {
   className?: string;
 }
 
+// Layout + semantic: content-muted for secondary text
+const LAYOUT = 'text-content-muted leading-relaxed';
+
 export default function CardDescription({
   children,
   className = '',
 }: CardDescriptionProps) {
   return (
-    <p className={`text-gray-600 leading-relaxed ${className}`}>
+    <p className={`${LAYOUT} ${className}`}>
       {children}
     </p>
   );

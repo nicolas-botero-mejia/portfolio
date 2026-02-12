@@ -23,17 +23,19 @@ interface ButtonAsLink extends ButtonBaseProps {
 
 type ButtonProps = ButtonAsButton | ButtonAsLink;
 
+// 1. Layout & typography — primitive scale (tokens.ts → Tailwind theme)
+const LAYOUT =
+  'inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-background-primary focus-visible:ring-offset-2 disabled:pointer-events-none';
+
+// 2. Semantic colors — role-based (variants)
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    'bg-action-primary-bg text-action-primary-text hover:bg-action-primary-hover focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2 active:bg-action-primary-active disabled:bg-action-primary-disabled-bg disabled:text-action-primary-disabled-text disabled:cursor-not-allowed',
+    'bg-action-primary-bg text-action-primary-text hover:bg-action-primary-hover active:bg-action-primary-active disabled:bg-action-primary-disabled-bg disabled:text-action-primary-disabled-text disabled:cursor-not-allowed',
   secondary:
-    'border border-action-secondary-border bg-action-secondary-bg text-action-secondary-text hover:bg-action-secondary-hover focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2 active:bg-action-secondary-active disabled:border-action-secondary-disabled-border disabled:text-action-secondary-disabled-text disabled:cursor-not-allowed',
+    'border border-action-secondary-border bg-action-secondary-bg text-action-secondary-text hover:bg-action-secondary-hover active:bg-action-secondary-active disabled:border-action-secondary-disabled-border disabled:text-action-secondary-disabled-text disabled:cursor-not-allowed',
   ghost:
-    'text-action-ghost-text hover:bg-action-ghost-hover focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2 active:bg-action-ghost-active disabled:text-action-ghost-disabled disabled:cursor-not-allowed',
+    'text-action-ghost-text hover:bg-action-ghost-hover active:bg-action-ghost-active disabled:text-action-ghost-disabled disabled:cursor-not-allowed',
 };
-
-const baseStyles =
-  'inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none';
 
 export default function Button(props: ButtonProps) {
   const {
@@ -43,7 +45,7 @@ export default function Button(props: ButtonProps) {
     className = '',
   } = props;
 
-  const styles = `${baseStyles} ${variantStyles[variant]} ${className}`;
+  const styles = `${LAYOUT} ${variantStyles[variant]} ${className}`;
 
   if (props.as === 'link') {
     const { href, external } = props;

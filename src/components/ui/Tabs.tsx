@@ -24,17 +24,22 @@ interface TabsProps {
  *     ]}
  *   />
  */
+// 1. Layout — primitive scale; 2. Semantic colors — role-based
+const LIST_LAYOUT = 'flex gap-1 border-b border-border-default';
+const TRIGGER_LAYOUT = 'rounded-t-lg px-4 py-2 text-sm font-medium transition-colors';
+const TRIGGER_COLORS = 'text-content-muted hover:text-content-primary data-[state=active]:border-b-2 data-[state=active]:border-background-primary data-[state=active]:text-content-primary';
+
 export default function Tabs({ tabs, defaultValue }: TabsProps) {
   const defaultTab = defaultValue ?? tabs[0]?.value;
 
   return (
     <RadixTabs.Root defaultValue={defaultTab}>
-      <RadixTabs.List className="flex gap-1 border-b border-gray-200">
+      <RadixTabs.List className={LIST_LAYOUT}>
         {tabs.map((tab) => (
           <RadixTabs.Trigger
             key={tab.value}
             value={tab.value}
-            className="rounded-t-lg px-4 py-2 text-sm font-medium text-gray-500 transition-colors hover:text-gray-900 data-[state=active]:border-b-2 data-[state=active]:border-gray-900 data-[state=active]:text-gray-900"
+            className={`${TRIGGER_LAYOUT} ${TRIGGER_COLORS}`}
           >
             {tab.label}
           </RadixTabs.Trigger>

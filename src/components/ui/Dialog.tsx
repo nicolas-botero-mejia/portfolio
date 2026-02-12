@@ -16,6 +16,15 @@ interface DialogProps {
  *     <p>Your content here</p>
  *   </Dialog>
  */
+// 1. Layout — primitive scale; 2. Semantic colors — role-based
+const OVERLAY_LAYOUT = 'fixed inset-0 bg-black/50';
+const CONTENT_LAYOUT = 'fixed left-1/2 top-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg p-8 shadow-xl focus:outline-none';
+const CONTENT_COLORS = 'bg-background-surface';
+const TITLE_LAYOUT = 'text-lg font-semibold text-content-primary';
+const DESCRIPTION_LAYOUT = 'mt-2 text-sm text-content-muted';
+const CLOSE_LAYOUT = 'mt-6 rounded-lg border border-border-strong px-4 py-2 text-sm font-medium';
+const CLOSE_COLORS = 'text-content-secondary hover:bg-background-muted';
+
 export default function Dialog({ trigger, title, description, children }: DialogProps) {
   return (
     <RadixDialog.Root>
@@ -23,13 +32,13 @@ export default function Dialog({ trigger, title, description, children }: Dialog
         {trigger}
       </RadixDialog.Trigger>
       <RadixDialog.Portal>
-        <RadixDialog.Overlay className="fixed inset-0 bg-black/50" />
-        <RadixDialog.Content className="fixed left-1/2 top-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white p-8 shadow-xl focus:outline-none">
-          <RadixDialog.Title className="text-lg font-semibold text-gray-900">
+        <RadixDialog.Overlay className={OVERLAY_LAYOUT} />
+        <RadixDialog.Content className={`${CONTENT_LAYOUT} ${CONTENT_COLORS}`}>
+          <RadixDialog.Title className={TITLE_LAYOUT}>
             {title}
           </RadixDialog.Title>
           {description && (
-            <RadixDialog.Description className="mt-2 text-sm text-gray-600">
+            <RadixDialog.Description className={DESCRIPTION_LAYOUT}>
               {description}
             </RadixDialog.Description>
           )}
@@ -37,7 +46,7 @@ export default function Dialog({ trigger, title, description, children }: Dialog
             {children}
           </div>
           <RadixDialog.Close asChild>
-            <button className="mt-6 rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+            <button className={`${CLOSE_LAYOUT} ${CLOSE_COLORS}`}>
               Close
             </button>
           </RadixDialog.Close>

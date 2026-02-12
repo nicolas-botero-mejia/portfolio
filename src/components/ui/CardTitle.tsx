@@ -4,15 +4,16 @@ interface CardTitleProps {
   className?: string;
 }
 
+// Layout (primitive) + semantic (content-primary)
+const LAYOUT = 'text-xl font-semibold text-content-primary';
+
 export default function CardTitle({
   children,
   as: Component = 'h2',
   className = '',
 }: CardTitleProps) {
   return (
-    <Component
-      className={`text-xl font-semibold text-gray-900 ${className}`}
-    >
+    <Component className={`${LAYOUT} ${className}`}>
       {children}
     </Component>
   );

@@ -14,9 +14,10 @@ export default function Card({
   href,
   className = '',
 }: CardProps) {
-  const baseStyles =
+  // 1. Layout & typography — primitive scale; 2. Semantic colors — role-based
+  const LAYOUT =
     'rounded-lg bg-background-surface shadow-sm border border-border-subtle transition-shadow' +
-    ' hover:shadow-md focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2' +
+    ' hover:shadow-md focus-visible:ring-2 focus-visible:ring-background-primary focus-visible:ring-offset-2' +
     ' active:shadow-sm';
 
   const linkStyles = as === 'link' ? 'block cursor-pointer' : '';
@@ -25,12 +26,12 @@ export default function Card({
     return (
       <Link
         href={href}
-        className={`${baseStyles} ${linkStyles} ${className}`}
+        className={`${LAYOUT} ${linkStyles} ${className}`}
       >
         {children}
       </Link>
     );
   }
 
-  return <div className={`${baseStyles} ${className}`}>{children}</div>;
+  return <div className={`${LAYOUT} ${className}`}>{children}</div>;
 }
