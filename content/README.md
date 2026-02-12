@@ -41,21 +41,31 @@ content/
 
 All MDX files require frontmatter with specific fields depending on content type.
 
+### Frontmatter order (for readability)
+
+1. Identity: title, description
+2. Classification: type, subtitle
+3. Context: company, role, parent (features only)
+4. Timeline: year, duration, date
+5. Display: featured, heroImage, tags
+6. Security: locked (case studies, optional)
+7. SEO: seo block (always last)
+
 ### Case Studies (`work/case-studies/`)
 
 ```yaml
 ---
 title: "Ocean — Global CPaaS Platform"
 description: "Short description for listings (150-160 chars)"
-company: "RouteMobile"
+type: "case-study"
+subtitle: "SaaS Product Design & Scaling"
+company: "routemobile"         # Company slug (see src/data/companies.ts)
 role: "Lead Product Designer"
 year: "2021-2024"
 duration: "3 years"
-type: "Platform Design"
-featured: true
 date: "2024-06-15"            # For sorting (YYYY-MM-DD format)
-category: "work"               # Content category
-heroImage: "/images/work/ocean/hero.png"
+featured: true
+heroImage: "/images/case-studies/ocean/hero.png"
 tags: ["design systems", "platform", "global"]
 locked: false                  # Password protection (optional)
 seo:
@@ -71,12 +81,14 @@ seo:
 ---
 title: "Ocean Billing System"
 description: "Redesigned billing dashboard for 1000+ enterprise clients"
-parent: "ocean"                # Links to parent case study
 type: "feature"
+subtitle: "Enterprise Billing Dashboard"
+company: "routemobile"
+parent: "ocean"                # Links to parent case study
 year: "2023"
 duration: "3 months"
 featured: false
-heroImage: "/images/work/ocean/billing.png"
+heroImage: "/images/features/ocean/billing.png"
 tags: ["enterprise", "billing", "dashboard"]
 seo:
   metaTitle: "Ocean Billing System | Nicolás Botero"
