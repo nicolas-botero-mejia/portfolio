@@ -3,8 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { trackEvent } from '@/lib/analytics';
-import { navigation } from '@/data/navigation';
-import { profile } from '@/data/profile';
+import { navigation, profile, routes } from '@/data';
 
 interface SplitLayoutProps {
   children: React.ReactNode;
@@ -48,7 +47,7 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
           {/* Top Section */}
           <div>
             {/* Name/Logo */}
-            <Link href="/work" className="block mb-8">
+            <Link href={routes.work} className="block mb-8">
               <h1 className="text-2xl font-bold text-gray-900">
                 {profile.name}
               </h1>

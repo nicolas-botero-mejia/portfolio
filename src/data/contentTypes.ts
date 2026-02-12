@@ -1,6 +1,8 @@
 /**
  * Content type definitions - single source of truth for content taxonomy.
  * Used for navigation, filtering, breadcrumbs, and content routing.
+ *
+ * Route strings are defined here only. routes.ts and navigation.ts derive from this.
  */
 
 export interface ContentSubType {

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getCaseStudies, getCaseStudyBySlug, getAdjacentCaseStudies } from '@/lib/mdx';
+import { routes } from '@/data';
 import { generatePageMetadata } from '@/lib/seo';
 import { Metadata } from 'next';
 import { requiresPassword, isAuthenticated } from '@/lib/serverPasswordAuth';
@@ -78,7 +79,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         <div className="max-w-3xl">
         {/* Back Link */}
         <Link
-          href="/"
+          href={routes.work}
           className="inline-flex items-center text-sm text-gray-500 hover:text-gray-900 mb-8 transition-colors"
         >
           ← Back to work
@@ -124,7 +125,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         <ContentNavigation
           prev={prev ? { slug: prev.slug, title: prev.frontmatter.title } : null}
           next={next ? { slug: next.slug, title: next.frontmatter.title } : null}
-          basePath="/work"
+          basePath={routes.work}
         />
         </div>
       </article>

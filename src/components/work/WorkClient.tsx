@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { trackEvent } from '@/lib/analytics';
+import { getRoute } from '@/data';
 
 interface WorkItem {
   slug: string;
@@ -53,7 +54,7 @@ export default function WorkClient({ allWork }: WorkClientProps) {
               allWork.map((item, index) => (
                 <Link
                   key={item.slug}
-                  href={`/work/${item.slug}`}
+                  href={getRoute('work', undefined, item.slug)}
                   className="group block border-b border-gray-200 pb-8 transition-all hover:border-gray-400"
                   onClick={() => handleWorkCardClick(item.slug, item.frontmatter.title, index)}
                 >

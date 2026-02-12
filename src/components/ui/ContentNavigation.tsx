@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { routes } from '@/data';
 
 interface NavigationItem {
   slug: string;
@@ -8,10 +9,10 @@ interface NavigationItem {
 interface ContentNavigationProps {
   prev: NavigationItem | null;
   next: NavigationItem | null;
-  basePath?: string; // e.g., '/work/case-studies'
+  basePath?: string; // e.g., routes.work or getRoute('work', 'case-studies')
 }
 
-export default function ContentNavigation({ prev, next, basePath = '/work' }: ContentNavigationProps) {
+export default function ContentNavigation({ prev, next, basePath = routes.work }: ContentNavigationProps) {
   if (!prev && !next) {
     return null;
   }

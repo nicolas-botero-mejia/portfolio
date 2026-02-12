@@ -5,7 +5,7 @@ export { experience } from './experience';
 export type { ExperienceItem } from './experience';
 export { navigation } from './navigation';
 export type { NavItem } from './navigation';
-export { routes } from './routes';
+export { routes, getRoute } from './routes';
 export type { RouteKey } from './routes';
 export { readingStatuses, getReadingStatus } from './readingStatuses';
 export type { ReadingStatus } from './readingStatuses';
