@@ -17,9 +17,9 @@ const navConfig: { slug: string; visible: boolean }[] = [
   { slug: 'experiments', visible: true },
   { slug: 'reading', visible: true },
   { slug: 'writing', visible: true },
-  { slug: 'pages.about', visible: false },
-  { slug: 'now', visible: false },
-  { slug: 'pages.uses', visible: false },
+  { slug: 'pages.about', visible: true },
+  { slug: 'now', visible: true },
+  { slug: 'pages.uses', visible: true },
 ];
 
 /** Build navigation from contentTypes - single source of truth */
