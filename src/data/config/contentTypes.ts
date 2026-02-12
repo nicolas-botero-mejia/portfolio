@@ -3,6 +3,7 @@
  * Used for navigation, filtering, breadcrumbs, and content routing.
  *
  * Route strings are defined here only. routes.ts and navigation.ts derive from this.
+ * Order here matches nav order for readability; nav visibility/order configured in navigation.ts.
  */
 
 export interface ContentSubType {
@@ -33,14 +34,14 @@ export const contentTypes: ContentType[] = [
     ],
   },
   {
-    slug: 'writing',
-    label: 'Writing',
-    path: 'writing',
-    route: '/writing',
+    slug: 'experiments',
+    label: 'Experiments',
+    path: 'experiments',
+    route: '/experiments',
     subTypes: [
-      { slug: 'posts', label: 'Posts', path: 'writing/posts', route: '/writing/posts' },
-      { slug: 'thoughts', label: 'Thoughts', path: 'writing/thoughts', route: '/writing/thoughts' },
-      { slug: 'quotes', label: 'Quotes', path: 'writing/quotes', route: '/writing/quotes' },
+      { slug: 'design', label: 'Design', path: 'experiments/design', route: '/experiments/design' },
+      { slug: 'code', label: 'Code', path: 'experiments/code', route: '/experiments/code' },
+      { slug: 'prototypes', label: 'Prototypes', path: 'experiments/prototypes', route: '/experiments/prototypes' },
     ],
   },
   {
@@ -54,14 +55,14 @@ export const contentTypes: ContentType[] = [
     ],
   },
   {
-    slug: 'experiments',
-    label: 'Experiments',
-    path: 'experiments',
-    route: '/experiments',
+    slug: 'writing',
+    label: 'Writing',
+    path: 'writing',
+    route: '/writing',
     subTypes: [
-      { slug: 'design', label: 'Design', path: 'experiments/design', route: '/experiments/design' },
-      { slug: 'code', label: 'Code', path: 'experiments/code', route: '/experiments/code' },
-      { slug: 'prototypes', label: 'Prototypes', path: 'experiments/prototypes', route: '/experiments/prototypes' },
+      { slug: 'posts', label: 'Posts', path: 'writing/posts', route: '/writing/posts' },
+      { slug: 'thoughts', label: 'Thoughts', path: 'writing/thoughts', route: '/writing/thoughts' },
+      { slug: 'quotes', label: 'Quotes', path: 'writing/quotes', route: '/writing/quotes' },
     ],
   },
   {
@@ -103,3 +104,24 @@ export function getBreadcrumbLabel(parentSlug: string, subSlug?: string): string
   const sub = getContentSubType(parentSlug, subSlug);
   return sub ? `${parent.label} · ${sub.label}` : parent.label;
 }
+
+/**
+ * Slug constants derived from contentTypes - use these instead of string literals.
+ * Single source of truth; add new slugs when adding content types.
+ */
+const toKey = (slug: string) => slug.toUpperCase().replace(/-/g, '_');
+
+function buildSlugs(): Record<string, string> {
+  const result: Record<string, string> = {};
+  for (const ct of contentTypes) {
+    result[toKey(ct.slug)] = ct.slug;
+    if (ct.slug === 'pages') {
+      for (const sub of ct.subTypes) {
+        result[`PAGES_${toKey(sub.slug)}`] = `${ct.slug}.${sub.slug}`;
+      }
+    }
+  }
+  return result;
+}
+
+export const SLUGS = buildSlugs() as Readonly<Record<string, string>>;

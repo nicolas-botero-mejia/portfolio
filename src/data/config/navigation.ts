@@ -3,7 +3,7 @@
  * Only visibility and order are configured here; name and href come from contentTypes.
  */
 
-import { contentTypes } from './contentTypes';
+import { contentTypes, SLUGS } from './contentTypes';
 
 export interface NavItem {
   name: string;
@@ -11,16 +11,16 @@ export interface NavItem {
   visible: boolean;
 }
 
-/** Nav config: content slug (or "pages.about" for page subTypes) + visibility */
+/** Nav config: content slug (from SLUGS) + visibility */
 const navConfig: { slug: string; visible: boolean }[] = [
-  { slug: 'work', visible: true },
-  { slug: 'experiments', visible: true },
-  { slug: 'reading', visible: true },
-  { slug: 'writing', visible: true },
-  { slug: 'pages.about', visible: true },
-  { slug: 'now', visible: true },
-  { slug: 'pages.uses', visible: true },
-  { slug: 'pages.colophon', visible: true },
+  { slug: SLUGS.WORK, visible: true },
+  { slug: SLUGS.EXPERIMENTS, visible: true },
+  { slug: SLUGS.READING, visible: true },
+  { slug: SLUGS.WRITING, visible: true },
+  { slug: SLUGS.PAGES_ABOUT, visible: true },
+  { slug: SLUGS.NOW, visible: true },
+  { slug: SLUGS.PAGES_USES, visible: true },
+  { slug: SLUGS.PAGES_COLOPHON, visible: true },
 ];
 
 /** Build navigation from contentTypes - single source of truth */
