@@ -4,7 +4,7 @@
 
 **Single Source of Truth:** All content lives in MDX files, never in JSX page components.
 
-**Structured Data:** Reusable, type-safe data (experience, workflow, etc.) lives in TypeScript files under `src/data/`.
+**Structured Data:** Reusable, type-safe data lives in TypeScript under `src/data/`. Data layer has clear separation: sources (raw data), content (editorial), resolvers (lookup logic), derived (routes, navigation). See [src/data/README.md](../../src/data/README.md).
 
 **Component Composition:** MDX files import and render TypeScript data via React components.
 
@@ -33,9 +33,11 @@ content/
     └── uses.mdx          # Tools and setup
 
 src/data/
-├── workflow.ts           # Design process data
-├── experience.ts         # Work history data
-└── [future data files]
+├── sources/              # Raw reference data (companies, contentTypes, workTypes, etc.)
+├── content/              # Editorial data (profile, experience, workflow)
+├── resolvers/            # Lookup logic (getCompany, getContentType, etc.)
+├── derived/              # Computed (routes, navigation)
+└── index.ts              # Public API — import from '@/data'
 
 src/components/mdx/
 ├── MDXPageRenderer.tsx   # Renders MDX content
@@ -75,7 +77,7 @@ import WorkflowSection from '@/components/mdx/WorkflowSection';
 Reusable data that's rendered in multiple places lives in TypeScript:
 
 ```typescript
-// src/data/experience.ts
+// src/data/content/experience.ts
 export interface ExperienceItem {
   company: string;
   role: string;
@@ -101,7 +103,7 @@ Components that consume structured data and render it:
 
 ```typescript
 // src/components/mdx/ExperienceSection.tsx
-import { experience } from '@/data/experience';
+import { experience } from '@/data';
 
 export default function ExperienceSection() {
   return (
@@ -124,12 +126,14 @@ Page routes fetch MDX content and render it:
 
 ```typescript
 // src/app/about/page.tsx
-import { getPageBySlug } from '@/lib/mdx';
-import MDXPageRenderer from '@/components/mdx/MDXPageRenderer';
+   import { getPageBySlug } from '@/lib/mdx';
+   import { CONTENT_SLUGS } from '@/data';
+   import { notFound } from 'next/navigation';
 
-export default function AboutPage() {
-  const page = getPageBySlug('about');
-  return <MDXPageRenderer content={page.content} />;
+   export default function AboutPage() {
+  const page = getPageBySlug(CONTENT_SLUGS.ABOUT);
+  if (!page) notFound();
+  return <MDXRenderer content={page.content} />;
 }
 ```
 
@@ -168,25 +172,23 @@ export default function AboutPage() {
    ```typescript
    // src/app/colophon/page.tsx
    import { getPageBySlug } from '@/lib/mdx';
-   import MDXPageRenderer from '@/components/mdx/MDXPageRenderer';
+   import { CONTENT_SLUGS } from '@/data';
+   import { notFound } from 'next/navigation';
 
    export default function ColophonPage() {
-     const page = getPageBySlug('colophon');
-     return <MDXPageRenderer content={page.content} />;
+     const page = getPageBySlug(CONTENT_SLUGS.COLOPHON);
+     if (!page) notFound();
+     return <MDXRenderer content={page.content} />;
    }
    ```
 
-3. Add to navigation (if needed):
-   ```typescript
-   // src/components/layout/SplitLayout.tsx
-   { name: 'Colophon', href: '/colophon' }
-   ```
+3. Add to navigation (if needed): Edit `src/data/derived/navigation.ts` navConfig, or add to contentTypes in sources if it's a new page.
 
 ### New Structured Data (e.g., "skills")
 
-1. Create data file:
+1. Create data file in `src/data/content/` (editorial) or `src/data/sources/` (reference/lookup):
    ```typescript
-   // src/data/skills.ts
+   // src/data/content/skills.ts
    export interface Skill {
      name: string;
      category: string;
@@ -196,10 +198,16 @@ export default function AboutPage() {
    export const skills: Skill[] = [...];
    ```
 
-2. Create MDX component:
+2. Export from `src/data/index.ts`:
+   ```typescript
+   export { skills } from './content/skills';
+   export type { Skill } from './content/skills';
+   ```
+
+3. Create MDX component:
    ```typescript
    // src/components/mdx/SkillsSection.tsx
-   import { skills } from '@/data/skills';
+   import { skills } from '@/data';
 
    export default function SkillsSection() {
      return <div>{/* render skills */}</div>;
@@ -291,4 +299,4 @@ export default function AboutPage() {
 
 ---
 
-**Last Updated:** February 10, 2026
+**Last Updated:** February 12, 2026

@@ -85,7 +85,7 @@ app/
 - **Location:** `content/` with organized taxonomy
 - **Structure:** Hierarchical folders by content type (work, writing, experiments, reading, pages)
 - **Processing:** gray-matter parses frontmatter + MDX content via next-mdx-remote
-- **Structured Data:** TypeScript files in `src/data/` (experience, workflow)
+- **Structured Data:** TypeScript in `src/data/` — sources (reference data), content (editorial), resolvers (lookup logic), derived (routes, navigation). See [src/data/README.md](src/data/README.md)
 - **Rendering:** MDX components import and render structured data
 - **Architecture:** See [docs/CONTENT_ARCHITECTURE.md](docs/CONTENT_ARCHITECTURE.md)
 
@@ -152,11 +152,19 @@ portfolio/
 │       ├── work/                # Work-related images
 │       ├── experiments/         # Experiment images
 │       └── writing/             # Writing images
+├── data/
+│   ├── sources/                 # Raw reference data (companies, contentTypes, etc.)
+│   ├── content/                 # Editorial (profile, experience, workflow)
+│   ├── resolvers/               # Lookup logic (getCompany, getContentType, etc.)
+│   ├── derived/                 # Computed (routes, navigation)
+│   └── index.ts                 # Public API
 ├── lib/
-│   ├── contentlayer.ts          # Content utilities
+│   ├── contentLoader.ts         # Content utilities
 │   ├── seo.ts                   # SEO utilities
 │   ├── serverPasswordAuth.ts    # Password validation
 │   └── mdx.ts                   # MDX utilities
+├── config/
+│   └── passwords.ts             # Auth cookie config
 ├── actions/
 │   └── authActions.ts           # Server actions for auth
 ├── scripts/
@@ -505,18 +513,20 @@ npm run lint                     # Lint codebase
 
 ### Key Files
 - `app/page.tsx` - Home page
-- `app/[slug]/page.tsx` - Case study template
-- `content/case-studies/*.mdx` - Case study content
+- `app/work/[slug]/page.tsx` - Case study template
+- `content/work/case-studies/*.mdx` - Case study content
+- `data/index.ts` - Data layer public API (sources, resolvers, derived)
 - `lib/serverPasswordAuth.ts` - Password validation
 - `.env.local` - Local environment variables (NOT committed)
 
 ### Key Directories
 - `.claude/agents/` - AI optimization agents
-- `content/case-studies/` - MDX case studies
-- `public/images/case-studies/` - Case study images
+- `data/` - Reference data, editorial content, lookup logic (see data/README.md)
+- `content/work/case-studies/` - MDX case studies
+- `public/images/work/` - Case study images
 - `docs/` - Detailed documentation
 
 ---
 
-**Last Updated:** November 13, 2025
+**Last Updated:** February 12, 2026
 **Maintained by:** Nicolás Botero + Claude Code

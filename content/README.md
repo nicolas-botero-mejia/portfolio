@@ -63,7 +63,7 @@ title: "Ocean — Global CPaaS Platform"
 description: "Short description for listings (150-160 chars)"
 type: "case-study"
 subtitle: "SaaS Product Design & Scaling"
-company: "routemobile"         # Company slug (see src/data/companies.ts)
+company: "routemobile"         # Company slug (see src/data/ — COMPANY_SLUGS in sources/companies)
 role: "Lead Product Designer"
 year: "2021-2024"
 duration: "3 years"
@@ -267,4 +267,4 @@ All content can use design system components (coming soon):
 
 ---
 
-**Last Updated:** February 9, 2026
+**Last Updated:** February 12, 2026

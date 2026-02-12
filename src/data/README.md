@@ -7,7 +7,7 @@ Separation of data sources and the logic that processes them.
 | Layer | Purpose | Contains |
 |-------|---------|----------|
 | **sources/** | Raw reference data | Arrays, objects, `*_SLUGS` constants, interfaces. No functions. |
-| **content/** | Editorial content | profile, experience, workflow |
+| **content/** | Editorial content | profile (bio, contact), experience (work history), workflow (phases, principles) |
 | **resolvers/** | Lookup and transformation | `get*` functions that resolve slugs to entities or labels |
 | **derived/** | Computed from sources | routes, navigation (built at module load) |
 
@@ -32,5 +32,5 @@ sources (data)  →  resolvers (logic)  →  consumers
 ## Adding new data
 
 1. **Reference data** (slug → entity) → `sources/[domain].ts` + `resolvers/[domain].ts`
-2. **Editorial content** → `content/[name].ts`
+2. **Editorial content** → `content/[name].ts` (profile, experience, workflow—changes when you update your story)
 3. **Computed config** → `derived/[name].ts`

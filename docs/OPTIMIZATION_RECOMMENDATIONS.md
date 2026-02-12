@@ -224,50 +224,12 @@ import { mainNavigation, socialLinks } from '@/config/navigation';
 
 ---
 
-#### Issue 1.4: Unused Configuration File (Priority: Low)
+#### Issue 1.4: Unused Configuration File (Priority: Low) — IMPLEMENTED
 **Location:** `src/config/passwords.ts`
 
-**Problem:**
-File only contains documentation comments and a constant that's never imported or used.
-
-**Current Code:**
-```tsx
-// Entire file is just documentation + one unused constant
-export const PASSWORD_CONFIG_INFO = {
-  description: 'Server-side password protection for case studies',
-  cookiePrefix: 'cs_auth_',
-  cookieMaxAge: 60 * 60 * 24 * 7,
-} as const;
-```
-
-**Recommendation:**
-Either use the constants or delete the file.
-
-**Option A: Use the constants (Preferred)**
-```tsx
-// src/config/passwords.ts
-export const PASSWORD_CONFIG = {
-  cookiePrefix: 'cs_auth_',
-  cookieMaxAge: 60 * 60 * 24 * 7, // 7 days
-} as const;
-
-// src/lib/serverPasswordAuth.ts
-import { PASSWORD_CONFIG } from '@/config/passwords';
-
-const COOKIE_PREFIX = PASSWORD_CONFIG.cookiePrefix;
-const COOKIE_MAX_AGE = PASSWORD_CONFIG.cookieMaxAge;
-```
-
-**Option B: Delete the file**
-```bash
-rm src/config/passwords.ts
-```
-
-**Impact:**
-- Removes unused code
-- Or centralizes password configuration
-
-**Effort:** 2 minutes
+**Status:** Resolved. Auth cookie constants are now used by `serverPasswordAuth.ts`:
+- `AUTH_COOKIE_PREFIX` and `AUTH_COOKIE_MAX_AGE` exported from `src/config/passwords.ts`
+- `lib/serverPasswordAuth.ts` imports and uses them for cookie names and max age
 
 ---
 
