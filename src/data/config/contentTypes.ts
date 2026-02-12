@@ -79,6 +79,7 @@ export const contentTypes: ContentType[] = [
     subTypes: [
       { slug: 'about', label: 'About', path: 'pages/about', route: '/about' },
       { slug: 'uses', label: 'Uses', path: 'pages/uses', route: '/uses' },
+      { slug: 'colophon', label: 'Colophon', path: 'pages/colophon', route: '/colophon' },
     ],
   },
 ];

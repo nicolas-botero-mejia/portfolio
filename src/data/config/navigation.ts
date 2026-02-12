@@ -20,6 +20,7 @@ const navConfig: { slug: string; visible: boolean }[] = [
   { slug: 'pages.about', visible: true },
   { slug: 'now', visible: true },
   { slug: 'pages.uses', visible: true },
+  { slug: 'pages.colophon', visible: true },
 ];
 
 /** Build navigation from contentTypes - single source of truth */

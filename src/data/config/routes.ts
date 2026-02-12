@@ -27,6 +27,7 @@ export const routes = {
   about: pageRoute('about'),
   now: routeFor('now'),
   uses: pageRoute('uses'),
+  colophon: pageRoute('colophon'),
 } as const;
 
 export type RouteKey = keyof typeof routes;
