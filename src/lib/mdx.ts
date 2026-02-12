@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { cache } from 'react';
 import matter from 'gray-matter';
 import { getContentSubType, getContentType } from '@/data';
 
@@ -7,6 +8,14 @@ const contentDirectory = path.join(process.cwd(), 'content');
 
 // ============================================================================
 // GENERIC HELPERS - single implementation for all content types
+//
+// Optimizations applied:
+// - cache(): Request-level deduplication (React) - multiple calls in same request
+//   return cached result; avoids redundant filesystem reads
+// - parseInt(_, 10): Explicit radix prevents octal/hex parsing edge cases
+// - ENOENT/ENOTDIR in catch: Only swallow file-not-found; rethrow read/permission errors
+// - sortByDateOrYear reuse: Single comparator for getAllWork instead of duplicate logic
+// - ContentItem<F> type aliases: CaseStudy/Page/NowEntry avoid duplicating shape
 // ============================================================================
 
 export interface ContentItem<F = unknown> {
@@ -39,8 +48,10 @@ function getItemBySlugFromPath<F>(contentPath: string, slug: string): ContentIte
     const filePath = path.join(contentDirectory, contentPath, `${slug}.mdx`);
     const { data, content } = matter(fs.readFileSync(filePath, 'utf8'));
     return { slug, frontmatter: data as F, content };
-  } catch {
-    return null;
+  } catch (err) {
+    const code = (err as NodeJS.ErrnoException)?.code;
+    if (code === 'ENOENT' || code === 'ENOTDIR') return null;
+    throw err;
   }
 }
 
@@ -68,7 +79,7 @@ function getContentPath(parentSlug: string, subSlug?: string): string {
 
 // Sort comparators (F = frontmatter type, ContentItem<F>.frontmatter has shape F)
 const sortByYearDesc = (a: ContentItem<{ year?: string }>, b: ContentItem<{ year?: string }>) =>
-  parseInt(b.frontmatter.year ?? '0') - parseInt(a.frontmatter.year ?? '0');
+  parseInt(b.frontmatter.year ?? '0', 10) - parseInt(a.frontmatter.year ?? '0', 10);
 
 const sortByDateDesc = (a: ContentItem<{ date?: string }>, b: ContentItem<{ date?: string }>) =>
   new Date(b.frontmatter.date ?? 0).getTime() - new Date(a.frontmatter.date ?? 0).getTime();
@@ -80,7 +91,7 @@ const sortByDateOrYear = (
   if (a.frontmatter.date && b.frontmatter.date) {
     return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
   }
-  return parseInt(b.frontmatter.year ?? '0') - parseInt(a.frontmatter.year ?? '0');
+  return parseInt(b.frontmatter.year ?? '0', 10) - parseInt(a.frontmatter.year ?? '0', 10);
 };
 
 // ============================================================================
@@ -111,21 +122,17 @@ export interface CaseStudyFrontmatter {
   locked?: boolean;  // Optional: Whether this case study requires password
 }
 
-export interface CaseStudy {
-  slug: string;
-  frontmatter: CaseStudyFrontmatter;
-  content: string;
-}
+export type CaseStudy = ContentItem<CaseStudyFrontmatter>;
 
 const CASE_STUDIES_PATH = getContentPath('work', 'case-studies');
 
-export function getCaseStudies(): CaseStudy[] {
-  return getItemsFromPath<CaseStudyFrontmatter>(CASE_STUDIES_PATH, sortByYearDesc);
-}
+export const getCaseStudies = cache((): CaseStudy[] =>
+  getItemsFromPath<CaseStudyFrontmatter>(CASE_STUDIES_PATH, sortByYearDesc)
+);
 
-export function getCaseStudyBySlug(slug: string): CaseStudy | null {
-  return getItemBySlugFromPath<CaseStudyFrontmatter>(CASE_STUDIES_PATH, slug);
-}
+export const getCaseStudyBySlug = cache((slug: string): CaseStudy | null =>
+  getItemBySlugFromPath<CaseStudyFrontmatter>(CASE_STUDIES_PATH, slug)
+);
 
 export function getFeaturedCaseStudies(): CaseStudy[] {
   return getFeaturedFromItems(getCaseStudies());
@@ -146,13 +153,13 @@ export function getAdjacentCaseStudies(currentSlug: string): AdjacentContent {
 
 const FEATURES_PATH = getContentPath('work', 'features');
 
-export function getFeatures(): CaseStudy[] {
-  return getItemsFromPath<CaseStudyFrontmatter>(FEATURES_PATH, sortByDateOrYear);
-}
+export const getFeatures = cache((): CaseStudy[] =>
+  getItemsFromPath<CaseStudyFrontmatter>(FEATURES_PATH, sortByDateOrYear)
+);
 
-export function getFeatureBySlug(slug: string): CaseStudy | null {
-  return getItemBySlugFromPath<CaseStudyFrontmatter>(FEATURES_PATH, slug);
-}
+export const getFeatureBySlug = cache((slug: string): CaseStudy | null =>
+  getItemBySlugFromPath<CaseStudyFrontmatter>(FEATURES_PATH, slug)
+);
 
 export function getAdjacentFeatures(currentSlug: string): AdjacentContent {
   return getAdjacentFromItems(getFeatures(), currentSlug) as AdjacentContent;
@@ -166,18 +173,11 @@ export function getFeaturedFeatures(): CaseStudy[] {
 // WORK - All (combined case studies + features)
 // ============================================================================
 
-export function getAllWork(): CaseStudy[] {
+export const getAllWork = cache((): CaseStudy[] => {
   const caseStudies = getCaseStudies();
   const features = getFeatures();
-  const combined = [...caseStudies, ...features];
-
-  return combined.sort((a, b) => {
-    if (a.frontmatter.date && b.frontmatter.date) {
-      return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
-    }
-    return parseInt(b.frontmatter.year ?? '0') - parseInt(a.frontmatter.year ?? '0');
-  });
-}
+  return [...caseStudies, ...features].sort(sortByDateOrYear);
+});
 
 // ============================================================================
 // PAGES (about, uses, colophon)
@@ -194,17 +194,13 @@ export interface PageFrontmatter {
   };
 }
 
-export interface Page {
-  slug: string;
-  frontmatter: PageFrontmatter;
-  content: string;
-}
+export type Page = ContentItem<PageFrontmatter>;
 
 const PAGES_PATH = getContentPath('pages');
 
-export function getPageBySlug(slug: string): Page | null {
-  return getItemBySlugFromPath<PageFrontmatter>(PAGES_PATH, slug);
-}
+export const getPageBySlug = cache((slug: string): Page | null =>
+  getItemBySlugFromPath<PageFrontmatter>(PAGES_PATH, slug)
+);
 
 // ============================================================================
 // NOW (dated snapshots)
@@ -221,25 +217,21 @@ export interface NowEntryFrontmatter {
   };
 }
 
-export interface NowEntry {
-  slug: string;
-  frontmatter: NowEntryFrontmatter;
-  content: string;
-}
+export type NowEntry = ContentItem<NowEntryFrontmatter>;
 
 const NOW_PATH = getContentPath('now');
 
-export function getNowEntries(): NowEntry[] {
-  return getItemsFromPath<NowEntryFrontmatter>(NOW_PATH, sortByDateDesc);
-}
+export const getNowEntries = cache((): NowEntry[] =>
+  getItemsFromPath<NowEntryFrontmatter>(NOW_PATH, sortByDateDesc)
+);
 
 export function getLatestNow(): NowEntry | null {
   return getNowEntries()[0] ?? null;
 }
 
-export function getNowBySlug(slug: string): NowEntry | null {
-  return getItemBySlugFromPath<NowEntryFrontmatter>(NOW_PATH, slug);
-}
+export const getNowBySlug = cache((slug: string): NowEntry | null =>
+  getItemBySlugFromPath<NowEntryFrontmatter>(NOW_PATH, slug)
+);
 
 // ============================================================================
 // Adding new content types
