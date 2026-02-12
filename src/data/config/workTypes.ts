@@ -15,6 +15,14 @@ export const workTypes: WorkType[] = [
   { slug: 'design-system', label: 'Design System' },
 ];
 
+export const WORK_TYPE_SLUGS = {
+  CASE_STUDY: 'case-study',
+  FEATURE: 'feature',
+  SIDE_PROJECT: 'side-project',
+  PLATFORM_DESIGN: 'platform-design',
+  DESIGN_SYSTEM: 'design-system',
+} as const;
+
 export function getWorkTypeLabel(slug: string): string {
   const wt = workTypes.find((t) => t.slug === slug);
   return wt?.label ?? slug;

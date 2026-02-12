@@ -15,6 +15,12 @@ export const readingStatuses: ReadingStatus[] = [
   { slug: 'to-read', label: 'TO READ', badgeVariant: 'neutral' },
 ];
 
+export const READING_STATUS_SLUGS = {
+  READ: 'read',
+  READING: 'reading',
+  TO_READ: 'to-read',
+} as const;
+
 export function getReadingStatus(slug: string): ReadingStatus | undefined {
   return readingStatuses.find((s) => s.slug === slug);
 }

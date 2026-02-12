@@ -9,7 +9,7 @@ interface NavigationItem {
 interface ContentNavigationProps {
   prev: NavigationItem | null;
   next: NavigationItem | null;
-  basePath?: string; // e.g., routes.work or getRoute(SLUGS.WORK, SLUGS.WORK_CASE_STUDIES)
+  basePath?: string; // e.g., routes.work or getRoute(CONTENT_SLUGS.WORK, CONTENT_SLUGS.WORK_CASE_STUDIES)
 }
 
 export default function ContentNavigation({ prev, next, basePath = routes.work }: ContentNavigationProps) {

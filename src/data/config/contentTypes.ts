@@ -130,4 +130,4 @@ function buildSlugs(): Record<string, string> {
   return result;
 }
 
-export const SLUGS = buildSlugs() as Readonly<Record<string, string>>;
+export const CONTENT_SLUGS = buildSlugs() as Readonly<Record<string, string>>;

@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { getCaseStudyBySlug } from '@/lib/mdx';
 import { validatePassword, setAuthCookie } from '@/lib/serverPasswordAuth';
 import { logError } from '@/lib/errors';
-import { getRoute, SLUGS } from '@/data';
+import { getRoute, CONTENT_SLUGS } from '@/data';
 
 export interface AuthResult {
   success: boolean;
@@ -44,7 +44,7 @@ export async function authenticateCaseStudy(
     await setAuthCookie(slug);
 
     // Revalidate the case study page to show the authenticated content
-    revalidatePath(getRoute(SLUGS.WORK, undefined, slug));
+    revalidatePath(getRoute(CONTENT_SLUGS.WORK, undefined, slug));
 
     return {
       success: true,

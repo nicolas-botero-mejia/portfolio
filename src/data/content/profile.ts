@@ -1,3 +1,5 @@
+import { COMPANY_SLUGS } from '../config/companies';
+
 export interface ProfileData {
   name: string;
   title: string;
@@ -21,7 +23,7 @@ export const profile: ProfileData = {
     'I work on system-level product design problems: unifying fragmented SaaS platforms, scaling design and delivery infrastructure, and integrating AI in ways that enhance human judgment.',
     'My focus is on building durable foundations that allow teams and products to evolve without losing clarity.',
   ],
-  companySlugs: ['sainapsis', 'masiv', 'payu-latam'],
+  companySlugs: [COMPANY_SLUGS.SAINAPSIS, COMPANY_SLUGS.MASIV, COMPANY_SLUGS.PAYU_LATAM],
   contact: {
     email: 'n.boterom@gmail.com',
     linkedin: 'nicolas-botero',

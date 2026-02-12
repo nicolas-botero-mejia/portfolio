@@ -1,10 +1,10 @@
 import { getPageBySlug } from '@/lib/mdx';
 import MDXRenderer from '@/components/MDXRenderer';
 import { notFound } from 'next/navigation';
-import { SLUGS } from '@/data';
+import { CONTENT_SLUGS } from '@/data';
 
 export default function UsesPage() {
-  const page = getPageBySlug(SLUGS.USES);
+  const page = getPageBySlug(CONTENT_SLUGS.USES);
 
   if (!page) {
     notFound();

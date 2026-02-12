@@ -16,6 +16,13 @@ export const companies: Company[] = [
   { slug: 'payu-latam', name: 'PayU Latam', url: 'https://corporate.payu.com/colombia/' },
 ];
 
+export const COMPANY_SLUGS = {
+  SAINAPSIS: 'sainapsis',
+  ROUTEMOBILE: 'routemobile',
+  MASIV: 'masiv',
+  PAYU_LATAM: 'payu-latam',
+} as const;
+
 export function getCompany(slug: string): Company | undefined {
   const normalized = slug.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
   return companies.find(
