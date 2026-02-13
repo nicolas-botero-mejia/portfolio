@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "tokens:generate": "tsx scripts/generateTokens.ts",
+    "tokens:import": "tsx scripts/importFigmaTokens.ts",
     "postinstall": "npm run tokens:generate",
     "prebuild": "npm run tokens:generate",
     "dev": "next dev",

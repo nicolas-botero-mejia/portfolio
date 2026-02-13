@@ -141,7 +141,7 @@ Pitfalls and patterns from Figma Forum, Dev.to, Discord, and blogs—not just of
 - **loadFontAsync + closePlugin:** Do not call `figma.closePlugin()` before `loadFontAsync` (and any dependent work) completes. Closing the plugin can leave the promise hanging indefinitely. Await all async work, then close. [Forum: loadFontAsync stuck](https://forum.figma.com/report-a-problem-6/loadfontasync-stuck-indefinitely-43195), [How to properly load fonts](https://forum.figma.com/archive-21/how-to-properly-load-fonts-via-figma-loadfontasync-24488).
 - **Loading multiple fonts:** Avoid calling `loadFontAsync` in a loop; use `Promise.all(...fonts.map(figma.loadFontAsync))` so loads run concurrently and avoid unnecessary event-loop round-trips.
 - **addComponentProperty not registering:** Multiple Forum reports: properties sometimes don’t show up (`componentPropertyDefinitions` stays empty) even with correct structure. Workarounds to try: ensure the node is the main component (not an instance), run with that component selected, or create the property from a nested text layer. [Forum: addComponentProperty not registering](https://forum.figma.com/report-a-problem-6/figma-plugin-api-addcomponentproperty-not-registering-properties-on-components-43076).
-- **Text ↔ component property binding:** The API way to link text to a component property is `textNode.componentPropertyReferences = { characters: propertyName }`. You can’t bind both a variable and a component property to the same text field. [Forum: Link TextNode to component property](https://forum.figma.com/ask-the-community-7/plugin-api-link-textnode-characters-to-component-property-29614).
+- **Text ↔ component property binding:** The API way to link text to a component property is `textNode.componentPropertyReferences = { characters: propertyName }`. You can’t bind both a variable and a component property to the **same** text field. **They can coexist on different fields:** e.g. `label` drives `characters`; `fontSize`, `fontFamily`, `fontWeight` stay bound to variables. Badge, Button, Tabs, Tooltip use both. [Forum: Link TextNode to component property](https://forum.figma.com/ask-the-community-7/plugin-api-link-textnode-characters-to-component-property-29614).
 - **Network requests from plugins:** Plugin iframes have a null origin; fetch only works to endpoints that allow `Access-Control-Allow-Origin: *` (or your plugin). Declare domains in `manifest.json` under `networkAccess` for production.
 - **Asking for help:** Forum and Discord responses are better when you include full error messages, minimal code snippets, and reproducible steps.
 
@@ -168,29 +168,86 @@ Pitfalls and patterns from Figma Forum, Dev.to, Discord, and blogs—not just of
 
 **Current state:** Tokens live in code (`primitiveTokens.ts`, `semanticTokens.ts`); we push to Figma. One direction.
 
-**Goal:** Tokens as source of truth that can **incorporate** from multiple sources—including Figma—not just from code.
+**Goal:** Code remains the source of truth, but you can design in Figma and add tokens there for speed, then import into code. Bidirectional with clear conflict rules.
 
-### Options to consider
+### Conflict resolution (canonical)
+
+| Direction | When conflict | Rule |
+|-----------|--------------|------|
+| **Push (code → Figma)** | Token already exists in Figma | **Code wins** — overwrite Figma with code value |
+| **Import (Figma → code)** | Token already exists in code | **Ask user** — "Update (replace code value) or Discard (keep code value)" |
+| **Import** | New token in Figma, not in code | Add to canonical sources (or staging for review) |
+| **fontFamily** | Always | Use `FIGMA_FONT_FAMILY_MAP` for Figma; source keeps CSS stacks |
+
+### Staging
+
+**Staging** = a temporary holding area for data while you decide what to do with it. In this context:
+- Raw Figma export (e.g. `figma-export.json`) = staging until merge runs.
+- During import conflicts, the incoming Figma value is "staged" until you choose Update or Discard.
+
+Staging files are intermediate; they are not the source of truth. Final state lives in `primitiveTokens.ts`, `semanticTokens.ts`, or a generated override file that the pipeline merges.
+
+### Resolvers and token pipeline
+
+`src/data/resolvers/tokens.ts` currently handles **export** and **transformation** (code → Figma format, code → CSS). To support import and the full round-trip:
+
+- **Repurpose/expand** the resolver (or introduce a token pipeline) to handle:
+  - **Export:** `getTokensForFigma()`, `getTokensForCSS()` (existing)
+  - **Import:** consume Figma export, merge with sources, apply conflict rules
+  - **Transform:** path mapping (Figma ↔ code), `FIGMA_FONT_FAMILY_MAP`
+
+Either rename to reflect the broader role (e.g. "token pipeline") or keep `resolvers/tokens.ts` and add `mergeFromFigma()` (or similar). The import script in `scripts/` would call into this layer.
+
+### Figma ↔ Code mapping
+
+| Figma | Code |
+|-------|------|
+| **Primitives** collection | `primitiveTokens.ts` (colors, spacing, typography, radii, border) |
+| **Semantics** collection | `semanticTokens.ts` (themes.light, themes.dark) |
+| Variable name `colors/gray/50` | `colors.gray[50]` |
+| Variable name `spacing/4` | `spacing[4]` |
+| Variable name `spacing/0-5` | `spacing[0.5]` |
+| Variable name `typography/fontSize/sm` | `typography.fontSize.sm` |
+| Variable name `typography/fontWeight/medium` | `typography.fontWeight.medium` |
+| Variable name `typography/fontFamily/sans` | `typography.fontFamily.sans` (value: CSS stack in code; Inter in Figma via map) |
+| Mode **Light** | `themes.light` |
+| Mode **Dark** | `themes.dark` |
+| Alias `{ type: 'VARIABLE_ALIAS', id }` | Semantic references primitive (e.g. `background/primary` → `colors.gray[900]`) |
+
+Path convention: Figma uses `/`; code uses `.` in paths and `[key]` for numeric keys. Transform: `colors/gray/50` ↔ `colors.gray.50`.
+
+### When and how import runs
+
+| Aspect | Recommendation |
+|--------|----------------|
+| **Trigger** | Manual: `npm run tokens:import` (or `tokens:import-figma`) |
+| **Steps** | 1) Run extract script in Figma (plugin / evaluate_script) → outputs JSON; 2) Run import script locally → reads JSON, merges, prompts for conflicts |
+| **CI** | Optional: add a check job that diffs code tokens vs last Figma export to catch drift; do not auto-merge in CI |
+| **Credentials** | Extract runs in-browser (user logged into Figma); no server-side Figma API key needed for plugin-based extract |
+| **Output location** | Staging: `scripts/figma-export.json` (or `.ts`); merged result: see Output format below |
+
+### Output format
+
+**Recommendation: TypeScript** for consistency with the codebase.
+
+- **Figma extract** → JSON (interchange format from plugin).
+- **Import pipeline** → reads JSON, merges, outputs **TS** (e.g. `src/data/sources/figmaImport.ts` or `figmaOverrides.ts`).
+- **Why TS:** Sources are TS; resolvers import from them. A generated `.ts` file can export the same shapes (`Record<string, string>`, etc.) and be consumed like `primitiveTokens`. Keeps types intact and avoids a separate JSON loader.
+- **Structure:** Generated file exports `figmaPrimitives` and/or `figmaSemantics`; the main token barrel or resolver merges code + Figma imports. Hand-written sources stay untouched; Figma additions live in a generated file.
+
+### Options to consider (reference)
 
 | Approach | Pros | Cons |
 |----------|------|------|
-| **Import script** | Run periodically; pull Figma variables via plugin API or REST; output to a staging file (e.g. `figma-import.json`) for review | Need conflict resolution; Figma structure differs from our primitives/semantics |
-| **Merge layer** | Keep code tokens as canonical; add an "imports" step that merges new/updated values from Figma into the token files (or a generated override file) | Merge logic; deciding who wins on conflicts |
-| **Figma as input, code as curator** | Designer adds variables in Figma → import script extracts → human or script merges into `primitiveTokens` / `semanticTokens` | Manual or semi-manual curation step |
-| **DTCG + Style Dictionary** | Use Design Tokens Community Group format as interchange; Style Dictionary transforms Figma export → our structure | Adds tooling; Figma export format may need adaptation |
+| **Import script** | Run on demand; pull via plugin API; output to staging for review | Conflict resolution; structure mapping |
+| **DTCG + Style Dictionary** | Standard interchange format | Extra tooling; format adaptation |
 
-### Recommended next steps
+### Recommended implementation order
 
-1. **Extract script (plugin API):** Write a script run via `evaluate_script` that walks `figma.variables.getLocalVariableCollections()`, reads variable names and values, and outputs JSON. This becomes the "Figma export" format.
-2. **Import pipeline:** Create `scripts/importFigmaTokens.ts` (or similar) that consumes that JSON and merges into token sources. Define rules: e.g. "new keys → add; existing keys → code wins unless explicitly marked as Figma override."
-3. **Namespace:** Consider `figma/` or `imported/` prefix for tokens that originate from Figma, so they're distinguishable from hand-written tokens.
-4. **Components:** Pulling component structure (variants, props) from Figma is heavier; start with variables, then design component spec extraction if needed.
-
-### Conflict resolution (draft)
-
-- **New token in Figma, not in code:** Add to `primitiveTokens` or `semanticTokens` (or staging file for review).
-- **Same path, different value:** Code wins by default; or support an override file (e.g. `tokenOverrides.json`) that Figma import can populate for explicit overrides.
-- **fontFamily:** Always use `FIGMA_FONT_FAMILY_MAP` for Figma-bound values; source keeps CSS stacks.
+1. **Extract script** (plugin API): walk `figma.variables.getLocalVariableCollections()`, output JSON.
+2. **Import script** (`scripts/importFigmaTokens.ts`): read JSON, map to code structure, prompt for conflicts, write `figmaImport.ts` (or merge into staging).
+3. **Resolver expansion:** add `mergeFromFigma()` or equivalent; token consumption merges code + figmaImport.
+4. **Components:** defer; start with variables.
 
 ---
 
