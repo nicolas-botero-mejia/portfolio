@@ -13,12 +13,13 @@ export type { TagGroup } from './sources/tags';
 export {
   colors,
   semanticColors,
+  themes,
   spacing,
   typography,
   radii,
   border,
 } from './sources/tokens';
-export type { TokenCollection } from './sources/tokens';
+export type { TokenCollection, SemanticTheme } from './sources/tokens';
 
 // Resolvers - lookup and transformation logic
 export { getCompany, getCompanyName } from './resolvers/companies';
@@ -32,7 +33,7 @@ export { getReadingStatus } from './resolvers/readingStatuses';
 export { getWorkTypeLabel } from './resolvers/workTypes';
 export { allTags, isValidTag } from './resolvers/tags';
 export { getTokensForFigma, getTokensForCSS } from './resolvers/tokens';
-export type { CSSTokens } from './resolvers/tokens';
+export type { CSSTokens, CSSThemeOutput } from './resolvers/tokens';
 
 // Derived - computed from sources
 export { navigation } from './derived/navigation';

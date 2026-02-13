@@ -1,8 +1,17 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { trackEvent } from '@/lib/analytics';
 import { getRoute, getCompanyName, getWorkTypeLabel, CONTENT_SLUGS } from '@/data';
+import {
+  Badge,
+  Card,
+  CardContent,
+  CardDescription,
+  CardMeta,
+  CardTitle,
+} from '@/components/ui';
 
 interface WorkItem {
   slug: string;
@@ -14,6 +23,7 @@ interface WorkItem {
     type: string;
     subtitle?: string;
     company: string;
+    heroImage: string;
     tags?: string[];
     date?: string;
   };
@@ -22,6 +32,23 @@ interface WorkItem {
 interface WorkClientProps {
   allWork: WorkItem[];
 }
+
+// Page layout — primitive scale
+const PAGE_LAYOUT = 'bg-background-surface';
+const SECTION_LAYOUT = 'px-8 py-16 lg:px-16 lg:py-24';
+const HEADER_LAYOUT = 'mb-12';
+const TITLE_LAYOUT = 'text-4xl font-bold mb-4 text-content-primary';
+const SUBTITLE_LAYOUT = 'text-lg text-content-muted';
+const EMPTY_STATE = 'text-content-muted';
+
+// Grid layout
+const GRID_LAYOUT = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6';
+
+// Card content — badge pill variant
+const BADGE_STYLES = 'rounded-full border-0 px-3 py-1';
+const CARD_TITLE_STYLES = 'text-2xl group-hover:text-content-muted transition-colors';
+const ARROW_STYLES = 'text-content-muted group-hover:text-content-secondary transition-colors text-2xl';
+const TAG_STYLES = 'text-xs text-content-muted';
 
 export default function WorkClient({ allWork }: WorkClientProps) {
   const handleWorkCardClick = (slug: string, title: string, position: number) => {
@@ -32,85 +59,81 @@ export default function WorkClient({ allWork }: WorkClientProps) {
   };
 
   return (
-    <div className="bg-white">
-      <section className="px-8 py-16 lg:px-16 lg:py-24">
-        <div className="max-w-5xl">
-          {/* Header */}
-          <div className="mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Work</h1>
-            <p className="text-lg text-gray-600">
+    <div className={PAGE_LAYOUT}>
+      <section className={SECTION_LAYOUT}>
+        <div className="max-w-6xl">
+          <div className={HEADER_LAYOUT}>
+            <h1 className={TITLE_LAYOUT}>Work</h1>
+            <p className={SUBTITLE_LAYOUT}>
               Case studies, product features, and projects with measurable impact
             </p>
           </div>
 
-          {/* Filters/Tabs - Phase 2 */}
-          {/* TODO: Add filtering by type (all, case-studies, features, side-projects) */}
-          {/* TODO: Add "Load More" or pagination when you have 10+ items */}
-
-          {/* Content Grid */}
-          <div className="space-y-8">
-            {allWork.length === 0 ? (
-              <p className="text-gray-500">No work items found.</p>
-            ) : (
-              allWork.map((item, index) => (
+          {allWork.length === 0 ? (
+            <p className={EMPTY_STATE}>No work items found.</p>
+          ) : (
+            <div className={GRID_LAYOUT}>
+              {allWork.map((item, index) => (
                 <Link
                   key={item.slug}
                   href={getRoute(CONTENT_SLUGS.WORK, undefined, item.slug)}
-                  className="group block border-b border-gray-200 pb-8 transition-all hover:border-gray-400"
+                  className="block"
                   onClick={() => handleWorkCardClick(item.slug, item.frontmatter.title, index)}
                 >
-                  <div className="flex items-start justify-between gap-6">
-                    <div className="flex-1">
-                      {/* Type / Subtitle Badge */}
-                      <div className="mb-2">
-                        <span className="inline-block rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">
-                          {item.frontmatter.subtitle ?? getWorkTypeLabel(item.frontmatter.type)}
-                        </span>
-                      </div>
-
-                      {/* Title */}
-                      <h2 className="text-2xl font-semibold text-gray-900 mb-3 group-hover:text-gray-600 transition-colors">
-                        {item.frontmatter.title}
-                      </h2>
-
-                      {/* Description */}
-                      <p className="text-gray-600 mb-4">
-                        {item.frontmatter.description}
-                      </p>
-
-                      {/* Meta */}
-                      <div className="flex flex-wrap gap-3 text-sm text-gray-500">
-                        <span className="font-medium text-gray-700">{getCompanyName(item.frontmatter.company)}</span>
-                        <span>•</span>
-                        <span>{item.frontmatter.role}</span>
-                        <span>•</span>
-                        <span>{item.frontmatter.year}</span>
-                      </div>
-
-                      {/* Tags */}
-                      {item.frontmatter.tags && item.frontmatter.tags.length > 0 && (
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          {item.frontmatter.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="text-xs text-gray-500"
-                            >
-                              #{tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Arrow */}
-                    <div className="text-gray-400 group-hover:text-gray-600 transition-colors text-2xl">
-                      →
-                    </div>
+                  <Card as="div" className="group flex flex-col overflow-hidden h-full">
+                  {/* Hero image */}
+                  <div className="relative w-full aspect-video overflow-hidden rounded-t-lg">
+                    <Image
+                      src={item.frontmatter.heroImage}
+                      alt=""
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover"
+                    />
                   </div>
-                </Link>
-              ))
-            )}
-          </div>
+
+                  <CardContent className="flex flex-1 flex-col">
+                    <div className="mb-3">
+                      <Badge variant="neutral" className={BADGE_STYLES}>
+                        {item.frontmatter.subtitle ?? getWorkTypeLabel(item.frontmatter.type)}
+                      </Badge>
+                    </div>
+
+                    <CardTitle as="h2" className={`${CARD_TITLE_STYLES} mb-2`}>
+                      {item.frontmatter.title}
+                    </CardTitle>
+
+                    <CardDescription className="mb-4 flex-1">
+                      {item.frontmatter.description}
+                    </CardDescription>
+
+                    <CardMeta className="flex flex-wrap gap-x-2 gap-y-0">
+                      <span className="font-medium text-content-secondary">
+                        {getCompanyName(item.frontmatter.company)}
+                      </span>
+                      <span aria-hidden>•</span>
+                      <span>{item.frontmatter.role}</span>
+                      <span aria-hidden>•</span>
+                      <span>{item.frontmatter.year}</span>
+                    </CardMeta>
+
+                    {item.frontmatter.tags && item.frontmatter.tags.length > 0 && (
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {item.frontmatter.tags.map((tag) => (
+                          <span key={tag} className={TAG_STYLES}>
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className={`mt-4 flex justify-end ${ARROW_STYLES}`}>→</div>
+                  </CardContent>
+                </Card>
+              </Link>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </div>

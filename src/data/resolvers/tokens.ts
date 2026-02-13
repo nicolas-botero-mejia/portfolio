@@ -4,7 +4,7 @@
  */
 
 import type { TokenCollection } from '../sources/tokens';
-import { colors, semanticColors, spacing, typography, radii, border } from '../sources/tokens';
+import { colors, themes, spacing, typography, radii, border } from '../sources/tokens';
 
 type FlattenOptions = {
   separator: string;
@@ -47,7 +47,7 @@ function toFigmaPath(key: string): string {
 }
 
 export function getTokensForFigma(): TokenCollection {
-  const colorSources = { ...colors, ...semanticColors };
+  const colorSources = { ...colors, ...themes.light };
   const colorVars = flattenObject<string>(colorSources, '', { separator: '/' });
   const figmaColors: Record<string, string> = {};
   for (const [k, v] of Object.entries(colorVars)) {
@@ -82,23 +82,38 @@ export interface CSSTokens {
   border: Record<string, number>;
 }
 
-export function getTokensForCSS(): CSSTokens {
-  const colorSources = { ...colors, ...semanticColors };
-  const colorVars = flattenObject<string>(colorSources, '', { separator: '-' });
+export interface CSSThemeOutput {
+  default: CSSTokens;
+  dark: { colors: Record<string, string> };
+}
+
+export function getTokensForCSS(): CSSThemeOutput {
+  const defaultColorSources = { ...colors, ...themes.light };
+  const defaultColorVars = flattenObject<string>(defaultColorSources, '', { separator: '-' });
+  const darkSemanticFlat = flattenObject<string>(themes.dark, '', { separator: '-' });
+  const darkColorVars = Object.fromEntries(
+    Object.entries(darkSemanticFlat).map(([k, v]) => [toCssPath(k), v])
+  );
 
   const spacingFlat = flattenObject<number>(spacing, '', { separator: '-' });
   const radiiFlat = flattenObject<number>(radii, '', { separator: '-' });
   const borderFlat = flattenObject<number>(border, '', { separator: '-', stripKeys: ['width'] });
 
   return {
-    colors: Object.fromEntries(Object.entries(colorVars).map(([k, v]) => [toCssPath(k), v])),
-    // Preserve dots in spacing keys (e.g. 2.5) for Tailwind v4 --spacing-2.5 compatibility
-    spacing: { ...spacingFlat },
-    typography: {
-      fontSize: flattenObject<number>(typography.fontSize, '', { separator: '-' }),
-      fontWeight: flattenObject<number>(typography.fontWeight, '', { separator: '-' }),
+    default: {
+      colors: Object.fromEntries(
+        Object.entries(defaultColorVars).map(([k, v]) => [toCssPath(k), v])
+      ),
+      spacing: { ...spacingFlat },
+      typography: {
+        fontSize: flattenObject<number>(typography.fontSize, '', { separator: '-' }),
+        fontWeight: flattenObject<number>(typography.fontWeight, '', { separator: '-' }),
+      },
+      radii: Object.fromEntries(Object.entries(radiiFlat).map(([k, v]) => [toCssPath(k), v])),
+      border: Object.fromEntries(Object.entries(borderFlat).map(([k, v]) => [toCssPath(k), v])),
     },
-    radii: Object.fromEntries(Object.entries(radiiFlat).map(([k, v]) => [toCssPath(k), v])),
-    border: Object.fromEntries(Object.entries(borderFlat).map(([k, v]) => [toCssPath(k), v])),
+    dark: {
+      colors: darkColorVars,
+    },
   };
 }

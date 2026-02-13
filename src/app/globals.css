@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "./tokens.generated.css";
 
+/* Class-based dark mode: add .dark to html to activate */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme inline {
   --color-background: var(--color-background-surface);
   --color-foreground: var(--color-content-primary);
