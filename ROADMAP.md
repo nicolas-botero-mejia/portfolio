@@ -4,467 +4,274 @@
 **Launched:** December 2025  
 **Status:** In iteration
 
----
-
-## 📅 Timeline Overview
-
-- **Week 1-2:** Foundation (MVP)
-- **Week 3-4:** Content + SEO (Full Launch)
-- **Week 5:** Polish + Launch (Public)
-- **Ongoing:** Growth + Iteration
+**Current focus:** Content structure (Ocean/Bridge → features), quality (a11y, code cleanup), and infrastructure (testing, analytics, CI/CD). Phases 2 and 3 keep their own tasks; pick from the phase you’re working in.
 
 ---
 
-## 🎯 Phases & Milestones
+## Structure: Project > Milestone > Task > Subtask
 
-### Phase 1: Foundation - MVP Launch
+| Level | Meaning | In this roadmap |
+|-------|---------|-----------------|
+| **Project** | A defined body of work with an outcome | Each **Phase** (1, 2, 3, 4) |
+| **Milestone** | A delivery target or checkpoint | **Weekly objectives** (Week 1, Week 2, …) or, in Phase 4, focus areas (4.1, 4.2, …) |
+| **Task** | A concrete piece of work | Main bullets under a milestone |
+| **Subtask** | Smaller steps inside a task | Nested bullets |
 
-**Timeline:** Weeks 1-2 (Nov 11-24, 2025)
-**Goal:** Working portfolio with 3 case studies deployed to Vercel
+Phases stay separate: Phase 2 and Phase 3 are their own projects with their own milestones and tasks. We don’t mix them into Phase 4.
 
-#### Week 1: Setup + Content Migration
+---
 
-**Focus:** Infrastructure + Content
+## Timeline
+
+| When | What |
+|------|------|
+| Past | Phase 1 completed; Phases 2–3 in progress or to do |
+| Current | Phase 4 (Growth + iteration) plus any open work in Phase 2–3 |
+
+---
+
+## Project 1: Foundation – MVP
+
+**Project outcome:** MVP launched
+
+### Milestone: Week 1 – Setup + Content Migration
 
 **Tasks:**
+
 - [x] Initialize Next.js 16 project with TypeScript + Tailwind
 - [x] Install dependencies (gray-matter, next-mdx-remote, Zod, Framer Motion, next-seo)
 - [x] Configure MDX processing (gray-matter + next-mdx-remote)
 - [x] Set up project structure (components, content, lib, data)
-- [ ] Create 5 AI agents in `.claude/agents/`:
-  - [ ] SEO Optimizer Agent
-  - [ ] Content Auditor Agent
-  - [ ] Accessibility Checker Agent
-  - [ ] Performance Optimizer Agent
-  - [ ] Case Study Migrator Agent
-- [x] Migrate 3 case studies from Career Companion repo:
-  - [x] Sainapsis case study → `content/work/case-studies/sainapsis.mdx`
-  - [x] Ocean case study → `content/work/case-studies/ocean.mdx`
-  - [x] AquaDS case study → `content/work/case-studies/aquads.mdx`
-- [x] Add MDX frontmatter to each case study
+- [x] Create 5 AI agents in `.claude/agents/`:
+  - [x] SEO Optimizer Agent
+  - [x] Content Auditor Agent
+  - [x] Accessibility Checker Agent
+  - [x] Performance Optimizer Agent
+  - [x] Case Study Migrator Agent
+- [x] Migrate 3 case studies (Sainapsis, Ocean, AquaDS) and frontmatter
 - [x] Migrate home page content
-- [x] Create basic layout components:
-  - [x] Header component
-  - [x] Footer component
-  - [x] Navigation component
+- [x] Create basic layout components (Header, Footer, Navigation)
 - [x] Deploy to Vercel (staging)
 
-**Deliverable:** Deployed site with 3 case studies (unstyled)
+### Milestone: Week 2 – Design System + Pages
+
+**Tasks:**
+
+- [x] Create Tailwind design tokens (color, typography, spacing, shadows, radii)
+- [x] Build component library (Button, Card, Badge, typography, Image, Link)
+- [x] Build home page and case study template
+- [x] Collect/create assets; configure SEO basics (metadata, sitemap, robots.txt)
+- [ ] Mobile responsiveness testing (ongoing)
 
 ---
 
-#### Week 2: Design System + Pages
+## Project 2: Content + SEO – Full Launch
 
-**Focus:** UI/UX + Core Pages
+**Project outcome:** Full launch ready
 
-**Tasks:**
-- [ ] Create Tailwind design tokens:
-  - [ ] Color palette (primary, secondary, accent, neutral)
-  - [ ] Typography scale (headings, body, captions)
-  - [ ] Spacing scale (4px, 8px, 16px, 24px, 32px, etc.)
-  - [ ] Shadows, borders, radii
-- [ ] Build component library:
-  - [ ] Button component (primary, secondary, ghost variants)
-  - [ ] Card component
-  - [ ] Badge component
-  - [ ] Typography components (H1, H2, H3, Body, Caption)
-  - [ ] Image component (with blur placeholder)
-  - [ ] Link component (internal, external)
-- [ ] Build pages:
-  - [ ] Home page (`app/page.tsx`)
-    - [ ] Hero section
-    - [ ] Featured work section (3 case studies)
-    - [ ] Workflow section
-    - [ ] About section
-    - [ ] Resume section
-    - [ ] Contact section
-  - [ ] Case study template (`app/[slug]/page.tsx`)
-- [ ] Collect/create assets:
-  - [ ] Professional headshot
-  - [ ] Case study hero images (placeholder if needed)
-  - [ ] Favicon
-- [ ] Configure SEO basics:
-  - [ ] Root metadata in `app/layout.tsx`
-  - [ ] Sitemap configuration
-  - [ ] Robots.txt
-- [ ] Mobile responsiveness testing
-
-**Deliverable:** Styled, functional portfolio with 3 case studies
-
-**Milestone:** ✅ **MVP Launch** - Portfolio deployed and shareable
-
----
-
-### Phase 2: Content + SEO - Full Launch
-
-**Timeline:** Weeks 3-4 (Nov 25 - Dec 8, 2025)
-**Goal:** Complete, SEO-optimized portfolio ready for public launch
-
-#### Week 3: Complete Content
-
-**Focus:** Complete Home Page Sections + Assets
+### Milestone: Week 3 – Complete Content
 
 **Tasks:**
+
 - [ ] Complete home page sections:
-  - [ ] Workflow section (on `app/page.tsx`)
-    - [ ] Process overview content
-  - [ ] About section (on `app/page.tsx`)
-    - [ ] Extended biography
-    - [ ] Skills/expertise section
-    - [ ] Fun facts/personal touch
-  - [ ] Resume section (on `app/page.tsx`)
-    - [ ] Experience timeline
-    - [ ] Skills list
-    - [ ] Download PDF CTA
-  - [ ] Contact section (on `app/page.tsx`)
-    - [ ] Contact information
-    - [ ] Social links
-- [ ] Create missing content:
-  - [ ] Workflow/process content (300-500 words)
-  - [ ] Extended about copy (500-800 words)
-  - [ ] Resume content formatted for web
+  - [ ] Workflow section (process overview content)
+  - [ ] About section (extended bio, skills, fun facts)
+  - [ ] Resume section (experience timeline, skills list, download PDF CTA)
+  - [ ] Contact section (contact info, social links)
+- [ ] Create missing content (workflow 300–500 words, about 500–800 words, resume for web)
 - [ ] Add all assets to case studies:
-  - [ ] Sainapsis case study images:
-    - [ ] Hero image
-    - [ ] Timeline diagrams
-    - [ ] Before/after comparisons
-    - [ ] Component grid
-    - [ ] Metrics dashboard
-  - [ ] Ocean case study images:
-    - [ ] Hero image
-    - [ ] Architecture diagram
-    - [ ] Dashboard screenshots
-    - [ ] Multi-channel flow
-    - [ ] Collaboration diagram
-  - [ ] AquaDS case study images:
-    - [ ] Hero image
-    - [ ] Component library grid
-    - [ ] Atomic design hierarchy
-    - [ ] Governance flow
-    - [ ] Metrics dashboard
-- [ ] Optimize all images:
-  - [ ] Convert to WebP format
-  - [ ] Generate blur placeholders
-  - [ ] Add proper alt text
-  - [ ] Resize to appropriate dimensions
+  - [ ] Sainapsis: hero, timeline diagrams, before/after, component grid, metrics
+  - [ ] Ocean: hero, architecture diagram, dashboard screenshots, multi-channel, collaboration
+  - [ ] AquaDS: hero, component grid, atomic hierarchy, governance flow, metrics
+- [ ] Optimize all images (WebP, blur placeholders, alt text, dimensions)
 - [ ] Write SEO meta descriptions for all pages
 
-**Deliverable:** Complete portfolio with all content and assets
-
----
-
-#### Week 4: SEO Optimization
-
-**Focus:** Search Engine Optimization + Quality
+### Milestone: Week 4 – SEO Optimization
 
 **Tasks:**
+
 - [ ] Implement advanced SEO:
-  - [ ] Schema.org markup:
-    - [ ] Person schema (home page - About section)
-    - [ ] CreativeWork schema (case studies)
-    - [ ] Article schema (case studies)
-  - [ ] Open Graph tags for home page and case studies
-  - [ ] Twitter Card tags
+  - [ ] Schema.org (Person, CreativeWork, Article)
+  - [ ] Open Graph and Twitter Card tags
   - [ ] Canonical URLs
-- [ ] Run AI agents on all pages:
-  - [ ] **SEO Optimizer Agent** → analyze each page, implement suggestions
-  - [ ] **Content Auditor Agent** → review all copy, fix issues
-  - [ ] **Accessibility Checker Agent** → validate WCAG compliance
-  - [ ] **Performance Optimizer Agent** → optimize speed
-- [ ] SEO enhancements:
-  - [ ] Add internal linking between case studies
-  - [ ] Add external links to companies (Sainapsis, RouteMobile, Masiv)
-  - [ ] Optimize heading hierarchy on all pages
-  - [ ] Add breadcrumb navigation
-  - [ ] Create XML sitemap
-- [ ] Technical optimization:
-  - [ ] Image lazy loading
-  - [ ] Font optimization (next/font)
-  - [ ] Bundle size reduction
-  - [ ] Code splitting optimization
-- [ ] Testing:
-  - [ ] Mobile testing (3+ devices/browsers)
-  - [ ] Cross-browser testing (Chrome, Firefox, Safari)
-  - [ ] Lighthouse audits (target: 95+ on all metrics)
-  - [ ] Core Web Vitals validation
-- [ ] Google Search Console setup:
-  - [ ] Verify ownership
-  - [ ] Submit sitemap
-  - [ ] Check indexing status
-
-**Deliverable:** SEO-optimized, performant portfolio
-
-**Milestone:** ✅ **Full Launch Ready** - Portfolio complete and optimized
+- [ ] Run AI agents on all pages (SEO, Content Auditor, Accessibility, Performance)
+- [ ] SEO enhancements: internal linking, external company links, heading hierarchy, breadcrumbs, XML sitemap
+- [ ] Technical optimization: lazy loading, font optimization, bundle size, code splitting
+- [ ] Testing: mobile, cross-browser, Lighthouse 95+, Core Web Vitals
+- [ ] Google Search Console: verify, submit sitemap, check indexing
 
 ---
 
-### Phase 3: Polish + Public Launch
+## Project 3: Polish + Public Launch
 
-**Timeline:** Week 5 (Dec 9-16, 2025)
-**Goal:** Public launch with polish and promotion
+**Project outcome:** Public launch
 
-#### Week 5: Final Polish + Launch
-
-**Focus:** Animations, QA, Promotion
+### Milestone: Week 5 – Final Polish + Launch
 
 **Tasks:**
+
 - [ ] Polish & animations:
-  - [ ] Add page transitions (Framer Motion)
-  - [ ] Add scroll animations for case study sections
-  - [ ] Add hover states for interactive elements
-  - [ ] Add loading states
-  - [ ] Add 404 page
-- [ ] Optional enhancements:
-  - [ ] Implement dark mode toggle
-  - [ ] Add contact form (with spam protection)
-  - [ ] Add "Back to top" button for long pages
-  - [ ] Add reading progress indicator for case studies
-- [ ] Analytics setup:
-  - [ ] Configure Vercel Analytics
-  - [ ] Add privacy policy (if using cookies)
-- [ ] Final QA:
-  - [ ] Re-run all AI agents for final check
-  - [ ] Proofread all copy (2x)
-  - [ ] Test all links (internal and external)
-  - [ ] Test form submissions (if applicable)
-  - [ ] Accessibility final check
-  - [ ] Performance final check
-- [ ] Custom domain setup:
-  - [ ] Register domain (nicolas-botero-mejia.com or similar)
-  - [ ] Configure DNS
-  - [ ] Enable SSL
-  - [ ] Update environment variables
-- [ ] Launch preparation:
-  - [ ] Create Open Graph images for social sharing
-  - [ ] Write launch post for LinkedIn
-  - [ ] Prepare email announcement (optional)
-- [ ] **🚀 Public Launch:**
+  - [ ] Page transitions (Framer Motion)
+  - [ ] Scroll animations for case study sections
+  - [ ] Hover states, loading states
+  - [ ] 404 page
+- [ ] Analytics setup (e.g. Vercel Analytics), privacy policy if using cookies
+- [ ] Final QA: re-run AI agents, proofread, test links, accessibility and performance check
+- [ ] Custom domain: register, DNS, SSL, env vars
+- [ ] Launch preparation: OG images, LinkedIn launch post, optional email announcement
+- [ ] Public launch:
   - [ ] Deploy to production with custom domain
-  - [ ] Update LinkedIn profile with portfolio link
-  - [ ] Update GitHub profile with portfolio link
-  - [ ] Share launch post on LinkedIn
-  - [ ] Share on Twitter (if applicable)
-  - [ ] Email portfolio to recruiters/contacts (optional)
+  - [ ] Update LinkedIn and GitHub with portfolio link
+  - [ ] Share launch post; optional Twitter, email to recruiters
 - [ ] Post-launch:
-  - [ ] Submit to design directories:
-    - [ ] bestfolios.com
-    - [ ] layers.to
-    - [ ] uxfolio.com
-    - [ ] dribbble.com (update profile)
-    - [ ] behance.net (create project)
-  - [ ] Monitor analytics for first week
-  - [ ] Fix any bugs reported
-
-**Deliverable:** Launched portfolio at custom domain
-
-**Milestone:** ✅ **Public Launch** - Portfolio live and promoted
+  - [ ] Submit to design directories (bestfolios, layers.to, uxfolio, dribbble, behance)
+  - [ ] Monitor analytics and fix bugs
 
 ---
 
-### Phase 4: Growth + Iteration
+## Project 4: Growth + Iteration (current)
 
-**Timeline:** Ongoing (Dec 16, 2025+)
-**Goal:** Continuous improvement and content expansion
+**Project outcome:** Continuous improvement, content structure, quality, and infrastructure
 
-#### Infrastructure, Testing & Analytics
+### Milestone: 4.1 – Content structure
 
-- [ ] **Separate Ocean and Bridge CS into Features** (break out case studies into feature-level content)
+**Tasks:**
+
+- [ ] **Separate Ocean case study into Features**
+  - [ ] List features to extract from Ocean CS
+  - [ ] Create feature MDX/content entries and routes
+  - [ ] Update Ocean case study to link to or summarize features
+- [ ] **Separate Bridge case study into Features**
+  - [ ] List features to extract from Bridge CS
+  - [ ] Create feature MDX/content entries and routes
+  - [ ] Update Bridge case study to link to or summarize features
+
+### Milestone: 4.2 – Quality & maintenance
+
+**Tasks:**
+
 - [ ] **Implement a11y strategy**
-- [ ] **Scan the entire project for unused code and libraries**
+  - [ ] Audit site (axe, Lighthouse, keyboard/screen reader)
+  - [ ] Fix critical issues and document patterns
+  - [ ] Add to PR/launch checklist
+- [ ] **Scan project for unused code and libraries**
+  - [ ] Run bundle/code analysis
+  - [ ] Remove or replace unused deps and dead code
+
+### Milestone: 4.3 – Analytics
+
+**Tasks:**
+
 - [ ] **Implement GA4 strategy**
-  - [ ] Audit Current Analytics Setup
-  - [ ] Define Key Metrics and Goals
-  - [ ] Set Up GA4 Properties
-  - [ ] Implement Event Tracking
-  - [ ] Create Custom Reports and Dashboards
-  - [ ] Train Team on GA4 Usage
-- [ ] **Implement Amplitude into DS components**
-  - [ ] Research and Preparation
-  - [ ] Event Tracking
-  - [ ] Component Usage
-  - [ ] Integration
-  - [ ] Testing and QA
-  - [ ] Documentation
-  - [ ] Deployment
-  - [ ] Follow-Up
-- [ ] **Implement CI/CD architecture**
-  - [ ] Set up version control system
-  - [ ] Choose CI/CD tool
-  - [ ] Configure CI/CD tool for build automation
-  - [ ] Set up automated testing
-  - [ ] Deploy to Staging and Production
-  - [ ] Monitor and Optimize
-- [ ] **Integrate site with Chromatic**
-  - [ ] Research Chromatic Integration
-  - [ ] Prepare the Project
-  - [ ] Set Up Chromatic
-  - [ ] Configure the Site
-  - [ ] Run Initial Tests
-  - [ ] Collaborate and Review
-  - [ ] Finalize Integration
+  - [ ] Audit current analytics setup
+  - [ ] Define key metrics and goals
+  - [ ] Set up GA4 property
+  - [ ] Implement event tracking
+  - [ ] Create reports/dashboards (if needed)
+- [ ] **Implement Amplitude in DS components** (if applicable)
+  - [ ] Research and preparation
+  - [ ] Event tracking plan
+  - [ ] Component usage instrumentation
+  - [ ] Integration, testing, documentation
+
+### Milestone: 4.4 – Testing & deployment
+
+**Tasks:**
+
 - [ ] **Integrate site with Playwright**
-  - [ ] Research and Setup
-  - [ ] Define Test Scenarios
-  - [ ] Create Test Scripts
-  - [ ] Integrate with CI/CD
-  - [ ] Run and Debug
-  - [ ] Documentation
-  - [ ] Review and Iterate
-- [ ] **Deploy site on Vercel** (or verify/refine existing deployment)
-  - [ ] Prepare the Project
-  - [ ] Set Up Vercel Account
-  - [ ] Deploy the Site
-  - [ ] Verify Deployment
-  - [ ] Post-Deployment Tasks
+  - [ ] Research and setup
+  - [ ] Define test scenarios (critical paths)
+  - [ ] Create test scripts
+  - [ ] Integrate with CI (when CI is in place)
+  - [ ] Document and iterate
+- [ ] **Integrate site with Chromatic**
+  - [ ] Research and setup
+  - [ ] Configure project and run initial tests
+  - [ ] Add to review workflow
+- [ ] **Implement CI/CD pipeline**
+  - [ ] Choose/confirm CI tool (e.g. GitHub Actions)
+  - [ ] Configure build and lint
+  - [ ] Add automated tests (e.g. Playwright)
+  - [ ] Deploy to staging and production
+  - [ ] Monitor and refine
+- [ ] **Verify and refine Vercel deployment**
+  - [ ] Confirm env, domain, and previews
+  - [ ] Document deploy and rollback steps
+  - [ ] Post-deployment checks
 
-#### Short-Term (1-3 Months)
-- [ ] Add remaining case studies:
-  - [ ] Masiv (2018-21) case study
-  - [ ] PayU Latam (2016-18) case study
-- [ ] Gather testimonials:
-  - [ ] Request testimonial from Sainapsis colleagues
-  - [ ] Request testimonial from Masiv colleagues
-  - [ ] Add testimonials to About section on home page
-- [ ] Content enhancements:
-  - [ ] Add project thumbnails/previews to Work section on home page
-  - [ ] Add filtering to Work section (by year, type)
-  - [ ] Add "Related projects" section to case studies
-- [ ] SEO iteration:
-  - [ ] Monitor Google Search Console
-  - [ ] Optimize underperforming pages
-  - [ ] Build backlinks (guest posts, interviews, etc.)
+### Milestone: 4.5 – Short-term (next 1–3 months)
 
-#### Medium-Term (3-6 Months)
+**Tasks:**
 
-- [ ] Blog section:
-  - [ ] Design blog layout
-  - [ ] Write first 3-5 articles on design systems, leadership, etc.
-  - [ ] Set up RSS feed
-  - [ ] Promote articles on LinkedIn
-- [ ] Interactive features:
-  - [ ] Embed interactive prototypes in case studies
-  - [ ] Add before/after sliders for visual comparisons
-  - [ ] Add video walkthroughs (Loom recordings)
-- [ ] Portfolio v2 enhancements:
-  - [ ] Side projects showcase
-  - [ ] Design principles page
-  - [ ] Resources/tools page
-  - [ ] Design system documentation (public AquaDS docs)
+- [ ] Add remaining case studies (Masiv, PayU Latam)
+- [ ] Gather testimonials and add to About
+- [ ] Content: thumbnails on Work section, filtering (year/type), “Related projects” on case studies
+- [ ] SEO: monitor Search Console, optimize underperforming pages, build backlinks
 
-#### Long-Term (6-12 Months)
+### Milestone: 4.6 – Medium-term (3–6 months)
 
-- [ ] Community building:
-  - [ ] Newsletter signup (Substack, ConvertKit, etc.)
-  - [ ] Regular blog posts (2-4 per month)
-  - [ ] Speaking engagements (conferences, podcasts)
-- [ ] Advanced features:
-  - [ ] Case study templates download
-  - [ ] Design resources/freebies
-  - [ ] Workshop/course offering (if interested)
-- [ ] Analytics review:
-  - [ ] Quarterly traffic analysis
-  - [ ] Conversion tracking (interview requests)
-  - [ ] A/B testing on key pages
+**Tasks:**
 
----
+- [ ] Blog: layout, first 3–5 articles, RSS, promote on LinkedIn
+- [ ] Case studies: interactive prototypes, before/after sliders, video walkthroughs (Loom)
+- [ ] Portfolio v2: side projects, design principles page, resources/tools, public AquaDS-style docs
+- [ ] Nice-to-haves when bandwidth allows: dark mode, contact form (spam protection), “Back to top”, reading progress on case studies
 
-## 📊 Success Metrics
+### Milestone: 4.7 – Long-term (6–12 months)
 
-### Launch Success (Week 5)
+**Tasks:**
 
-- [ ] Lighthouse score 95+ on all categories
-- [ ] All pages have unique meta titles/descriptions
-- [ ] WCAG 2.1 AA compliant
-- [ ] <1s First Contentful Paint
-- [ ] Mobile-responsive (tested on 3+ devices)
-- [ ] Zero accessibility violations
-- [ ] Deployed to custom domain
+- [ ] Community: newsletter, regular posts, speaking/podcasts
+- [ ] Advanced: case study templates, design resources/freebies, workshop/course (if desired)
+- [ ] Analytics: quarterly review, conversion tracking, A/B tests on key pages
+- [ ] Post-launch promotion: design directories (bestfolios, layers.to, uxfolio, dribbble, behance), backlink maintenance
 
-### 30-Day Success
+### Milestone: 4.8 – Future ideas (parking lot – no commitment)
 
+Capture so we don’t forget; prioritize only when they align with goals.
 
-- [ ] 100+ unique visitors
-- [ ] Indexed by Google for "Nicolás Botero Product Designer"
-- [ ] 2+ minute average session duration
-- [ ] 50+ case study page views
-- [ ] 5+ backlinks to portfolio
-- [ ] 1+ interview request
-
-### 90-Day Success
-
-
-- [ ] 500+ unique visitors
-- [ ] Top 10 ranking for 3+ target keywords
-- [ ] 5+ minute average session duration
-- [ ] 200+ case study page views
-- [ ] 10+ backlinks to portfolio
-- [ ] 5+ interview requests
-- [ ] 3+ testimonials collected
-
----
-
-## 🚧 Current Status
-
-**Phase:** In iteration (post-launch)  
-**Progress:** Foundation complete; infrastructure, testing & analytics in progress  
-**Blockers:** None  
-**Next Task:** See "Infrastructure, Testing & Analytics" below
-
----
-
-## 📝 Change Log
-
-### **February 2026**
-- Updated status to post-launch / in iteration
-- Aligned Phase 1 with actual stack (Next 16, gray-matter + next-mdx-remote)
-- Marked completed foundation tasks
-- Added "Infrastructure, Testing & Analytics" section (GA4, Amplitude, CI/CD, Chromatic, Playwright, Vercel, a11y, code cleanup, Ocean/Bridge features)
-
-### **November 11, 2025**
-- ✅ Created initial roadmap
-- ✅ Defined 4 phases with detailed tasks
-- ✅ Set launch target: December 16, 2025
-
----
-
-## 🎯 Key Decisions
-
-### Tech Stack
-
-- **Framework:** Next.js 16 (chosen for SEO, performance, ease of deployment)
-- **Styling:** Tailwind CSS 4 (chosen for speed, consistency, small bundle size)
-- **Content:** MDX + gray-matter + next-mdx-remote (flexibility, no Contentlayer dependency)
-- **Hosting:** Vercel (chosen for free tier, instant deploys, edge network)
-
-### Scope Decisions
-
-
-- **Launch with 3 case studies** (Sainapsis, Ocean, AquaDS) - Add Masiv/PayU post-launch
-- **No blog at launch** - Add in Phase 4 after validating portfolio traction
-- **Dark mode optional** - Nice-to-have, not required for launch
-- **Contact form optional** - Email link sufficient for launch
-
-### SEO Priorities
-
-- **Primary focus:** Case study pages (longest content, most valuable)
-- **Secondary focus:** Home page (includes all sections: Work, Workflow, About, Resume, Contact)
-
----
-
-## 💡 Future Ideas (Parking Lot)
-
-Ideas for future consideration (not planned for current phases):
-
-- Multilingual support (English + Spanish)
+- Multilingual (EN + ES)
 - Interactive design system playground
-- Public component library (AquaDS as open source)
-- Design critique service offering
-- Mentorship program page
-- Podcast/video series on design leadership
-- Community forum for designers
-- Job board for design roles
+- Public AquaDS-style component library (open source)
+- Design critique service / mentorship program page
+- Podcast or video series on design leadership
+- Job board or community forum for designers
+- Open Graph image generator for case studies
+- Case study PDF export or print view
 
 ---
 
-**Last Updated:** February 2026  
-**Next Review:** As needed (in iteration)
+## Success metrics (Key Results)
+
+- **At launch:** Lighthouse 95+, unique meta per page, WCAG 2.1 AA, &lt;1s FCP, mobile-friendly, custom domain.
+- **30 days post-launch:** 100+ visitors, indexed for “Nicolás Botero Product Designer”, 2+ min session, 50+ case study views, backlinks, 1+ interview request.
+- **90 days post-launch:** 500+ visitors, top 10 for 3+ keywords, 5+ min session, 200+ case study views, 10+ backlinks, 5+ interview requests, 3+ testimonials.
+
+---
+
+## Current status
+
+**Project:** 4 – Growth + iteration (and/or 2–3 if you’re finishing launch work)  
+**Focus:** 4.1 Content structure, 4.2 Quality, 4.3 Analytics, 4.4 Testing; or Phase 2/3 milestones as needed  
+**Blockers:** None  
+**Next:** Pick a project and milestone (e.g. Phase 2 Week 3, or Phase 4 → 4.1).
+
+---
+
+## Key decisions
+
+- **Stack:** Next.js 16, Tailwind 4, MDX (gray-matter + next-mdx-remote), Vercel.
+- **Scope:** Launch with 3 case studies; add Masiv/PayU later. Blog in Phase 4. Dark mode and contact form optional.
+- **SEO:** Case studies first, then home (Work, Workflow, About, Resume, Contact).
+
+---
+
+## Change log
+
+- **Feb 2026:** Restructured as Project > Milestone > Task > Subtask; Phases = Projects, weekly objectives = Milestones; restored Phase 2 and Phase 3 as full projects (no 4.0 mixing); Phase 4 milestones = 4.1–4.8.
+- **Feb 2026 (earlier):** Phase order 1→2→3→4; structure map; carryover and Phase 4 sections.
+
+---
+
+**Last updated:** February 2026  
+**Review:** As needed (iteration)
