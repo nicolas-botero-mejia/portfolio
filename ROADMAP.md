@@ -32,7 +32,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 | Project | Milestone order | Why |
 |---------|-----------------|-----|
 | **1** | 1.1 → 1.2 | Setup before design system (done) |
-| **2** | 2.1 | Architecture & design system (in progress) |
+| **2** | 2.1 → 2.2 | Architecture & tooling (2.1) before DS structure, Storybook & design-to-code (2.2; 2.2 grows with components) |
 | **3** | 3.1 → 3.2 | Content before SEO |
 | **4** | 4.1 → 4.2 | Quality & maintenance before testing & deployment |
 | **5** | 5.1 | Single milestone: polish → launch → post-launch |
@@ -41,6 +41,8 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 **Task order within key milestones:**
 
+- **Project 2, 2.1:** Architecture and tooling first; mobile responsiveness (audit → fix → verify → document).
+- **Project 2, 2.2:** Design-to-code, Storybook, and DS structure can run in parallel or in any order; DS structure and Storybook reinforce each other as components grow.
 - **Project 3, 3.1:** Create missing content → Complete About/Uses → Add case study assets → Optimize images → Write SEO meta.
 - **Project 3, 3.2:** Implement SEO → Run agents → SEO enhancements → Technical optimization → Testing → Sitemap & Search Console.
 - **Project 4, 4.1:** A11y (audit → fix → document) before code cleanup (scan → remove).
@@ -88,7 +90,6 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [x] Default and per-page metadata (custom `seo.ts`; Open Graph, Twitter Card, robots)
   - [x] Robots (index/follow) via metadata; sitemap deferred to Project 3
 - [x] Implement password protection (server-side, locked case studies, HTTP-only cookies)
-- [ ] Run mobile responsiveness testing (ongoing; formal pass in Project 4)
 
 ---
 
@@ -96,7 +97,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 **Project outcome:** Architecture, tooling, and design system in place
 
-### Milestone 2.1 – Architecture, tooling & design system *(in progress)*
+### Milestone 2.1 – Architecture, tooling & mobile *(in progress)*
 
 **Tasks:**
 
@@ -107,17 +108,32 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [x] Implement use of constants to remove hard coded data
   - [x] Migrate content data from config files
   - [x] Update documentation
-- [x] Integrate code-to-design logic
+- [x] Implement SplitLayout (sidebar + main, contact, navigation from content types)
 - [x] Add error handling logic to the project
 - [x] Integrate ChromeDevTools to Cursor
-- [x] Implement SplitLayout (sidebar + main, contact, navigation from content types)
-- [x] Add client-side analytics wiring (Amplitude + GA4 structure; configure keys and test in prod per 6.2)
+- [x] **Integrate code-to-design logic**
+  - [x] Provide token data to Figma (sources → format consumable by plugin/scripts)
+  - [x] Run or document scripts in Figma that create/update variable collections from token data
+  - [x] Map source tokens to Figma naming and types (fonts, colors, spacing; e.g. FIGMA_FONT_FAMILY_MAP)
+  - [x] Document workflow (open plugin, run script; see docs/FIGMA_LEARNINGS.md)
 - [ ] **Integrate design-to-code logic**
   - [ ] Write extract script (plugin API): walk Figma variable collections, output JSON
   - [ ] Add import pipeline (script to consume JSON and merge into token sources)
   - [ ] Define namespace and overrides (e.g. `figma/` prefix; optional override file)
   - [ ] Implement conflict resolution (new keys add; same path code wins unless override)
   - [ ] (Optional) Add component spec extraction from Figma (after variables stable)
+- [x] Add client-side analytics wiring (Amplitude + GA4 structure; configure keys and test in prod per 6.2)
+- [ ] **Implement mobile responsiveness**
+  - [ ] Audit key pages at breakpoints (e.g. 320, 375, 768, 1024px)
+  - [ ] Fix layout and overflow (sidebar, cards, typography, containers)
+  - [ ] Verify touch targets and spacing (min 44px, readable tap areas)
+  - [ ] Test navigation and interactive elements on small viewports
+  - [ ] Check landscape orientation (layout and overflow at key widths in landscape)
+  - [ ] Document breakpoints and responsive patterns (or add to DS docs)
+
+### Milestone 2.2 – Design system structure, Storybook & design-to-code *(grows with components)*
+
+**Tasks:**
 - [ ] **Integrate DS components with Storybook**
   - [ ] Set up Storybook
   - [ ] Organize components for Storybook
@@ -228,8 +244,6 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 **Project outcome:** Public launch
 
-*The full **deploy and launch on Vercel** process (account, project, env, deploy, domain, SSL) is in **Project 4, Milestone 4.2**. Do 4.2 first (or in parallel with polish). Milestone 5.1 below is final polish, QA, and the launch moment (promotion and post-launch).*
-
 ### Milestone 5.1 – Final Polish + Launch
 
 **Tasks:** *(Order: polish → analytics → QA → prep → launch → post-launch. Deployment steps are in 4.2.)*
@@ -324,6 +338,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 - Job board or community forum for designers
 - Open Graph image generator for case studies
 - Case study PDF export or print view
+- Integrate Portfolio roadmap with ClickUp
 
 ---
 
@@ -337,7 +352,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 ## Current status
 
-**Recommended next:** If launch incomplete → Project 2 (2.1) then Project 3 (3.1 → 3.2). If launch complete → Project 4 (4.1 → 4.2) → Project 5 (5.1) → Project 6 (6.1 → 6.2) → Project 7 (7.1–7.4 as needed).  
+**Recommended next:** If launch incomplete → Project 2 (2.1 → 2.2) then Project 3 (3.1 → 3.2). If launch complete → Project 4 (4.1 → 4.2) → Project 5 (5.1) → Project 6 (6.1 → 6.2) → Project 7 (7.1–7.4 as needed).  
 **Blockers:** None
 
 ---
@@ -352,7 +367,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 ## Change log
 
-
+- **Feb 2026:** Project 2 split: moved mobile responsiveness from P1 to Milestone 2.1 with subtasks (audit breakpoints, fix layout, touch targets, test nav, document). Created Milestone 2.2 for design-to-code, Storybook, and Design System structure (2.2 grows with components). Updated recommended order and task-order bullets.
 
 ---
 
