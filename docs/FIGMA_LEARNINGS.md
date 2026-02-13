@@ -42,6 +42,19 @@ Design-to-code learnings from pushing tokens and components to Figma via the plu
 
 ---
 
+## Working with text (when modifying via plugin)
+
+When a script changes text content or layout-related text properties, the Plugin API requires fonts to be loaded and has specific behavior to handle.
+
+- **Load fonts before changing text:** Any change to `characters`, `fontSize`, `fontName`, `textStyleId`, `textCase`, `letterSpacing`, `lineHeight`, or range functions like `setRangeFontSize()` requires the font to be loaded first. Call `figma.loadFontAsync(fontName)` (or the node's `fontName`). Without this, the plugin throws.
+- **Single vs multiple fonts:** For one font: `await figma.loadFontAsync(node.fontName)`. For mixed-style text: `await Promise.all(node.getRangeAllFontNames(0, node.characters.length).map(figma.loadFontAsync))`.
+- **Colors/strokes only:** You do *not* need to load fonts to change `.fills`, `.strokes`, `.fillStyleId`, etc.
+- **Mixed styles:** Many text properties can return `figma.mixed` when different character ranges have different values. Use `getStyledTextSegments()` or `getRange*` / `setRange*` when working with partial ranges.
+- **Missing fonts:** Check `textNode.hasMissingFont` before loading. Users often run plugins in files with missing fonts; handle or warn instead of ignoring.
+- **Creating text:** Load the font first, then set `fontName` and `characters` on the new text node.
+
+---
+
 ## Component Creation
 
 - **Convert frames to components** for HUG support: `figma.createComponentFromNode(frame)`. Components created from frames inherit `layoutMode` and support `layoutSizingHorizontal = 'HUG'` and `layoutSizingVertical = 'HUG'`.
@@ -97,6 +110,22 @@ Use component properties so instances expose a single control (e.g. **label**) f
 - `primaryAxisAlignItems`: use `'MIN' | 'MAX' | 'CENTER' | 'SPACE_BETWEEN'`, not `'STRETCH'`.
 - `layoutSizingHorizontal = 'HUG'` only works on auto-layout frames and text children of auto-layout frames.
 - **Component properties:** `addComponentProperty()` returns the full key (e.g. `label#25:0`). Use that exact string for `componentPropertyReferences` and for `editComponentProperty()`; the suffix is required. To find an existing text property by display name, use `Object.keys(node.componentPropertyDefinitions).find(k => k.startsWith('Label#'))` (or the current name).
+- **addComponentProperty not registering:** Community reports exist where `addComponentProperty` does not register on components (e.g. `componentPropertyDefinitions` stays empty). If it happens, retry with the component/variant selected or after ensuring the node is a main component/component set; consider filing or checking [Figma Forum](https://forum.figma.com/) for workarounds.
+- **Large files / dynamic page loading:** With `"documentAccess": "dynamic-page"` (default for new plugins), only the current page loads fully. Use async APIs: `figma.getNodeByIdAsync()`, `figma.getLocalTextStylesAsync()`, `node.getMainComponentAsync()`, etc. Sync variants (`figma.getNodeById()`, `.mainComponent`) can fail or be undefined when the node is on an unloaded page. [Migrating to dynamic loading](https://www.figma.com/plugin-docs/migrating-to-dynamic-loading/).
+- **Performance (widgets/canvas):** Blurs, shadows, non-normal blend modes, and complex SVG are expensive. Prefer rasterizing effects as images if needed. Load additional pages only when the user needs them.
+
+---
+
+## Community & forum learnings
+
+Pitfalls and patterns from Figma Forum, Dev.to, Discord, and blogs—not just official docs.
+
+- **loadFontAsync + closePlugin:** Do not call `figma.closePlugin()` before `loadFontAsync` (and any dependent work) completes. Closing the plugin can leave the promise hanging indefinitely. Await all async work, then close. [Forum: loadFontAsync stuck](https://forum.figma.com/report-a-problem-6/loadfontasync-stuck-indefinitely-43195), [How to properly load fonts](https://forum.figma.com/archive-21/how-to-properly-load-fonts-via-figma-loadfontasync-24488).
+- **Loading multiple fonts:** Avoid calling `loadFontAsync` in a loop; use `Promise.all(...fonts.map(figma.loadFontAsync))` so loads run concurrently and avoid unnecessary event-loop round-trips.
+- **addComponentProperty not registering:** Multiple Forum reports: properties sometimes don’t show up (`componentPropertyDefinitions` stays empty) even with correct structure. Workarounds to try: ensure the node is the main component (not an instance), run with that component selected, or create the property from a nested text layer. [Forum: addComponentProperty not registering](https://forum.figma.com/report-a-problem-6/figma-plugin-api-addcomponentproperty-not-registering-properties-on-components-43076).
+- **Text ↔ component property binding:** The API way to link text to a component property is `textNode.componentPropertyReferences = { characters: propertyName }`. You can’t bind both a variable and a component property to the same text field. [Forum: Link TextNode to component property](https://forum.figma.com/ask-the-community-7/plugin-api-link-textnode-characters-to-component-property-29614).
+- **Network requests from plugins:** Plugin iframes have a null origin; fetch only works to endpoints that allow `Access-Control-Allow-Origin: *` (or your plugin). Declare domains in `manifest.json` under `networkAccess` for production.
+- **Asking for help:** Forum and Discord responses are better when you include full error messages, minimal code snippets, and reproducible steps.
 
 ---
 
@@ -156,3 +185,34 @@ Use component properties so instances expose a single control (e.g. **label**) f
 - **New token in Figma, not in code:** Add to `primitiveTokens` or `semanticTokens` (or staging file for review).
 - **Same path, different value:** Code wins by default; or support an override file (e.g. `tokenOverrides.json`) that Figma import can populate for explicit overrides.
 - **fontFamily:** Always use `FIGMA_FONT_FAMILY_MAP` for Figma-bound values; source keeps CSS stacks.
+
+---
+
+## References & further reading
+
+### Official Figma docs
+
+| Topic | Resource |
+|-------|----------|
+| **Plugin API (overview)** | [Introduction to Plugins](https://www.figma.com/plugin-docs/) |
+| **Working with text** | [Working with Text](https://www.figma.com/plugin-docs/working-with-text/) — loadFontAsync, mixed styles, missing fonts |
+| **Working with variables** | [Working with Variables](https://www.figma.com/plugin-docs/working-with-variables/) — collections, bindings, typography variables, samples |
+| **Best practices (widgets)** | [Best Practices](https://www.figma.com/widget-docs/best-practices/) — performance, design, property menu |
+| **Dynamic page loading** | [Migrating to Dynamically Load Pages](https://www.figma.com/plugin-docs/migrating-to-dynamic-loading/) — async APIs, large files |
+| **API reference** | [Plugin API Reference](https://developers.figma.com/docs/plugins/api/api-reference/) |
+| **Samples** | [figma/plugin-samples](https://github.com/figma/plugin-samples) — variables import/export, styles-to-variables, etc. |
+
+### Community & other sources
+
+Use these for real-world gotchas, workarounds, and discussions beyond the docs.
+
+| Source | What you’ll find |
+|--------|-------------------|
+| **Figma Community Forum** | [forum.figma.com](https://forum.figma.com/) — API questions, bug reports, “how do I…” threads. Search for `addComponentProperty`, `loadFontAsync`, `componentPropertyReferences`, etc. |
+| **Figma Discord** | [discord.gg/xzQhe2Vcvx](https://discord.gg/xzQhe2Vcvx) — Live help, plugin dev channel. Figma’s “Get Help” docs recommend it for faster answers with context (errors, code, steps). |
+| **Friends of Figma** | [Friends of Figma: Plugins](https://friends.figma.com/plugins/) — Plugins interest group, quarterly remote talks by plugin developers. |
+| **Dev.to** | Search “Figma plugin” — Practical posts (e.g. building a plugin in ~300 lines, plugin systems). Good for structure and patterns, not deep API reference. |
+| **Reddit** | r/FigmaDesign, r/webdev — Occasional plugin/API threads; less API-specific than the Forum. Use for design+dev crossover and “has anyone done X?”. |
+| **Figmalion** | [figmalion.com → Plugin Development](https://figmalion.com/topics/plugin-development/page/2) — Curated plugin topics and community plugins (e.g. Figlet as a learning sandbox). |
+| **Blogs** | [9elements: variables2css](https://9elements.com/blog/variables2css-writing-a-figma-plugin/) — Writing a plugin that exports variables to CSS. [Evil Martians](https://evilmartians.com/chronicles/) — Advanced plugin patterns (auth, routing, storage). |
+| **Tokens Studio** | [Tokens Studio for Figma](https://docs.tokens.studio/figma/variables-overview) — Community plugin for tokens ↔ variables; useful reference for token/variable workflows. |
