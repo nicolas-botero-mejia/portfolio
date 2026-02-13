@@ -492,6 +492,7 @@ npm run lint                     # Lint codebase
 - [README_PASSWORD_PROTECTION.md](README_PASSWORD_PROTECTION.md) - Password setup quick reference
 - [docs/PASSWORD_PROTECTION.md](docs/PASSWORD_PROTECTION.md) - Complete password protection guide
 - [docs/FIGMA_LEARNINGS.md](docs/FIGMA_LEARNINGS.md) - Figma plugin API learnings; start with "When Starting Figma Tasks" and "Token flow"; reference for tokens, components, and community gotchas
+- [docs/FIGMA_INTEGRATION.md](docs/FIGMA_INTEGRATION.md) - Legacy/alternative: Figma-as-source REST flow; current project uses code-first + Plugin API (see FIGMA_LEARNINGS)
 
 ### External Resources
 - [Next.js 15 Docs](https://nextjs.org/docs)

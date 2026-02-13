@@ -4,6 +4,8 @@ Design-to-code learnings from pushing tokens and components to Figma via the plu
 
 **How to use this doc:** New to a Figma task? Start with **When Starting Figma Tasks** (runbook). Need token → Figma mapping? See **Token Architecture**, **Font Tokens**, and **Component-to-Token Mapping**. Hitting an API quirk? Check **API Gotchas** and **Community & forum learnings**. Planning bidirectional tokens? See **Strategy: Figma → Code**.
 
+**Related:** [docs/FIGMA_INTEGRATION.md](FIGMA_INTEGRATION.md) describes an alternative, Figma-as-source flow (REST API, `src/tokens/`). It is superseded for this project; we use code-first tokens and the Plugin API (this doc).
+
 ---
 
 ## Relationship to figma-friend Skill

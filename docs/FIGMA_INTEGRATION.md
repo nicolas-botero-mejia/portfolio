@@ -6,6 +6,18 @@ This document extends the Implementation Plan with Figma integration via Model C
 
 ---
 
+## ⚠️ Status: Superseded for Current Project
+
+**This guide describes a Figma-as-source-of-truth flow** (Figma variables → REST API → `src/tokens/` → code). **Our portfolio uses the opposite flow:** tokens live in code (`src/data/sources/primitiveTokens.ts`, `semanticTokens.ts`) and we **push** to Figma via the **Plugin API** (scripts run in the Figma plugin context, e.g. via Chrome DevTools MCP `evaluate_script`). The extraction script and `src/tokens/` layout in this doc were never implemented here.
+
+**For current Figma + token work use:**
+- **[docs/FIGMA_LEARNINGS.md](FIGMA_LEARNINGS.md)** — Runbook (“When Starting Figma Tasks”), token flow, component properties, variable bindings, API gotchas, community learnings.
+- **ROADMAP.md** — Code-to-design (push tokens/components to Figma); design-to-code (extract script, import pipeline) as future work.
+
+Keep this file as reference for an alternative (Figma-first, REST API) approach, or for Storybook/Chromatic workflow ideas. Do not follow its token extraction or file layout as the project’s current path.
+
+---
+
 ## Integration Points
 
 This guide should be integrated into the main Implementation Plan at the following locations:
