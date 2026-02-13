@@ -12,7 +12,7 @@ Design-to-code learnings from pushing tokens and components to Figma via the plu
 - **Rules**: Plugin API only (no REST API, no manual UI instructions)
 - **Troubleshooting**: Edit access, plugin permissions, open-close-plugin trick
 
-**This doc extends figma-friend** with project-specific patterns: token architecture, component creation (createComponentFromNode, HUG), variable bindings, font mapping, and positioning. Invoke figma-friend first; apply these learnings for this portfolio's design system.
+**This doc extends figma-friend** with project-specific patterns: token architecture, component creation (createComponentFromNode, HUG), component properties (text/label), variable bindings, font mapping, and positioning. Invoke figma-friend first; apply these learnings for this portfolio's design system.
 
 ---
 
@@ -51,6 +51,20 @@ Design-to-code learnings from pushing tokens and components to Figma via the plu
 
 ---
 
+## Component Properties (Text / Label)
+
+Use component properties so instances expose a single control (e.g. **label**) for the main text instead of deep-selecting layers.
+
+- **Create a text property:** `node.addComponentProperty('label', 'TEXT', defaultString)`. Returns the full property key (e.g. `label#25:0`). Use **lowercase** names for consistency.
+- **Bind to text layers:** set `textNode.componentPropertyReferences = { characters: propertyName }` on every text node that should be driven by that property. Use the exact key returned from `addComponentProperty`.
+- **Component sets:** one property can drive all variants. Find all TEXT descendants (e.g. one per variant), then assign the same `componentPropertyReferences` to each so every variant shows the same control in the instance panel.
+- **Rename a property:** `node.editComponentProperty(existingKey, { name: 'newName' })`. Returns the new full key (e.g. `label#25:0`). Bindings stay valid; only the display name changes.
+- **Finding components by name:** walk the tree for `COMPONENT` or `COMPONENT_SET` and match `node.name.toLowerCase().includes('badge')`. File names may differ (e.g. "Tabs" not "Tab"); search flexibly.
+
+**Components with a `label` property (this project):** Badge, Button, Tabs, Tooltip.
+
+---
+
 ## Variable Bindings
 
 - **Paints** (fills, strokes): use `figma.variables.setBoundVariableForPaint(paint, 'color', variable)` and assign the returned paint to `node.fills` or `node.strokes`.
@@ -82,6 +96,7 @@ Design-to-code learnings from pushing tokens and components to Figma via the plu
 - `figma.createNodeFromSvg(svgString)` returns a Frame; useful for icons.
 - `primaryAxisAlignItems`: use `'MIN' | 'MAX' | 'CENTER' | 'SPACE_BETWEEN'`, not `'STRETCH'`.
 - `layoutSizingHorizontal = 'HUG'` only works on auto-layout frames and text children of auto-layout frames.
+- **Component properties:** `addComponentProperty()` returns the full key (e.g. `label#25:0`). Use that exact string for `componentPropertyReferences` and for `editComponentProperty()`; the suffix is required. To find an existing text property by display name, use `Object.keys(node.componentPropertyDefinitions).find(k => k.startsWith('Label#'))` (or the current name).
 
 ---
 
@@ -110,6 +125,7 @@ Design-to-code learnings from pushing tokens and components to Figma via the plu
 4. For new components: create frame with auto-layout → convert to component → combine as variants.
 5. For fontFamily: use `FIGMA_FONT_FAMILY_MAP` values in Figma; bind to text nodes.
 6. Position new elements below existing ones; avoid overlap.
+7. For existing text-based components (Badge, Button, Tabs, Tooltip): ensure a **label** text property exists and is bound to all relevant text layers so instances are editable from the panel without deep selection.
 
 ---
 
