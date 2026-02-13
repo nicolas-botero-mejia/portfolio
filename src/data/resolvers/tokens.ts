@@ -48,6 +48,32 @@ function toFigmaPath(key: string): string {
   return key.replace(/-/g, '/');
 }
 
+/**
+ * Figma uses single font family names (e.g. "Inter"); our source tokens use CSS font stacks.
+ * This map translates source keys to Figma-compatible values. Update when adding new fontFamily tokens.
+ * Validation below ensures every fontFamily key has a mapping.
+ */
+const FIGMA_FONT_FAMILY_MAP: Record<string, string> = {
+  sans: 'Inter',
+  mono: 'SF Mono',
+};
+
+function getFontFamilyForFigma(): Record<string, string> {
+  const source = flattenObject<string>(typography.fontFamily, '', { separator: '-' });
+  const result: Record<string, string> = {};
+  for (const [key, value] of Object.entries(source)) {
+    const baseKey = key.replace(/^fontFamily-/, '');
+    if (!(baseKey in FIGMA_FONT_FAMILY_MAP)) {
+      console.warn(
+        `[tokens] FIGMA_FONT_FAMILY_MAP missing key "${baseKey}". ` +
+          `Add a Figma mapping for fontFamily.${baseKey} to avoid render issues.`
+      );
+    }
+    result[key] = FIGMA_FONT_FAMILY_MAP[baseKey] ?? value;
+  }
+  return result;
+}
+
 export function getTokensForFigma(): TokenCollection {
   const colorSources = { ...colors, ...themes.light };
   const colorVars = flattenObject<string>(colorSources, '', { separator: '/' });
@@ -60,7 +86,7 @@ export function getTokensForFigma(): TokenCollection {
   const typographyFlat = {
     ...flattenObject<number>(typography.fontSize, '', { separator: '-' }),
     ...flattenObject<number>(typography.fontWeight, '', { separator: '-' }),
-    ...flattenObject<string>(typography.fontFamily, '', { separator: '-' }),
+    ...getFontFamilyForFigma(),
   };
   const radiiFlat = flattenObject<number>(radii, '', { separator: '-' });
   const borderFlat = flattenObject<number>(border, '', { separator: '-', stripKeys: ['width'] });

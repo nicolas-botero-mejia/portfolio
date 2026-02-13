@@ -492,6 +492,7 @@ npm run lint                     # Lint codebase
 ### Feature Documentation
 - [README_PASSWORD_PROTECTION.md](README_PASSWORD_PROTECTION.md) - Password setup quick reference
 - [docs/PASSWORD_PROTECTION.md](docs/PASSWORD_PROTECTION.md) - Complete password protection guide
+- [docs/FIGMA_LEARNINGS.md](docs/FIGMA_LEARNINGS.md) - Figma plugin API learnings; reference when pushing tokens or components
 
 ### External Resources
 - [Next.js 15 Docs](https://nextjs.org/docs)
