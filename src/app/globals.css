@@ -7,7 +7,6 @@
 @theme inline {
   --color-background: var(--color-background-surface);
   --color-foreground: var(--color-content-primary);
-  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 body {

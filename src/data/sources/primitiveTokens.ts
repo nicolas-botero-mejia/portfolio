@@ -103,6 +103,10 @@ export const typography = {
     semibold: 600,
     bold: 700,
   },
+  fontFamily: {
+    sans: 'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+    mono: 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace',
+  },
 } as const;
 
 // =============================================================================
@@ -136,7 +140,7 @@ export const border = {
 export type TokenCollection = {
   colors: Record<string, string>;
   spacing: Record<string, number>;
-  typography: Record<string, number>;
+  typography: Record<string, number | string>;
   radii: Record<string, number>;
   border: Record<string, number>;
 };

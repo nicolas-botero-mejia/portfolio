@@ -33,6 +33,9 @@ function generateCSS(): string {
   for (const [key, value] of Object.entries(defaultTokens.typography.fontWeight)) {
     lines.push(`  --font-weight-${key}: ${value};`);
   }
+  for (const [key, value] of Object.entries(defaultTokens.typography.fontFamily)) {
+    lines.push(`  --font-${key.replace(/\./g, '-')}: ${value};`);
+  }
 
   for (const [key, value] of Object.entries(defaultTokens.radii)) {
     const varName = `--radius-${key.replace(/\./g, '-')}`;

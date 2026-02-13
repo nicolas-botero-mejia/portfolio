@@ -29,6 +29,8 @@ function flattenObject<T>(
 
     if (typeof value === 'string' && value.startsWith('#')) {
       (result as Record<string, string>)[path] = value;
+    } else if (typeof value === 'string') {
+      (result as Record<string, string>)[path] = value;
     } else if (typeof value === 'number') {
       (result as Record<string, number>)[path] = value;
     } else if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
@@ -58,6 +60,7 @@ export function getTokensForFigma(): TokenCollection {
   const typographyFlat = {
     ...flattenObject<number>(typography.fontSize, '', { separator: '-' }),
     ...flattenObject<number>(typography.fontWeight, '', { separator: '-' }),
+    ...flattenObject<string>(typography.fontFamily, '', { separator: '-' }),
   };
   const radiiFlat = flattenObject<number>(radii, '', { separator: '-' });
   const borderFlat = flattenObject<number>(border, '', { separator: '-', stripKeys: ['width'] });
@@ -77,6 +80,7 @@ export interface CSSTokens {
   typography: {
     fontSize: Record<string, number>;
     fontWeight: Record<string, number>;
+    fontFamily: Record<string, string>;
   };
   radii: Record<string, number>;
   border: Record<string, number>;
@@ -108,6 +112,11 @@ export function getTokensForCSS(): CSSThemeOutput {
       typography: {
         fontSize: flattenObject<number>(typography.fontSize, '', { separator: '-' }),
         fontWeight: flattenObject<number>(typography.fontWeight, '', { separator: '-' }),
+        fontFamily: Object.fromEntries(
+          Object.entries(flattenObject<string>(typography.fontFamily, '', { separator: '-' })).map(
+            ([k, v]) => [toCssPath(k), v]
+          )
+        ),
       },
       radii: Object.fromEntries(Object.entries(radiiFlat).map(([k, v]) => [toCssPath(k), v])),
       border: Object.fromEntries(Object.entries(borderFlat).map(([k, v]) => [toCssPath(k), v])),
