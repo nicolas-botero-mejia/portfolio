@@ -1,10 +1,10 @@
 # Portfolio Website Roadmap
 
 **Project Start:** November 11, 2025  
-**Launched:** December 2025  
-**Status:** In iteration
+**Launched:** Not yet (no Vercel deployment)  
+**Status:** Pre-launch; in development
 
-**Current focus:** Follow the recommended order below. If launch isn’t complete, do Project 2 → 3 first; then Projects 4–7 in the sequence given.
+**Current focus:** Follow the recommended order below. Process: build (1 → 2) → fill (3) → quality & ship (4) → launch (5) → iterate (6 → 7).
 
 ---
 
@@ -25,26 +25,27 @@
 
 Use this sequence so work builds on itself and nothing is blocked.
 
-**Projects (in order):** 1 → 2 → 3 → 4 → 5 → 6 → 7. Finish launch (2, 3) before iteration (4–7) unless you’re deliberately iterating in parallel.
+**Projects (in order):** 1 → 2 → 3 → 4 → 5 → 6 → 7. Aligns with process: **build** (1 Foundation POC, 2 Architecture & DS) → **fill** (3 Content + SEO) → **quality & ship** (4 Quality, Testing & Deployment) → **launch** (5 Polish + Public Launch) → **iterate** (6 Content structure & Analytics, 7 Growth).
 
 **Within each project:**
 
 | Project | Milestone order | Why |
 |---------|-----------------|-----|
 | **1** | 1.1 → 1.2 | Setup before design system (done) |
-| **2** | 2.1 → 2.2 | Content before SEO |
-| **3** | 3.1 | Single milestone: polish → launch → post-launch |
-| **4** | 4.1 | Architecture & design system (in progress) |
-| **5** | 5.1 → 5.2 | Quality & maintenance before testing & deployment |
+| **2** | 2.1 | Architecture & design system (in progress) |
+| **3** | 3.1 → 3.2 | Content before SEO |
+| **4** | 4.1 → 4.2 | Quality & maintenance before testing & deployment |
+| **5** | 5.1 | Single milestone: polish → launch → post-launch |
 | **6** | 6.1 → 6.2 | Content structure before analytics |
 | **7** | 7.1 → 7.2 → 7.3 → 7.4 | Short → medium → long term → parking lot |
 
 **Task order within key milestones:**
 
-- **Project 2, 2.1:** Create missing content → Complete home sections → Add case study assets → Optimize images → Write SEO meta.
-- **Project 3, 3.1:** Custom domain → Polish & animations → Analytics setup → Final QA → Launch prep → Public launch → Post-launch.
-- **Project 5, 5.1:** A11y (audit → fix → document) before code cleanup (scan → remove).
-- **Project 5, 5.2:** Deploy and launch on Vercel (full process) → CI/CD pipeline → Playwright → Chromatic.
+- **Project 3, 3.1:** Create missing content → Complete About/Uses → Add case study assets → Optimize images → Write SEO meta.
+- **Project 3, 3.2:** Implement SEO → Run agents → SEO enhancements → Technical optimization → Testing → Sitemap & Search Console.
+- **Project 4, 4.1:** A11y (audit → fix → document) before code cleanup (scan → remove).
+- **Project 4, 4.2:** Deploy and launch on Vercel (full process) → CI/CD pipeline → Playwright → Chromatic.
+- **Project 5, 5.1:** Polish → Analytics → Final QA → Launch prep → Execute launch (deploy done in 4.2) → Post-launch.
 
 ---
 
@@ -52,28 +53,28 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 | When | What |
 |------|------|
-| Past | Project 1 completed |
+| Past | Project 1 completed (POC; no deployment) |
 | Current | Projects 2, 3, 4, 5, 6, 7 (in recommended order above) |
 
 ---
 
-## Project 1: Foundation – MVP
+## Project 1: Foundation – POC
 
-**Project outcome:** MVP launched
+**Project outcome:** Proof of concept; foundation and intent defined (no deployment, no formal deliverable)
+
 
 ### Milestone 1.1 – Setup + Content Migration
 
 **Tasks:**
 
 - [x] Initialize Next.js 16 project with TypeScript + Tailwind
-- [x] Install dependencies (gray-matter, next-mdx-remote, Zod, Framer Motion, next-seo)
+- [x] Install dependencies (gray-matter, next-mdx-remote, Zod, Framer Motion, next-seo, next-sitemap)
 - [x] Configure MDX processing (gray-matter + next-mdx-remote)
 - [x] Set up project structure (components, content, lib, data)
 - [x] Create 5 AI agents in `.claude/agents/` (SEO, Content Auditor, Accessibility, Performance, Case Study Migrator)
 - [x] Migrate 3 case studies (Sainapsis, Ocean, AquaDS) and frontmatter
 - [x] Migrate home page content
-- [x] Create basic layout components (Header, Footer, Navigation)
-- [x] Deploy to Vercel (staging)
+- [x] Create basic layout components (Header, Footer, Navigation; superseded by SplitLayout in Project 2)
 
 ### Milestone 1.2 – Design System + Pages
 
@@ -83,69 +84,19 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [x] Add token generation pipeline (sources → generated CSS, Figma sync)
 - [x] Build component library (Button, Card, Badge, typography, Image, Link)
 - [x] Build home page and case study template
-- [x] Collect or create assets and configure SEO basics (metadata, sitemap, robots.txt)
+- [x] Collect or create assets and configure SEO basics
+  - [x] Default and per-page metadata (custom `seo.ts`; Open Graph, Twitter Card, robots)
+  - [x] Robots (index/follow) via metadata; sitemap deferred to Project 3
 - [x] Implement password protection (server-side, locked case studies, HTTP-only cookies)
-- [ ] Run mobile responsiveness testing (ongoing)
+- [ ] Run mobile responsiveness testing (ongoing; formal pass in Project 4)
 
 ---
 
-## Project 2: Content + SEO – Full Launch
-
-**Project outcome:** Full launch ready
-
-### Milestone 2.1 – Complete Content
-
-**Tasks:** *(Order: content first, then pages and components, then assets, then optimization, then meta.)*
-
-- [ ] Create missing content (workflow 300–500 words, about 500–800 words, resume for web)
-- [ ] Complete About page (Workflow, Experience, bio)
-  - [ ] Add or wire WorkflowGrid component (workflow phases from data)
-  - [ ] Add or wire ExperienceTimeline component (work history from data)
-- [ ] Complete Uses page (tools and setup details)
-- [ ] Add all assets to case studies (Sainapsis, Ocean, AquaDS images and diagrams)
-- [ ] Optimize all images (WebP, blur placeholders, alt text, dimensions)
-- [ ] Write SEO meta descriptions for all pages
-
-### Milestone 2.2 – SEO Optimization
-
-**Tasks:** *(Order: implement SEO → run agents → enhancements → technical → test → Search Console.)*
-
-- [ ] Implement advanced SEO (Schema.org, Open Graph, Twitter Card, canonical URLs)
-- [ ] Run AI agents on all pages (SEO, Content Auditor, Accessibility, Performance)
-- [ ] Add SEO enhancements (internal/external links, headings, breadcrumbs, sitemap)
-- [ ] Apply technical optimization (lazy loading, fonts, bundle size, code splitting)
-- [ ] Run testing (mobile, cross-browser, Lighthouse 95+, Core Web Vitals)
-- [ ] Configure sitemap (next-sitemap config or custom; ensure sitemap.xml is generated)
-- [ ] Configure Google Search Console (verify, submit sitemap, check indexing)
-
----
-
-## Project 3: Polish + Public Launch
-
-**Project outcome:** Public launch
-
-*The full **deploy and launch on Vercel** process (account, project, env, deploy, domain, SSL) is in **Project 5, Milestone 5.2**. Do 5.2 first (or in parallel with polish). Milestone 3.1 below is final polish, QA, and the launch moment (promotion and post-launch).*
-
-### Milestone 3.1 – Final Polish + Launch
-
-**Tasks:** *(Order: polish → analytics → QA → prep → launch → post-launch. Deployment steps are in 5.2.)*
-
-- [ ] Set up custom domain (register domain if needed; DNS, SSL, env vars — or complete in Vercel per 5.2)
-- [ ] Add polish and animations (transitions, scroll, hover, loading, 404)
-- [ ] Set up analytics (e.g. Vercel Analytics or GA4) and add privacy policy if using cookies
-- [ ] (Optional) Add rate limiting for password protection (e.g. attempts per IP per window)
-- [ ] Run final QA (AI agents, proofread, links, a11y, performance)
-- [ ] Complete launch preparation (OG images, LinkedIn post, optional email)
-- [ ] Execute public launch (site already deployed via 5.2; update LinkedIn/GitHub with live URL, share)
-- [ ] Complete post-launch tasks (design directories, monitor analytics, fix bugs)
-
----
-
-## Project 4: Architecture & Design System
+## Project 2: Architecture & Design System
 
 **Project outcome:** Architecture, tooling, and design system in place
 
-### Milestone 4.1 – Architecture, tooling & design system *(in progress)*
+### Milestone 2.1 – Architecture, tooling & design system *(in progress)*
 
 **Tasks:**
 
@@ -186,11 +137,42 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 ---
 
-## Project 5: Quality, Testing & Deployment
+## Project 3: Content + SEO – Full Launch
+
+**Project outcome:** Full launch ready
+
+### Milestone 3.1 – Complete Content
+
+**Tasks:** *(Order: content first, then pages and components, then assets, then optimization, then meta.)*
+
+- [ ] Create missing content (workflow 300–500 words, about 500–800 words, resume for web)
+- [ ] Complete About page (Workflow, Experience, bio)
+  - [ ] Add or wire WorkflowGrid component (workflow phases from data)
+  - [ ] Add or wire ExperienceTimeline component (work history from data)
+- [ ] Complete Uses page (tools and setup details)
+- [ ] Add all assets to case studies (Sainapsis, Ocean, AquaDS images and diagrams)
+- [ ] Optimize all images (WebP, blur placeholders, alt text, dimensions)
+- [ ] Write SEO meta descriptions for all pages
+
+### Milestone 3.2 – SEO Optimization
+
+**Tasks:** *(Order: implement SEO → run agents → enhancements → technical → test → Search Console.)*
+
+- [ ] Implement advanced SEO (Schema.org, Open Graph, Twitter Card, canonical URLs)
+- [ ] Run AI agents on all pages (SEO, Content Auditor, Accessibility, Performance)
+- [ ] Add SEO enhancements (internal/external links, headings, breadcrumbs, sitemap)
+- [ ] Apply technical optimization (lazy loading, fonts, bundle size, code splitting)
+- [ ] Run testing (mobile, cross-browser, Lighthouse 95+, Core Web Vitals)
+- [ ] Configure sitemap (next-sitemap config or custom; ensure sitemap.xml is generated)
+- [ ] Configure Google Search Console (verify, submit sitemap, check indexing)
+
+---
+
+## Project 4: Quality, Testing & Deployment
 
 **Project outcome:** Site stable, tested, and deployable
 
-### Milestone 5.1 – Quality & maintenance
+### Milestone 4.1 – Quality & maintenance
 
 **Tasks:** *(Order: a11y before code cleanup.)*
 
@@ -203,7 +185,7 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [ ] Remove or replace unused dependencies (e.g. framer-motion, react-wrap-balancer, next-seo, next-sitemap if confirmed unused; see TODO.md)
   - [ ] Remove dead code and unused components
 
-### Milestone 5.2 – Testing & deployment
+### Milestone 4.2 – Testing & deployment
 
 **Tasks:** *(Order: deploy and launch on Vercel first, then CI/CD, then Playwright, then Chromatic.)*
 
@@ -212,7 +194,7 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [ ] Add project: import Git repo (GitHub/GitLab/Bitbucket) or link existing project
   - [ ] Configure build settings (framework: Next.js, root directory, build command, output)
   - [ ] Add environment variables (match .env.local: NEXT_PUBLIC_*, CASE_STUDY_*_PASSWORD if used, GA/Amplitude keys when ready)
-  - [ ] Trigger first production deploy (push to main or “Deploy” in dashboard)
+  - [ ] Trigger first production deploy (push to main or "Deploy" in dashboard)
   - [ ] Verify deployment (production URL loads, key routes work: /, /work, /about, case study slug)
   - [ ] Verify assets and server behavior (images, MDX, password flow if used)
   - [ ] Set up custom domain (add domain in Vercel, configure DNS records, wait for SSL)
@@ -241,6 +223,26 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [ ] Document review workflow (how to approve/reject visual changes)
 
 ---
+
+## Project 5: Polish + Public Launch
+
+**Project outcome:** Public launch
+
+*The full **deploy and launch on Vercel** process (account, project, env, deploy, domain, SSL) is in **Project 4, Milestone 4.2**. Do 4.2 first (or in parallel with polish). Milestone 5.1 below is final polish, QA, and the launch moment (promotion and post-launch).*
+
+### Milestone 5.1 – Final Polish + Launch
+
+**Tasks:** *(Order: polish → analytics → QA → prep → launch → post-launch. Deployment steps are in 4.2.)*
+
+- [ ] Set up custom domain (register domain if needed; DNS, SSL, env vars — or complete in Vercel per 4.2)
+- [ ] Add polish and animations (transitions, scroll, hover, loading, 404)
+- [ ] Set up analytics (e.g. Vercel Analytics or GA4) and add privacy policy if using cookies
+- [ ] (Optional) Add rate limiting for password protection (e.g. attempts per IP per window)
+- [ ] Run final QA (AI agents, proofread, links, a11y, performance)
+- [ ] Complete launch preparation (OG images, LinkedIn post, optional email)
+- [ ] Execute public launch (site already deployed via 4.2; update LinkedIn/GitHub with live URL, share)
+- [ ] Complete post-launch tasks (design directories, monitor analytics, fix bugs)
+
 
 ## Project 6: Content Structure & Analytics
 
@@ -335,7 +337,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 ## Current status
 
-**Recommended next:** If launch incomplete → Project 2 (2.1 → 2.2) then Project 3 (3.1). If launch complete → Project 4 (4.1, finish in-progress) → Project 5 (5.1 → 5.2) → Project 6 (6.1 → 6.2) → Project 7 (7.1–7.4 as needed).  
+**Recommended next:** If launch incomplete → Project 2 (2.1) then Project 3 (3.1 → 3.2). If launch complete → Project 4 (4.1 → 4.2) → Project 5 (5.1) → Project 6 (6.1 → 6.2) → Project 7 (7.1–7.4 as needed).  
 **Blockers:** None
 
 ---
@@ -350,8 +352,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 ## Change log
 
-- **Feb 2026:** Full review: added missing past work (Project 1: token pipeline, password protection); Project 2: About WorkflowGrid/ExperienceTimeline, Uses page, sitemap; Project 3: optional password rate limiting; Project 4: SplitLayout, analytics wiring, DS components done + Storybook doc; Project 5: unused-deps subtask; Project 6: work pagination, GA4/Amplitude subtasks; Project 7: Writing/Reading/Experiments placeholder. Earlier: Standardized writing style (industry-aligned): Structure table and “Writing style” note; projects/milestones = outcome or deliverable; tasks/subtasks = imperative verbs (Implement, Add, Create, Configure, Run, Set up, etc.). Fixed passive or noun-only task phrasing across the roadmap.
-- **Feb 2026 (earlier):** Removed week numbering; Project.Milestone numbering (1.1, 1.2, …); split Project 4 into Projects 4–7; recommended order; design-to-code subtasks.
+
 
 ---
 

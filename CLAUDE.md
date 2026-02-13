@@ -2,7 +2,7 @@
 
 **Project:** Nicolás Botero - Personal Portfolio Website
 **Purpose:** SEO-optimized portfolio showcasing 10+ years of product design leadership
-**Launched:** December 2025 · **Current:** In iteration (see [ROADMAP.md](ROADMAP.md))
+**Launched:** Not yet · **Current:** Pre-launch, in development (see [ROADMAP.md](ROADMAP.md))
 **Status:** Live
 
 ---
