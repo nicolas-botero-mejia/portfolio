@@ -12,10 +12,12 @@
 
 | Level | Meaning | In this roadmap |
 |-------|---------|-----------------|
-| **Project** | A defined body of work with an outcome | Numbered 1–7 |
-| **Milestone** | A delivery target or checkpoint | Numbered **Project.Milestone** (e.g. 1.1, 1.2, 5.1) |
-| **Task** | A concrete piece of work | Main bullets under a milestone |
-| **Subtask** | Smaller steps inside a task | Nested bullets |
+| **Project** | A defined body of work with an outcome | Numbered 1–7; title = theme or outcome |
+| **Milestone** | A delivery target or checkpoint (zero-duration) | Numbered **Project.Milestone** (e.g. 1.1, 1.2); name = deliverable or phase |
+| **Task** | A concrete piece of work | Main bullets; **imperative verb** (Implement, Add, Create, Configure, Run, …) |
+| **Subtask** | Smaller steps inside a task | Nested bullets; same **imperative** style |
+
+**Writing style (industry-aligned):** Projects and milestones use **outcome or deliverable** names (what is achieved). Tasks and subtasks use **imperative verbs** so each item is one clear, actionable unit (e.g. "Implement a11y strategy", "Run bundle analysis"). Avoid passive or vague phrasing.
 
 ---
 
@@ -80,8 +82,8 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [x] Create Tailwind design tokens (color, typography, spacing, shadows, radii)
 - [x] Build component library (Button, Card, Badge, typography, Image, Link)
 - [x] Build home page and case study template
-- [x] Collect/create assets; configure SEO basics (metadata, sitemap, robots.txt)
-- [ ] Mobile responsiveness testing (ongoing)
+- [x] Collect or create assets and configure SEO basics (metadata, sitemap, robots.txt)
+- [ ] Run mobile responsiveness testing (ongoing)
 
 ---
 
@@ -105,10 +107,10 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 - [ ] Implement advanced SEO (Schema.org, Open Graph, Twitter Card, canonical URLs)
 - [ ] Run AI agents on all pages (SEO, Content Auditor, Accessibility, Performance)
-- [ ] SEO enhancements (internal/external links, headings, breadcrumbs, sitemap)
-- [ ] Technical optimization (lazy loading, fonts, bundle size, code splitting)
-- [ ] Testing (mobile, cross-browser, Lighthouse 95+, Core Web Vitals)
-- [ ] Google Search Console (verify, sitemap, indexing)
+- [ ] Add SEO enhancements (internal/external links, headings, breadcrumbs, sitemap)
+- [ ] Apply technical optimization (lazy loading, fonts, bundle size, code splitting)
+- [ ] Run testing (mobile, cross-browser, Lighthouse 95+, Core Web Vitals)
+- [ ] Configure Google Search Console (verify, submit sitemap, check indexing)
 
 ---
 
@@ -120,13 +122,13 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 **Tasks:** *(Order: domain → polish → analytics → QA → prep → launch → post-launch.)*
 
-- [ ] Custom domain (register, DNS, SSL, env vars)
-- [ ] Polish & animations (transitions, scroll, hover, loading, 404)
-- [ ] Analytics setup (e.g. Vercel Analytics), privacy policy if cookies
-- [ ] Final QA (AI agents, proofread, links, a11y, performance)
-- [ ] Launch preparation (OG images, LinkedIn post, optional email)
-- [ ] Public launch (deploy prod, update LinkedIn/GitHub, share)
-- [ ] Post-launch (design directories, monitor analytics, fix bugs)
+- [ ] Set up custom domain (register, DNS, SSL, env vars)
+- [ ] Add polish and animations (transitions, scroll, hover, loading, 404)
+- [ ] Set up analytics (e.g. Vercel Analytics) and add privacy policy if using cookies
+- [ ] Run final QA (AI agents, proofread, links, a11y, performance)
+- [ ] Complete launch preparation (OG images, LinkedIn post, optional email)
+- [ ] Execute public launch (deploy to production, update LinkedIn/GitHub, share)
+- [ ] Complete post-launch tasks (design directories, monitor analytics, fix bugs)
 
 ---
 
@@ -138,7 +140,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 **Tasks:**
 
-- [x] Redefine site navigation structure
+- [x] Redefine site navigation structure (content types, routes, sidebar)
 - [x] Integrate Figma MCP with Cursor
 - [x] Organize site architecture
   - [x] Separate types of data
@@ -149,24 +151,24 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [x] Add error handling logic to the project
 - [x] Integrate ChromeDevTools to Cursor
 - [ ] **Integrate design-to-code logic**
-  - [ ] Extract script (plugin API): walk Figma variable collections, output JSON
-  - [ ] Import pipeline: script to consume JSON and merge into token sources
-  - [ ] Define namespace/overrides (e.g. `figma/` prefix; optional override file)
+  - [ ] Write extract script (plugin API): walk Figma variable collections, output JSON
+  - [ ] Add import pipeline (script to consume JSON and merge into token sources)
+  - [ ] Define namespace and overrides (e.g. `figma/` prefix; optional override file)
   - [ ] Implement conflict resolution (new keys add; same path code wins unless override)
-  - [ ] (Optional) Component spec extraction from Figma (after variables stable)
+  - [ ] (Optional) Add component spec extraction from Figma (after variables stable)
 - [ ] **Integrate DS components with Storybook**
   - [ ] Set up Storybook
-  - [ ] Organize components
-  - [ ] Create stories
-  - [ ] Integrate add-ons
-  - [ ] Test components
-  - [ ] Optimize workflow
-  - [ ] Review and finalize
+  - [ ] Organize components for Storybook
+  - [ ] Create stories for each component
+  - [ ] Integrate add-ons (a11y, controls, docs)
+  - [ ] Test components in Storybook
+  - [ ] Optimize Storybook workflow
+  - [ ] Review and finalize integration
 - [ ] **Create Design System structure**
   - [x] Implement token logic
   - [x] Add Radix UI
-  - [ ] Create card component
-  - [ ] Create badge component
+  - [ ] Create Card component (variants, docs)
+  - [ ] Create Badge component (variants, docs)
   - [x] Add theme support (light/dark)
 
 ---
@@ -182,10 +184,10 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [ ] **Implement a11y strategy**
   - [ ] Audit site (axe, Lighthouse, keyboard/screen reader)
   - [ ] Fix critical issues and document patterns
-  - [ ] Add to PR/launch checklist
+  - [ ] Add a11y checks to PR/launch checklist
 - [ ] **Scan project for unused code and libraries**
-  - [ ] Run bundle/code analysis
-  - [ ] Remove or replace unused deps and dead code
+  - [ ] Run bundle and code analysis
+  - [ ] Remove or replace unused dependencies and dead code
 
 ### Milestone 5.2 – Testing & deployment
 
@@ -206,13 +208,13 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 **Tasks:**
 
-- [ ] **Separate Ocean case study into Features**
-  - [ ] List features to extract from Ocean CS
-  - [ ] Create feature MDX/content entries and routes
+- [ ] **Break out Ocean case study into Features**
+  - [ ] List features to extract from Ocean case study
+  - [ ] Create feature MDX content entries and routes
   - [ ] Update Ocean case study to link to or summarize features
-- [ ] **Separate Bridge case study into Features**
-  - [ ] List features to extract from Bridge CS
-  - [ ] Create feature MDX/content entries and routes
+- [ ] **Break out Bridge case study into Features**
+  - [ ] List features to extract from Bridge case study
+  - [ ] Create feature MDX content entries and routes
   - [ ] Update Bridge case study to link to or summarize features
 
 ### Milestone 6.2 – Analytics
@@ -233,31 +235,31 @@ Use this sequence so work builds on itself and nothing is blocked.
 **Tasks:**
 
 - [ ] Add remaining case studies (Masiv, PayU Latam)
-- [ ] Gather testimonials and add to About
-- [ ] Content: thumbnails on Work section, filtering (year/type), “Related projects” on case studies
-- [ ] SEO: monitor Search Console, optimize underperforming pages, build backlinks
+- [ ] Gather testimonials and add to About section
+- [ ] Add content enhancements (thumbnails on Work section, filtering (year/type), “Related projects” on case studies)
+- [ ] Monitor and optimize SEO (Search Console, underperforming pages, backlinks)
 
 ### Milestone 7.2 – Medium-term (3–6 months)
 
 **Tasks:**
 
-- [ ] Blog: layout, first 3–5 articles, RSS, promote on LinkedIn
-- [ ] Case studies: interactive prototypes, before/after sliders, video walkthroughs (Loom)
-- [ ] Portfolio v2: side projects, design principles page, resources/tools, public AquaDS-style docs
-- [ ] Nice-to-haves when bandwidth allows: dark mode, contact form (spam protection), “Back to top”, reading progress on case studies
+- [ ] Add blog (layout, first 3–5 articles, RSS, promote on LinkedIn)
+- [ ] Add case study enhancements (interactive prototypes, before/after sliders, video walkthroughs e.g. Loom)
+- [ ] Add portfolio v2 sections (side projects, design principles page, resources/tools, public AquaDS-style docs)
+- [ ] Add nice-to-haves when bandwidth allows (dark mode, contact form (spam protection), “Back to top”, reading progress on case studies)
 
 ### Milestone 7.3 – Long-term (6–12 months)
 
 **Tasks:**
 
-- [ ] Community: newsletter, regular posts, speaking/podcasts
-- [ ] Advanced: case study templates, design resources/freebies, workshop/course (if desired)
-- [ ] Analytics: quarterly review, conversion tracking, A/B tests on key pages
-- [ ] Post-launch promotion: design directories (bestfolios, layers.to, uxfolio, dribbble, behance), backlink maintenance
+- [ ] Build community (newsletter, regular posts, speaking/podcasts)
+- [ ] Add advanced offerings (case study templates, design resources/freebies, workshop/course if desired)
+- [ ] Run analytics review (quarterly review, conversion tracking, A/B tests on key pages)
+- [ ] Execute post-launch promotion (design directories e.g. bestfolios, layers.to, uxfolio, dribbble, behance; backlink maintenance)
 
-### Milestone 7.4 – Future ideas (parking lot – no commitment)
+### Milestone 7.4 – Future ideas (parking lot)
 
-Capture so we don’t forget; prioritize only when they align with goals.
+*No commitment; capture so we don’t forget; prioritize only when they align with goals.*
 
 - Multilingual (EN + ES)
 - Interactive design system playground
@@ -295,8 +297,8 @@ Capture so we don’t forget; prioritize only when they align with goals.
 
 ## Change log
 
-- **Feb 2026:** Removed week numbering; standardized Project.Milestone numbering (1.1, 1.2, 2.1, …); split former Project 4 into Projects 4–7 (Architecture & DS, Quality & Testing, Content & Analytics, Growth).
-- **Feb 2026 (earlier):** Recommended order; design-to-code subtasks; Milestone 4.0 with architecture/tooling/DS tasks.
+- **Feb 2026:** Standardized writing style (industry-aligned): Structure table and “Writing style” note; projects/milestones = outcome or deliverable; tasks/subtasks = imperative verbs (Implement, Add, Create, Configure, Run, Set up, etc.). Fixed passive or noun-only task phrasing across the roadmap.
+- **Feb 2026 (earlier):** Removed week numbering; Project.Milestone numbering (1.1, 1.2, …); split Project 4 into Projects 4–7; recommended order; design-to-code subtasks.
 
 ---
 
