@@ -44,7 +44,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 - **Project 2, 2.1:** Create missing content → Complete home sections → Add case study assets → Optimize images → Write SEO meta.
 - **Project 3, 3.1:** Custom domain → Polish & animations → Analytics setup → Final QA → Launch prep → Public launch → Post-launch.
 - **Project 5, 5.1:** A11y (audit → fix → document) before code cleanup (scan → remove).
-- **Project 5, 5.2:** Verify Vercel first → CI/CD pipeline → Playwright → Chromatic.
+- **Project 5, 5.2:** Deploy and launch on Vercel (full process) → CI/CD pipeline → Playwright → Chromatic.
 
 ---
 
@@ -80,9 +80,11 @@ Use this sequence so work builds on itself and nothing is blocked.
 **Tasks:**
 
 - [x] Create Tailwind design tokens (color, typography, spacing, shadows, radii)
+- [x] Add token generation pipeline (sources → generated CSS, Figma sync)
 - [x] Build component library (Button, Card, Badge, typography, Image, Link)
 - [x] Build home page and case study template
 - [x] Collect or create assets and configure SEO basics (metadata, sitemap, robots.txt)
+- [x] Implement password protection (server-side, locked case studies, HTTP-only cookies)
 - [ ] Run mobile responsiveness testing (ongoing)
 
 ---
@@ -93,10 +95,13 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 ### Milestone 2.1 – Complete Content
 
-**Tasks:** *(Order: content first, then assets, then optimization, then meta.)*
+**Tasks:** *(Order: content first, then pages and components, then assets, then optimization, then meta.)*
 
 - [ ] Create missing content (workflow 300–500 words, about 500–800 words, resume for web)
-- [ ] Complete home page sections (Workflow, About, Resume, Contact)
+- [ ] Complete About page (Workflow, Experience, bio)
+  - [ ] Add or wire WorkflowGrid component (workflow phases from data)
+  - [ ] Add or wire ExperienceTimeline component (work history from data)
+- [ ] Complete Uses page (tools and setup details)
 - [ ] Add all assets to case studies (Sainapsis, Ocean, AquaDS images and diagrams)
 - [ ] Optimize all images (WebP, blur placeholders, alt text, dimensions)
 - [ ] Write SEO meta descriptions for all pages
@@ -110,6 +115,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [ ] Add SEO enhancements (internal/external links, headings, breadcrumbs, sitemap)
 - [ ] Apply technical optimization (lazy loading, fonts, bundle size, code splitting)
 - [ ] Run testing (mobile, cross-browser, Lighthouse 95+, Core Web Vitals)
+- [ ] Configure sitemap (next-sitemap config or custom; ensure sitemap.xml is generated)
 - [ ] Configure Google Search Console (verify, submit sitemap, check indexing)
 
 ---
@@ -118,16 +124,19 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 **Project outcome:** Public launch
 
+*The full **deploy and launch on Vercel** process (account, project, env, deploy, domain, SSL) is in **Project 5, Milestone 5.2**. Do 5.2 first (or in parallel with polish). Milestone 3.1 below is final polish, QA, and the launch moment (promotion and post-launch).*
+
 ### Milestone 3.1 – Final Polish + Launch
 
-**Tasks:** *(Order: domain → polish → analytics → QA → prep → launch → post-launch.)*
+**Tasks:** *(Order: polish → analytics → QA → prep → launch → post-launch. Deployment steps are in 5.2.)*
 
-- [ ] Set up custom domain (register, DNS, SSL, env vars)
+- [ ] Set up custom domain (register domain if needed; DNS, SSL, env vars — or complete in Vercel per 5.2)
 - [ ] Add polish and animations (transitions, scroll, hover, loading, 404)
-- [ ] Set up analytics (e.g. Vercel Analytics) and add privacy policy if using cookies
+- [ ] Set up analytics (e.g. Vercel Analytics or GA4) and add privacy policy if using cookies
+- [ ] (Optional) Add rate limiting for password protection (e.g. attempts per IP per window)
 - [ ] Run final QA (AI agents, proofread, links, a11y, performance)
 - [ ] Complete launch preparation (OG images, LinkedIn post, optional email)
-- [ ] Execute public launch (deploy to production, update LinkedIn/GitHub, share)
+- [ ] Execute public launch (site already deployed via 5.2; update LinkedIn/GitHub with live URL, share)
 - [ ] Complete post-launch tasks (design directories, monitor analytics, fix bugs)
 
 ---
@@ -150,6 +159,8 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [x] Integrate code-to-design logic
 - [x] Add error handling logic to the project
 - [x] Integrate ChromeDevTools to Cursor
+- [x] Implement SplitLayout (sidebar + main, contact, navigation from content types)
+- [x] Add client-side analytics wiring (Amplitude + GA4 structure; configure keys and test in prod per 6.2)
 - [ ] **Integrate design-to-code logic**
   - [ ] Write extract script (plugin API): walk Figma variable collections, output JSON
   - [ ] Add import pipeline (script to consume JSON and merge into token sources)
@@ -167,8 +178,10 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [ ] **Create Design System structure**
   - [x] Implement token logic
   - [x] Add Radix UI
-  - [ ] Create Card component (variants, docs)
-  - [ ] Create Badge component (variants, docs)
+  - [x] Create Card component and subcomponents (CardHeader, CardTitle, CardDescription, CardMeta, CardImage, CardListItem)
+  - [x] Create Badge component
+  - [x] Add remaining UI components (Button, Tabs, Tooltip, Dialog, ScrollArea, ContentNavigation, CheckIcon)
+  - [ ] Document all DS components in Storybook (variants, props)
   - [x] Add theme support (light/dark)
 
 ---
@@ -187,16 +200,45 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [ ] Add a11y checks to PR/launch checklist
 - [ ] **Scan project for unused code and libraries**
   - [ ] Run bundle and code analysis
-  - [ ] Remove or replace unused dependencies and dead code
+  - [ ] Remove or replace unused dependencies (e.g. framer-motion, react-wrap-balancer, next-seo, next-sitemap if confirmed unused; see TODO.md)
+  - [ ] Remove dead code and unused components
 
 ### Milestone 5.2 – Testing & deployment
 
-**Tasks:** *(Order: verify Vercel → CI/CD → Playwright → Chromatic.)*
+**Tasks:** *(Order: deploy and launch on Vercel first, then CI/CD, then Playwright, then Chromatic.)*
 
-- [ ] **Verify and refine Vercel deployment** (env, domain, previews, deploy/rollback steps, post-deploy checks)
-- [ ] **Implement CI/CD pipeline** (tool, build/lint, tests, deploy staging/prod, monitor)
-- [ ] **Integrate site with Playwright** (research, scenarios, scripts, CI, document)
-- [ ] **Integrate site with Chromatic** (research, setup, configure, tests, review workflow)
+- [ ] **Deploy and launch site on Vercel**
+  - [ ] Create Vercel account (or use existing) and install Vercel CLI if needed
+  - [ ] Add project: import Git repo (GitHub/GitLab/Bitbucket) or link existing project
+  - [ ] Configure build settings (framework: Next.js, root directory, build command, output)
+  - [ ] Add environment variables (match .env.local: NEXT_PUBLIC_*, CASE_STUDY_*_PASSWORD if used, GA/Amplitude keys when ready)
+  - [ ] Trigger first production deploy (push to main or “Deploy” in dashboard)
+  - [ ] Verify deployment (production URL loads, key routes work: /, /work, /about, case study slug)
+  - [ ] Verify assets and server behavior (images, MDX, password flow if used)
+  - [ ] Set up custom domain (add domain in Vercel, configure DNS records, wait for SSL)
+  - [ ] Document deploy process and rollback steps (redeploy previous, or revert commit and push)
+  - [ ] Run post-deploy checks (smoke test, analytics firing, any env-specific behavior)
+- [ ] **Implement CI/CD pipeline**
+  - [ ] Choose CI tool (e.g. GitHub Actions; Vercel already does deploy on push)
+  - [ ] Add workflow: run build and lint on push or PR
+  - [ ] Add test job (e.g. Playwright) when tests exist
+  - [ ] Configure deploy on push to main (or rely on Vercel Git integration)
+  - [ ] Add branch protection or deploy rules if needed
+  - [ ] Monitor builds and refine (fix flaky steps, add notifications if desired)
+- [ ] **Integrate site with Playwright**
+  - [ ] Research and install Playwright for Next.js
+  - [ ] Configure Playwright (config file, base URL for dev/prod)
+  - [ ] Define test scenarios (critical paths: redirect / → /work, work list, one case study, about page)
+  - [ ] Create test scripts for core flows
+  - [ ] Run tests locally
+  - [ ] Integrate Playwright into CI (run on PR or before deploy)
+  - [ ] Document how to run and extend tests
+- [ ] **Integrate site with Chromatic**
+  - [ ] Research Chromatic for Next.js/React (visual regression)
+  - [ ] Install and configure Chromatic (project token, script)
+  - [ ] Run initial snapshot or link Storybook when Storybook exists
+  - [ ] Add Chromatic to PR or deploy workflow (optional)
+  - [ ] Document review workflow (how to approve/reject visual changes)
 
 ---
 
@@ -216,13 +258,23 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [ ] List features to extract from Bridge case study
   - [ ] Create feature MDX content entries and routes
   - [ ] Update Bridge case study to link to or summarize features
+- [ ] **Add work list pagination** (Load More or pagination when 10+ work items exist)
 
 ### Milestone 6.2 – Analytics
 
 **Tasks:**
 
-- [ ] **Implement GA4 strategy** (audit, metrics, property, event tracking, reports)
-- [ ] **Implement Amplitude in DS components** (if applicable) (research, events, component usage, integration, testing, docs)
+- [ ] **Implement GA4 strategy**
+  - [ ] Audit current setup and define key metrics
+  - [ ] Set up GA4 property and add measurement ID to .env and production
+  - [ ] Implement or verify page view tracking (e.g. @next/third-parties)
+  - [ ] Test page views and events in production
+  - [ ] Create reports or dashboards as needed
+- [ ] **Implement Amplitude in DS components** (if applicable)
+  - [x] Add event tracking utilities and key events (see README_ANALYTICS.md)
+  - [ ] Configure Amplitude API key in .env and production
+  - [ ] Test events in production (work card clicks, navigation, case study views, etc.)
+  - [ ] Add component-level instrumentation if desired
 
 ---
 
@@ -236,7 +288,8 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 - [ ] Add remaining case studies (Masiv, PayU Latam)
 - [ ] Gather testimonials and add to About section
-- [ ] Add content enhancements (thumbnails on Work section, filtering (year/type), “Related projects” on case studies)
+- [ ] Add content enhancements (thumbnails on Work section, filtering by year/type, Related projects on case studies)
+- [ ] Add placeholder or first content for Writing, Reading, Experiments pages (or keep coming-soon until ready)
 - [ ] Monitor and optimize SEO (Search Console, underperforming pages, backlinks)
 
 ### Milestone 7.2 – Medium-term (3–6 months)
@@ -297,7 +350,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 ## Change log
 
-- **Feb 2026:** Standardized writing style (industry-aligned): Structure table and “Writing style” note; projects/milestones = outcome or deliverable; tasks/subtasks = imperative verbs (Implement, Add, Create, Configure, Run, Set up, etc.). Fixed passive or noun-only task phrasing across the roadmap.
+- **Feb 2026:** Full review: added missing past work (Project 1: token pipeline, password protection); Project 2: About WorkflowGrid/ExperienceTimeline, Uses page, sitemap; Project 3: optional password rate limiting; Project 4: SplitLayout, analytics wiring, DS components done + Storybook doc; Project 5: unused-deps subtask; Project 6: work pagination, GA4/Amplitude subtasks; Project 7: Writing/Reading/Experiments placeholder. Earlier: Standardized writing style (industry-aligned): Structure table and “Writing style” note; projects/milestones = outcome or deliverable; tasks/subtasks = imperative verbs (Implement, Add, Create, Configure, Run, Set up, etc.). Fixed passive or noun-only task phrasing across the roadmap.
 - **Feb 2026 (earlier):** Removed week numbering; Project.Milestone numbering (1.1, 1.2, …); split Project 4 into Projects 4–7; recommended order; design-to-code subtasks.
 
 ---
