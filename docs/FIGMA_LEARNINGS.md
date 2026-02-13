@@ -1,6 +1,18 @@
 # Figma Integration Learnings
 
-Design-to-code learnings from pushing tokens and components to Figma via the plugin API (Chrome DevTools + figma-friend). Use this doc to improve future Figma-related tasks.
+Design-to-code learnings from pushing tokens and components to Figma via the plugin API. Use this doc to improve future Figma-related tasks.
+
+---
+
+## Relationship to figma-friend Skill
+
+**Use the figma-friend skill** when doing Figma work—it's not obsolete. It defines:
+- **Primary tools**: `navigate_page` / `browser_navigate`, `evaluate_script` (Chrome DevTools MCP)
+- **Workflow**: Open Figma → confirm `figma` global → run plugin API scripts
+- **Rules**: Plugin API only (no REST API, no manual UI instructions)
+- **Troubleshooting**: Edit access, plugin permissions, open-close-plugin trick
+
+**This doc extends figma-friend** with project-specific patterns: token architecture, component creation (createComponentFromNode, HUG), variable bindings, font mapping, and positioning. Invoke figma-friend first; apply these learnings for this portfolio's design system.
 
 ---
 
@@ -92,8 +104,39 @@ Design-to-code learnings from pushing tokens and components to Figma via the plu
 
 ## When Starting Figma Tasks
 
-1. Confirm Chrome DevTools MCP is connected and Figma file is open.
-2. Check token source (`primitiveTokens.ts`, `semanticTokens.ts`) for current structure.
-3. For new components: create frame with auto-layout → convert to component → combine as variants.
-4. For fontFamily: use `FIGMA_FONT_FAMILY_MAP` values in Figma; bind to text nodes.
-5. Position new elements below existing ones; avoid overlap.
+1. **Invoke figma-friend** for the base workflow.
+2. Confirm Chrome DevTools MCP is connected and Figma file is open.
+3. Check token source (`primitiveTokens.ts`, `semanticTokens.ts`) for current structure.
+4. For new components: create frame with auto-layout → convert to component → combine as variants.
+5. For fontFamily: use `FIGMA_FONT_FAMILY_MAP` values in Figma; bind to text nodes.
+6. Position new elements below existing ones; avoid overlap.
+
+---
+
+## Strategy: Figma → Code (Multi-Source Tokens)
+
+**Current state:** Tokens live in code (`primitiveTokens.ts`, `semanticTokens.ts`); we push to Figma. One direction.
+
+**Goal:** Tokens as source of truth that can **incorporate** from multiple sources—including Figma—not just from code.
+
+### Options to consider
+
+| Approach | Pros | Cons |
+|----------|------|------|
+| **Import script** | Run periodically; pull Figma variables via plugin API or REST; output to a staging file (e.g. `figma-import.json`) for review | Need conflict resolution; Figma structure differs from our primitives/semantics |
+| **Merge layer** | Keep code tokens as canonical; add an "imports" step that merges new/updated values from Figma into the token files (or a generated override file) | Merge logic; deciding who wins on conflicts |
+| **Figma as input, code as curator** | Designer adds variables in Figma → import script extracts → human or script merges into `primitiveTokens` / `semanticTokens` | Manual or semi-manual curation step |
+| **DTCG + Style Dictionary** | Use Design Tokens Community Group format as interchange; Style Dictionary transforms Figma export → our structure | Adds tooling; Figma export format may need adaptation |
+
+### Recommended next steps
+
+1. **Extract script (plugin API):** Write a script run via `evaluate_script` that walks `figma.variables.getLocalVariableCollections()`, reads variable names and values, and outputs JSON. This becomes the "Figma export" format.
+2. **Import pipeline:** Create `scripts/importFigmaTokens.ts` (or similar) that consumes that JSON and merges into token sources. Define rules: e.g. "new keys → add; existing keys → code wins unless explicitly marked as Figma override."
+3. **Namespace:** Consider `figma/` or `imported/` prefix for tokens that originate from Figma, so they're distinguishable from hand-written tokens.
+4. **Components:** Pulling component structure (variants, props) from Figma is heavier; start with variables, then design component spec extraction if needed.
+
+### Conflict resolution (draft)
+
+- **New token in Figma, not in code:** Add to `primitiveTokens` or `semanticTokens` (or staging file for review).
+- **Same path, different value:** Code wins by default; or support an override file (e.g. `tokenOverrides.json`) that Figma import can populate for explicit overrides.
+- **fontFamily:** Always use `FIGMA_FONT_FAMILY_MAP` for Figma-bound values; source keeps CSS stacks.
