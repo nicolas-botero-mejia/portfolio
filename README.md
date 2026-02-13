@@ -8,8 +8,8 @@
 > SEO-optimized portfolio showcasing 10+ years of product design leadership, design systems, and strategic transformation work.
 
 **Live Site:** [nicolas-botero-mejia.com](#) *(coming soon)*
-**Status:** 🚧 In Development
-**Current Phase:** Phase 1 - Foundation
+**Status:** Pre-launch; in development (see [ROADMAP.md](ROADMAP.md))
+**Current focus:** Project 2 (2.1 → 2.2) — Architecture, design system, mobile
 
 ---
 
@@ -22,7 +22,7 @@ This portfolio showcases my work as a Product Designer, featuring detailed case 
 - **AquaDS** - Design system enabling 80-90% component adoption and 80% faster delivery
 
 **Core Features:**
-- ⚡️ Blazing-fast performance (Next.js 15 + SSG)
+- ⚡️ Blazing-fast performance (Next.js 16 + SSG)
 - 🎨 MDX-powered case studies with type-safe content
 - 🔍 SEO-optimized for design leadership keywords
 - ♿️ WCAG 2.1 AA accessible
@@ -424,13 +424,9 @@ CASE_STUDY_GLOBAL_PASSWORD=your-password-hash-here
 
 ## 🗺 Roadmap
 
-See [ROADMAP.md](ROADMAP.md) for the development timeline.
+See [ROADMAP.md](ROADMAP.md) for the development timeline and recommended order.
 
-**Current Status:** Phase 1 - Foundation
-**Upcoming:**
-- Phase 2: Content + SEO (Weeks 3-4)
-- Phase 3: Polish + Launch (Week 5)
-- Phase 4: Growth (Ongoing)
+**Current status:** Project 1 done (POC); executing Project 2 (2.1 → 2.2), then 3–7 per roadmap.
 
 ---
 

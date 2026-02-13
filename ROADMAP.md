@@ -97,7 +97,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 **Project outcome:** Architecture, tooling, and design system in place
 
-### Milestone 2.1 – Architecture, tooling & mobile *(in progress)*
+### Milestone 2.1 – Architecture, tooling, code-to-design & design-to-code, & mobile *(in progress)*
 
 **Tasks:**
 
@@ -131,25 +131,26 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [ ] Check landscape orientation (layout and overflow at key widths in landscape)
   - [ ] Document breakpoints and responsive patterns (or add to DS docs)
 
-### Milestone 2.2 – Design system structure, Storybook & design-to-code *(grows with components)*
+### Milestone 2.2 – Design system structure & Storybook *(grows with components)*
 
 **Tasks:**
-- [ ] **Integrate DS components with Storybook**
-  - [ ] Set up Storybook
-  - [ ] Organize components for Storybook
-  - [ ] Create stories for each component
-  - [ ] Integrate add-ons (a11y, controls, docs)
-  - [ ] Test components in Storybook
-  - [ ] Optimize Storybook workflow
-  - [ ] Review and finalize integration
 - [ ] **Create Design System structure**
   - [x] Implement token logic
   - [x] Add Radix UI
   - [x] Create Card component and subcomponents (CardHeader, CardTitle, CardDescription, CardMeta, CardImage, CardListItem)
   - [x] Create Badge component
   - [x] Add remaining UI components (Button, Tabs, Tooltip, Dialog, ScrollArea, ContentNavigation, CheckIcon)
-  - [ ] Document all DS components in Storybook (variants, props)
+  - [ ] Push all the components and variables to Figma
   - [x] Add theme support (light/dark)
+- [ ] **Integrate DS components with Storybook**
+  - [ ] Set up Storybook
+  - [ ] Organize components for Storybook
+  - [ ] Create stories for each component
+  - [ ] Document all DS components in Storybook (variants, props)
+  - [ ] Integrate add-ons (a11y, controls, docs)
+  - [ ] Test components in Storybook
+  - [ ] Optimize Storybook workflow
+  - [ ] Review and finalize integration
 
 ---
 
@@ -367,6 +368,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 ## Change log
 
+- **Feb 2026:** Doc pass before execution: moved "Integrate design-to-code logic" from 2.1 to 2.2 (was only in 2.2 by title; now single place). README: status/phase → ROADMAP-aligned (pre-launch, Project 2 focus); Next.js 15 → 16; roadmap section simplified.
 - **Feb 2026:** Project 2 split: moved mobile responsiveness from P1 to Milestone 2.1 with subtasks (audit breakpoints, fix layout, touch targets, test nav, document). Created Milestone 2.2 for design-to-code, Storybook, and Design System structure (2.2 grows with components). Updated recommended order and task-order bullets.
 
 ---
