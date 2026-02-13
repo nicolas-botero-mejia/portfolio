@@ -1,8 +1,8 @@
 # Portfolio Website Roadmap
 
 **Project Start:** November 11, 2025  
-**Target Launch:** December 16, 2025 (5 weeks)  
-**Status:** 🚧 Phase 1 - Foundation
+**Launched:** December 2025  
+**Status:** In iteration
 
 ---
 
@@ -27,27 +27,27 @@
 **Focus:** Infrastructure + Content
 
 **Tasks:**
-- [x] Initialize Next.js 15 project with TypeScript + Tailwind
-- [ ] Install dependencies (Contentlayer, Zod, Framer Motion, next-seo)
-- [ ] Configure Contentlayer for MDX processing
-- [ ] Set up project structure (components, content, lib)
+- [x] Initialize Next.js 16 project with TypeScript + Tailwind
+- [x] Install dependencies (gray-matter, next-mdx-remote, Zod, Framer Motion, next-seo)
+- [x] Configure MDX processing (gray-matter + next-mdx-remote)
+- [x] Set up project structure (components, content, lib, data)
 - [ ] Create 5 AI agents in `.claude/agents/`:
   - [ ] SEO Optimizer Agent
   - [ ] Content Auditor Agent
   - [ ] Accessibility Checker Agent
   - [ ] Performance Optimizer Agent
   - [ ] Case Study Migrator Agent
-- [ ] Migrate 3 case studies from Career Companion repo:
-  - [ ] Sainapsis case study → `content/case-studies/sainapsis.mdx`
-  - [ ] Ocean case study → `content/case-studies/ocean.mdx`
-  - [ ] AquaDS case study → `content/case-studies/aquads.mdx`
-- [ ] Add MDX frontmatter to each case study
-- [ ] Migrate home page content
-- [ ] Create basic layout components:
-  - [ ] Header component
-  - [ ] Footer component
-  - [ ] Navigation component
-- [ ] Deploy to Vercel (staging)
+- [x] Migrate 3 case studies from Career Companion repo:
+  - [x] Sainapsis case study → `content/work/case-studies/sainapsis.mdx`
+  - [x] Ocean case study → `content/work/case-studies/ocean.mdx`
+  - [x] AquaDS case study → `content/work/case-studies/aquads.mdx`
+- [x] Add MDX frontmatter to each case study
+- [x] Migrate home page content
+- [x] Create basic layout components:
+  - [x] Header component
+  - [x] Footer component
+  - [x] Navigation component
+- [x] Deploy to Vercel (staging)
 
 **Deliverable:** Deployed site with 3 case studies (unstyled)
 
@@ -266,6 +266,57 @@
 **Timeline:** Ongoing (Dec 16, 2025+)
 **Goal:** Continuous improvement and content expansion
 
+#### Infrastructure, Testing & Analytics
+
+- [ ] **Separate Ocean and Bridge CS into Features** (break out case studies into feature-level content)
+- [ ] **Implement a11y strategy**
+- [ ] **Scan the entire project for unused code and libraries**
+- [ ] **Implement GA4 strategy**
+  - [ ] Audit Current Analytics Setup
+  - [ ] Define Key Metrics and Goals
+  - [ ] Set Up GA4 Properties
+  - [ ] Implement Event Tracking
+  - [ ] Create Custom Reports and Dashboards
+  - [ ] Train Team on GA4 Usage
+- [ ] **Implement Amplitude into DS components**
+  - [ ] Research and Preparation
+  - [ ] Event Tracking
+  - [ ] Component Usage
+  - [ ] Integration
+  - [ ] Testing and QA
+  - [ ] Documentation
+  - [ ] Deployment
+  - [ ] Follow-Up
+- [ ] **Implement CI/CD architecture**
+  - [ ] Set up version control system
+  - [ ] Choose CI/CD tool
+  - [ ] Configure CI/CD tool for build automation
+  - [ ] Set up automated testing
+  - [ ] Deploy to Staging and Production
+  - [ ] Monitor and Optimize
+- [ ] **Integrate site with Chromatic**
+  - [ ] Research Chromatic Integration
+  - [ ] Prepare the Project
+  - [ ] Set Up Chromatic
+  - [ ] Configure the Site
+  - [ ] Run Initial Tests
+  - [ ] Collaborate and Review
+  - [ ] Finalize Integration
+- [ ] **Integrate site with Playwright**
+  - [ ] Research and Setup
+  - [ ] Define Test Scenarios
+  - [ ] Create Test Scripts
+  - [ ] Integrate with CI/CD
+  - [ ] Run and Debug
+  - [ ] Documentation
+  - [ ] Review and Iterate
+- [ ] **Deploy site on Vercel** (or verify/refine existing deployment)
+  - [ ] Prepare the Project
+  - [ ] Set Up Vercel Account
+  - [ ] Deploy the Site
+  - [ ] Verify Deployment
+  - [ ] Post-Deployment Tasks
+
 #### Short-Term (1-3 Months)
 - [ ] Add remaining case studies:
   - [ ] Masiv (2018-21) case study
@@ -354,15 +405,20 @@
 
 ## 🚧 Current Status
 
-**Phase:** Phase 1 - Foundation  
-**Week:** Week 1 - Setup + Content Migration  
-**Progress:** 10%  
+**Phase:** In iteration (post-launch)  
+**Progress:** Foundation complete; infrastructure, testing & analytics in progress  
 **Blockers:** None  
-**Next Task:** Initialize Next.js project
+**Next Task:** See "Infrastructure, Testing & Analytics" below
 
 ---
 
 ## 📝 Change Log
+
+### **February 2026**
+- Updated status to post-launch / in iteration
+- Aligned Phase 1 with actual stack (Next 16, gray-matter + next-mdx-remote)
+- Marked completed foundation tasks
+- Added "Infrastructure, Testing & Analytics" section (GA4, Amplitude, CI/CD, Chromatic, Playwright, Vercel, a11y, code cleanup, Ocean/Bridge features)
 
 ### **November 11, 2025**
 - ✅ Created initial roadmap
@@ -375,9 +431,9 @@
 
 ### Tech Stack
 
-- **Framework:** Next.js 15 (chosen for SEO, performance, ease of deployment)
-- **Styling:** Tailwind CSS (chosen for speed, consistency, small bundle size)
-- **Content:** MDX + Contentlayer (chosen for type safety, flexibility)
+- **Framework:** Next.js 16 (chosen for SEO, performance, ease of deployment)
+- **Styling:** Tailwind CSS 4 (chosen for speed, consistency, small bundle size)
+- **Content:** MDX + gray-matter + next-mdx-remote (flexibility, no Contentlayer dependency)
 - **Hosting:** Vercel (chosen for free tier, instant deploys, edge network)
 
 ### Scope Decisions
@@ -410,5 +466,5 @@ Ideas for future consideration (not planned for current phases):
 
 ---
 
-**Last Updated:** November 11, 2025  
-**Next Review:** November 18, 2025 (End of Week 1)
+**Last Updated:** February 2026  
+**Next Review:** As needed (in iteration)
