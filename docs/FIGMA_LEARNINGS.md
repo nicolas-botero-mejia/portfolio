@@ -2,6 +2,8 @@
 
 Design-to-code learnings from pushing tokens and components to Figma via the plugin API. Use this doc to improve future Figma-related tasks.
 
+**How to use this doc:** New to a Figma task? Start with **When Starting Figma Tasks** (runbook). Need token → Figma mapping? See **Token Architecture**, **Font Tokens**, and **Component-to-Token Mapping**. Hitting an API quirk? Check **API Gotchas** and **Community & forum learnings**. Planning bidirectional tokens? See **Strategy: Figma → Code**.
+
 ---
 
 ## Relationship to figma-friend Skill
@@ -14,6 +16,8 @@ Design-to-code learnings from pushing tokens and components to Figma via the plu
 
 **This doc extends figma-friend** with project-specific patterns: token architecture, component creation (createComponentFromNode, HUG), component properties (text/label), variable bindings, font mapping, and positioning. Invoke figma-friend first; apply these learnings for this portfolio's design system.
 
+**Token flow (this project):** Tokens live in code (`src/data/sources/primitiveTokens.ts`, `semanticTokens.ts`) and are the source of truth. We push to Figma (variables, component styling) via scripts run in the plugin context (e.g. `evaluate_script`). Future: optional import from Figma → staging/merge (see Strategy).
+
 ---
 
 ## Connection & Access
@@ -24,8 +28,21 @@ Design-to-code learnings from pushing tokens and components to Figma via the plu
 
 ---
 
+## When Starting Figma Tasks
+
+1. **Invoke figma-friend** for the base workflow.
+2. Confirm Chrome DevTools MCP is connected and Figma file is open.
+3. Check token source (`src/data/sources/primitiveTokens.ts`, `semanticTokens.ts`) for current structure.
+4. For new components: create frame with auto-layout → convert to component → combine as variants.
+5. For fontFamily: use `FIGMA_FONT_FAMILY_MAP` values in Figma; bind to text nodes.
+6. Position new elements below existing ones; avoid overlap.
+7. For existing text-based components (Badge, Button, Tabs, Tooltip): ensure a **label** text property exists and is bound to all relevant text layers so instances are editable from the panel without deep selection.
+
+---
+
 ## Token Architecture
 
+- **Source of truth:** `src/data/sources/primitiveTokens.ts`, `semanticTokens.ts` (see also ROADMAP — token generation, Figma sync).
 - **Primitives** collection: raw palette (colors, spacing, typography, radii, border). Single mode.
 - **Semantics** collection: role-based tokens aliasing primitives. Light/Dark modes for theming.
 - Semantic variables reference primitives via `{ type: 'VARIABLE_ALIAS', id: variableId }`.
@@ -78,20 +95,20 @@ Use component properties so instances expose a single control (e.g. **label**) f
 
 ---
 
+## Variable Naming
+
+- Figma allows slashes for hierarchy (e.g. `colors/gray/50`, `semantic/background/primary`).
+- Avoid numeric keys in paths (e.g. `spacing/0.5` → use `spacing/0-5`).
+- Duplicate variable names in a collection cause errors.
+
+---
+
 ## Variable Bindings
 
 - **Paints** (fills, strokes): use `figma.variables.setBoundVariableForPaint(paint, 'color', variable)` and assign the returned paint to `node.fills` or `node.strokes`.
 - **Text**: `fontFamily`, `fontSize`, `fontWeight` are bindable. Pass the Variable object, not the ID.
 - **Layout**: `cornerRadius`, `paddingLeft`, `paddingRight`, `paddingTop`, `paddingBottom`, `strokeWeight` accept variable bindings.
 - **Effect** (drop shadow): Figma effect format differs; avoid complex effects if the API format is unclear.
-
----
-
-## Variable Naming
-
-- Figma allows slashes for hierarchy (e.g. `colors/gray/50`, `semantic/background/primary`).
-- Avoid numeric keys in paths (e.g. `spacing/0.5` → use `spacing/0-5`).
-- Duplicate variable names in a collection cause errors.
 
 ---
 
@@ -109,8 +126,7 @@ Use component properties so instances expose a single control (e.g. **label**) f
 - `figma.createNodeFromSvg(svgString)` returns a Frame; useful for icons.
 - `primaryAxisAlignItems`: use `'MIN' | 'MAX' | 'CENTER' | 'SPACE_BETWEEN'`, not `'STRETCH'`.
 - `layoutSizingHorizontal = 'HUG'` only works on auto-layout frames and text children of auto-layout frames.
-- **Component properties:** `addComponentProperty()` returns the full key (e.g. `label#25:0`). Use that exact string for `componentPropertyReferences` and for `editComponentProperty()`; the suffix is required. To find an existing text property by display name, use `Object.keys(node.componentPropertyDefinitions).find(k => k.startsWith('Label#'))` (or the current name).
-- **addComponentProperty not registering:** Community reports exist where `addComponentProperty` does not register on components (e.g. `componentPropertyDefinitions` stays empty). If it happens, retry with the component/variant selected or after ensuring the node is a main component/component set; consider filing or checking [Figma Forum](https://forum.figma.com/) for workarounds.
+- **Component properties:** `addComponentProperty()` returns the full key (e.g. `label#25:0`). Use that exact string for `componentPropertyReferences` and for `editComponentProperty()`; the suffix is required. To find an existing text property by display name, use `Object.keys(node.componentPropertyDefinitions).find(k => k.startsWith('Label#'))` (or the current name). If properties don’t register, see **Community & forum learnings**.
 - **Large files / dynamic page loading:** With `"documentAccess": "dynamic-page"` (default for new plugins), only the current page loads fully. Use async APIs: `figma.getNodeByIdAsync()`, `figma.getLocalTextStylesAsync()`, `node.getMainComponentAsync()`, etc. Sync variants (`figma.getNodeById()`, `.mainComponent`) can fail or be undefined when the node is on an unloaded page. [Migrating to dynamic loading](https://www.figma.com/plugin-docs/migrating-to-dynamic-loading/).
 - **Performance (widgets/canvas):** Blurs, shadows, non-normal blend modes, and complex SVG are expensive. Prefer rasterizing effects as images if needed. Load additional pages only when the user needs them.
 
@@ -143,18 +159,6 @@ Pitfalls and patterns from Figma Forum, Dev.to, Discord, and blogs—not just of
 | CardHeader     | sm       | medium     | content/muted, border/subtle                  |
 | CardListItem   | sm       | medium     | content/primary, content/muted, background/subtle (selected) |
 | CheckIcon      | —        | —          | content/primary                               |
-
----
-
-## When Starting Figma Tasks
-
-1. **Invoke figma-friend** for the base workflow.
-2. Confirm Chrome DevTools MCP is connected and Figma file is open.
-3. Check token source (`primitiveTokens.ts`, `semanticTokens.ts`) for current structure.
-4. For new components: create frame with auto-layout → convert to component → combine as variants.
-5. For fontFamily: use `FIGMA_FONT_FAMILY_MAP` values in Figma; bind to text nodes.
-6. Position new elements below existing ones; avoid overlap.
-7. For existing text-based components (Badge, Button, Tabs, Tooltip): ensure a **label** text property exists and is bound to all relevant text layers so instances are editable from the panel without deep selection.
 
 ---
 
