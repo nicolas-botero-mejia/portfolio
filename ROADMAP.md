@@ -4,7 +4,7 @@
 **Launched:** December 2025  
 **Status:** In iteration
 
-**Current focus:** Content structure (Ocean/Bridge → features), quality (a11y, code cleanup), and infrastructure (testing, analytics, CI/CD). Phases 2 and 3 keep their own tasks; pick from the phase you’re working in.
+**Current focus:** Follow the recommended order below. If launch isn’t complete, do Project 2 → 3 first; then Project 4 in the sequence given.
 
 ---
 
@@ -13,11 +13,33 @@
 | Level | Meaning | In this roadmap |
 |-------|---------|-----------------|
 | **Project** | A defined body of work with an outcome | Each **Phase** (1, 2, 3, 4) |
-| **Milestone** | A delivery target or checkpoint | **Weekly objectives** (Week 1, Week 2, …) or, in Phase 4, focus areas (4.1, 4.2, …) |
+| **Milestone** | A delivery target or checkpoint | **Weekly objectives** (Week 1, 2, …) or Phase 4 focus areas (4.1, 4.2, …) |
 | **Task** | A concrete piece of work | Main bullets under a milestone |
 | **Subtask** | Smaller steps inside a task | Nested bullets |
 
-Phases stay separate: Phase 2 and Phase 3 are their own projects with their own milestones and tasks. We don’t mix them into Phase 4.
+---
+
+## Recommended order (what to do first)
+
+Use this sequence so work builds on itself and nothing is blocked.
+
+**Projects (in order):** 1 → 2 → 3 → 4. Finish launch (2 and 3) before iteration (4) unless you’re deliberately iterating in parallel.
+
+**Within each project:**
+
+| Project | Milestone order | Why |
+|---------|-----------------|-----|
+| **1** | Week 1 → Week 2 | Setup before design system (done) |
+| **2** | Week 3 → Week 4 | Content before SEO |
+| **3** | Week 5 (single milestone) | Custom domain & polish → QA → launch prep → deploy → post-launch |
+| **4** | 4.2 → 4.4 → 4.1 → 4.3 → 4.5 → 4.6 → 4.7 → 4.8 | Quality & testing first so the site is stable; then content structure; then analytics; then time-based buckets; parking lot last |
+
+**Task order within key milestones:**
+
+- **Project 2, Week 3:** Create missing content → Complete home sections → Add case study assets → Optimize images → Write SEO meta.
+- **Project 3, Week 5:** Custom domain → Polish & animations → Analytics setup → Final QA → Launch prep → Public launch → Post-launch.
+- **Project 4, 4.2:** A11y (audit → fix → document) before code cleanup (scan → remove).
+- **Project 4, 4.4:** Verify Vercel first → CI/CD pipeline → Playwright → Chromatic (so tests run in CI).
 
 ---
 
@@ -25,8 +47,8 @@ Phases stay separate: Phase 2 and Phase 3 are their own projects with their own 
 
 | When | What |
 |------|------|
-| Past | Phase 1 completed; Phases 2–3 in progress or to do |
-| Current | Phase 4 (Growth + iteration) plus any open work in Phase 2–3 |
+| Past | Project 1 completed |
+| Current | Projects 2, 3, 4 (in recommended order above) |
 
 ---
 
@@ -71,14 +93,14 @@ Phases stay separate: Phase 2 and Phase 3 are their own projects with their own 
 
 ### Milestone: Week 3 – Complete Content
 
-**Tasks:**
+**Tasks:** *(Order: content first, then assets, then optimization, then meta.)*
 
+- [ ] Create missing content (workflow 300–500 words, about 500–800 words, resume for web)
 - [ ] Complete home page sections:
   - [ ] Workflow section (process overview content)
   - [ ] About section (extended bio, skills, fun facts)
   - [ ] Resume section (experience timeline, skills list, download PDF CTA)
   - [ ] Contact section (contact info, social links)
-- [ ] Create missing content (workflow 300–500 words, about 500–800 words, resume for web)
 - [ ] Add all assets to case studies:
   - [ ] Sainapsis: hero, timeline diagrams, before/after, component grid, metrics
   - [ ] Ocean: hero, architecture diagram, dashboard screenshots, multi-channel, collaboration
@@ -88,7 +110,7 @@ Phases stay separate: Phase 2 and Phase 3 are their own projects with their own 
 
 ### Milestone: Week 4 – SEO Optimization
 
-**Tasks:**
+**Tasks:** *(Order: implement SEO → run agents → enhancements → technical → test → Search Console.)*
 
 - [ ] Implement advanced SEO:
   - [ ] Schema.org (Person, CreativeWork, Article)
@@ -108,8 +130,9 @@ Phases stay separate: Phase 2 and Phase 3 are their own projects with their own 
 
 ### Milestone: Week 5 – Final Polish + Launch
 
-**Tasks:**
+**Tasks:** *(Order: domain & foundation → polish → analytics → QA → prep → launch → post-launch.)*
 
+- [ ] Custom domain: register, DNS, SSL, env vars
 - [ ] Polish & animations:
   - [ ] Page transitions (Framer Motion)
   - [ ] Scroll animations for case study sections
@@ -117,7 +140,6 @@ Phases stay separate: Phase 2 and Phase 3 are their own projects with their own 
   - [ ] 404 page
 - [ ] Analytics setup (e.g. Vercel Analytics), privacy policy if using cookies
 - [ ] Final QA: re-run AI agents, proofread, test links, accessibility and performance check
-- [ ] Custom domain: register, DNS, SSL, env vars
 - [ ] Launch preparation: OG images, LinkedIn launch post, optional email announcement
 - [ ] Public launch:
   - [ ] Deploy to production with custom domain
@@ -129,11 +151,50 @@ Phases stay separate: Phase 2 and Phase 3 are their own projects with their own 
 
 ---
 
-## Project 4: Growth + Iteration (current)
+## Project 4: Growth + Iteration
 
 **Project outcome:** Continuous improvement, content structure, quality, and infrastructure
 
-### Milestone: 4.1 – Content structure
+*Milestone order: 4.2 → 4.4 → 4.1 → 4.3 → 4.5 → 4.6 → 4.7 → 4.8 (quality & testing first, then content structure, then analytics, then time-based).*
+
+### Milestone: 4.2 – Quality & maintenance *(do first in Phase 4)*
+
+**Tasks:** *(Order: a11y before code cleanup so patterns are in place.)*
+
+- [ ] **Implement a11y strategy**
+  - [ ] Audit site (axe, Lighthouse, keyboard/screen reader)
+  - [ ] Fix critical issues and document patterns
+  - [ ] Add to PR/launch checklist
+- [ ] **Scan project for unused code and libraries**
+  - [ ] Run bundle/code analysis
+  - [ ] Remove or replace unused deps and dead code
+
+### Milestone: 4.4 – Testing & deployment *(do second in Phase 4)*
+
+**Tasks:** *(Order: verify Vercel → CI/CD → Playwright → Chromatic so tests run in CI.)*
+
+- [ ] **Verify and refine Vercel deployment**
+  - [ ] Confirm env, domain, and previews
+  - [ ] Document deploy and rollback steps
+  - [ ] Post-deployment checks
+- [ ] **Implement CI/CD pipeline**
+  - [ ] Choose/confirm CI tool (e.g. GitHub Actions)
+  - [ ] Configure build and lint
+  - [ ] Add automated tests (e.g. Playwright)
+  - [ ] Deploy to staging and production
+  - [ ] Monitor and refine
+- [ ] **Integrate site with Playwright**
+  - [ ] Research and setup
+  - [ ] Define test scenarios (critical paths)
+  - [ ] Create test scripts
+  - [ ] Integrate with CI
+  - [ ] Document and iterate
+- [ ] **Integrate site with Chromatic**
+  - [ ] Research and setup
+  - [ ] Configure project and run initial tests
+  - [ ] Add to review workflow
+
+### Milestone: 4.1 – Content structure *(do third in Phase 4)*
 
 **Tasks:**
 
@@ -146,19 +207,7 @@ Phases stay separate: Phase 2 and Phase 3 are their own projects with their own 
   - [ ] Create feature MDX/content entries and routes
   - [ ] Update Bridge case study to link to or summarize features
 
-### Milestone: 4.2 – Quality & maintenance
-
-**Tasks:**
-
-- [ ] **Implement a11y strategy**
-  - [ ] Audit site (axe, Lighthouse, keyboard/screen reader)
-  - [ ] Fix critical issues and document patterns
-  - [ ] Add to PR/launch checklist
-- [ ] **Scan project for unused code and libraries**
-  - [ ] Run bundle/code analysis
-  - [ ] Remove or replace unused deps and dead code
-
-### Milestone: 4.3 – Analytics
+### Milestone: 4.3 – Analytics *(do fourth in Phase 4)*
 
 **Tasks:**
 
@@ -173,31 +222,6 @@ Phases stay separate: Phase 2 and Phase 3 are their own projects with their own 
   - [ ] Event tracking plan
   - [ ] Component usage instrumentation
   - [ ] Integration, testing, documentation
-
-### Milestone: 4.4 – Testing & deployment
-
-**Tasks:**
-
-- [ ] **Integrate site with Playwright**
-  - [ ] Research and setup
-  - [ ] Define test scenarios (critical paths)
-  - [ ] Create test scripts
-  - [ ] Integrate with CI (when CI is in place)
-  - [ ] Document and iterate
-- [ ] **Integrate site with Chromatic**
-  - [ ] Research and setup
-  - [ ] Configure project and run initial tests
-  - [ ] Add to review workflow
-- [ ] **Implement CI/CD pipeline**
-  - [ ] Choose/confirm CI tool (e.g. GitHub Actions)
-  - [ ] Configure build and lint
-  - [ ] Add automated tests (e.g. Playwright)
-  - [ ] Deploy to staging and production
-  - [ ] Monitor and refine
-- [ ] **Verify and refine Vercel deployment**
-  - [ ] Confirm env, domain, and previews
-  - [ ] Document deploy and rollback steps
-  - [ ] Post-deployment checks
 
 ### Milestone: 4.5 – Short-term (next 1–3 months)
 
@@ -251,10 +275,8 @@ Capture so we don’t forget; prioritize only when they align with goals.
 
 ## Current status
 
-**Project:** 4 – Growth + iteration (and/or 2–3 if you’re finishing launch work)  
-**Focus:** 4.1 Content structure, 4.2 Quality, 4.3 Analytics, 4.4 Testing; or Phase 2/3 milestones as needed  
-**Blockers:** None  
-**Next:** Pick a project and milestone (e.g. Phase 2 Week 3, or Phase 4 → 4.1).
+**Recommended next:** If launch incomplete → Project 2 (Week 3 → Week 4) then Project 3 (Week 5). If launch complete → Project 4 in order: 4.2 → 4.4 → 4.1 → 4.3, then 4.5–4.7 as needed.  
+**Blockers:** None
 
 ---
 
@@ -268,8 +290,8 @@ Capture so we don’t forget; prioritize only when they align with goals.
 
 ## Change log
 
-- **Feb 2026:** Restructured as Project > Milestone > Task > Subtask; Phases = Projects, weekly objectives = Milestones; restored Phase 2 and Phase 3 as full projects (no 4.0 mixing); Phase 4 milestones = 4.1–4.8.
-- **Feb 2026 (earlier):** Phase order 1→2→3→4; structure map; carryover and Phase 4 sections.
+- **Feb 2026:** Added recommended order (projects → milestones → tasks); reordered Phase 4 milestones to 4.2 → 4.4 → 4.1 → 4.3 → 4.5 → 4.6 → 4.7 → 4.8; reordered tasks in Project 2 Week 3, Project 3 Week 5, Project 4 (4.2, 4.4) with short “why” notes.
+- **Feb 2026 (earlier):** Project > Milestone > Task > Subtask; Phases 2–3 restored as full projects; Phase 4 structure.
 
 ---
 
