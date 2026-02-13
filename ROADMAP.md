@@ -32,7 +32,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 | **1** | Week 1 → Week 2 | Setup before design system (done) |
 | **2** | Week 3 → Week 4 | Content before SEO |
 | **3** | Week 5 (single milestone) | Custom domain & polish → QA → launch prep → deploy → post-launch |
-| **4** | 4.2 → 4.4 → 4.1 → 4.3 → 4.5 → 4.6 → 4.7 → 4.8 | Quality & testing first so the site is stable; then content structure; then analytics; then time-based buckets; parking lot last |
+| **4** | 4.0 → 4.2 → 4.4 → 4.1 → 4.3 → 4.5 → 4.6 → 4.7 → 4.8 | Architecture & DS (4.0) first if in progress; then quality & testing; then content structure; analytics; time-based; parking lot last |
 
 **Task order within key milestones:**
 
@@ -155,9 +155,44 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 **Project outcome:** Continuous improvement, content structure, quality, and infrastructure
 
-*Milestone order: 4.2 → 4.4 → 4.1 → 4.3 → 4.5 → 4.6 → 4.7 → 4.8 (quality & testing first, then content structure, then analytics, then time-based).*
+*Milestone order: 4.0 → 4.2 → 4.4 → 4.1 → 4.3 → 4.5 → 4.6 → 4.7 → 4.8 (architecture & DS first if in progress, then quality & testing, etc.).*
 
-### Milestone: 4.2 – Quality & maintenance *(do first in Phase 4)*
+### Milestone: 4.0 – Architecture, tooling & design system *(in progress)*
+
+**Tasks:**
+
+- [x] Redefine site navigation structure
+- [x] Integrate Figma MCP with Cursor
+- [x] Organize site architecture
+  - [x] Separate types of data
+  - [x] Implement use of constants to remove hard coded data
+  - [x] Migrate content data from config files
+  - [x] Update documentation
+- [x] Integrate code-to-design logic
+- [x] Add error handling logic to the project
+- [x] Integrate ChromeDevTools to Cursor
+- [ ] **Integrate design-to-code logic**
+  - [ ] Extract script (plugin API): walk Figma variable collections, output JSON (Figma export format)
+  - [ ] Import pipeline: create script (e.g. `scripts/importFigmaTokens.ts`) to consume JSON and merge into token sources
+  - [ ] Define namespace/overrides: e.g. `figma/` or `imported/` prefix for Figma-origin tokens; optional `tokenOverrides.json` for explicit overrides
+  - [ ] Implement conflict resolution: new keys from Figma → add; same path → code wins unless override file says otherwise
+  - [ ] (Optional) Component spec extraction from Figma (after variables are stable)
+- [ ] **Integrate DS components with Storybook**
+  - [ ] Set up Storybook
+  - [ ] Organize components
+  - [ ] Create stories
+  - [ ] Integrate add-ons
+  - [ ] Test components
+  - [ ] Optimize workflow
+  - [ ] Review and finalize
+- [ ] **Create Design System structure**
+  - [x] Implement token logic
+  - [x] Add Radix UI
+  - [ ] Create card component
+  - [ ] Create badge component
+  - [x] Add theme support (light/dark)
+
+### Milestone: 4.2 – Quality & maintenance *(do first in Phase 4 after 4.0)*
 
 **Tasks:** *(Order: a11y before code cleanup so patterns are in place.)*
 
@@ -275,7 +310,7 @@ Capture so we don’t forget; prioritize only when they align with goals.
 
 ## Current status
 
-**Recommended next:** If launch incomplete → Project 2 (Week 3 → Week 4) then Project 3 (Week 5). If launch complete → Project 4 in order: 4.2 → 4.4 → 4.1 → 4.3, then 4.5–4.7 as needed.  
+**Recommended next:** If launch incomplete → Project 2 (Week 3 → Week 4) then Project 3 (Week 5). If launch complete → Project 4 in order: 4.0 (finish in-progress) → 4.2 → 4.4 → 4.1 → 4.3, then 4.5–4.7 as needed.  
 **Blockers:** None
 
 ---
