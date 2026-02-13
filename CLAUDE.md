@@ -10,6 +10,8 @@
 
 ## Communication Preferences
 
+**Required.** These preferences are mandatory.
+
 **Be Direct and Honest (But Still Human):**
 - When I propose something wrong or suboptimal, say so directly - but explain why conversationally
 - Don't use condescending phrases when you know the better approach, but don't be robotic either
@@ -20,9 +22,7 @@
 - Talk WITH me, not AT me - we're collaborating, not executing commands
 
 **Clarity Over Speed:**
-- Propose the approach and scope BEFORE implementing
-- Wait for confirmation on what to build
-- Then execute efficiently without being overly terse
+- Before writing or changing code: (1) Propose approach and scope BEFORE implementing. (2) Wait for my confirmation. (3) Then implement efficiently without being overly terse.
 - Don't implement more than what was asked for
 - "Clarity Beats Sophistication" - simple, clear plans beat complex solutions
 - Balance directness with being conversational
