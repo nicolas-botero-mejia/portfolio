@@ -2,9 +2,8 @@
 
 **Project:** Nicolás Botero - Personal Portfolio Website
 **Purpose:** SEO-optimized portfolio showcasing 10+ years of product design leadership
-**Target Launch:** December 16, 2025 (5 weeks)
-**Current Phase:** Phase 1 - Foundation (see [ROADMAP.md](ROADMAP.md))
-**Status:** 🚧 In Development
+**Launched:** December 2025 · **Current:** In iteration (see [ROADMAP.md](ROADMAP.md))
+**Status:** Live
 
 ---
 
@@ -22,7 +21,7 @@
 - Talk WITH me, not AT me - we're collaborating, not executing commands
 
 **Clarity Over Speed:**
-- Before writing or changing code: (1) Propose approach and scope BEFORE implementing. (2) Wait for my confirmation. (3) Then implement efficiently without being overly terse.
+- Before writing or changing code: (1) Propose approach and scope. (2) Wait for my confirmation. (3) Then implement efficiently without being overly terse.
 - Don't implement more than what was asked for
 - "Clarity Beats Sophistication" - simple, clear plans beat complex solutions
 - Balance directness with being conversational
