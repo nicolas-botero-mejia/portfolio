@@ -69,7 +69,7 @@ year: "2021-2024"
 duration: "3 years"
 date: "2024-06-15"            # For sorting (YYYY-MM-DD format)
 featured: true
-heroImage: "/images/case-studies/ocean/hero.png"
+heroImage: "/images/case-studies/ocean-hero.png"
 tags: ["design systems", "platform", "global"]
 locked: false                  # Password protection (optional)
 seo:
@@ -92,7 +92,7 @@ parent: "ocean"                # Links to parent case study
 year: "2023"
 duration: "3 months"
 featured: false
-heroImage: "/images/features/ocean/billing.png"
+heroImage: "/images/features/ocean-billing.png"
 tags: ["enterprise", "billing", "dashboard"]
 seo:
   metaTitle: "Ocean Billing System | Nicolás Botero"
@@ -228,29 +228,24 @@ Content is automatically mapped to URLs:
 1. Create MDX file in appropriate folder
 2. Add required frontmatter
 3. Write content using Markdown or MDX components
-4. Add images to `public/images/[category]/[slug]/`
+4. Add images to `public/images/<subType>/` with filenames `{slug}-hero.png`, `{slug}-thumbnail.png`, etc. (see [docs/ASSETS.md](../docs/ASSETS.md))
 5. Test locally: `npm run dev`
 6. Commit and push
 
 ## Images
 
-Store images in:
-```
-public/images/
-├── work/
-│   ├── ocean/
-│   ├── sainapsis/
-│   └── feature-name/
-├── experiments/
-│   └── experiment-name/
-└── writing/
-    └── post-slug/
-```
+**One folder per subType**, no slug subfolders. Filenames encode slug + level: `{slug}-hero.png`, `{slug}-thumbnail.png`, `{slug}-1.png`, etc. Mirrors MDX (flat files per folder).
+
+Example for case studies:
+- Content: `content/work/case-studies/ocean.mdx`
+- Assets: `public/images/case-studies/ocean-hero.png`, `ocean-thumbnail.png`, `ocean-1.png`, …
 
 Reference in MDX:
 ```markdown
-![Alt text](/images/work/ocean/hero.png)
+![Alt text](/images/case-studies/ocean-hero.png)
 ```
+
+Full layout, levels, and rationale: [docs/ASSETS.md](../docs/ASSETS.md).
 
 ## Design System Components
 

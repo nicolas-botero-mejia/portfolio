@@ -159,6 +159,10 @@ Page routes fetch MDX content and render it:
 - Structured data changes are centralized
 - Clear separation of concerns
 
+## Assets (images and media)
+
+Images use **one folder per subType** (no slug subfolders); the filename carries slug + level (e.g. `ocean-hero.png`, `ocean-1.png`). Mirrors MDX: flat files per folder. See [docs/ASSETS.md](ASSETS.md) for the layout, naming convention, and rationale.
+
 ## Adding New Content
 
 ### New MDX Page (e.g., "colophon")
