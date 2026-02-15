@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { trackEvent } from '@/lib/analytics';
@@ -7,11 +8,13 @@ import { getRoute, getCompanyName, getWorkTypeLabel, CONTENT_SLUGS } from '@/dat
 import {
   Badge,
   Card,
-  CardContent,
-  CardDescription,
-  CardMeta,
-  CardTitle,
+  PageHeader,
+  ScrollPrompt,
 } from '@/components/ui';
+
+// How many cards show before scrolling; how many we add when the scroll prompt is triggered. Tune here or expose as props for per-page control.
+const INITIAL_VISIBLE = 4;
+const LOAD_MORE_STEP = 4;
 
 interface WorkItem {
   slug: string;
@@ -36,21 +39,29 @@ interface WorkClientProps {
 // Page layout — primitive scale
 const PAGE_LAYOUT = 'bg-background-surface';
 const SECTION_LAYOUT = 'px-8 py-16 lg:px-16 lg:py-24';
-const HEADER_LAYOUT = 'mb-12';
-const TITLE_LAYOUT = 'text-4xl font-bold mb-4 text-content-primary';
-const SUBTITLE_LAYOUT = 'text-lg text-content-muted';
 const EMPTY_STATE = 'text-content-muted';
 
-// Grid layout
-const GRID_LAYOUT = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6';
+// 2-col grid for landscape cards (reference: 2x2)
+const GRID_LAYOUT = 'grid grid-cols-1 sm:grid-cols-2 gap-6';
 
-// Card content — badge pill variant
-const BADGE_STYLES = 'rounded-full border-0 px-3 py-1';
-const CARD_TITLE_STYLES = 'text-2xl group-hover:text-content-muted transition-colors';
-const ARROW_STYLES = 'text-content-muted group-hover:text-content-secondary transition-colors text-2xl';
-const TAG_STYLES = 'text-xs text-content-muted';
+// Overlay card: 16:9, image at back + gradient, text overlaid; text gains opacity on hover
+const CARD_ASPECT = 'aspect-video';
+const CARD_GRADIENT =
+  'absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent pointer-events-none';
+const CARD_CATEGORY = 'text-xs text-white/80';
+const CARD_LINK_HINT =
+  'flex items-center gap-1.5 text-xs text-white/80 group-hover:text-white transition-colors';
+const BADGE_OVERLAY = 'rounded-full border-0 px-3 py-1 bg-white/20 text-white';
+const CARD_TITLE_OVERLAY =
+  'font-[Georgia,"Times New Roman",serif] text-2xl md:text-3xl text-white opacity-90 group-hover:opacity-100 transition-opacity';
+const CARD_META_OVERLAY = 'text-xs text-white/80';
+const TAG_OVERLAY = 'text-xs text-white/70';
 
 export default function WorkClient({ allWork }: WorkClientProps) {
+  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
+  const visibleWork = allWork.slice(0, visibleCount);
+  const hasMore = visibleCount < allWork.length;
+
   const handleWorkCardClick = (slug: string, title: string, position: number) => {
     trackEvent({
       name: 'work_card_click',
@@ -58,81 +69,113 @@ export default function WorkClient({ allWork }: WorkClientProps) {
     });
   };
 
+  const loadMore = () => {
+    setVisibleCount((prev) => Math.min(prev + LOAD_MORE_STEP, allWork.length));
+  };
+
   return (
     <div className={PAGE_LAYOUT}>
       <section className={SECTION_LAYOUT}>
         <div className="max-w-6xl">
-          <div className={HEADER_LAYOUT}>
-            <h1 className={TITLE_LAYOUT}>Work</h1>
-            <p className={SUBTITLE_LAYOUT}>
-              Case studies, product features, and projects with measurable impact
-            </p>
-          </div>
+          <PageHeader
+            title="Work"
+            description="Case studies, product features, and projects with measurable impact"
+            variant="serif"
+          />
 
           {allWork.length === 0 ? (
             <p className={EMPTY_STATE}>No work items found.</p>
           ) : (
-            <div className={GRID_LAYOUT}>
-              {allWork.map((item, index) => (
-                <Link
-                  key={item.slug}
-                  href={getRoute(CONTENT_SLUGS.WORK, undefined, item.slug)}
-                  className="block"
-                  onClick={() => handleWorkCardClick(item.slug, item.frontmatter.title, index)}
-                >
-                  <Card as="div" className="group flex flex-col overflow-hidden h-full">
-                  {/* Hero image */}
-                  <div className="relative w-full aspect-video overflow-hidden rounded-t-lg">
-                    <Image
-                      src={item.frontmatter.heroImage}
-                      alt=""
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover"
-                    />
-                  </div>
-
-                  <CardContent className="flex flex-1 flex-col">
-                    <div className="mb-3">
-                      <Badge variant="neutral" className={BADGE_STYLES}>
-                        {item.frontmatter.subtitle ?? getWorkTypeLabel(item.frontmatter.type)}
-                      </Badge>
-                    </div>
-
-                    <CardTitle as="h2" className={`${CARD_TITLE_STYLES} mb-2`}>
-                      {item.frontmatter.title}
-                    </CardTitle>
-
-                    <CardDescription className="mb-4 flex-1">
-                      {item.frontmatter.description}
-                    </CardDescription>
-
-                    <CardMeta className="flex flex-wrap gap-x-2 gap-y-0">
-                      <span className="font-medium text-content-secondary">
-                        {getCompanyName(item.frontmatter.company)}
-                      </span>
-                      <span aria-hidden>•</span>
-                      <span>{item.frontmatter.role}</span>
-                      <span aria-hidden>•</span>
-                      <span>{item.frontmatter.year}</span>
-                    </CardMeta>
-
-                    {item.frontmatter.tags && item.frontmatter.tags.length > 0 && (
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {item.frontmatter.tags.map((tag) => (
-                          <span key={tag} className={TAG_STYLES}>
-                            #{tag}
-                          </span>
-                        ))}
+            <>
+              <div className={GRID_LAYOUT}>
+                {visibleWork.map((item, index) => (
+                  <Link
+                    key={item.slug}
+                    href={getRoute(CONTENT_SLUGS.WORK, undefined, item.slug)}
+                    className="block"
+                    onClick={() =>
+                      handleWorkCardClick(item.slug, item.frontmatter.title, index)
+                    }
+                  >
+                    <Card
+                      as="div"
+                      className={`group relative overflow-hidden rounded-lg ${CARD_ASPECT}`}
+                    >
+                      <div className="absolute inset-0">
+                        <Image
+                          src={item.frontmatter.heroImage}
+                          alt=""
+                          fill
+                          sizes="(max-width: 640px) 100vw, 50vw"
+                          className="object-cover"
+                        />
                       </div>
-                    )}
+                      <div className={CARD_GRADIENT} />
+                      <div className="absolute inset-0 flex flex-col justify-between p-4 md:p-5">
+                        <div className="flex items-start justify-between gap-3">
+                          <span className={CARD_CATEGORY}>
+                            Work · {getWorkTypeLabel(item.frontmatter.type)}
+                          </span>
+                          <div className={CARD_LINK_HINT}>
+                            <span>Work — {item.frontmatter.title}</span>
+                            <svg
+                              className="h-3.5 w-3.5 shrink-0"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              aria-hidden
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M7 17L17 7M17 7H7M17 7v10"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <Badge variant="neutral" className={BADGE_OVERLAY}>
+                            {item.frontmatter.subtitle ??
+                              getWorkTypeLabel(item.frontmatter.type)}
+                          </Badge>
+                          <h2 className={`${CARD_TITLE_OVERLAY} leading-tight`}>
+                            {item.frontmatter.title}
+                          </h2>
+                          <p className={CARD_META_OVERLAY}>
+                            <span className="font-medium">
+                              {getCompanyName(item.frontmatter.company)}
+                            </span>
+                            <span aria-hidden> · </span>
+                            <span>{item.frontmatter.role}</span>
+                            <span aria-hidden> · </span>
+                            <span>{item.frontmatter.year}</span>
+                          </p>
+                          {item.frontmatter.tags &&
+                            item.frontmatter.tags.length > 0 && (
+                              <div className="flex flex-wrap gap-2 pt-1">
+                                {item.frontmatter.tags.map((tag) => (
+                                  <span key={tag} className={TAG_OVERLAY}>
+                                    #{tag}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                        </div>
+                      </div>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
 
-                    <div className={`mt-4 flex justify-end ${ARROW_STYLES}`}>→</div>
-                  </CardContent>
-                </Card>
-              </Link>
-              ))}
-            </div>
+              {hasMore && (
+                <ScrollPrompt
+                  label="Scroll for more"
+                  onVisible={loadMore}
+                  once={false}
+                />
+              )}
+            </>
           )}
         </div>
       </section>
