@@ -513,6 +513,7 @@ npm run lint                     # Lint codebase
 - [docs/FIGMA_LEARNINGS.md](docs/FIGMA_LEARNINGS.md) - Two-way Figma workflow: **Our relationship with Figma**, **Data contracts** (import/export shapes), **Canonical operations** + runnable scripts (get variables, get file structure, get component, create/instantiate). Start with "When Starting Figma Tasks" and "Token flow"; use canonical operation scripts for create-from-prompt and import.
 - [docs/FIGMA_CONSOLE_MCP_COMPARISON.md](docs/FIGMA_CONSOLE_MCP_COMPARISON.md) - Comparison with Figma Console MCP (Southleft) + Desktop Bridge; when to use which, what to adopt
 - [docs/FIGMA_INTEGRATION.md](docs/FIGMA_INTEGRATION.md) - Legacy/alternative: Figma-as-source REST flow; current project uses code-first + Plugin API (see FIGMA_LEARNINGS)
+- [docs/DESIGN_SYSTEMS_MCP.md](docs/DESIGN_SYSTEMS_MCP.md) - Design Systems MCP (Southleft): token evaluation vs DTCG, component creation rules, when/how to use MCP for compliance (tokens, a11y, WCAG). See also `.cursor/rules/design-system-mcp.mdc`.
 
 ### External Resources
 - [Next.js 15 Docs](https://nextjs.org/docs)

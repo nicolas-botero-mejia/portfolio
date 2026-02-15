@@ -1,0 +1,21 @@
+---
+description: Use design tokens correctly and run Design Systems MCP checks when creating/editing UI components or tokens
+globs: src/components/ui/**/*.tsx, src/data/sources/*Tokens*.ts, src/app/tokens.generated.css
+alwaysApply: false
+---
+
+# Design system components & tokens
+
+When creating or editing components in `src/components/ui/` or token sources in `src/data/sources/`:
+
+1. **Tokens:** Use semantic tokens for colors (e.g. `bg-action-primary-bg`, `text-content-muted`). Use primitive scale for layout/typography via Tailwind (`rounded-md`, `px-4`, `text-sm`). No raw hex or palette names in components. See [docs/COMPONENTS.md](docs/COMPONENTS.md) and [docs/DESIGN_SYSTEMS_MCP.md](docs/DESIGN_SYSTEMS_MCP.md).
+
+2. **Structure:** Follow LAYOUT + variantStyles + compose (one layout constant, semantic variant map, then `className` composition with override). Document in COMPONENTS.md if adding a new component.
+
+3. **Accessibility:** Visible focus ring (semantic token for ring color), disabled states via semantic tokens, correct elements and ARIA. No color-alone for meaning.
+
+4. **MCP compliance:** When adding a new component, variant, or semantic role, use the Design Systems MCP to validate:
+   - `search_design_knowledge` for token naming, component patterns, or WCAG contrast/accessibility as relevant.
+   - Prefer queries like "semantic design tokens naming", "button accessibility focus", "WCAG color contrast".
+
+Follow [docs/DESIGN_SYSTEMS_MCP.md](docs/DESIGN_SYSTEMS_MCP.md) for full token evaluation, component rules, and when/how to run MCP checks.
