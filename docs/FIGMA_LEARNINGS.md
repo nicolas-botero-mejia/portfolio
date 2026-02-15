@@ -1,8 +1,8 @@
 # Figma Integration Learnings
 
-Design-to-code learnings from pushing tokens and components to Figma via the plugin API. Use this doc to improve future Figma-related tasks.
+Learnings for a **two-way** Figma workflow: create in Figma from prompts (views, components, flows, using variables and subcomponents) and import from Figma (variables, components, flows) back into our workflow. All via the Plugin API and `evaluate_script`. Use this doc for any Figma-related task.
 
-**How to use this doc:** New to a Figma task? Start with **When Starting Figma Tasks** (runbook). Need token → Figma mapping? See **Token Architecture**, **Font Tokens**, and **Component-to-Token Mapping**. Hitting an API quirk? Check **API Gotchas** and **Community & forum learnings**. Planning bidirectional tokens? See **Strategy: Figma → Code**.
+**How to use this doc:** New to Figma here? Read **Our relationship with Figma** (what we do in Figma and how). Then **When Starting Figma Tasks** (runbook). Writing or running scripts? See **Best practices for evaluate_script**. Need token → Figma mapping? See **Token Architecture**, **Font Tokens**, and **Component-to-Token Mapping**. Hitting an API quirk? Check **API Gotchas** and **Community & forum learnings**. Planning bidirectional tokens? See **Strategy: Figma → Code**.
 
 **Related:** [docs/FIGMA_INTEGRATION.md](FIGMA_INTEGRATION.md) describes an alternative, Figma-as-source flow (REST API, `src/tokens/`). It is superseded for this project; we use code-first tokens and the Plugin API (this doc).
 
@@ -18,7 +18,33 @@ Design-to-code learnings from pushing tokens and components to Figma via the plu
 
 **This doc extends figma-friend** with project-specific patterns: token architecture, component creation (createComponentFromNode, HUG), component properties (text/label), variable bindings, font mapping, and positioning. Invoke figma-friend first; apply these learnings for this portfolio's design system.
 
-**Token flow (this project):** Tokens live in code (`src/data/sources/primitiveTokens.ts`, `semanticTokens.ts`) and are the source of truth. We push to Figma (variables, component styling) via scripts run in the plugin context (e.g. `evaluate_script`). Future: optional import from Figma → staging/merge (see Strategy).
+**Token flow (this project):** Tokens live in code (`src/data/sources/primitiveTokens.ts`, `semanticTokens.ts`) and we sync them to Figma (variables, bindings) via scripts in the plugin context (e.g. `evaluate_script`). We also support **import from Figma**: variables, components, and flows created or edited in Figma can be brought back into our workflow (see Strategy and Our relationship with Figma).
+
+---
+
+## Our relationship with Figma
+
+**Two-way.** We work with Figma in both directions: **create in Figma from prompts** (using our tokens and components), and **import from Figma** when something is created or changed there (variables, components, flows).
+
+**Create in Figma (prompt-driven):** You can ask with a **complete prompt** to create in Figma, and the AI uses `evaluate_script` (and our token/component patterns) to do it. Expected use cases:
+
+- **Views and components:** Create a view or a component in Figma—using **subcomponents** and **variables** (tokens)—from a descriptive prompt (e.g. “Dashboard header with nav and user menu”).
+- **Flows:** Create **different views** (screens, states) so you can see a **flow** (e.g. onboarding steps, checkout, or a case study sequence). Multiple frames or pages that tell a story.
+
+Scripts run in the plugin context: create frames, use existing or new variables, instantiate or create components, bind tokens, position and layout. The runbook and best practices in this doc support that.
+
+**Import from Figma:** When a **component**, **variable**, and/or **flow** is created or edited in Figma, we want to be able to **import it**—so what lives in Figma can be reflected in our workflow (e.g. token sources, component specs, or flow documentation). Today: variable extract + `scripts/importFigmaTokens.ts` is the planned path for variables; component and flow import are goals (see Strategy: Figma → Code).
+
+**What we do there (summary):**
+
+| Task | Direction | How |
+|------|-----------|-----|
+| **Variables / tokens** | Code → Figma | Scripts via `evaluate_script`: create or update collections and variables from token sources; map names and types (e.g. `FIGMA_FONT_FAMILY_MAP`). |
+| **Components, views, flows** | Prompt → Figma | You describe what you want; AI runs scripts that create views, components (with subcomponents and variables), and multiple views for a flow. Uses existing variables and components where possible. |
+| **Variables** | Figma → code | Extract script in Figma → JSON; `scripts/importFigmaTokens.ts` merges into code (see Strategy). |
+| **Components / flows** | Figma → code | Import components or flow structure from Figma into our workflow (goal; implementation TBD). |
+
+**How we do it:** Open Figma in a Chrome tab (e.g. `mcp.sh start figma`), then **Chrome DevTools MCP** runs `evaluate_script` in that tab. The `figma` global is available after any plugin has been opened once in the file. Plugin API only (no REST for variables); see [FIGMA_CONSOLE_MCP_COMPARISON.md](FIGMA_CONSOLE_MCP_COMPARISON.md) for the alternative stack.
 
 ---
 
@@ -27,6 +53,57 @@ Design-to-code learnings from pushing tokens and components to Figma via the plu
 - **Chrome DevTools MCP** runs `evaluate_script` in the Figma page. The `figma` global is available when a plugin has been opened at least once in the file.
 - **Cursor IDE Browser** and **Chrome DevTools** are separate instances. Chrome DevTools connects to its own Chrome profile; select the tab with the Figma design file before running scripts.
 - Check connection: `typeof figma !== 'undefined'` returns `true` when ready.
+
+---
+
+## Best practices for evaluate_script (CRUD and tasks)
+
+When writing scripts that run via `evaluate_script` to create, read, update, or delete designs, tokens, or components in Figma, follow these so the process stays debuggable and reliable.
+
+- **Pre-flight:** Confirm `figma` is defined and the correct file/tab is active before running. If the script depends on a specific page or selection, return a clear error (e.g. `{ success: false, error: 'No collection named Primitives' }`) instead of failing silently.
+- **One logical operation per script when possible:** Prefer “sync primitives only” or “add label property to Button” over one giant script that does everything. Easier to debug, retry, and reason about.
+- **Return JSON-serializable values:** `evaluate_script` results are serialized. No circular refs, no Figma node objects—return ids, names, counts, or plain data. Optional wrapper: `{ success: true, result }` or `{ success: false, error: string }` so the caller (AI or import script) can handle success and failure consistently.
+- **Use async APIs for reliability:** In files with dynamic page loading, use `figma.getNodeByIdAsync()`, `figma.variables.getLocalVariableCollectionsAsync()`, `figma.variables.getLocalVariablesAsync()`, `node.getMainComponentAsync()`. Sync APIs (`figma.getNodeById()`, `.mainComponent`) can be undefined for nodes on unloaded pages.
+- **Load fonts before any text change:** Any change to `characters`, `fontSize`, `fontName`, etc. requires `figma.loadFontAsync()` first. Batch multiple fonts with `Promise.all(...fonts.map(figma.loadFontAsync))`.
+- **Batch reads where it helps:** Read all variables or all collections once, then process in memory. Avoid many small “get one variable” calls when you need the full set.
+- **Create/update: find-or-create:** When syncing from code, look up by name or id first (e.g. collection name, variable key); create only if missing. Reduces duplicates and keeps one source of truth per name.
+- **Error handling:** Wrap the main logic in try/catch. On failure, return `{ success: false, error: err.message }` (or a short message) so the user or import script can react instead of assuming success.
+
+See **When Starting Figma Tasks**, **Token Architecture**, **Working with text**, and **API Gotchas** for project-specific details (HUG, label property, variable bindings, dynamic loading).
+
+---
+
+## Canonical operations (create & import)
+
+We support the following **named operations** via `evaluate_script`. Use them to compose “create a view”, “create a flow”, or “import variables/components” prompts. Names align with [Figma Console MCP](https://github.com/southleft/figma-console-mcp) tool names where useful so we can share import shapes and optionally use their MCP later.
+
+| Operation | Purpose | Where implemented / documented |
+|-----------|---------|---------------------------------|
+| **Get variables** | Return variables + collections (for import). Output shape: same as `figma_get_variables` (collections, variables, modes) so `importFigmaTokens.ts` or their tools can consume it. | Extract script (Strategy: Figma → Code); Token Architecture. |
+| **Create variable collection** / **Create variable** / **Update variable** | Push tokens from code to Figma; create or update by name/key. | Token Architecture; “find-or-create” in Best practices. |
+| **Get file structure** | Return pages, key frames, structure (for flow import). Can mirror verbosity levels of `figma_get_file_data`. | Goal; implement when we add flow import. |
+| **Get component(s)** | Return component metadata (key, name, props, layout) for import. Align field names with `figma_get_component` output. | Goal; Component Creation, Component-to-Token Mapping. |
+| **Instantiate component** | Create instance of existing component (with optional overrides, position). For “create view” and “create flow” prompts. | Component Creation; API: `figma.instantiateComponent()`. |
+| **Create frame / Create child** | Create frames, auto-layout, children. For views and flow steps. | Component Creation; API Gotchas; `figma.createFrame()`, etc. |
+
+When you implement extract scripts (variables, then components, then flow), **match the structure** their tools return so the same import pipeline works whether data came from our script or from Figma Console MCP (see [FIGMA_CONSOLE_MCP_COMPARISON.md](FIGMA_CONSOLE_MCP_COMPARISON.md) → “Adapting Figma Console MCP”).
+
+**When to use Figma Console MCP vs our flow:** Use **our flow** (Chrome + `evaluate_script` + this runbook) for code-first token push, browser Figma, and portfolio-specific scripts. Use **Figma Console MCP** (optional, with Figma Desktop + Desktop Bridge) when you want their 56+ tools for design creation from chat, variable/component management in Figma, design-system summary, or import via `figma_get_variables` / `figma_get_component` / `figma_get_file_data` without writing an extract script. See comparison doc for setup and “when to use which”.
+
+---
+
+## Patterns from reference (Figma Console MCP)
+
+Use these when building a **bridge** (e.g. plugin that receives code from outside the page) or running code in the **plugin worker** from an external channel. Our current flow uses `evaluate_script` in the browser page, so these apply only if we add that layer.
+
+- **Async IIFE + eval in plugin worker:** Figma’s plugin sandbox restricts `new Function` / `AsyncFunction`. To run arbitrary async code in the worker, wrap it in an async IIFE and use `eval`: `(async function() { ... })()`. Not needed for `evaluate_script` (browser context).
+- **RequestId for request/response:** On any async channel (WebSocket, postMessage), give each request a unique id and include it in the response so in-flight calls don’t get mixed.
+- **Timeout and result shape:** Run user code with `Promise.race(codePromise, timeoutPromise)`. Return a consistent shape: `{ success, result?, error?, fileContext?: { fileName, fileKey } }` so callers can handle failures and know which file the result came from.
+- **Script contract for evaluate_script:** Scripts run via `evaluate_script` should return **JSON-serializable** values (no circular refs). For consistent handling, optional wrapper: `{ success: true, result }` or `{ success: false, error: string }`.
+
+**Stability:** Always confirm `figma` before running scripts. For a future bridge: use requestId, timeout, and the async IIFE + eval pattern in the worker. See [FIGMA_CONSOLE_MCP_COMPARISON.md](FIGMA_CONSOLE_MCP_COMPARISON.md) for where these come from.
+
+**Scalability:** No restructure needed today. Our flow is doc-driven (figma-friend + this runbook); the only Figma-touching code is the future extract step for `scripts/importFigmaTokens.ts`. When you implement that extract (run via `evaluate_script`), have it return JSON-serializable data and optionally `{ success, result? }` or `{ success: false, error }` so the import script can handle failures consistently.
 
 ---
 
@@ -166,9 +243,9 @@ Pitfalls and patterns from Figma Forum, Dev.to, Discord, and blogs—not just of
 
 ## Strategy: Figma → Code (Multi-Source Tokens)
 
-**Current state:** Tokens live in code (`primitiveTokens.ts`, `semanticTokens.ts`); we push to Figma. One direction.
+**Current state:** Tokens live in code; we push to Figma and support create-in-Figma from prompts (views, components, flows). Variable import (Figma → code) is in progress; component and flow import are goals.
 
-**Goal:** Code remains the source of truth, but you can design in Figma and add tokens there for speed, then import into code. Bidirectional with clear conflict rules.
+**Goal:** Full two-way: create in Figma from prompts (using variables and subcomponents) and import back—variables, components, and flows created or edited in Figma can be brought into our workflow. Conflict rules below apply to tokens; component/flow import format and merge strategy TBD.
 
 ### Conflict resolution (canonical)
 
@@ -264,6 +341,10 @@ Path convention: Figma uses `/`; code uses `.` in paths and `[key]` for numeric 
 | **Dynamic page loading** | [Migrating to Dynamically Load Pages](https://www.figma.com/plugin-docs/migrating-to-dynamic-loading/) — async APIs, large files |
 | **API reference** | [Plugin API Reference](https://developers.figma.com/docs/plugins/api/api-reference/) |
 | **Samples** | [figma/plugin-samples](https://github.com/figma/plugin-samples) — variables import/export, styles-to-variables, etc. |
+
+### Figma Console MCP (Southleft) vs our setup
+
+**[docs/FIGMA_CONSOLE_MCP_COMPARISON.md](FIGMA_CONSOLE_MCP_COMPARISON.md)** compares our flow (Chrome DevTools MCP + figma-friend + code-first tokens) with [Figma Console MCP](https://github.com/southleft/figma-console-mcp) and the [Desktop Bridge](https://github.com/southleft/figma-console-mcp/tree/main/figma-desktop-bridge) plugin. Use it to decide when to use which: we keep code-first push and browser-based scripts; add Figma Console MCP optionally for variable/token management and design creation inside Figma from chat.
 
 ### Community & other sources
 
