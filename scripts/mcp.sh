@@ -4,7 +4,7 @@
 # It does NOT start or stop the Chrome DevTools MCP server (Cursor starts that; node/chrome-devtools in Activity Monitor).
 # Usage: ./scripts/mcp.sh <action> <target>
 #   start figma   Chrome + dev server + open Figma
-#   start app     Dev server in Terminal.app + Chrome at localhost:3000
+#   start app     Dev server and Chrome each in a Terminal.app window (logs in both)
 #   stop figma    Stop Chrome and dev server from last 'start figma'
 #   stop app      Stop Chrome and dev server (including dev server on port 3000)
 
@@ -59,6 +59,15 @@ kill_dev_on_port_3000() {
   fi
 }
 
+# Kill Chrome using remote-debugging port 9222 (Chrome started in Terminal or by script)
+kill_chrome_on_port_9222() {
+  local pids
+  pids=$(lsof -t -i :9222 2>/dev/null) || true
+  if [[ -n "$pids" ]]; then
+    echo "$pids" | xargs kill -TERM 2>/dev/null && echo "Stopped Chrome (port 9222)" || true
+  fi
+}
+
 # If PID file exists but both processes are dead, remove stale file
 clear_stale_pid_file() {
   if [[ ! -f "$PID_FILE" ]]; then return; fi
@@ -104,13 +113,19 @@ case "$action $target" in
       echo "Port 3000 in use. Run: ./scripts/mcp.sh stop app"
       exit 1
     fi
+    if lsof -t -i :9222 >/dev/null 2>&1; then
+      echo "Port 9222 in use (Chrome?). Run: ./scripts/mcp.sh stop app"
+      exit 1
+    fi
     if [[ ! -x "$CHROME" ]]; then
       echo "Chrome not found at $CHROME"
       exit 1
     fi
     ESCAPED_ROOT=$(printf '%s' "$PROJECT_ROOT" | sed "s/'/'\\\\''/g")
+    CHROME_ESC=$(printf '%s' "$CHROME" | sed "s/'/'\\\\''/g")
+    PROFILE_ESC=$(printf '%s' "$PROFILE_DIR" | sed "s/'/'\\\\''/g")
     osascript -e "tell application \"Terminal\" to do script \"cd '$ESCAPED_ROOT' && npm run dev\"" 2>/dev/null || {
-      echo "Could not open Terminal.app (macOS only). Falling back to background dev server."
+      echo "Could not open Terminal.app (macOS only). Falling back to background."
       ( npm run dev ) &
       DEV_PID=$!
       sleep 2
@@ -122,13 +137,15 @@ case "$action $target" in
       echo "Started app: dev server (PID $DEV_PID), Chrome (PID $CHROME_PID) at http://localhost:3000. To stop: ./scripts/mcp.sh stop app"
       exit 0
     }
-    sleep 3
-    nohup "$CHROME" --remote-debugging-port=9222 --user-data-dir="$PROFILE_DIR" "http://localhost:3000" >/dev/null 2>&1 &
-    CHROME_PID=$!
-    disown $CHROME_PID 2>/dev/null || true
-    echo "CHROME_PID=$CHROME_PID" > "$PID_FILE"
-    echo "DEV_PID=" >> "$PID_FILE"
-    echo "Started app: dev server in Terminal.app, Chrome (PID $CHROME_PID) at http://localhost:3000. To stop: ./scripts/mcp.sh stop app"
+    sleep 2
+    CHROME_LAUNCHER="/tmp/mcp-chrome.sh"
+    printf '%s\n' '#!/bin/bash' "exec '$CHROME_ESC' --remote-debugging-port=9222 --user-data-dir='$PROFILE_ESC' 'http://localhost:3000'" > "$CHROME_LAUNCHER"
+    chmod +x "$CHROME_LAUNCHER"
+    osascript -e "tell application \"Terminal\" to do script \"$CHROME_LAUNCHER\"" 2>/dev/null || {
+      nohup "$CHROME" --remote-debugging-port=9222 --user-data-dir="$PROFILE_DIR" "http://localhost:3000" >/dev/null 2>&1 &
+      echo "Chrome in background (Terminal failed). To stop: ./scripts/mcp.sh stop app"
+    }
+    echo "Started app: dev server and Chrome each in a Terminal window (logs in both). To stop: ./scripts/mcp.sh stop app"
     ;;
   "stop figma")
     cd "$PROJECT_ROOT"
@@ -151,12 +168,13 @@ case "$action $target" in
       rm -f "$PID_FILE"
     fi
     kill_dev_on_port_3000
-    echo "Done. If Chrome is still open, close the window manually."
+    kill_chrome_on_port_9222
+    echo "Done. If a window is still open, close it manually."
     ;;
   *)
     echo "Usage: ./scripts/mcp.sh <action> <target>"
     echo "  start figma   Chrome + dev server + Figma"
-    echo "  start app     Dev server in Terminal.app + Chrome at localhost:3000"
+    echo "  start app     Dev server + Chrome each in a Terminal window (logs in both)"
     echo "  stop figma    Stop Chrome and dev server"
     echo "  stop app      Stop Chrome and dev server (and process on port 3000)"
     exit 1
