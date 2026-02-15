@@ -15,7 +15,8 @@ interface ContentNavigationProps {
 // 1. Layout — primitive scale
 const NAV_LAYOUT = 'mt-16 border-t border-border-default pt-8';
 const GRID_LAYOUT = 'grid grid-cols-1 gap-8 sm:grid-cols-2';
-const LINK_LAYOUT = 'group flex flex-col';
+const LINK_LAYOUT =
+  'group flex flex-col focus:outline-none focus-visible:ring-2 focus-visible:ring-background-primary focus-visible:ring-offset-2 rounded';
 const LABEL_LAYOUT = 'mb-2 text-sm font-medium';
 const TITLE_LAYOUT = 'text-lg font-semibold';
 

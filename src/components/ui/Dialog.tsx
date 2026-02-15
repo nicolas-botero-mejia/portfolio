@@ -22,7 +22,8 @@ const CONTENT_LAYOUT = 'fixed left-1/2 top-1/2 w-full max-w-md -translate-x-1/2 
 const CONTENT_COLORS = 'bg-background-surface';
 const TITLE_LAYOUT = 'text-lg font-semibold text-content-primary';
 const DESCRIPTION_LAYOUT = 'mt-2 text-sm text-content-muted';
-const CLOSE_LAYOUT = 'mt-6 rounded-lg border border-border-strong px-4 py-2 text-sm font-medium';
+const CLOSE_LAYOUT =
+  'mt-6 rounded-lg border border-border-strong px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-background-primary focus-visible:ring-offset-2';
 const CLOSE_COLORS = 'text-content-secondary hover:bg-background-muted';
 
 export default function Dialog({ trigger, title, description, children }: DialogProps) {

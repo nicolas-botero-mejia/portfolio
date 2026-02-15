@@ -14,3 +14,5 @@ export { default as Dialog } from './Dialog';
 export { default as ScrollArea } from './ScrollArea';
 export { default as Tabs } from './Tabs';
 export { default as Tooltip } from './Tooltip';
+export { default as PageHeader } from './PageHeader';
+export { default as ScrollPrompt } from './ScrollPrompt';

@@ -22,7 +22,20 @@ Design system components for the portfolio. Token-driven; Tailwind utilities map
 | **Tooltip** | Hover tooltips (Radix) | — | — |
 | **ScrollArea** | Scrollable regions (Radix) | — | — |
 | **CheckIcon** | SVG checkmark | — | — |
+| **PageHeader** | Section/page title + optional description | default, serif | typography, content-primary/muted |
+| **ScrollPrompt** | Scroll-for-more affordance (icon + label) | — | content-muted; label configurable |
 | **MDXRenderer** | Renders MDX content | — | prose |
+
+## Reusability & MDX
+
+**Design system components** in `@/components/ui` are the single source of truth for both App Router pages and MDX content.
+
+- **PageHeader** – Use for any section or page title. In app routes: `<PageHeader title="Work" description="…" variant="serif" />`. In MDX: import the same component and pass title/description from frontmatter or as props (e.g. in a layout wrapper that reads `frontmatter.title`).
+- **ScrollPrompt** – Fully configurable: `label` (e.g. "Scroll for more"), optional `onVisible` callback for load-more, and `once` to control whether it fires every time it enters view or only once. Use the same component anywhere you need a scroll affordance or infinite-scroll trigger.
+- **Cards** – Work listing uses an overlay pattern (16:9 image + gradient + text overlay). That pattern is implemented in `WorkClient`; if we need the same overlay card elsewhere (e.g. featured work in MDX), extract an `OverlayCard` (or similar) into `ui/` and use it from both places.
+- **MDX usage** – MDX files can import any component from `@/components/ui`. Use the same primitives (Badge, Card, PageHeader, etc.) so MDX and JSX pages stay visually and semantically consistent. Prefer passing data via props (e.g. from frontmatter) rather than duplicating layout logic inside MDX.
+
+**Best practice:** Before creating a new component, ask: "Is this design system or page-specific?" If it’s reusable (2+ places or clear variants), put it in `ui/`. If it’s page-specific, keep it in the feature folder or inline.
 
 ## Component vs Layout
 
@@ -149,3 +162,5 @@ className={`${LAYOUT} ${variantStyles[variant]} ${className}`}
 | Dialog | Multiple constants | `background-surface`, `content-primary/muted/secondary`, `border-strong` |
 | Tabs | `LIST_LAYOUT`, `TRIGGER_LAYOUT`, `TRIGGER_COLORS` | `border-default`, `content-muted/primary`, `background-primary` (active) |
 | ScrollArea | `ROOT_LAYOUT`, `THUMB_LAYOUT` | `border-default` (thumb) |
+| PageHeader | `WRAPPER`, `TITLE_*`, `DESCRIPTION` | `content-primary`, `content-muted`; serif variant uses custom font stack |
+| ScrollPrompt | `WRAPPER`, `LABEL_STYLES` | `content-muted`; `label` prop is configurable |

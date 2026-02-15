@@ -79,7 +79,40 @@ The MCP does not replace local docs: follow [COMPONENTS.md](COMPONENTS.md) and t
 
 ---
 
-## 4. Quick reference
+## 4. UI components accessibility audit (Feb 2025)
+
+Audit of `src/components/ui/` against WCAG 2.1 AA and Design Systems MCP guidance (focus, keyboard, semantics, labels).
+
+### Fixed in this audit
+
+| Component | Issue | Fix |
+|-----------|--------|-----|
+| **Dialog** | Close button had no visible focus ring. | Added `focus-visible:ring-2 focus-visible:ring-background-primary focus-visible:ring-offset-2` to close button. |
+| **Tabs** | Tab triggers had no visible focus ring. | Added `focus-visible:ring-2 focus-visible:ring-background-primary focus-visible:ring-offset-2 focus-visible:ring-inset` to trigger layout. |
+| **ContentNavigation** | Prev/next links had no visible focus ring. | Added focus-visible ring and `rounded` to link layout. |
+| **Button (as link)** | Disabled link stayed in tab order and was still clickable. | When `disabled` and `as="link"`: `aria-disabled`, `tabIndex={-1}`, `onClick` preventDefault. |
+
+### Already in good shape
+
+- **Button:** Native `<button>`, focus-visible ring, disabled states; Link with `rel="noopener noreferrer"` for external.
+- **CardHeader:** Icon-only external link uses `<span className="sr-only">Open in new tab</span>`.
+- **CardImage:** Required `alt` prop.
+- **Card, CardListItem (link):** Focus-visible ring on interactive card and list links.
+- **Dialog, Tabs, Tooltip, ScrollArea:** Radix primitives handle focus trap, keyboard, ARIA (role, aria-modal, aria-describedby, etc.); we style and ensure focus ring on our controls.
+- **PageHeader:** Semantic `<header>` and `<h1>`.
+- **ContentNavigation:** Wrapped in `<nav>`.
+- **Badge:** Presentational `<span>`; no interaction.
+
+### Optional / future
+
+- **ScrollPrompt:** Uses `role="presentation"` and `aria-hidden` (decorative). If you want the label announced to screen readers, remove those and expose the text; otherwise keep as decorative.
+- **CardListItem (non-link):** When used as a selectable list item (e.g. in a listbox), add `role="option"` and `aria-selected={selected}`; currently `data-selected` is styling-only.
+
+Re-run audit when adding or changing interactive components; use Design Systems MCP for focus, contrast, and ARIA patterns.
+
+---
+
+## 5. Quick reference
 
 - **Token sources:** `src/data/sources/primitiveTokens.ts`, `semanticTokens.ts`; generated: `src/app/tokens.generated.css`; generate with `npm run tokens:generate`.
 - **Component patterns:** [docs/COMPONENTS.md](COMPONENTS.md) — Token Convention, Component style structure, Token wiring.

@@ -55,6 +55,9 @@ export default function Button(props: ButtonProps) {
         target={external ? '_blank' : undefined}
         rel={external ? 'noopener noreferrer' : undefined}
         className={disabled ? `${styles} pointer-events-none opacity-50` : styles}
+        aria-disabled={disabled ? true : undefined}
+        tabIndex={disabled ? -1 : undefined}
+        onClick={disabled ? (e) => e.preventDefault() : undefined}
       >
         {children}
       </Link>
