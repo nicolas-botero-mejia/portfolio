@@ -326,6 +326,8 @@ When the user says:
 - **"Run application"** / **"Run app"** → Run **only** `npm run dev` (in background).
 - **"Test connection"** (or "test connection") → Test Chrome DevTools MCP connection (e.g. list_pages) and report whether Chrome is connected and how many tabs/pages.
 
+When the AI runs `./scripts/mcp.sh stop app` or `stop figma`, it must use full permissions (e.g. `required_permissions: ["all"]`) so the script can send kill signals to Chrome and the dev server; otherwise the sandbox blocks kill and processes keep running.
+
 Interpret these phrases literally; no need to re-ask. If MCP tools are unavailable when opening Figma, still run the script and dev server and tell the user Figma could not be opened from here.
 
 **From the terminal (without saying "run figma" to the AI):**
