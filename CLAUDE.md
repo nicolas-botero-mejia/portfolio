@@ -322,7 +322,7 @@ locked: true
 When the user says:
 
 - **"Run Figma"** / **"Test Figma"** (or "run figma" / "test figma") → Run the **full pipeline**: (1) `./scripts/mcp.sh start figma` (in background), (2) Open Figma in that Chrome via Chrome DevTools MCP (navigate to figma.com or a design file). Do not ask for confirmation; execute in that order.
-- **"Run Chrome"** / **"Test Chrome"** (or "run chrome" / "test chrome") → Run **only** `./scripts/mcp.sh start chrome` (in background). Do not start the app or open Figma.
+- **"Run app"** / **"Test app"** / **"Run Chrome"** / **"Test Chrome"** (or "run app", "test app", "run chrome", "test chrome") → Run `./scripts/mcp.sh start app` (in background). Starts dev server + Chrome opening the app at http://localhost:3000; do not open Figma.
 - **"Run application"** / **"Run app"** → Run **only** `npm run dev` (in background).
 - **"Test connection"** (or "test connection") → Test Chrome DevTools MCP connection (e.g. list_pages) and report whether Chrome is connected and how many tabs/pages.
 
@@ -331,8 +331,8 @@ Interpret these phrases literally; no need to re-ask. If MCP tools are unavailab
 **From the terminal (without saying "run figma" to the AI):**
 - **Start Figma (full pipeline):** `./scripts/mcp.sh start figma`. Chrome + dev server + Figma; PIDs in `.mcp-run.pids`.
 - **Stop Figma:** `./scripts/mcp.sh stop figma`. Kills Chrome and dev server from last `start figma`.
-- **Start Chrome only:** `./scripts/mcp.sh start chrome` (optionally pass a URL or other Chrome args).
-- **Stop Chrome only:** `./scripts/mcp.sh stop chrome`. Stops only Chrome from the PID file (e.g. after `start figma`, leaves dev server running).
+- **Start app:** `./scripts/mcp.sh start app`. Dev server + Chrome opening http://localhost:3000.
+- **Stop app:** `./scripts/mcp.sh stop app`. Stops Chrome and dev server from last `start app`.
 
 ### Adding a New Case Study
 
@@ -529,8 +529,8 @@ npm run hash-password "pass"     # Generate password hash
 npm run lint                     # Lint codebase
 ./scripts/mcp.sh start figma     # Full pipeline: Chrome + Figma + dev server
 ./scripts/mcp.sh stop figma      # Stop Chrome + dev server
-./scripts/mcp.sh start chrome    # Chrome only (remote debugging for MCP)
-./scripts/mcp.sh stop chrome     # Stop only Chrome
+./scripts/mcp.sh start app       # Dev server + Chrome at localhost:3000
+./scripts/mcp.sh stop app        # Stop Chrome + dev server
 ```
 
 ### Key Files
