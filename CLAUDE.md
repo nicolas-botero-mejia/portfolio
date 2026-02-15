@@ -333,8 +333,8 @@ Interpret these phrases literally; no need to re-ask. If MCP tools are unavailab
 **From the terminal (without saying "run figma" to the AI):**
 - **Start Figma (full pipeline):** `./scripts/mcp.sh start figma`. Chrome + dev server + Figma; PIDs in `.mcp-run.pids`.
 - **Stop Figma:** `./scripts/mcp.sh stop figma`. Kills Chrome and dev server from last `start figma`.
-- **Start app:** `./scripts/mcp.sh start app`. Dev server + Chrome opening http://localhost:3000.
-- **Stop app:** `./scripts/mcp.sh stop app`. Stops Chrome and dev server from last `start app`.
+- **Start app:** `./scripts/mcp.sh start app`. Opens Terminal.app with `npm run dev` (so you see logs) and Chrome at http://localhost:3000.
+- **Stop app:** `./scripts/mcp.sh stop app`. Stops Chrome and the dev server (kills process on port 3000).
 
 ### Adding a New Case Study
 
@@ -531,8 +531,8 @@ npm run hash-password "pass"     # Generate password hash
 npm run lint                     # Lint codebase
 ./scripts/mcp.sh start figma     # Full pipeline: Chrome + Figma + dev server
 ./scripts/mcp.sh stop figma      # Stop Chrome + dev server
-./scripts/mcp.sh start app       # Dev server + Chrome at localhost:3000
-./scripts/mcp.sh stop app        # Stop Chrome + dev server
+./scripts/mcp.sh start app       # Dev server in Terminal.app + Chrome at localhost:3000
+./scripts/mcp.sh stop app        # Stop Chrome + dev server (port 3000)
 ```
 
 ### Key Files
