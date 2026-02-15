@@ -131,57 +131,120 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [ ] Check landscape orientation (layout and overflow at key widths in landscape)
   - [ ] Document breakpoints and responsive patterns (or add to DS docs)
 
-### Milestone 2.2 – Design system structure & Storybook *(grows with components)*
+### Milestone 2.2 – Design system structure, Storybook & component testing *(grows with components)*
 
-**Tasks:**
-- [ ] **Create Design System structure**
+**Tasks:** *(Order: Set up testing infrastructure first → Create DS structure with TDD workflow → Integrate Storybook → Document and verify.)*
+
+- [ ] **Set up component testing infrastructure**
+  - [ ] Research and install Storybook for Next.js (latest compatible version)
+  - [ ] Configure Storybook (main.js, preview.js, addons, webpack/turbopack config)
+  - [ ] Install testing dependencies (Vitest, @testing-library/react, @testing-library/jest-dom, @testing-library/user-event)
+  - [ ] Configure Vitest for component tests (vitest.config.ts, test environment: jsdom, coverage setup)
+  - [ ] Install and configure Chromatic (project token, chromatic.config.json or package.json script)
+  - [ ] Add Storybook addons (a11y, controls, docs, interactions, test runner)
+  - [ ] Set up Storybook test runner (@storybook/test-runner, configure test-storybook script)
+  - [ ] Create test utilities and helpers (custom renders, mock providers, theme wrapper)
+  - [ ] Document testing workflow (where tests live, how to run, coverage expectations)
+  - [ ] Run initial Storybook build and Chromatic baseline (verify setup works)
+
+- [ ] **Create Design System structure with TDD workflow**
+  - [ ] Define TDD workflow for components (story → test → implement → visual regression → document)
+  - [ ] **Retrofit existing components with tests**
+    - [ ] Card component and subcomponents (CardHeader, CardTitle, CardDescription, CardMeta, CardImage, CardListItem)
+      - [ ] Write Storybook stories (all variants: default, with image, with meta, with list items, interactive states)
+      - [ ] Write component tests (rendering, props, accessibility, user interactions, theme support)
+      - [ ] Run Chromatic visual regression (capture baselines, verify variants render correctly)
+      - [ ] Document component in Storybook (usage, props table, best practices, accessibility notes)
+    - [ ] Badge component
+      - [ ] Write Storybook stories (all variants: colors, sizes, with/without icon, interactive)
+      - [ ] Write component tests (rendering, props, accessibility, theme support)
+      - [ ] Run Chromatic visual regression
+      - [ ] Document component in Storybook
+    - [ ] Button component
+      - [ ] Write Storybook stories (all variants: primary, secondary, ghost, sizes, states, with/without icon)
+      - [ ] Write component tests (rendering, click handlers, disabled state, loading state, accessibility)
+      - [ ] Run Chromatic visual regression
+      - [ ] Document component in Storybook
+    - [ ] Tabs component
+      - [ ] Write Storybook stories (all variants: horizontal, vertical, controlled, uncontrolled)
+      - [ ] Write component tests (tab switching, keyboard navigation, accessibility, ARIA attributes)
+      - [ ] Run Chromatic visual regression
+      - [ ] Document component in Storybook
+    - [ ] Tooltip component
+      - [ ] Write Storybook stories (all variants: positions, triggers, delays, custom content)
+      - [ ] Write component tests (show/hide, positioning, accessibility, keyboard interactions)
+      - [ ] Run Chromatic visual regression
+      - [ ] Document component in Storybook
+    - [ ] Dialog component
+      - [ ] Write Storybook stories (all variants: sizes, with/without overlay, controlled, with forms)
+      - [ ] Write component tests (open/close, focus trap, escape key, overlay click, accessibility)
+      - [ ] Run Chromatic visual regression
+      - [ ] Document component in Storybook
+    - [ ] ScrollArea component
+      - [ ] Write Storybook stories (all variants: vertical, horizontal, both, custom styling)
+      - [ ] Write component tests (scrolling behavior, accessibility, keyboard navigation)
+      - [ ] Run Chromatic visual regression
+      - [ ] Document component in Storybook
+    - [ ] ContentNavigation component
+      - [ ] Write Storybook stories (all variants: with different nav items, active states, responsive)
+      - [ ] Write component tests (navigation, active state, click handlers, accessibility)
+      - [ ] Run Chromatic visual regression
+      - [ ] Document component in Storybook
+    - [ ] CheckIcon component
+      - [ ] Write Storybook stories (all variants: sizes, colors, states)
+      - [ ] Write component tests (rendering, props, accessibility)
+      - [ ] Run Chromatic visual regression
+      - [ ] Document component in Storybook
   - [x] Implement token logic
   - [x] Add Radix UI
   - [x] Create Card component and subcomponents (CardHeader, CardTitle, CardDescription, CardMeta, CardImage, CardListItem)
   - [x] Create Badge component
   - [x] Add remaining UI components (Button, Tabs, Tooltip, Dialog, ScrollArea, ContentNavigation, CheckIcon)
-  - [ ] Push all the components and variables to Figma
   - [x] Add theme support (light/dark)
-- [ ] **Integrate DS components with Storybook**
-  - [ ] Set up Storybook
-  - [ ] Organize components for Storybook
-  - [ ] Create stories for each component
-  - [ ] Document all DS components in Storybook (variants, props)
-  - [ ] Integrate add-ons (a11y, controls, docs)
-  - [ ] Test components in Storybook
-  - [ ] Optimize Storybook workflow
-  - [ ] Review and finalize integration
+  - [ ] **Build future components with TDD from the start**
+    - [ ] For each new component: write story → write tests → implement → run Chromatic → document
+    - [ ] Maintain component status tracker (see below)
+  
+- [ ] **Integrate Storybook with development workflow**
+  - [ ] Add Storybook npm scripts to package.json (dev, build, test, chromatic)
+  - [ ] Configure Storybook to use design tokens (import Tailwind config, theme provider)
+  - [ ] Set up Storybook composition if needed (multiple Storybooks or external design systems)
+  - [ ] Add Storybook to local dev workflow (run alongside Next.js dev server)
+  - [ ] Configure Storybook build output for static hosting (if deploying Storybook separately)
 
----
+- [ ] **Push components and variables to Figma**
+  - [ ] Export component specs from Storybook (props, variants, states) in Figma-consumable format
+  - [ ] Update Figma plugin/scripts to sync components (map React components to Figma component sets)
+  - [ ] Push design tokens to Figma (already implemented in 2.1; verify variables are up to date)
+  - [ ] Create or update Figma component library (match Storybook component structure)
+  - [ ] Document Figma sync workflow (when to push, how to resolve conflicts, see FIGMA_LEARNINGS.md)
+  - [ ] Test round-trip: code → Figma → back to code (verify integrity)
 
-## Project 3: Content + SEO – Full Launch
+- [ ] **Document and verify Design System**
+  - [ ] Create DS documentation site or section in Storybook (overview, principles, token usage, component guidelines)
+  - [ ] Add component usage examples and do's/don'ts for each component
+  - [ ] Document accessibility patterns per component (keyboard nav, ARIA, focus management)
+  - [ ] Add design system README or wiki (how to add components, testing requirements, contribution guidelines)
+  - [ ] Run coverage report (Vitest coverage, aim for 80%+ on DS components)
+  - [ ] Review Chromatic baselines (ensure all component variants captured, no visual regressions)
+  - [ ] Verify Storybook a11y addon reports (fix critical/serious issues, document known minor issues)
+  - [ ] Create component status tracker (update as components are built/tested)
 
-**Project outcome:** Full launch ready
+**Component Status Tracker** (update as you build):
 
-### Milestone 3.1 – Complete Content
+| Component | Story | Unit Tests | Chromatic | Figma | Docs | Status |
+|-----------|-------|------------|-----------|-------|------|--------|
+| Card | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
+| Badge | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
+| Button | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
+| Tabs | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
+| Tooltip | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
+| Dialog | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
+| ScrollArea | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
+| ContentNavigation | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
+| CheckIcon | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
 
-**Tasks:** *(Order: content first, then pages and components, then assets, then optimization, then meta.)*
-
-- [ ] Create missing content (workflow 300–500 words, about 500–800 words, resume for web)
-- [ ] Complete About page (Workflow, Experience, bio)
-  - [ ] Add or wire WorkflowGrid component (workflow phases from data)
-  - [ ] Add or wire ExperienceTimeline component (work history from data)
-- [ ] Complete Uses page (tools and setup details)
-- [ ] Add all assets to case studies (Sainapsis, Ocean, AquaDS images and diagrams)
-- [ ] Optimize all images (WebP, blur placeholders, alt text, dimensions)
-- [ ] Write SEO meta descriptions for all pages
-
-### Milestone 3.2 – SEO Optimization
-
-**Tasks:** *(Order: implement SEO → run agents → enhancements → technical → test → Search Console.)*
-
-- [ ] Implement advanced SEO (Schema.org, Open Graph, Twitter Card, canonical URLs)
-- [ ] Run AI agents on all pages (SEO, Content Auditor, Accessibility, Performance)
-- [ ] Add SEO enhancements (internal/external links, headings, breadcrumbs, sitemap)
-- [ ] Apply technical optimization (lazy loading, fonts, bundle size, code splitting)
-- [ ] Run testing (mobile, cross-browser, Lighthouse 95+, Core Web Vitals)
-- [ ] Configure sitemap (next-sitemap config or custom; ensure sitemap.xml is generated)
-- [ ] Configure Google Search Console (verify, submit sitemap, check indexing)
+**Legend:** ✅ Done | ⏳ In Progress | ❌ Not Started | ⚠️ Blocked
 
 ---
 
@@ -202,9 +265,9 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [ ] Remove or replace unused dependencies (e.g. framer-motion, react-wrap-balancer, next-seo, next-sitemap if confirmed unused; see TODO.md)
   - [ ] Remove dead code and unused components
 
-### Milestone 4.2 – Testing & deployment
+### Milestone 4.2 – Integration testing & deployment
 
-**Tasks:** *(Order: deploy and launch on Vercel first, then CI/CD, then Playwright, then Chromatic.)*
+**Tasks:** *(Order: deploy and launch on Vercel first, then CI/CD, then E2E with Playwright, then page-level visual regression if needed. Component-level testing already in 2.2.)*
 
 - [ ] **Deploy and launch site on Vercel**
   - [ ] Create Vercel account (or use existing) and install Vercel CLI if needed
@@ -217,27 +280,67 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [ ] Set up custom domain (add domain in Vercel, configure DNS records, wait for SSL)
   - [ ] Document deploy process and rollback steps (redeploy previous, or revert commit and push)
   - [ ] Run post-deploy checks (smoke test, analytics firing, any env-specific behavior)
+
 - [ ] **Implement CI/CD pipeline**
   - [ ] Choose CI tool (e.g. GitHub Actions; Vercel already does deploy on push)
   - [ ] Add workflow: run build and lint on push or PR
-  - [ ] Add test job (e.g. Playwright) when tests exist
+  - [ ] Add component test job (run Vitest tests from 2.2 on PR)
+  - [ ] Add Storybook build job (verify Storybook builds successfully)
+  - [ ] Add Chromatic job (run visual regression on PR, block merge on unapproved changes)
+  - [ ] Add E2E test job (run Playwright when tests exist; see Playwright task below)
   - [ ] Configure deploy on push to main (or rely on Vercel Git integration)
-  - [ ] Add branch protection or deploy rules if needed
-  - [ ] Monitor builds and refine (fix flaky steps, add notifications if desired)
-- [ ] **Integrate site with Playwright**
-  - [ ] Research and install Playwright for Next.js
-  - [ ] Configure Playwright (config file, base URL for dev/prod)
-  - [ ] Define test scenarios (critical paths: redirect / → /work, work list, one case study, about page)
-  - [ ] Create test scripts for core flows
-  - [ ] Run tests locally
-  - [ ] Integrate Playwright into CI (run on PR or before deploy)
-  - [ ] Document how to run and extend tests
-- [ ] **Integrate site with Chromatic**
-  - [ ] Research Chromatic for Next.js/React (visual regression)
-  - [ ] Install and configure Chromatic (project token, script)
-  - [ ] Run initial snapshot or link Storybook when Storybook exists
-  - [ ] Add Chromatic to PR or deploy workflow (optional)
-  - [ ] Document review workflow (how to approve/reject visual changes)
+  - [ ] Add branch protection or deploy rules if needed (e.g., require passing tests, code review)
+  - [ ] Add Lighthouse CI or performance budget checks (optional; can use Vercel Analytics)
+  - [ ] Monitor builds and refine (fix flaky steps, add notifications if desired, optimize CI time)
+  - [ ] Document CI/CD workflow (how to trigger, how to debug failures, how to add new checks)
+
+- [ ] **Add end-to-end testing with Playwright**
+  - [ ] Research Playwright for Next.js (installation, best practices, examples)
+  - [ ] Install Playwright and dependencies (@playwright/test, browsers)
+  - [ ] Configure Playwright (playwright.config.ts: base URL for dev/prod, browsers, timeouts, test dir)
+  - [ ] Set up test fixtures and helpers (auth states, page objects, custom matchers)
+  - [ ] **Define E2E test scenarios** (critical user journeys with real content from Project 3)
+    - [ ] Homepage flow: visit /, verify redirect to /work, check work cards render
+    - [ ] Work list: click work card, verify navigation to case study
+    - [ ] Case study flow: visit case study, verify content loads, check navigation works
+    - [ ] Password-protected case study: enter password, verify access, check cookie persistence
+    - [ ] About page: visit /about, verify sections render (bio, workflow, experience if present)
+    - [ ] Uses page: visit /uses, verify tools and setup render
+    - [ ] Navigation: test sidebar navigation, verify active states, test mobile menu if present
+    - [ ] 404 page: visit non-existent route, verify 404 page renders
+    - [ ] Theme switching: toggle dark mode (if implemented), verify persistence
+    - [ ] Analytics: verify page view events fire (mock or test analytics in dev)
+  - [ ] **Write Playwright test scripts**
+    - [ ] Create test files per scenario (tests/e2e/homepage.spec.ts, work.spec.ts, case-study.spec.ts, etc.)
+    - [ ] Write tests with assertions (expect page title, check element visibility, verify URL changes)
+    - [ ] Add accessibility checks (e.g., run axe-core via playwright-axe or @axe-core/playwright)
+    - [ ] Test responsive behavior (run tests at multiple viewport sizes: mobile, tablet, desktop)
+    - [ ] Test cross-browser if needed (Chromium, Firefox, WebKit via Playwright config)
+  - [ ] **Run Playwright tests locally**
+    - [ ] Run tests in headless mode (npm run test:e2e or playwright test)
+    - [ ] Run tests in headed mode (debug flaky tests, watch browser behavior)
+    - [ ] Run tests with UI mode (playwright test --ui for interactive debugging)
+    - [ ] Generate and review test reports (HTML reporter, trace viewer for failures)
+  - [ ] **Integrate Playwright into CI**
+    - [ ] Add Playwright job to CI workflow (install deps, run tests, upload artifacts on failure)
+    - [ ] Configure test parallelization (sharding, workers) to speed up CI
+    - [ ] Add test retry logic for flaky tests (retries config in Playwright)
+    - [ ] Store test results and traces as CI artifacts (for debugging failures)
+    - [ ] Set up test result reporting (comment PR with test summary, fail CI on test failures)
+  - [ ] **Document Playwright workflow**
+    - [ ] Write testing guide (how to run locally, how to write new tests, page object patterns)
+    - [ ] Document debugging steps (trace viewer, headed mode, screenshots, video recordings)
+    - [ ] Add instructions for updating tests when content/routes change
+    - [ ] Document how to extend test coverage (adding new scenarios, cross-browser, performance tests)
+
+- [ ] **Add page-level visual regression (if needed beyond Storybook Chromatic)**
+  - [ ] Evaluate if page-level visual regression is needed (Chromatic in 2.2 covers components; this covers full pages)
+  - [ ] If needed: configure Playwright visual comparisons (toHaveScreenshot, update baselines)
+  - [ ] Or: extend Chromatic to capture full-page snapshots (e.g., Storybook stories for page templates)
+  - [ ] Or: use separate tool like Percy, Applitools, or BackstopJS (research and choose)
+  - [ ] Set up baseline images for key pages (/, /work, /about, case study template, 404)
+  - [ ] Add visual regression to CI (run on PR, flag visual changes for review)
+  - [ ] Document visual regression workflow (how to approve changes, update baselines)
 
 ---
 
