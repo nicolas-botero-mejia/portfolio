@@ -47,3 +47,6 @@ src/app/tokens.generated.css
 # PR drafts (local only, never committed)
 PR_INFO.md
 PR_*.md
+
+# MCP run PIDs (from scripts/mcp.sh start)
+.mcp-run.pids
