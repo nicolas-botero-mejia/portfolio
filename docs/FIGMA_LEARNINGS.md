@@ -77,18 +77,248 @@ See **When Starting Figma Tasks**, **Token Architecture**, **Working with text**
 
 We support the following **named operations** via `evaluate_script`. Use them to compose “create a view”, “create a flow”, or “import variables/components” prompts. Names align with [Figma Console MCP](https://github.com/southleft/figma-console-mcp) tool names where useful so we can share import shapes and optionally use their MCP later.
 
-| Operation | Purpose | Where implemented / documented |
-|-----------|---------|---------------------------------|
-| **Get variables** | Return variables + collections (for import). Output shape: same as `figma_get_variables` (collections, variables, modes) so `importFigmaTokens.ts` or their tools can consume it. | Extract script (Strategy: Figma → Code); Token Architecture. |
-| **Create variable collection** / **Create variable** / **Update variable** | Push tokens from code to Figma; create or update by name/key. | Token Architecture; “find-or-create” in Best practices. |
-| **Get file structure** | Return pages, key frames, structure (for flow import). Can mirror verbosity levels of `figma_get_file_data`. | Goal; implement when we add flow import. |
-| **Get component(s)** | Return component metadata (key, name, props, layout) for import. Align field names with `figma_get_component` output. | Goal; Component Creation, Component-to-Token Mapping. |
-| **Instantiate component** | Create instance of existing component (with optional overrides, position). For “create view” and “create flow” prompts. | Component Creation; API: `figma.instantiateComponent()`. |
-| **Create frame / Create child** | Create frames, auto-layout, children. For views and flow steps. | Component Creation; API Gotchas; `figma.createFrame()`, etc. |
+| Operation | Purpose | Where defined |
+|-----------|---------|----------------|
+| **Get variables** | Return variables + collections for import. Shape: **Data contracts (Get variables)**. Runnable script: **Canonical operation scripts → Get variables**. | Data contracts + script below; Strategy: Figma → Code. |
+| **Create variable collection** / **Create variable** / **Update variable** | Push tokens from code to Figma; find-or-create by name/key. | Token Architecture; Best practices (find-or-create). |
+| **Get file structure** | Return pages/frames tree for flow import. Shape: **Data contracts (Get file structure)**. Runnable script: **Canonical operation scripts → Get file structure**. | Data contracts + script below. |
+| **Get component(s)** | Return component metadata for import. Shape: **Data contracts (Get component)**. Runnable script: **Canonical operation scripts → Get component**. | Data contracts + script below; Component Creation. |
+| **Instantiate component** | Create instance of component (overrides, position). For “create view” / “create flow”. | Canonical operation scripts (Instantiate component); Component Creation. |
+| **Create frame / Create child** | Create frames, auto-layout, children. For views and flow steps. | Canonical operation scripts (Create frame / Create child); Component Creation. |
 
 When you implement extract scripts (variables, then components, then flow), **match the structure** their tools return so the same import pipeline works whether data came from our script or from Figma Console MCP (see [FIGMA_CONSOLE_MCP_COMPARISON.md](FIGMA_CONSOLE_MCP_COMPARISON.md) → “Adapting Figma Console MCP”).
 
 **When to use Figma Console MCP vs our flow:** Use **our flow** (Chrome + `evaluate_script` + this runbook) for code-first token push, browser Figma, and portfolio-specific scripts. Use **Figma Console MCP** (optional, with Figma Desktop + Desktop Bridge) when you want their 56+ tools for design creation from chat, variable/component management in Figma, design-system summary, or import via `figma_get_variables` / `figma_get_component` / `figma_get_file_data` without writing an extract script. See comparison doc for setup and “when to use which”.
+
+---
+
+## Data contracts (import/export shapes)
+
+We use these JSON shapes for **extract scripts** and **import pipelines** so the same structure works whether data comes from our `evaluate_script` or from Figma Console MCP. Implement extract scripts to return these shapes; implement import scripts to consume them.
+
+### Get variables (figma_get_variables–compatible)
+
+Return this from any “get variables” script (plugin or evaluate_script). `importFigmaTokens.ts` and any variable import logic should expect this shape.
+
+```json
+{
+  "success": true,
+  "timestamp": 1234567890123,
+  "fileMetadata": { "fileName": "Design file", "fileKey": "abc123" },
+  "variables": [
+    {
+      "id": "VariableID:1:0",
+      "name": "colors/gray/50",
+      "key": "variableKey",
+      "resolvedType": "COLOR",
+      "valuesByMode": { "modeId": "#rrggbb" },
+      "variableCollectionId": "VariableCollectionId:1:0",
+      "scopes": ["ALL_SCOPES"],
+      "description": "",
+      "hiddenFromPublishing": false
+    }
+  ],
+  "variableCollections": [
+    {
+      "id": "VariableCollectionId:1:0",
+      "name": "Primitives",
+      "key": "collectionKey",
+      "modes": [{ "modeId": "modeId", "name": "Default" }],
+      "defaultModeId": "modeId",
+      "variableIds": ["VariableID:1:0"]
+    }
+  ]
+}
+```
+
+- **On error:** `{ "success": false, "error": "message" }`.
+- **Variables:** Include `id`, `name`, `key`, `resolvedType`, `valuesByMode`, `variableCollectionId`; optional `scopes`, `description`, `hiddenFromPublishing`.
+- **variableCollections:** Include `id`, `name`, `key`, `modes`, `defaultModeId`, `variableIds`. Alias values in `valuesByMode` stay as `{ type: 'VARIABLE_ALIAS', id: 'VariableID:...' }`.
+
+### Get file structure (figma_get_file_data–compatible)
+
+For flow import and file overview. Verbosity levels: `summary` (ids, names, types), `standard` (essential props), `full`.
+
+```json
+{
+  "success": true,
+  "name": "File name",
+  "lastModified": "2026-01-01T00:00:00.000Z",
+  "version": "optional",
+  "document": {
+    "id": "0:0",
+    "name": "Document",
+    "type": "DOCUMENT",
+    "children": [
+      {
+        "id": "1:0",
+        "name": "Page 1",
+        "type": "CANVAS",
+        "children": [
+          { "id": "2:0", "name": "Frame 1", "type": "FRAME", "children": [] }
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "componentCount": 0,
+    "stylesCount": 0
+  }
+}
+```
+
+- **On error:** `{ "success": false, "error": "message" }`.
+- **summary:** nodes have `id`, `name`, `type`, `children` (optional).
+- **standard:** add layout-related fields (e.g. `layoutMode`, `primaryAxisAlignItems`, `paddingLeft`, etc.) where relevant.
+- **full:** include fills, strokes, effects, bounds as needed for reconstruction.
+
+### Get component (figma_get_component–compatible)
+
+For component import. Two formats: **metadata** (documentation, style guides) or **reconstruction** (programmatic creation). We standardize on a minimal metadata shape for import; reconstruction can be added later.
+
+**Metadata format (default for import):**
+
+```json
+{
+  "success": true,
+  "nodeId": "123:456",
+  "key": "componentKey",
+  "name": "Button",
+  "type": "COMPONENT",
+  "description": "",
+  "componentPropertyDefinitions": { "label": { "type": "TEXT", "defaultValue": "Label" } },
+  "bounds": { "x": 0, "y": 0, "width": 120, "height": 40 },
+  "layoutMode": "HORIZONTAL",
+  "primaryAxisAlignItems": "CENTER",
+  "counterAxisAlignItems": "CENTER",
+  "paddingLeft": 16,
+  "paddingRight": 16,
+  "paddingTop": 8,
+  "paddingBottom": 8,
+  "itemSpacing": 8
+}
+```
+
+- **On error:** `{ "success": false, "error": "message" }`.
+- Include at least: `nodeId`, `key`, `name`, `type`, `componentPropertyDefinitions`, `bounds`. Add layout and visual props as needed for your import (e.g. mapping to code components).
+
+---
+
+## Canonical operation scripts (run via evaluate_script)
+
+Use these patterns when you run `evaluate_script` to perform a canonical operation. Return the **data contract** shapes above so import pipelines and optional Figma Console MCP stay aligned.
+
+### Get variables
+
+Run in the Figma tab (plugin context). Returns the **Get variables** data contract.
+
+```javascript
+(async () => {
+  try {
+    if (typeof figma === 'undefined') throw new Error('Figma API not available');
+    const variables = await figma.variables.getLocalVariablesAsync();
+    const collections = await figma.variables.getLocalVariableCollectionsAsync();
+    return {
+      success: true,
+      timestamp: Date.now(),
+      fileMetadata: { fileName: figma.root.name, fileKey: figma.fileKey || null },
+      variables: variables.map(v => ({
+        id: v.id, name: v.name, key: v.key, resolvedType: v.resolvedType,
+        valuesByMode: v.valuesByMode, variableCollectionId: v.variableCollectionId,
+        scopes: v.scopes || [], description: v.description || '', hiddenFromPublishing: v.hiddenFromPublishing || false
+      })),
+      variableCollections: collections.map(c => ({
+        id: c.id, name: c.name, key: c.key, modes: c.modes, defaultModeId: c.defaultModeId, variableIds: c.variableIds
+      }))
+    };
+  } catch (e) {
+    return { success: false, error: e.message || String(e) };
+  }
+})()
+```
+
+Save the result (e.g. copy to `scripts/figma-export.json`) and run `npm run tokens:import` (when implemented) to merge into code.
+
+### Get file structure (flow import)
+
+Run in the Figma tab. Use `verbosity: 'summary'` for a light tree (ids, names, types, children); `'standard'` or `'full'` for more. Returns the **Get file structure** data contract.
+
+```javascript
+(function walk(node, depth, maxDepth) {
+  if (depth > maxDepth) return null;
+  const out = { id: node.id, name: node.name, type: node.type };
+  if (node.children && node.children.length) {
+    out.children = node.children.map(c => walk(c, depth + 1, maxDepth)).filter(Boolean);
+  }
+  return out;
+})(figma.root, 0, 3)
+```
+
+Then wrap for contract shape:
+
+```javascript
+(async () => {
+  try {
+    if (typeof figma === 'undefined') throw new Error('Figma API not available');
+    function walk(n, d, max) {
+      if (d > max) return null;
+      const out = { id: n.id, name: n.name, type: n.type };
+      if (n.children && n.children.length)
+        out.children = n.children.map(c => walk(c, d + 1, max)).filter(Boolean);
+      return out;
+    }
+    return {
+      success: true,
+      name: figma.root.name,
+      lastModified: figma.root.getPluginData?.('lastModified') || null,
+      document: { id: figma.root.id, name: figma.root.name, type: 'DOCUMENT', children: figma.root.children.map(c => walk(c, 0, 3)).filter(Boolean) },
+      meta: { componentCount: 0, stylesCount: 0 }
+    };
+  } catch (e) {
+    return { success: false, error: e.message || String(e) };
+  }
+})()
+```
+
+(Adjust `meta` if you have component/style counts from the file.)
+
+### Get component (by nodeId)
+
+Run with the target component’s `nodeId` (e.g. from selection or file structure). Returns the **Get component (metadata)** data contract. Use `figma.getNodeByIdAsync(nodeId)` for dynamic pages.
+
+```javascript
+(async () => {
+  const nodeId = '123:456'; // replace with actual nodeId or pass via selection
+  try {
+    if (typeof figma === 'undefined') throw new Error('Figma API not available');
+    const node = await figma.getNodeByIdAsync(nodeId);
+    if (!node || (node.type !== 'COMPONENT' && node.type !== 'COMPONENT_SET')) return { success: false, error: 'Not a component or component set' };
+    const n = node;
+    return {
+      success: true, nodeId: n.id, key: n.key, name: n.name, type: n.type,
+      description: n.description || '',
+      componentPropertyDefinitions: n.componentPropertyDefinitions || {},
+      bounds: n.type === 'COMPONENT_SET' ? null : { x: n.x, y: n.y, width: n.width, height: n.height },
+      layoutMode: n.layoutMode || null, primaryAxisAlignItems: n.primaryAxisAlignItems ?? null, counterAxisAlignItems: n.counterAxisAlignItems ?? null,
+      paddingLeft: n.paddingLeft ?? null, paddingRight: n.paddingRight ?? null, paddingTop: n.paddingTop ?? null, paddingBottom: n.paddingBottom ?? null, itemSpacing: n.itemSpacing ?? null
+    };
+  } catch (e) {
+    return { success: false, error: e.message || String(e) };
+  }
+})()
+```
+
+Replace `nodeId` with the actual id (or read from `figma.currentPage.selection` when one component is selected).
+
+### Create variable collection / Create variable / Update variable
+
+See **Token Architecture** and **Strategy: Figma → Code**. Use find-or-create: look up collection by name, variable by key; create only if missing. Return `{ success: true, id, name }` or `{ success: false, error }`.
+
+### Instantiate component / Create frame / Create child
+
+- **Instantiate:** `figma.instantiateComponent(componentKey, overrides?)` then position (e.g. `node.x`, `node.y`). Return `{ success: true, nodeId: node.id }` or error.
+- **Create frame:** `figma.createFrame()`, set name, layoutMode, padding, append to parent. Return `{ success: true, nodeId: frame.id }`.
+- **Create child:** `parent.appendChild(node)`. Use **Working with text** and **Component Creation** for layout and fonts.
 
 ---
 

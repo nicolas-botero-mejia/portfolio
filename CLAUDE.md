@@ -510,7 +510,7 @@ npm run lint                     # Lint codebase
 ### Feature Documentation
 - [README_PASSWORD_PROTECTION.md](README_PASSWORD_PROTECTION.md) - Password setup quick reference
 - [docs/PASSWORD_PROTECTION.md](docs/PASSWORD_PROTECTION.md) - Complete password protection guide
-- [docs/FIGMA_LEARNINGS.md](docs/FIGMA_LEARNINGS.md) - Figma plugin API learnings; start with "When Starting Figma Tasks" and "Token flow"; reference for tokens, components, and community gotchas
+- [docs/FIGMA_LEARNINGS.md](docs/FIGMA_LEARNINGS.md) - Two-way Figma workflow: **Our relationship with Figma**, **Data contracts** (import/export shapes), **Canonical operations** + runnable scripts (get variables, get file structure, get component, create/instantiate). Start with "When Starting Figma Tasks" and "Token flow"; use canonical operation scripts for create-from-prompt and import.
 - [docs/FIGMA_CONSOLE_MCP_COMPARISON.md](docs/FIGMA_CONSOLE_MCP_COMPARISON.md) - Comparison with Figma Console MCP (Southleft) + Desktop Bridge; when to use which, what to adopt
 - [docs/FIGMA_INTEGRATION.md](docs/FIGMA_INTEGRATION.md) - Legacy/alternative: Figma-as-source REST flow; current project uses code-first + Plugin API (see FIGMA_LEARNINGS)
 

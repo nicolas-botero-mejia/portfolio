@@ -133,8 +133,9 @@ So: **create-from-prompt** is covered on their side by `figma_execute` + variabl
 
 ### What to adapt (without switching stack)
 
-1. **Canonical operations / script catalog**  
-   Define a small set of **named operations** we support via `evaluate_script`, aligned where useful with their tool names so prompts and docs stay consistent:
+**Full adaptation (done):** [FIGMA_LEARNINGS.md](FIGMA_LEARNINGS.md) now has **Data contracts** (Get variables, Get file structure, Get component shapes), **Canonical operations** table, and **Canonical operation scripts** (runnable snippets for get variables, get file structure, get component). Use them for create-from-prompt and import; optionally add Figma Console MCP as second MCP for their tools and Figma Desktop.
+
+1. **Canonical operations / script catalog** — Implemented in FIGMA_LEARNINGS (Data contracts, Canonical operations table, Canonical operation scripts).
    - **Get variables** – script that returns variables + collections (same shape as `figma_get_variables` output so import pipeline can consume it).
    - **Create/update variables** – create collection, create variable, update variable (we already do this; document as “create_variable_collection”, “create_variable”, “update_variable”).
    - **Get file/structure** – script that returns file structure (pages, key frames) for “flow” import; can mirror `figma_get_file_data` verbosity levels.
