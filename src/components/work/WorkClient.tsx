@@ -8,6 +8,7 @@ import { getRoute, getCompanyName, getWorkTypeLabel, CONTENT_SLUGS } from '@/dat
 import {
   Badge,
   Card,
+  EmptyState,
   PageHeader,
   ScrollPrompt,
 } from '@/components/ui';
@@ -35,11 +36,6 @@ interface WorkItem {
 interface WorkClientProps {
   allWork: WorkItem[];
 }
-
-// Page layout — primitive scale
-const PAGE_LAYOUT = 'bg-background-surface';
-const SECTION_LAYOUT = 'px-8 py-16 lg:px-16 lg:py-24';
-const EMPTY_STATE = 'text-content-muted';
 
 // 2-col grid for landscape cards (reference: 2x2)
 const GRID_LAYOUT = 'grid grid-cols-1 sm:grid-cols-2 gap-6';
@@ -74,111 +70,110 @@ export default function WorkClient({ allWork }: WorkClientProps) {
   };
 
   return (
-    <div className={PAGE_LAYOUT}>
-      <section className={SECTION_LAYOUT}>
-        <div className="max-w-6xl">
-          <PageHeader
-            title="Work"
-            description="Case studies, product features, and projects with measurable impact"
-            variant="serif"
-          />
+    <>
+      <PageHeader
+        title="Work"
+        description="Case studies, product features, and projects with measurable impact"
+        variant="serif"
+      />
 
-          {allWork.length === 0 ? (
-            <p className={EMPTY_STATE}>No work items found.</p>
-          ) : (
-            <>
-              <div className={GRID_LAYOUT}>
-                {visibleWork.map((item, index) => (
-                  <Link
-                    key={item.slug}
-                    href={getRoute(CONTENT_SLUGS.WORK, undefined, item.slug)}
-                    className="block"
-                    onClick={() =>
-                      handleWorkCardClick(item.slug, item.frontmatter.title, index)
-                    }
-                  >
-                    <Card
-                      as="div"
-                      className={`group relative overflow-hidden rounded-lg ${CARD_ASPECT}`}
-                    >
-                      <div className="absolute inset-0">
-                        <Image
-                          src={item.frontmatter.heroImage}
-                          alt=""
-                          fill
-                          sizes="(max-width: 640px) 100vw, 50vw"
-                          className="object-cover"
-                        />
+      {allWork.length === 0 ? (
+        <EmptyState
+          title="No work items yet"
+          description="Case studies and projects will appear here when added"
+        />
+      ) : (
+        <>
+          <div className={GRID_LAYOUT}>
+            {visibleWork.map((item, index) => (
+              <Link
+                key={item.slug}
+                href={getRoute(CONTENT_SLUGS.WORK, undefined, item.slug)}
+                className="block"
+                onClick={() =>
+                  handleWorkCardClick(item.slug, item.frontmatter.title, index)
+                }
+              >
+                <Card
+                  as="div"
+                  className={`group relative overflow-hidden rounded-lg ${CARD_ASPECT}`}
+                >
+                  <div className="absolute inset-0">
+                    <Image
+                      src={item.frontmatter.heroImage}
+                      alt=""
+                      fill
+                      sizes="(max-width: 640px) 100vw, 50vw"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className={CARD_GRADIENT} />
+                  <div className="absolute inset-0 flex flex-col justify-between p-4 md:p-5">
+                    <div className="flex items-start justify-between gap-3">
+                      <span className={CARD_CATEGORY}>
+                        Work · {getWorkTypeLabel(item.frontmatter.type)}
+                      </span>
+                      <div className={CARD_LINK_HINT}>
+                        <span>Work — {item.frontmatter.title}</span>
+                        <svg
+                          className="h-3.5 w-3.5 shrink-0"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          aria-hidden
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M7 17L17 7M17 7H7M17 7v10"
+                          />
+                        </svg>
                       </div>
-                      <div className={CARD_GRADIENT} />
-                      <div className="absolute inset-0 flex flex-col justify-between p-4 md:p-5">
-                        <div className="flex items-start justify-between gap-3">
-                          <span className={CARD_CATEGORY}>
-                            Work · {getWorkTypeLabel(item.frontmatter.type)}
-                          </span>
-                          <div className={CARD_LINK_HINT}>
-                            <span>Work — {item.frontmatter.title}</span>
-                            <svg
-                              className="h-3.5 w-3.5 shrink-0"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              aria-hidden
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M7 17L17 7M17 7H7M17 7v10"
-                              />
-                            </svg>
+                    </div>
+                    <div className="space-y-2">
+                      <Badge variant="neutral" className={BADGE_OVERLAY}>
+                        {item.frontmatter.subtitle ??
+                          getWorkTypeLabel(item.frontmatter.type)}
+                      </Badge>
+                      <h2 className={`${CARD_TITLE_OVERLAY} leading-tight`}>
+                        {item.frontmatter.title}
+                      </h2>
+                      <p className={CARD_META_OVERLAY}>
+                        <span className="font-medium">
+                          {getCompanyName(item.frontmatter.company)}
+                        </span>
+                        <span aria-hidden> · </span>
+                        <span>{item.frontmatter.role}</span>
+                        <span aria-hidden> · </span>
+                        <span>{item.frontmatter.year}</span>
+                      </p>
+                      {item.frontmatter.tags &&
+                        item.frontmatter.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-2 pt-1">
+                            {item.frontmatter.tags.map((tag) => (
+                              <span key={tag} className={TAG_OVERLAY}>
+                                #{tag}
+                              </span>
+                            ))}
                           </div>
-                        </div>
-                        <div className="space-y-2">
-                          <Badge variant="neutral" className={BADGE_OVERLAY}>
-                            {item.frontmatter.subtitle ??
-                              getWorkTypeLabel(item.frontmatter.type)}
-                          </Badge>
-                          <h2 className={`${CARD_TITLE_OVERLAY} leading-tight`}>
-                            {item.frontmatter.title}
-                          </h2>
-                          <p className={CARD_META_OVERLAY}>
-                            <span className="font-medium">
-                              {getCompanyName(item.frontmatter.company)}
-                            </span>
-                            <span aria-hidden> · </span>
-                            <span>{item.frontmatter.role}</span>
-                            <span aria-hidden> · </span>
-                            <span>{item.frontmatter.year}</span>
-                          </p>
-                          {item.frontmatter.tags &&
-                            item.frontmatter.tags.length > 0 && (
-                              <div className="flex flex-wrap gap-2 pt-1">
-                                {item.frontmatter.tags.map((tag) => (
-                                  <span key={tag} className={TAG_OVERLAY}>
-                                    #{tag}
-                                  </span>
-                                ))}
-                              </div>
-                            )}
-                        </div>
-                      </div>
-                    </Card>
-                  </Link>
-                ))}
-              </div>
+                        )}
+                    </div>
+                  </div>
+                </Card>
+              </Link>
+            ))}
+          </div>
 
-              {hasMore && (
-                <ScrollPrompt
-                  label="Scroll for more"
-                  onVisible={loadMore}
-                  once={false}
-                />
-              )}
-            </>
+          {hasMore && (
+            <ScrollPrompt
+              label="Scroll for more"
+              onVisible={loadMore}
+              once={false}
+            />
           )}
-        </div>
-      </section>
-    </div>
+        </>
+      )}
+    </>
   );
 }

@@ -1,5 +1,6 @@
 import { getPageBySlug } from '@/lib/mdx';
 import MDXRenderer from '@/components/MDXRenderer';
+import PageLayout from '@/components/ui/PageLayout';
 import { generatePageMetadata } from '@/lib/seo';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -28,5 +29,9 @@ export default function ColophonPage() {
     notFound();
   }
 
-  return <MDXRenderer content={page.content} />;
+  return (
+    <PageLayout maxWidth="prose">
+      <MDXRenderer content={page.content} />
+    </PageLayout>
+  );
 }

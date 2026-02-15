@@ -1,6 +1,6 @@
 interface PageHeaderProps {
   title: string;
-  description?: string;
+  description?: React.ReactNode;
   /** 'serif' for large editorial title (e.g. "projects.") */
   variant?: 'default' | 'serif';
   className?: string;
