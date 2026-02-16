@@ -38,7 +38,7 @@ export interface ProductFrontmatter {
   tags: string[];
   date?: string;     // For sorting (YYYY-MM-DD format)
   order?: number;    // For manual ordering
-  parent?: string;   // For features: links to parent product
+  parent?: string;   // Features only: slug of parent product (work/products/). See content/README.md.
   seo: {
     metaTitle: string;
     metaDescription: string;

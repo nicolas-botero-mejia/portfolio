@@ -81,6 +81,8 @@ seo:
 
 ### Features (`work/features/`)
 
+**`parent` (features only):** Required for features. Must be the slug of a product in `work/products/` that this feature belongs to. Products and side-projects do not use `parent`. Used for relationship and optional UI (e.g. "Part of [Product]").
+
 ```yaml
 ---
 title: "Ocean Billing System"
@@ -89,7 +91,7 @@ type: "feature"
 subtitle: "Enterprise Billing Dashboard"
 company: "routemobile"
 role: "Lead Product Designer"
-parent: "ocean"                # Links to parent product
+parent: "ocean"                # Slug of parent product (work/products/ocean.mdx)
 year: "2023"
 duration: "3 months"
 featured: false
