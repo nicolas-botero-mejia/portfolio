@@ -204,6 +204,13 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [ ] **Build future components with TDD from the start**
     - [ ] For each new component: write story → write tests → implement → run Chromatic → document
     - [ ] Maintain component status tracker (see below)
+  - [ ] **Build MDX element override components** (markdown-first rendering; see `src/lib/mdxComponents.tsx`)
+    - [ ] Callout/Blockquote component (`> blockquote` → DS styled callout)
+    - [ ] InlineCode component (`` `code` `` → DS styled inline code)
+    - [ ] CodeBlock component (` ```block``` ` → DS styled code block with syntax highlighting)
+    - [ ] Table component (`| table |` → DS styled table with proper spacing/borders)
+    - [ ] Video component (`<Video src="demo" />` → JSX-only, no markdown equivalent; embedded video player)
+    - [ ] Image component (`<Image src="x" width={800} />` → JSX-only; explicit dimensions, captions, custom layouts)
   
 - [ ] **Integrate Storybook with development workflow**
   - [ ] Add Storybook npm scripts to package.json (dev, build, test, chromatic)
@@ -243,6 +250,17 @@ Use this sequence so work builds on itself and nothing is blocked.
 | ScrollArea | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
 | ContentNavigation | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
 | CheckIcon | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
+| Typography (H1-H6, Strong, Em) | ❌ | ❌ | ❌ | ❌ | ❌ | Implemented (MDX override) |
+| List (ul/ol/li) | ❌ | ❌ | ❌ | ❌ | ❌ | Implemented (MDX override) |
+| Link (MDX override) | ❌ | ❌ | ❌ | ❌ | ❌ | Implemented (MDX override) |
+| Divider (MDX override) | ❌ | ❌ | ❌ | ❌ | ❌ | Implemented (MDX override) |
+| Image (MDX override) | ❌ | ❌ | ❌ | ❌ | ❌ | Implemented (MDX override) |
+| Callout/Blockquote | ❌ | ❌ | ❌ | ❌ | ❌ | Not Started |
+| InlineCode | ❌ | ❌ | ❌ | ❌ | ❌ | Not Started |
+| CodeBlock | ❌ | ❌ | ❌ | ❌ | ❌ | Not Started |
+| Table | ❌ | ❌ | ❌ | ❌ | ❌ | Not Started |
+| Video | ❌ | ❌ | ❌ | ❌ | ❌ | Not Started |
+| Image (sized) | ❌ | ❌ | ❌ | ❌ | ❌ | Not Started |
 
 **Legend:** ✅ Done | ⏳ In Progress | ❌ Not Started | ⚠️ Blocked
 
@@ -430,9 +448,15 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [ ] Run analytics review (quarterly review, conversion tracking, A/B tests on key pages)
 - [ ] Execute post-launch promotion (design directories e.g. bestfolios, layers.to, uxfolio, dribbble, behance; backlink maintenance)
 
-### Milestone 7.4 – Future ideas (parking lot)
+### Milestone 7.4 – Research concepts
 
-*No commitment; capture so we don’t forget; prioritize only when they align with goals.*
+*Topics to investigate before committing to implementation. Research first, decide scope, then promote to a task above.*
+
+- **Image optimization strategy** — Evaluate whether to adopt `next/image` for automatic format conversion (WebP/AVIF), responsive `srcset`, lazy loading with blur placeholders, and CDN-level caching. Compare trade-offs: `next/image` requires known dimensions or `fill` mode; plain `<img>` is simpler but no optimization. Decide if the performance gain justifies the added complexity for a portfolio site. Could apply to both the MDX `img` override and the future `<Image>` JSX component.
+
+### Milestone 7.5 – Future ideas (parking lot)
+
+*No commitment; capture so we don't forget; prioritize only when they align with goals.*
 
 - Multilingual (EN + ES)
 - Interactive design system playground
