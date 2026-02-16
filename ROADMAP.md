@@ -1,10 +1,12 @@
 # Portfolio Website Roadmap
 
-**Project Start:** November 11, 2025  
-**Launched:** Not yet (no Vercel deployment)  
+**Project Start:** November 11, 2025
+**Launched:** Not yet (no Vercel deployment)
 **Status:** Pre-launch; in development
 
-**Current focus:** Follow the recommended order below. Process: build (1 → 2) → fill (3) → quality & ship (4) → launch (5) → iterate (6 → 7).
+**Current focus:** Follow the recommended order below. Process: build (1, 2) → fill + fix (3) → ship (4) → expand (5) → learn + harden (6, 7) → grow (8).
+
+**Philosophy:** This is a learning-first project. Testing, Storybook, Figma pipelines, and CI/CD are valuable learning goals, not overhead. The sequencing prioritizes launch so there's a live, content-complete site to iterate on — which makes infrastructure work (testing, visual regression, automation) more valuable, not less.
 
 ---
 
@@ -12,7 +14,7 @@
 
 | Level | Meaning | In this roadmap |
 |-------|---------|-----------------|
-| **Project** | A defined body of work with an outcome | Numbered 1–7; title = theme or outcome |
+| **Project** | A defined body of work with an outcome | Numbered 1–8; title = theme or outcome |
 | **Milestone** | A delivery target or checkpoint (zero-duration) | Numbered **Project.Milestone** (e.g. 1.1, 1.2); name = deliverable or phase |
 | **Task** | A concrete piece of work | Main bullets; **imperative verb** (Implement, Add, Create, Configure, Run, …) |
 | **Subtask** | Smaller steps inside a task | Nested bullets; same **imperative** style |
@@ -25,29 +27,28 @@
 
 Use this sequence so work builds on itself and nothing is blocked.
 
-**Projects (in order):** 1 → 2 → 3 → 4 → 5 → 6 → 7. Aligns with process: **build** (1 Foundation POC, 2 Architecture & DS) → **fill** (3 Content + SEO) → **quality & ship** (4 Quality, Testing & Deployment) → **launch** (5 Polish + Public Launch) → **iterate** (6 Content structure & Analytics, 7 Growth).
+**Projects (in order):** 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8. Aligns with process: **build** (1 Foundation POC, 2 Architecture & DS) → **fill + fix** (3 Content & Launch Readiness) → **ship** (4 Deploy & Launch) → **expand** (5 Content Expansion) → **learn + harden** (6 Quality Infrastructure, 7 Design System Maturity) → **grow** (8 Growth).
 
 **Within each project:**
 
 | Project | Milestone order | Why |
 |---------|-----------------|-----|
 | **1** | 1.1 → 1.2 | Setup before design system (done) |
-| **2** | 2.1 → 2.2 | Architecture & tooling (2.1) before DS structure, Storybook & design-to-code (2.2; 2.2 grows with components) |
-| **3** | 3.1 → 3.2 | Content before SEO |
-| **4** | 4.1 → 4.2 | Quality & maintenance before testing & deployment |
-| **5** | 5.1 | Single milestone: polish → launch → post-launch |
-| **6** | 6.1 → 6.2 | Content structure before analytics |
-| **7** | 7.1 → 7.2 → 7.3 → 7.4 | Short → medium → long term → parking lot |
+| **2** | 2.1 → 2.2 | Architecture & tooling (2.1) before component completion (2.2) |
+| **3** | 3.1 → 3.2 → 3.3 | Fix blockers → polish content → optimize SEO |
+| **4** | 4.1 → 4.2 → 4.3 | Deploy → QA → launch |
+| **5** | 5.1 → 5.2 → 5.3 | More work samples → new sections → analytics |
+| **6** | 6.1 → 6.2 → 6.3 → 6.4 | Unit tests → Storybook → E2E → CI/CD |
+| **7** | 7.1 → 7.2 | Design-to-code pipeline → component formalization |
+| **8** | 8.1 → 8.2 → 8.3 → 8.4 | Content & reach → product enhancements → advanced features → parking lot |
 
 **Task order within key milestones:**
 
-- **Project 2, 2.1:** Architecture and tooling first; mobile responsiveness (audit → fix → verify → document).
-- **Project 2, 2.2:** Design-to-code, Storybook, and DS structure can run in parallel or in any order; DS structure and Storybook reinforce each other as components grow.
-- **Project 3, 3.1:** Create missing content → Complete About/Uses → Add product assets → Optimize images → Write SEO meta.
-- **Project 3, 3.2:** Implement SEO → Run agents → SEO enhancements → Technical optimization → Testing → Sitemap & Search Console.
-- **Project 4, 4.1:** A11y (audit → fix → document) before code cleanup (scan → remove).
-- **Project 4, 4.2:** Deploy and launch on Vercel (full process) → CI/CD pipeline → Playwright → Chromatic.
-- **Project 5, 5.1:** Polish → Analytics → Final QA → Launch prep → Execute launch (deploy done in 4.2) → Post-launch.
+- **Project 2, 2.2:** Build remaining MDX override components → Build About page components (WorkflowGrid, ExperienceTimeline).
+- **Project 3, 3.1:** Fix hero images → Write Uses content → Add sitemap/robots → Wire About page components.
+- **Project 3, 3.2:** Migrate Sainapsis → Bridge → Polish case studies → Optimize images → Audit SEO meta.
+- **Project 4, 4.2:** Mobile audit → a11y audit → performance audit → cross-browser → code cleanup.
+- **Project 4, 4.3:** OG images → polish → final QA → launch → post-launch monitoring.
 
 ---
 
@@ -55,8 +56,10 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 | When | What |
 |------|------|
-| Past | Project 1 completed (POC; no deployment) |
-| Current | Projects 2, 3, 4, 5, 6, 7 (in recommended order above) |
+| Done | Project 1 (Foundation POC) |
+| Done | Project 2.1 (Architecture & Tooling — except design-to-code and mobile, moved to 7.1 and 4.2) |
+| Current | Projects 2.2 → 3 → 4 (path to launch) |
+| Post-launch | Projects 5 → 6 → 7 → 8 |
 
 ---
 
@@ -97,7 +100,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 **Project outcome:** Architecture, tooling, and design system in place
 
-### Milestone 2.1 – Architecture, tooling, code-to-design & design-to-code, & mobile *(in progress)*
+### Milestone 2.1 – Architecture & Tooling *(done)*
 
 **Tasks:**
 
@@ -116,353 +119,383 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [x] Run or document scripts in Figma that create/update variable collections from token data
   - [x] Map source tokens to Figma naming and types (fonts, colors, spacing; e.g. FIGMA_FONT_FAMILY_MAP)
   - [x] Document workflow (open plugin, run script; see docs/FIGMA_LEARNINGS.md)
-- [ ] **Integrate design-to-code logic**
-  - [ ] Write extract script (plugin API): walk Figma variable collections, output JSON
-  - [ ] Add import pipeline (script to consume JSON and merge into token sources)
-  - [ ] Define namespace and overrides (e.g. `figma/` prefix; optional override file)
-  - [ ] Implement conflict resolution (new keys add; same path code wins unless override)
-  - [ ] (Optional) Add component spec extraction from Figma (after variables stable)
-- [x] Add client-side analytics wiring (Amplitude + GA4 structure; configure keys and test in prod per 6.2)
+- [x] Add client-side analytics wiring (Amplitude + GA4 structure; configure keys and test in prod per 5.3)
 - [x] Implement hierarchical URL structure (`/work/[subType]/[slug]`)
 - [x] Standardize work item terminology across codebase (case studies → products/work items; see `docs/WORK_ITEM_TERMINOLOGY.md`)
 - [x] Reorganize asset paths to match content hierarchy (`public/images/work/products/`)
-- [ ] **Implement mobile responsiveness**
-  - [ ] Audit key pages at breakpoints (e.g. 320, 375, 768, 1024px)
+
+*Design-to-code Figma integration → moved to Project 7.1*
+*Mobile responsiveness → moved to Project 4.2 (audit with real content in place)*
+
+### Milestone 2.2 – Component Completion *(in progress)*
+
+**Tasks:**
+
+- [x] Implement token logic
+- [x] Add Radix UI
+- [x] Create Card component and subcomponents (CardHeader, CardTitle, CardDescription, CardMeta, CardImage, CardListItem)
+- [x] Create Badge component
+- [x] Add remaining UI components (Button, Tabs, Tooltip, Dialog, ScrollArea, ContentNavigation, CheckIcon)
+- [x] Add theme support (light/dark)
+- **Build MDX element override components** (markdown-first rendering; see `src/lib/mdxComponents.tsx`)
+  - [x] Typography components (H1-H4, Lead, Body, Caption, Strong, Em → DS styled headings and text)
+  - [x] List components (ul/ol/li → DS styled lists with proper spacing)
+  - [x] Link component (MDX `a` → DS styled Link with internal/external handling)
+  - [x] Divider component (`---` → DS styled horizontal rule)
+  - [x] Image component (`img` → DS styled image with optional caption)
+  - [ ] Callout/Blockquote component (`> blockquote` → DS styled callout)
+  - [ ] InlineCode component (`` `code` `` → DS styled inline code)
+  - [ ] CodeBlock component (` ```block``` ` → DS styled code block with syntax highlighting)
+  - [ ] Table component (`| table |` → DS styled table with proper spacing/borders)
+  - [ ] Video component (`<Video src="demo" />` → JSX-only, no markdown equivalent; embedded video player)
+  - [ ] Image component (`<Image src="x" width={800} />` → JSX-only; explicit dimensions, captions, custom layouts)
+- **Build About page components**
+  - [ ] WorkflowGrid component (render workflow phases from `src/data/content/workflow.ts`)
+  - [ ] ExperienceTimeline component (render experience data from `src/data/content/experience.ts`)
+
+*Storybook, Vitest, Chromatic, component testing retrofit, TDD workflow → moved to Project 6*
+*Figma push, DS documentation site, Component Status Tracker → moved to Project 7*
+
+---
+
+## Project 3: Content & Launch Readiness
+
+**Project outcome:** Content complete, SEO optimized, ready to deploy
+
+### Milestone 3.1 – Launch Blockers
+
+**Tasks:**
+
+- [ ] **Implement hero image rendering** (replace text placeholder in `src/app/work/[subType]/[slug]/page.tsx` with actual image component)
+- [ ] **Write Uses page content** (`content/pages/uses.mdx` — currently a TODO skeleton; add Design Tools, Development Tools, Productivity, Hardware sections)
+- [ ] **Add sitemap and robots route handlers** (`src/app/sitemap.ts` and `src/app/robots.ts`; next-sitemap installed but not configured)
+- [ ] **Wire About page** to WorkflowGrid and ExperienceTimeline components (built in 2.2; remove TODO comments from `content/pages/about.mdx`)
+
+### Milestone 3.2 – Content Polish
+
+**Tasks:**
+
+- [ ] **Migrate Sainapsis product to Bridge** (rewrite MDX content, update frontmatter; hero/thumbnail images already exist as `bridge-hero.png`/`bridge-thumbnail.png`; remove sainapsis assets)
+- [ ] **Review and polish product case studies** (Ocean, AquaDS, Bridge — verify metrics, proofread, check formatting)
+- [ ] **Optimize images** (compression, appropriate dimensions for hero and thumbnail)
+- [ ] **Audit SEO meta** (verify all pages have unique, optimized title 50-60 chars + description 150-160 chars)
+
+### Milestone 3.3 – SEO Optimization
+
+**Tasks:**
+
+- [ ] **Add Schema.org structured data** (Person on About, CreativeWork on products)
+- [ ] **Verify canonical URLs** across all pages
+- [ ] **Run Lighthouse audit** and fix issues (target 95+)
+- [ ] **Submit sitemap to Google Search Console** (after deployment in 4.1)
+
+---
+
+## Project 4: Deploy & Launch
+
+**Project outcome:** Site live, QA'd, and publicly launched
+
+### Milestone 4.1 – Deploy to Vercel
+
+**Tasks:**
+
+- [ ] **Create and configure Vercel project** (import Git repo, link to GitHub)
+- [ ] **Configure build settings** (framework: Next.js, root directory, build command, output)
+- [ ] **Add environment variables** (match `.env.local`: `NEXT_PUBLIC_*`, `WORK_*_PASSWORD` if used, GA/Amplitude keys)
+- [ ] **Trigger first production deploy** (push to main or "Deploy" in dashboard)
+- [ ] **Verify deployment** (production URL loads, key routes work: `/`, `/work`, `/about`, product slugs)
+- [ ] **Verify assets and server behavior** (images render, MDX loads, password flow works)
+- [ ] **Set up custom domain** (add domain in Vercel, configure DNS records, wait for SSL)
+- [ ] **Document deploy process and rollback steps** (redeploy previous, or revert commit and push)
+
+### Milestone 4.2 – Pre-Launch QA
+
+**Tasks:**
+
+- [ ] **Audit mobile responsiveness** (breakpoints: 320, 375, 768, 1024px)
   - [ ] Fix layout and overflow (sidebar, cards, typography, containers)
   - [ ] Verify touch targets and spacing (min 44px, readable tap areas)
   - [ ] Test navigation and interactive elements on small viewports
-  - [ ] Check landscape orientation (layout and overflow at key widths in landscape)
-  - [ ] Document breakpoints and responsive patterns (or add to DS docs)
+  - [ ] Check landscape orientation (layout and overflow at key widths)
+  - [ ] Document breakpoints and responsive patterns
+- [ ] **Audit accessibility** (axe, Lighthouse, keyboard navigation, screen reader)
+  - [ ] Fix critical and serious issues
+  - [ ] Document a11y patterns and add to launch checklist
+- [ ] **Audit performance** (Lighthouse 95+ target, LCP < 2.5s, FCP < 1s, CLS < 0.1)
+- [ ] **Check cross-browser** (Chrome, Safari, Firefox — verify layout, fonts, interactions)
+- [ ] **Scan for unused code and libraries**
+  - [ ] Run bundle and code analysis
+  - [ ] Remove or replace unused dependencies (e.g. framer-motion, react-wrap-balancer, next-seo, next-sitemap if confirmed unused)
+  - [ ] Remove dead code and unused components
 
-### Milestone 2.2 – Design system structure, Storybook & component testing *(grows with components)*
+### Milestone 4.3 – Launch
 
-**Tasks:** *(Order: Set up testing infrastructure first → Create DS structure with TDD workflow → Integrate Storybook → Document and verify.)*
+**Tasks:**
 
-- [ ] **Set up component testing infrastructure**
-  - [ ] Research and install Storybook for Next.js (latest compatible version)
+- [ ] **Generate OG images** for key pages (home, about, products)
+- [ ] **Add polish and animations** (transitions, scroll, hover, loading, 404)
+- [ ] **Add privacy policy** if analytics use cookies
+- [ ] **Run final QA pass** (AI agents, proofread, links, images, a11y, performance)
+- [ ] **Update LinkedIn/GitHub** with live URL
+- [ ] **Execute public launch** (share on LinkedIn, relevant communities)
+- [ ] **Complete post-launch tasks** (submit to design directories, monitor analytics, fix bugs)
+
+---
+
+## Project 5: Content Expansion
+
+**Project outcome:** Broader content portfolio and active measurement
+
+### Milestone 5.1 – Additional Work Samples
+
+**Tasks:**
+
+- [ ] **Add Masiv product** (create MDX, frontmatter, assets)
+- [ ] **Add PayU Latam product** (create MDX, frontmatter, assets)
+- [ ] **Break Ocean into feature case studies** (list features to extract, create feature MDX entries, update Ocean to link/summarize)
+- [ ] **Break Bridge into feature case studies** (list features to extract, create feature MDX entries, update Bridge to link/summarize)
+
+### Milestone 5.2 – New Content Sections
+
+**Tasks:**
+
+- [ ] **Add first writing pieces** (1-2 blog posts or thoughts)
+- [ ] **Add first reading entries** (2-3 book notes)
+- [ ] **Add first experiments** (1-2 design or code explorations)
+- [ ] **Add work list pagination** (Load More or pagination when 10+ work items exist)
+
+### Milestone 5.3 – Analytics Activation
+
+**Tasks:**
+
+- [ ] **Configure GA4 property** (set up GA4 property, add measurement ID to `.env` and production)
+- [ ] **Configure Amplitude** (add API key to `.env` and production)
+- [x] Add event tracking utilities and key events (see `README_ANALYTICS.md`)
+- [ ] **Verify events firing** in production (page views, work item views, navigation, work card clicks)
+- [ ] **Set up basic dashboard/reports** as needed
+
+---
+
+## Project 6: Quality Infrastructure
+
+**Project outcome:** Testing, visual regression, and CI/CD in place
+
+This is the learning and tooling project. Building tests and stories against a live, content-complete site is more valuable than testing placeholder content.
+
+### Milestone 6.1 – Testing Foundation
+
+**Tasks:**
+
+- [ ] **Install and configure Vitest** (vitest.config.ts, test environment: jsdom, coverage setup)
+- [ ] **Install testing dependencies** (@testing-library/react, @testing-library/jest-dom, @testing-library/user-event)
+- [ ] **Create test utilities and helpers** (custom renders, mock providers, theme wrapper)
+- [ ] **Write unit tests for critical utilities** (content loader, SEO, analytics, password auth)
+- [ ] **Document testing workflow** (where tests live, how to run, coverage expectations)
+
+### Milestone 6.2 – Component Testing & Storybook
+
+**Tasks:**
+
+- [ ] **Set up Storybook for Next.js**
+  - [ ] Research and install Storybook (latest compatible version)
   - [ ] Configure Storybook (main.js, preview.js, addons, webpack/turbopack config)
-  - [ ] Install testing dependencies (Vitest, @testing-library/react, @testing-library/jest-dom, @testing-library/user-event)
-  - [ ] Configure Vitest for component tests (vitest.config.ts, test environment: jsdom, coverage setup)
-  - [ ] Install and configure Chromatic (project token, chromatic.config.json or package.json script)
-  - [ ] Add Storybook addons (a11y, controls, docs, interactions, test runner)
-  - [ ] Set up Storybook test runner (@storybook/test-runner, configure test-storybook script)
-  - [ ] Create test utilities and helpers (custom renders, mock providers, theme wrapper)
-  - [ ] Document testing workflow (where tests live, how to run, coverage expectations)
-  - [ ] Run initial Storybook build and Chromatic baseline (verify setup works)
-
-- [ ] **Create Design System structure with TDD workflow**
-  - [ ] Define TDD workflow for components (story → test → implement → visual regression → document)
-  - [ ] **Retrofit existing components with tests**
-    - [ ] Card component and subcomponents (CardHeader, CardTitle, CardDescription, CardMeta, CardImage, CardListItem)
-      - [ ] Write Storybook stories (all variants: default, with image, with meta, with list items, interactive states)
-      - [ ] Write component tests (rendering, props, accessibility, user interactions, theme support)
-      - [ ] Run Chromatic visual regression (capture baselines, verify variants render correctly)
-      - [ ] Document component in Storybook (usage, props table, best practices, accessibility notes)
-    - [ ] Badge component
-      - [ ] Write Storybook stories (all variants: colors, sizes, with/without icon, interactive)
-      - [ ] Write component tests (rendering, props, accessibility, theme support)
-      - [ ] Run Chromatic visual regression
-      - [ ] Document component in Storybook
-    - [ ] Button component
-      - [ ] Write Storybook stories (all variants: primary, secondary, ghost, sizes, states, with/without icon)
-      - [ ] Write component tests (rendering, click handlers, disabled state, loading state, accessibility)
-      - [ ] Run Chromatic visual regression
-      - [ ] Document component in Storybook
-    - [ ] Tabs component
-      - [ ] Write Storybook stories (all variants: horizontal, vertical, controlled, uncontrolled)
-      - [ ] Write component tests (tab switching, keyboard navigation, accessibility, ARIA attributes)
-      - [ ] Run Chromatic visual regression
-      - [ ] Document component in Storybook
-    - [ ] Tooltip component
-      - [ ] Write Storybook stories (all variants: positions, triggers, delays, custom content)
-      - [ ] Write component tests (show/hide, positioning, accessibility, keyboard interactions)
-      - [ ] Run Chromatic visual regression
-      - [ ] Document component in Storybook
-    - [ ] Dialog component
-      - [ ] Write Storybook stories (all variants: sizes, with/without overlay, controlled, with forms)
-      - [ ] Write component tests (open/close, focus trap, escape key, overlay click, accessibility)
-      - [ ] Run Chromatic visual regression
-      - [ ] Document component in Storybook
-    - [ ] ScrollArea component
-      - [ ] Write Storybook stories (all variants: vertical, horizontal, both, custom styling)
-      - [ ] Write component tests (scrolling behavior, accessibility, keyboard navigation)
-      - [ ] Run Chromatic visual regression
-      - [ ] Document component in Storybook
-    - [ ] ContentNavigation component
-      - [ ] Write Storybook stories (all variants: with different nav items, active states, responsive)
-      - [ ] Write component tests (navigation, active state, click handlers, accessibility)
-      - [ ] Run Chromatic visual regression
-      - [ ] Document component in Storybook
-    - [ ] CheckIcon component
-      - [ ] Write Storybook stories (all variants: sizes, colors, states)
-      - [ ] Write component tests (rendering, props, accessibility)
-      - [ ] Run Chromatic visual regression
-      - [ ] Document component in Storybook
-  - [x] Implement token logic
-  - [x] Add Radix UI
-  - [x] Create Card component and subcomponents (CardHeader, CardTitle, CardDescription, CardMeta, CardImage, CardListItem)
-  - [x] Create Badge component
-  - [x] Add remaining UI components (Button, Tabs, Tooltip, Dialog, ScrollArea, ContentNavigation, CheckIcon)
-  - [x] Add theme support (light/dark)
-  - [ ] **Build future components with TDD from the start**
-    - [ ] For each new component: write story → write tests → implement → run Chromatic → document
-    - [ ] Maintain component status tracker (see below)
-  - [ ] **Build MDX element override components** (markdown-first rendering; see `src/lib/mdxComponents.tsx`)
-    - [x] Typography components (H1-H4, Lead, Body, Caption, Strong, Em → DS styled headings and text)
-    - [x] List components (ul/ol/li → DS styled lists with proper spacing)
-    - [x] Link component (MDX `a` → DS styled Link with internal/external handling)
-    - [x] Divider component (`---` → DS styled horizontal rule)
-    - [x] Image component (`img` → DS styled image with optional caption)
-    - [ ] Callout/Blockquote component (`> blockquote` → DS styled callout)
-    - [ ] InlineCode component (`` `code` `` → DS styled inline code)
-    - [ ] CodeBlock component (` ```block``` ` → DS styled code block with syntax highlighting)
-    - [ ] Table component (`| table |` → DS styled table with proper spacing/borders)
-    - [ ] Video component (`<Video src="demo" />` → JSX-only, no markdown equivalent; embedded video player)
-    - [ ] Image component (`<Image src="x" width={800} />` → JSX-only; explicit dimensions, captions, custom layouts)
-  
-- [ ] **Integrate Storybook with development workflow**
-  - [ ] Add Storybook npm scripts to package.json (dev, build, test, chromatic)
   - [ ] Configure Storybook to use design tokens (import Tailwind config, theme provider)
-  - [ ] Set up Storybook composition if needed (multiple Storybooks or external design systems)
-  - [ ] Add Storybook to local dev workflow (run alongside Next.js dev server)
-  - [ ] Configure Storybook build output for static hosting (if deploying Storybook separately)
-
-- [ ] **Push components and variables to Figma**
-  - [ ] Export component specs from Storybook (props, variants, states) in Figma-consumable format
-  - [ ] Update Figma plugin/scripts to sync components (map React components to Figma component sets)
-  - [ ] Push design tokens to Figma (already implemented in 2.1; verify variables are up to date)
-  - [ ] Create or update Figma component library (match Storybook component structure)
-  - [ ] Document Figma sync workflow (when to push, how to resolve conflicts, see FIGMA_LEARNINGS.md)
-  - [ ] Test round-trip: code → Figma → back to code (verify integrity)
-
-- [ ] **Document and verify Design System**
-  - [ ] Create DS documentation site or section in Storybook (overview, principles, token usage, component guidelines)
-  - [ ] Add component usage examples and do's/don'ts for each component
-  - [ ] Document accessibility patterns per component (keyboard nav, ARIA, focus management)
-  - [ ] Add design system README or wiki (how to add components, testing requirements, contribution guidelines)
-  - [ ] Run coverage report (Vitest coverage, aim for 80%+ on DS components)
-  - [ ] Review Chromatic baselines (ensure all component variants captured, no visual regressions)
-  - [ ] Verify Storybook a11y addon reports (fix critical/serious issues, document known minor issues)
-  - [ ] Create component status tracker (update as components are built/tested)
+  - [ ] Add Storybook npm scripts to package.json (dev, build, test)
+- [ ] **Add Storybook addons** (a11y, controls, docs, interactions, test runner)
+- [ ] **Set up Storybook test runner** (@storybook/test-runner, configure test-storybook script)
+- [ ] **Retrofit existing components with stories and tests**
+  - [ ] Card component and subcomponents (CardHeader, CardTitle, CardDescription, CardMeta, CardImage, CardListItem)
+    - [ ] Write Storybook stories (all variants: default, with image, with meta, with list items, interactive states)
+    - [ ] Write component tests (rendering, props, accessibility, user interactions, theme support)
+    - [ ] Run Chromatic visual regression (capture baselines, verify variants render correctly)
+    - [ ] Document component in Storybook (usage, props table, best practices, accessibility notes)
+  - [ ] Badge component
+    - [ ] Write Storybook stories (all variants: colors, sizes, with/without icon, interactive)
+    - [ ] Write component tests (rendering, props, accessibility, theme support)
+    - [ ] Run Chromatic visual regression
+    - [ ] Document component in Storybook
+  - [ ] Button component
+    - [ ] Write Storybook stories (all variants: primary, secondary, ghost, sizes, states, with/without icon)
+    - [ ] Write component tests (rendering, click handlers, disabled state, loading state, accessibility)
+    - [ ] Run Chromatic visual regression
+    - [ ] Document component in Storybook
+  - [ ] Tabs component
+    - [ ] Write Storybook stories (all variants: horizontal, vertical, controlled, uncontrolled)
+    - [ ] Write component tests (tab switching, keyboard navigation, accessibility, ARIA attributes)
+    - [ ] Run Chromatic visual regression
+    - [ ] Document component in Storybook
+  - [ ] Tooltip component
+    - [ ] Write Storybook stories (all variants: positions, triggers, delays, custom content)
+    - [ ] Write component tests (show/hide, positioning, accessibility, keyboard interactions)
+    - [ ] Run Chromatic visual regression
+    - [ ] Document component in Storybook
+  - [ ] Dialog component
+    - [ ] Write Storybook stories (all variants: sizes, with/without overlay, controlled, with forms)
+    - [ ] Write component tests (open/close, focus trap, escape key, overlay click, accessibility)
+    - [ ] Run Chromatic visual regression
+    - [ ] Document component in Storybook
+  - [ ] ScrollArea component
+    - [ ] Write Storybook stories (all variants: vertical, horizontal, both, custom styling)
+    - [ ] Write component tests (scrolling behavior, accessibility, keyboard navigation)
+    - [ ] Run Chromatic visual regression
+    - [ ] Document component in Storybook
+  - [ ] ContentNavigation component
+    - [ ] Write Storybook stories (all variants: with different nav items, active states, responsive)
+    - [ ] Write component tests (navigation, active state, click handlers, accessibility)
+    - [ ] Run Chromatic visual regression
+    - [ ] Document component in Storybook
+  - [ ] Typography components (H1-H4, Lead, Body, Caption, Strong, Em)
+    - [ ] Write Storybook stories (all variants, theme support)
+    - [ ] Write component tests (rendering, accessibility)
+    - [ ] Run Chromatic visual regression
+    - [ ] Document components in Storybook
+  - [ ] CheckIcon component
+    - [ ] Write Storybook stories (all variants: sizes, colors, states)
+    - [ ] Write component tests (rendering, props, accessibility)
+    - [ ] Run Chromatic visual regression
+    - [ ] Document component in Storybook
+- [ ] **Install and configure Chromatic** (project token, chromatic.config.json or package.json script)
+- [ ] **Run initial Storybook build and Chromatic baseline** (verify setup works)
+- [ ] **Run coverage report** (Vitest coverage, aim for 80%+ on DS components)
+- [ ] **Build future components with TDD from the start** (for each new component: write story → write tests → implement → run Chromatic → document)
 
 **Component Status Tracker** (update as you build):
 
-| Component | Story | Unit Tests | Chromatic | Figma | Docs | Status |
-|-----------|-------|------------|-----------|-------|------|--------|
-| Card | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
-| Badge | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
-| Button | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
-| Tabs | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
-| Tooltip | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
-| Dialog | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
-| ScrollArea | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
-| ContentNavigation | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
-| CheckIcon | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
-| Typography (H1-H4, Lead, Body, Caption, Strong, Em) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ Implemented (MDX override) |
-| List (ul/ol/li) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ Implemented (MDX override) |
-| Link (MDX override) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ Implemented (MDX override) |
-| Divider (MDX override) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ Implemented (MDX override) |
-| Image (MDX override) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ Implemented (MDX override) |
-| Callout/Blockquote | ❌ | ❌ | ❌ | ❌ | ❌ | Not Started |
-| InlineCode | ❌ | ❌ | ❌ | ❌ | ❌ | Not Started |
-| CodeBlock | ❌ | ❌ | ❌ | ❌ | ❌ | Not Started |
-| Table | ❌ | ❌ | ❌ | ❌ | ❌ | Not Started |
-| Video | ❌ | ❌ | ❌ | ❌ | ❌ | Not Started |
-| Image (sized) | ❌ | ❌ | ❌ | ❌ | ❌ | Not Started |
+| Component | Story | Tests | Chromatic | Docs | Status |
+|-----------|-------|-------|-----------|------|--------|
+| Card | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| Badge | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| Button | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| Tabs | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| Tooltip | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| Dialog | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| ScrollArea | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| ContentNavigation | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| CheckIcon | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| Typography (H1-H4, Lead, Body, Caption, Strong, Em) | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| List (ul/ol/li) | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| Link (MDX override) | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| Divider (MDX override) | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| Image (MDX override) | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| Callout/Blockquote | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| InlineCode | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| CodeBlock | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| Table | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| Video | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
+| Image (sized) | ⏳ | ⏳ | ⏳ | ⏳ | Needs Testing |
 
-**Legend:** ✅ Done | ⏳ In Progress | ❌ Not Started | ⚠️ Blocked
+**Legend:** ✅ Done | ⏳ Pending | ❌ Not Started | ⚠️ Blocked
 
----
-
-## Project 4: Quality, Testing & Deployment
-
-**Project outcome:** Site stable, tested, and deployable
-
-### Milestone 4.1 – Quality & maintenance
-
-**Tasks:** *(Order: a11y before code cleanup.)*
-
-- [ ] **Implement a11y strategy**
-  - [ ] Audit site (axe, Lighthouse, keyboard/screen reader)
-  - [ ] Fix critical issues and document patterns
-  - [ ] Add a11y checks to PR/launch checklist
-- [ ] **Scan project for unused code and libraries**
-  - [ ] Run bundle and code analysis
-  - [ ] Remove or replace unused dependencies (e.g. framer-motion, react-wrap-balancer, next-seo, next-sitemap if confirmed unused; see TODO.md)
-  - [ ] Remove dead code and unused components
-
-### Milestone 4.2 – Integration testing & deployment
-
-**Tasks:** *(Order: deploy and launch on Vercel first, then CI/CD, then E2E with Playwright, then page-level visual regression if needed. Component-level testing already in 2.2.)*
-
-- [ ] **Deploy and launch site on Vercel**
-  - [ ] Create Vercel account (or use existing) and install Vercel CLI if needed
-  - [ ] Add project: import Git repo (GitHub/GitLab/Bitbucket) or link existing project
-  - [ ] Configure build settings (framework: Next.js, root directory, build command, output)
-  - [ ] Add environment variables (match .env.local: NEXT_PUBLIC_*, WORK_*_PASSWORD if used, GA/Amplitude keys when ready)
-  - [ ] Trigger first production deploy (push to main or "Deploy" in dashboard)
-  - [ ] Verify deployment (production URL loads, key routes work: /, /work, /about, product slug)
-  - [ ] Verify assets and server behavior (images, MDX, password flow if used)
-  - [ ] Set up custom domain (add domain in Vercel, configure DNS records, wait for SSL)
-  - [ ] Document deploy process and rollback steps (redeploy previous, or revert commit and push)
-  - [ ] Run post-deploy checks (smoke test, analytics firing, any env-specific behavior)
-
-- [ ] **Implement CI/CD pipeline**
-  - [ ] Choose CI tool (e.g. GitHub Actions; Vercel already does deploy on push)
-  - [ ] Add workflow: run build and lint on push or PR
-  - [ ] Add component test job (run Vitest tests from 2.2 on PR)
-  - [ ] Add Storybook build job (verify Storybook builds successfully)
-  - [ ] Add Chromatic job (run visual regression on PR, block merge on unapproved changes)
-  - [ ] Add E2E test job (run Playwright when tests exist; see Playwright task below)
-  - [ ] Configure deploy on push to main (or rely on Vercel Git integration)
-  - [ ] Add branch protection or deploy rules if needed (e.g., require passing tests, code review)
-  - [ ] Add Lighthouse CI or performance budget checks (optional; can use Vercel Analytics)
-  - [ ] Monitor builds and refine (fix flaky steps, add notifications if desired, optimize CI time)
-  - [ ] Document CI/CD workflow (how to trigger, how to debug failures, how to add new checks)
-
-- [ ] **Add end-to-end testing with Playwright**
-  - [ ] Research Playwright for Next.js (installation, best practices, examples)
-  - [ ] Install Playwright and dependencies (@playwright/test, browsers)
-  - [ ] Configure Playwright (playwright.config.ts: base URL for dev/prod, browsers, timeouts, test dir)
-  - [ ] Set up test fixtures and helpers (auth states, page objects, custom matchers)
-  - [ ] **Define E2E test scenarios** (critical user journeys with real content from Project 3)
-    - [ ] Homepage flow: visit /, verify redirect to /work, check work cards render
-    - [ ] Work list: click work card, verify navigation to product
-    - [ ] Product flow: visit product, verify content loads, check navigation works
-    - [ ] Password-protected product: enter password, verify access, check cookie persistence
-    - [ ] About page: visit /about, verify sections render (bio, workflow, experience if present)
-    - [ ] Uses page: visit /uses, verify tools and setup render
-    - [ ] Navigation: test sidebar navigation, verify active states, test mobile menu if present
-    - [ ] 404 page: visit non-existent route, verify 404 page renders
-    - [ ] Theme switching: toggle dark mode (if implemented), verify persistence
-    - [ ] Analytics: verify page view events fire (mock or test analytics in dev)
-  - [ ] **Write Playwright test scripts**
-    - [ ] Create test files per scenario (tests/e2e/homepage.spec.ts, work.spec.ts, product.spec.ts, etc.)
-    - [ ] Write tests with assertions (expect page title, check element visibility, verify URL changes)
-    - [ ] Add accessibility checks (e.g., run axe-core via playwright-axe or @axe-core/playwright)
-    - [ ] Test responsive behavior (run tests at multiple viewport sizes: mobile, tablet, desktop)
-    - [ ] Test cross-browser if needed (Chromium, Firefox, WebKit via Playwright config)
-  - [ ] **Run Playwright tests locally**
-    - [ ] Run tests in headless mode (npm run test:e2e or playwright test)
-    - [ ] Run tests in headed mode (debug flaky tests, watch browser behavior)
-    - [ ] Run tests with UI mode (playwright test --ui for interactive debugging)
-    - [ ] Generate and review test reports (HTML reporter, trace viewer for failures)
-  - [ ] **Integrate Playwright into CI**
-    - [ ] Add Playwright job to CI workflow (install deps, run tests, upload artifacts on failure)
-    - [ ] Configure test parallelization (sharding, workers) to speed up CI
-    - [ ] Add test retry logic for flaky tests (retries config in Playwright)
-    - [ ] Store test results and traces as CI artifacts (for debugging failures)
-    - [ ] Set up test result reporting (comment PR with test summary, fail CI on test failures)
-  - [ ] **Document Playwright workflow**
-    - [ ] Write testing guide (how to run locally, how to write new tests, page object patterns)
-    - [ ] Document debugging steps (trace viewer, headed mode, screenshots, video recordings)
-    - [ ] Add instructions for updating tests when content/routes change
-    - [ ] Document how to extend test coverage (adding new scenarios, cross-browser, performance tests)
-
-- [ ] **Add page-level visual regression (if needed beyond Storybook Chromatic)**
-  - [ ] Evaluate if page-level visual regression is needed (Chromatic in 2.2 covers components; this covers full pages)
-  - [ ] If needed: configure Playwright visual comparisons (toHaveScreenshot, update baselines)
-  - [ ] Or: extend Chromatic to capture full-page snapshots (e.g., Storybook stories for page templates)
-  - [ ] Or: use separate tool like Percy, Applitools, or BackstopJS (research and choose)
-  - [ ] Set up baseline images for key pages (/, /work, /about, product template, 404)
-  - [ ] Add visual regression to CI (run on PR, flag visual changes for review)
-  - [ ] Document visual regression workflow (how to approve changes, update baselines)
-
----
-
-## Project 5: Polish + Public Launch
-
-**Project outcome:** Public launch
-
-### Milestone 5.1 – Final Polish + Launch
-
-**Tasks:** *(Order: polish → analytics → QA → prep → launch → post-launch. Deployment steps are in 4.2.)*
-
-- [ ] Set up custom domain (register domain if needed; DNS, SSL, env vars — or complete in Vercel per 4.2)
-- [ ] Add polish and animations (transitions, scroll, hover, loading, 404)
-- [ ] Set up analytics (e.g. Vercel Analytics or GA4) and add privacy policy if using cookies
-- [ ] (Optional) Add rate limiting for password protection (e.g. attempts per IP per window)
-- [ ] Run final QA (AI agents, proofread, links, a11y, performance)
-- [ ] Complete launch preparation (OG images, LinkedIn post, optional email)
-- [ ] Execute public launch (site already deployed via 4.2; update LinkedIn/GitHub with live URL, share)
-- [ ] Complete post-launch tasks (design directories, monitor analytics, fix bugs)
-
-
-## Project 6: Content Structure & Analytics
-
-**Project outcome:** Content model and measurement in place
-
-### Milestone 6.1 – Content structure
+### Milestone 6.3 – E2E Testing with Playwright
 
 **Tasks:**
 
-- [ ] **Break out Ocean product into Features**
-  - [ ] List features to extract from Ocean product
-  - [ ] Create feature MDX content entries and routes
-  - [ ] Update Ocean product to link to or summarize features
-- [ ] **Break out Bridge product into Features**
-  - [ ] List features to extract from Bridge product
-  - [ ] Create feature MDX content entries and routes
-  - [ ] Update Bridge product to link to or summarize features
-- [ ] **Add work list pagination** (Load More or pagination when 10+ work items exist)
+- [ ] **Install and configure Playwright** (@playwright/test, browsers, playwright.config.ts: base URL, timeouts, test dir)
+- [ ] **Set up test fixtures and helpers** (auth states, page objects, custom matchers)
+- [ ] **Write E2E tests for critical flows**
+  - [ ] Homepage flow: visit `/`, verify redirect to `/work`, check work cards render
+  - [ ] Work list: click work card, verify navigation to product
+  - [ ] Product flow: visit product, verify content loads, check navigation works
+  - [ ] Password-protected product: enter password, verify access, check cookie persistence
+  - [ ] About page: visit `/about`, verify sections render (bio, workflow, experience)
+  - [ ] Uses page: visit `/uses`, verify tools and setup render
+  - [ ] Navigation: test sidebar navigation, verify active states, test mobile menu if present
+  - [ ] 404 page: visit non-existent route, verify 404 page renders
+  - [ ] Theme switching: toggle dark mode, verify persistence
+- [ ] **Add accessibility checks** (run axe-core via @axe-core/playwright)
+- [ ] **Test responsive behavior** (run tests at multiple viewport sizes: mobile, tablet, desktop)
+- [ ] **Test cross-browser** (Chromium, Firefox, WebKit via Playwright config)
+- [ ] **Run tests locally** (headless + headed mode + UI mode for debugging)
+- [ ] **Generate and review test reports** (HTML reporter, trace viewer for failures)
+- [ ] **Document Playwright workflow** (how to run locally, write new tests, debug failures, update tests when content changes)
 
-### Milestone 6.2 – Analytics
+### Milestone 6.4 – CI/CD Pipeline
 
 **Tasks:**
 
-- [ ] **Implement GA4 strategy**
-  - [ ] Audit current setup and define key metrics
-  - [ ] Set up GA4 property and add measurement ID to .env and production
-  - [ ] Implement or verify page view tracking (e.g. @next/third-parties)
-  - [ ] Test page views and events in production
-  - [ ] Create reports or dashboards as needed
-- [ ] **Implement Amplitude in DS components** (if applicable)
-  - [x] Add event tracking utilities and key events (see README_ANALYTICS.md)
-  - [ ] Configure Amplitude API key in .env and production
-  - [ ] Test events in production (work card clicks, navigation, work sample views, etc.)
-  - [ ] Add component-level instrumentation if desired
+- [ ] **Set up GitHub Actions workflow** (run build and lint on push or PR)
+- [ ] **Add component test job** (run Vitest tests on PR)
+- [ ] **Add Storybook build job** (verify Storybook builds successfully)
+- [ ] **Add Chromatic job** (run visual regression on PR, block merge on unapproved changes)
+- [ ] **Add Playwright E2E job** (install deps, run tests, upload artifacts on failure)
+- [ ] **Configure deploy on push to main** (or rely on Vercel Git integration)
+- [ ] **Add Lighthouse CI or performance budget checks** (optional; can use Vercel Analytics)
+- [ ] **Add branch protection or deploy rules if needed** (require passing tests, code review)
+- [ ] **Document CI/CD workflow** (how to trigger, debug failures, add new checks)
 
 ---
 
-## Project 7: Growth (Time-Based)
+## Project 7: Design System Maturity
+
+**Project outcome:** Two-way Figma pipeline, formalized component workflow, DS documentation
+
+### Milestone 7.1 – Design-to-Code Pipeline
+
+**Tasks:**
+
+- [ ] **Write extract script** (Figma plugin API): walk Figma variable collections, output JSON
+- [ ] **Add import pipeline** (script to consume JSON and merge into token sources)
+- [ ] **Define namespace and overrides** (e.g. `figma/` prefix; optional override file)
+- [ ] **Implement conflict resolution** (new keys add; same path code wins unless override)
+- [ ] **(Optional) Add component spec extraction from Figma** (after variables stable)
+- [ ] **Test round-trip**: code → Figma → back to code (verify integrity)
+
+### Milestone 7.2 – Component Formalization
+
+**Tasks:**
+
+- [ ] **Define TDD workflow for new components** (story → test → implement → visual regression → document)
+- [ ] **Push components and variables to Figma**
+  - [ ] Export component specs from Storybook (props, variants, states) in Figma-consumable format
+  - [ ] Update Figma plugin/scripts to sync components (map React components to Figma component sets)
+  - [ ] Push design tokens to Figma (verify variables are up to date)
+  - [ ] Create or update Figma component library (match Storybook component structure)
+- [ ] **Create DS documentation** (overview, principles, token usage, component guidelines)
+  - [ ] Add component usage examples and do's/don'ts for each component
+  - [ ] Document accessibility patterns per component (keyboard nav, ARIA, focus management)
+  - [ ] Add design system README or wiki (how to add components, testing requirements)
+- [ ] **Document Figma sync workflow** (when to push, how to resolve conflicts, see `docs/FIGMA_LEARNINGS.md`)
+- [ ] **Verify Storybook a11y addon reports** (fix critical/serious issues, document known minor issues)
+
+---
+
+## Project 8: Growth
 
 **Project outcome:** Ongoing content, reach, and optional ideas
 
-### Milestone 7.1 – Short-term (next 1–3 months)
+### Milestone 8.1 – Content & Reach
 
 **Tasks:**
 
-- [ ] Add remaining products (Masiv, PayU Latam)
-- [ ] Gather testimonials and add to About section
-- [ ] Add content enhancements (thumbnails on Work section, filtering by year/type, Related projects on products)
-- [ ] Add placeholder or first content for Writing, Reading, Experiments pages (or keep coming-soon until ready)
-- [ ] Monitor and optimize SEO (Search Console, underperforming pages, backlinks)
+- [ ] **Build blog infrastructure** (layout, RSS feed, promote on LinkedIn)
+- [ ] **Write 3-5 initial articles**
+- [ ] **Gather testimonials** and add to About section
+- [ ] **Monitor and optimize SEO** (Search Console, underperforming pages, backlinks)
+- [ ] **Submit to design directories** (bestfolios, layers.to, uxfolio, dribbble, behance)
 
-### Milestone 7.2 – Medium-term (3–6 months)
-
-**Tasks:**
-
-- [ ] Add blog (layout, first 3–5 articles, RSS, promote on LinkedIn)
-- [ ] Add product enhancements (interactive prototypes, before/after sliders, video walkthroughs e.g. Loom)
-- [ ] Add portfolio v2 sections (side projects, design principles page, resources/tools, public AquaDS-style docs)
-- [ ] Add nice-to-haves when bandwidth allows (dark mode, contact form (spam protection), “Back to top”, reading progress on products)
-
-### Milestone 7.3 – Long-term (6–12 months)
+### Milestone 8.2 – Product Enhancements
 
 **Tasks:**
 
-- [ ] Build community (newsletter, regular posts, speaking/podcasts)
-- [ ] Add advanced offerings (product templates, design resources/freebies, workshop/course if desired)
-- [ ] Run analytics review (quarterly review, conversion tracking, A/B tests on key pages)
-- [ ] Execute post-launch promotion (design directories e.g. bestfolios, layers.to, uxfolio, dribbble, behance; backlink maintenance)
+- [ ] **Add interactive prototypes or video walkthroughs** (e.g. Loom)
+- [ ] **Add before/after sliders**
+- [ ] **Add related projects on work items**
+- [ ] **Add filtering/sorting on work list** (by year, type)
+- [ ] **Add thumbnails on Work section**
+- [ ] **Add reading progress indicator** on products
 
-### Milestone 7.4 – Research concepts
+### Milestone 8.3 – Advanced Features
 
-*Topics to investigate before committing to implementation. Research first, decide scope, then promote to a task above.*
+**Tasks:**
 
-- **Image optimization strategy** — Evaluate whether to adopt `next/image` for automatic format conversion (WebP/AVIF), responsive `srcset`, lazy loading with blur placeholders, and CDN-level caching. Compare trade-offs: `next/image` requires known dimensions or `fill` mode; plain `<img>` is simpler but no optimization. Decide if the performance gain justifies the added complexity for a portfolio site. Could apply to both the MDX `img` override and the future `<Image>` JSX component.
+- [ ] **Add contact form** (with spam protection)
+- [ ] **Add newsletter signup**
+- [ ] **Add rate limiting for password protection** (e.g. attempts per IP per window)
+- [ ] **Add "Back to top" button**
+- [ ] **Research: Multilingual (EN + ES)** — evaluate scope and complexity before committing
+- [ ] **Research: Image optimization strategy** — evaluate `next/image` for automatic format conversion (WebP/AVIF), responsive `srcset`, lazy loading with blur placeholders, and CDN-level caching. Compare trade-offs vs plain `<img>`.
 
-### Milestone 7.5 – Future ideas (parking lot)
+### Milestone 8.4 – Future ideas (parking lot)
 
 *No commitment; capture so we don't forget; prioritize only when they align with goals.*
 
@@ -475,20 +508,23 @@ Use this sequence so work builds on itself and nothing is blocked.
 - Open Graph image generator for products
 - Product PDF export or print view
 - Integrate Portfolio roadmap with ClickUp
+- Side projects showcase section
+- Design principles page
+- Resources/tools page
 
 ---
 
 ## Success metrics (Key Results)
 
-- **At launch:** Lighthouse 95+, unique meta per page, WCAG 2.1 AA, &lt;1s FCP, mobile-friendly, custom domain.
-- **30 days post-launch:** 100+ visitors, indexed for “Nicolás Botero Product Designer”, 2+ min session, 50+ work sample views, backlinks, 1+ interview request.
+- **At launch:** Lighthouse 95+, unique meta per page, WCAG 2.1 AA, <1s FCP, mobile-friendly, custom domain.
+- **30 days post-launch:** 100+ visitors, indexed for "Nicolas Botero Product Designer", 2+ min session, 50+ work sample views, backlinks, 1+ interview request.
 - **90 days post-launch:** 500+ visitors, top 10 for 3+ keywords, 5+ min session, 200+ work sample views, 10+ backlinks, 5+ interview requests, 3+ testimonials.
 
 ---
 
 ## Current status
 
-**Recommended next:** If launch incomplete → Project 2 (2.1 → 2.2) then Project 3 (3.1 → 3.2). If launch complete → Project 4 (4.1 → 4.2) → Project 5 (5.1) → Project 6 (6.1 → 6.2) → Project 7 (7.1–7.4 as needed).  
+**Recommended next:** Project 2.2 (remaining MDX components + About page components) → Project 3 (content & launch readiness) → Project 4 (deploy & launch).
 **Blockers:** None
 
 ---
@@ -496,17 +532,21 @@ Use this sequence so work builds on itself and nothing is blocked.
 ## Key decisions
 
 - **Stack:** Next.js 16, Tailwind 4, MDX (gray-matter + next-mdx-remote), Vercel.
-- **Scope:** Launch with 3 products; add Masiv/PayU later. Blog in Project 7. Dark mode and contact form optional.
+- **Scope:** Launch with 3 products (Ocean, AquaDS, Bridge); add Masiv/PayU later. Blog in Project 8.
+- **Sequencing:** Ship-first — launch the site (Projects 1-4), then build infrastructure (5-8). Testing and Storybook are more valuable against a live, content-complete site.
+- **Learning-first:** Testing, Storybook, Figma pipelines, and CI/CD are learning goals, not overhead. They're sequenced post-launch, not deprioritized.
 - **SEO:** Products first, then home (Work, Workflow, About, Resume, Contact).
+- **Sainapsis → Bridge:** Sainapsis product migrated to Bridge (same slot, rewritten content).
 
 ---
 
 ## Change log
 
+- **Feb 2026 (restructure):** Reorganized from 7 to 8 projects with ship-first sequencing. Added missing Project 3 (Content & Launch Readiness). Moved Storybook/testing/CI from pre-launch (old 2.2/4.2) to post-launch (new Project 6). Moved Figma sync and DS docs to Project 7. Moved mobile/a11y audits to Project 4.2 pre-launch QA. Merged old Projects 4+5 into new Project 4 (Deploy & Launch). Renamed old Project 7 milestones from time-based to theme-based (new Project 8). Migrated Sainapsis to Bridge. All completed tasks preserved.
 - **Feb 2026:** Doc pass before execution: moved "Integrate design-to-code logic" from 2.1 to 2.2 (was only in 2.2 by title; now single place). README: status/phase → ROADMAP-aligned (pre-launch, Project 2 focus); Next.js 15 → 16; roadmap section simplified.
 - **Feb 2026:** Project 2 split: moved mobile responsiveness from P1 to Milestone 2.1 with subtasks (audit breakpoints, fix layout, touch targets, test nav, document). Created Milestone 2.2 for design-to-code, Storybook, and Design System structure (2.2 grows with components). Updated recommended order and task-order bullets.
 
 ---
 
-**Last updated:** February 2026  
+**Last updated:** February 2026
 **Review:** As needed (iteration)
