@@ -9,12 +9,16 @@ import { trackEvent } from '@/lib/analytics';
 
 interface ServerPasswordPromptProps {
   slug: string;
-  productTitle: string;
+  /** Work item title (e.g. "Ocean — Scaling to 300M Messages") */
+  title: string;
+  /** Human-readable type for copy: "Product", "Feature", "Side Project" — from getWorkTypeLabel(frontmatter.type) */
+  workItemTypeLabel: string;
 }
 
 export default function ServerPasswordPrompt({
   slug,
-  productTitle
+  title,
+  workItemTypeLabel,
 }: ServerPasswordPromptProps) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -73,12 +77,12 @@ export default function ServerPasswordPrompt({
             Password Protected
           </h2>
           <p className="mb-6 text-center text-content-muted">
-            This product requires a password to view
+            This {workItemTypeLabel.toLowerCase()} requires a password to view
           </p>
 
-          {/* Product Name */}
+          {/* Work item title */}
           <div className="mb-6 rounded-md bg-background-muted px-4 py-3">
-            <p className="text-sm font-medium text-content-primary">{productTitle}</p>
+            <p className="text-sm font-medium text-content-primary">{title}</p>
           </div>
 
           {/* Form */}
@@ -113,7 +117,7 @@ export default function ServerPasswordPrompt({
               disabled={isPending}
               className="w-full rounded-lg bg-action-primary-bg px-6 py-3 font-medium text-action-primary-text transition-colors hover:bg-action-primary-hover disabled:opacity-50"
             >
-              {isPending ? 'Verifying...' : 'Unlock Product'}
+              {isPending ? 'Verifying...' : `Unlock ${workItemTypeLabel}`}
             </button>
           </form>
 
@@ -123,7 +127,7 @@ export default function ServerPasswordPrompt({
               href={routes.work}
               className="text-sm text-content-muted transition-colors hover:text-content-primary"
             >
-              ← Back to portfolio
+              ← Back to Work
             </Link>
           </div>
         </div>

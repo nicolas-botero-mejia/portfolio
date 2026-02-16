@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { getProducts, getProductBySlug, getAdjacentProducts } from '@/lib/mdx';
-import { routes } from '@/data';
+import { routes, getWorkTypeLabel } from '@/data';
 import { generatePageMetadata } from '@/lib/seo';
 import { Metadata } from 'next';
 import { requiresPassword, isAuthenticated } from '@/lib/serverPasswordAuth';
@@ -59,7 +59,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
     return (
       <ServerPasswordPrompt
         slug={slug}
-        productTitle={product.frontmatter.title}
+        title={product.frontmatter.title}
+        workItemTypeLabel={getWorkTypeLabel(product.frontmatter.type)}
       />
     );
   }
