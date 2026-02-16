@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { trackEvent } from '@/lib/analytics';
 import { getRoute, getCompanyName, getWorkTypeLabel, CONTENT_SLUGS } from '@/data';
+import type { WorkItem } from '@/lib/mdx';
 import {
   Badge,
   Card,
@@ -16,23 +17,6 @@ import {
 // How many cards show before scrolling; how many we add when the scroll prompt is triggered. Tune here or expose as props for per-page control.
 const INITIAL_VISIBLE = 4;
 const LOAD_MORE_STEP = 4;
-
-interface WorkItem {
-  slug: string;
-  subType: string;
-  frontmatter: {
-    title: string;
-    description: string;
-    role: string;
-    year: string;
-    type: string;
-    subtitle?: string;
-    company: string;
-    heroImage: string;
-    tags?: string[];
-    date?: string;
-  };
-}
 
 interface WorkClientProps {
   allWork: WorkItem[];
@@ -102,13 +86,17 @@ export default function WorkClient({ allWork, title, description }: WorkClientPr
                   className={`group relative overflow-hidden rounded-lg ${CARD_ASPECT}`}
                 >
                   <div className="absolute inset-0">
-                    <Image
-                      src={item.frontmatter.heroImage}
-                      alt=""
-                      fill
-                      sizes="(max-width: 640px) 100vw, 50vw"
-                      className="object-cover"
-                    />
+                    {item.frontmatter.heroImage ? (
+                      <Image
+                        src={item.frontmatter.heroImage}
+                        alt=""
+                        fill
+                        sizes="(max-width: 640px) 100vw, 50vw"
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 bg-background-subtle" aria-hidden />
+                    )}
                   </div>
                   <div className={CARD_GRADIENT} />
                   <div className="absolute inset-0 flex flex-col justify-between p-4 md:p-5">
