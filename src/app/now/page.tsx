@@ -52,6 +52,7 @@ export default async function NowPage({ searchParams }: NowPageProps) {
             </a>
           </>
         }
+        variant="serif"
       />
 
       {allEntries.length === 0 ? (

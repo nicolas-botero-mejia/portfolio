@@ -15,6 +15,7 @@ export default function ReadingPage() {
       <PageHeader
         title={page.frontmatter.title}
         description={page.frontmatter.description}
+        variant="serif"
       />
 
       <EmptyState
