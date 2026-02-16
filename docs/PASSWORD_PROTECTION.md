@@ -1,6 +1,6 @@
-# Server-Side Password Protection for Products
+# Server-Side Password Protection for Work Items
 
-Secure your products with server-side password protection, HTTP-only cookies, and SHA-256 hashed passwords.
+Secure work items (products, features, side-projects) with server-side password protection, HTTP-only cookies (`work_auth_[slug]`), and SHA-256 hashed passwords. One auth system for all work subtypes; env vars: `WORK_[SLUG]_PASSWORD` and `WORK_GLOBAL_PASSWORD`.
 
 ---
 
@@ -25,17 +25,17 @@ SHA-256 hash (add this to .env.local):
 Create `.env.local` in project root:
 
 ```env
-# Global password for all locked products
-PRODUCT_GLOBAL_PASSWORD=5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
+# Global password for all locked work items
+WORK_GLOBAL_PASSWORD=5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
 ```
 
-### 3. Lock a Product
+### 3. Lock a Work Item
 
-Edit your product frontmatter:
+Edit frontmatter in any work MDX (e.g. `content/work/products/ocean.mdx`):
 
 ```yaml
 ---
-title: "Protected Product"
+title: "Protected Work Item"
 company: "Client Name"
 locked: true
 ---
@@ -47,7 +47,7 @@ locked: true
 npm run dev
 ```
 
-Visit the locked product and enter your password!
+Visit the locked work item and enter your password!
 
 ---
 
@@ -55,7 +55,7 @@ Visit the locked product and enter your password!
 
 ### Option 1: Global Password
 
-One password for all locked products.
+One password for all locked work items.
 
 **Generate hash:**
 ```bash
@@ -64,19 +64,19 @@ npm run hash-password "portfolio2024"
 
 **Add to `.env.local`:**
 ```env
-PRODUCT_GLOBAL_PASSWORD=hash-from-above
+WORK_GLOBAL_PASSWORD=hash-from-above
 ```
 
-**Lock products:**
+**Lock work items:**
 ```yaml
 locked: true
 ```
 
 ---
 
-### Option 2: Per-Product Passwords
+### Option 2: Per-Item Passwords (by slug)
 
-Different password for each product.
+Different password per work item. Slug = filename without .mdx, UPPERCASE, hyphens → underscores.
 
 **Generate hash:**
 ```bash
@@ -85,17 +85,18 @@ npm run hash-password "ocean-secret"
 
 **Add to `.env.local`:**
 ```env
-# Format: PRODUCT_[SLUG]_PASSWORD
-PRODUCT_OCEAN_PASSWORD=hash-from-above
-PRODUCT_SAINAPSIS_PASSWORD=another-hash-here
+# Format: WORK_[SLUG]_PASSWORD
+WORK_OCEAN_PASSWORD=hash-from-above
+WORK_SAINAPSIS_PASSWORD=another-hash-here
 ```
 
-Slug naming rules:
-- `ocean.mdx` → `PRODUCT_OCEAN_PASSWORD`
-- `sainapsis.mdx` → `PRODUCT_SAINAPSIS_PASSWORD`
-- `my-product.mdx` → `PRODUCT_MY_PRODUCT_PASSWORD`
+Examples:
+- `ocean.mdx` → `WORK_OCEAN_PASSWORD`
+- `sainapsis.mdx` → `WORK_SAINAPSIS_PASSWORD`
+- `my-project.mdx` → `WORK_MY_PROJECT_PASSWORD`
+- `billing.mdx` (in features) → `WORK_BILLING_PASSWORD`
 
-**Lock products:**
+**Lock work items:**
 ```yaml
 locked: true
 ```
@@ -121,11 +122,11 @@ password: "testpass123"  # Plain text, will be hashed
 
 When validating, passwords are checked in this order:
 
-1. **Frontmatter password** (if set in product MDX)
-2. **Environment variable** for specific product (`PRODUCT_[SLUG]_PASSWORD`)
-3. **Global password** (`PRODUCT_GLOBAL_PASSWORD`)
+1. **Frontmatter password** (if set in work item MDX — dev only)
+2. **Environment variable** for that slug (`WORK_[SLUG]_PASSWORD`)
+3. **Global password** (`WORK_GLOBAL_PASSWORD`)
 
-If any match, the product unlocks.
+If any match, the work item unlocks.
 
 ---
 
@@ -133,11 +134,11 @@ If any match, the product unlocks.
 
 ### Example 1: All Public Except One
 
-Most products public, one client-confidential.
+Most work items public, one client-confidential.
 
 **`.env.local`:**
 ```env
-PRODUCT_CONFIDENTIAL_PASSWORD=hash-here
+WORK_CONFIDENTIAL_PASSWORD=hash-here
 ```
 
 **Files:**
@@ -168,7 +169,7 @@ Entire portfolio password-protected.
 
 **`.env.local`:**
 ```env
-PRODUCT_GLOBAL_PASSWORD=hash-here
+WORK_GLOBAL_PASSWORD=hash-here
 ```
 
 **All files:**
@@ -186,9 +187,9 @@ Different password for each client.
 
 **`.env.local`:**
 ```env
-PRODUCT_GLOBAL_PASSWORD=backup-password-hash
-PRODUCT_CLIENT_A_PASSWORD=client-a-hash
-PRODUCT_CLIENT_B_PASSWORD=client-b-hash
+WORK_GLOBAL_PASSWORD=backup-password-hash
+WORK_CLIENT_A_PASSWORD=client-a-hash
+WORK_CLIENT_B_PASSWORD=client-b-hash
 ```
 
 **Files:**
@@ -259,7 +260,7 @@ This is **password authentication**, not enterprise security:
 
 **Use this for:**
 - Client portfolios (casual protection)
-- Work-in-progress products
+- Work-in-progress work items
 - Professional courtesy
 - Simple password needs
 
@@ -279,8 +280,8 @@ For enterprise needs, use NextAuth.js, Auth0, or similar.
 
 1. Project Settings → Environment Variables
 2. Add variables:
-   - `PRODUCT_GLOBAL_PASSWORD`
-   - Any specific passwords
+   - `WORK_GLOBAL_PASSWORD`
+   - Any specific `WORK_[SLUG]_PASSWORD`
 3. Deploy
 
 ### Netlify
@@ -304,7 +305,7 @@ All major platforms support environment variables. Add them in your platform's d
 npm run hash-password "yourpassword"
 
 # 2. Check environment file
-cat .env.local | grep PRODUCT
+cat .env.local | grep WORK_
 
 # 3. Restart dev server (required after .env changes)
 npm run dev
@@ -312,14 +313,14 @@ npm run dev
 
 ### Cookie Issues
 
-- Clear browser cookies (`cs_auth_*`)
+- Clear browser cookies (`work_auth_*`)
 - Check HTTPS in production
 - Verify no browser extensions blocking cookies
 
 ### Build Errors
 
 - Missing env vars? Product will be accessible (security risk!)
-- Check all locked products have passwords configured
+- Check all locked work items have passwords configured
 
 ---
 
@@ -349,7 +350,7 @@ npm run dev
 
 ### Cookie Details
 
-- Name: `cs_auth_[slug]`
+- Name: `work_auth_[slug]`
 - Duration: 7 days
 - HttpOnly: Yes
 - Secure: Yes (production)
@@ -374,7 +375,7 @@ npm run dev
 2. Test with frontmatter passwords first (simpler)
 3. Check browser console for errors
 4. Review server logs
-5. Verify product has `locked: true`
+5. Verify work item has `locked: true`
 
 ---
 

@@ -12,12 +12,12 @@ function hashPassword(password: string): string {
 }
 
 /**
- * Get the environment variable key for a product password
+ * Get the environment variable key for a work item password.
+ * Single auth system for all work subtypes (products, features, side-projects).
  */
 function getPasswordEnvKey(slug: string): string {
-  // Convert slug to uppercase and replace hyphens with underscores
-  // e.g., "ocean" -> "PRODUCT_OCEAN_PASSWORD"
-  return `PRODUCT_${slug.toUpperCase().replace(/-/g, '_')}_PASSWORD`;
+  // e.g., "ocean" -> "WORK_OCEAN_PASSWORD"
+  return `WORK_${slug.toUpperCase().replace(/-/g, '_')}_PASSWORD`;
 }
 
 /**
@@ -28,27 +28,24 @@ export function requiresPassword(product: Product): boolean {
 }
 
 /**
- * Get the expected password hash for a product
+ * Get the expected password hash for a work item.
  * Checks in order:
- * 1. Product's dedicated password from frontmatter (hashed)
- * 2. Environment variable for that specific product
- * 3. Global password environment variable
+ * 1. Item's dedicated password from frontmatter (hashed)
+ * 2. Environment variable for that slug (WORK_[SLUG]_PASSWORD)
+ * 3. Global work password (WORK_GLOBAL_PASSWORD)
  */
 function getExpectedPasswordHash(product: Product): string | null {
-  // Check product's dedicated password first
   if (product.frontmatter.password) {
     return hashPassword(product.frontmatter.password);
   }
 
-  // Check environment variable for specific product
   const specificEnvKey = getPasswordEnvKey(product.slug);
   const specificPassword = process.env[specificEnvKey];
   if (specificPassword) {
     return specificPassword; // Already hashed in env
   }
 
-  // Check global password
-  const globalPassword = process.env.PRODUCT_GLOBAL_PASSWORD;
+  const globalPassword = process.env.WORK_GLOBAL_PASSWORD;
   if (globalPassword) {
     return globalPassword; // Already hashed in env
   }
@@ -75,8 +72,8 @@ export function validatePassword(product: Product, password: string): boolean {
 }
 
 /**
- * Set authentication cookie for a product
- * Server-side only
+ * Set authentication cookie for a work item (work_auth_[slug]).
+ * Server-side only.
  */
 export async function setAuthCookie(slug: string): Promise<void> {
   try {
@@ -95,8 +92,8 @@ export async function setAuthCookie(slug: string): Promise<void> {
 }
 
 /**
- * Check if user is authenticated for a product
- * Server-side only
+ * Check if user is authenticated for a work item.
+ * Server-side only.
  */
 export async function isAuthenticated(slug: string): Promise<boolean> {
   try {
@@ -110,8 +107,8 @@ export async function isAuthenticated(slug: string): Promise<boolean> {
 }
 
 /**
- * Remove authentication cookie for a product
- * Server-side only
+ * Remove authentication cookie for a work item.
+ * Server-side only.
  */
 export async function clearAuthCookie(slug: string): Promise<void> {
   try {
@@ -123,8 +120,8 @@ export async function clearAuthCookie(slug: string): Promise<void> {
 }
 
 /**
- * Clear all product authentication cookies
- * Server-side only
+ * Clear all work authentication cookies (work_auth_*).
+ * Server-side only.
  */
 export async function clearAllAuthCookies(): Promise<void> {
   try {

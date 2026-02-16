@@ -244,12 +244,12 @@ seo:
 
 ## 🔒 Password Protection
 
-Secure password protection for product work samples with server-side validation, SHA-256 hashing, and HTTP-only cookies. All product work samples are publicly accessible by default unless explicitly locked.
+Secure password protection for work items (products, features, side-projects) with server-side validation, SHA-256 hashing, and HTTP-only cookies (`work_auth_[slug]`). Env: `WORK_GLOBAL_PASSWORD` or `WORK_[SLUG]_PASSWORD`. All work items are public by default unless `locked: true`.
 
 **Key Features:**
 - Server-side validation (passwords never exposed to client)
 - 7-day authentication with XSS/CSRF protection
-- Global or per-work-sample passwords
+- Global or per-item passwords (one auth system for all work subtypes)
 - Works with static generation
 
 **Quick Setup:**
@@ -383,9 +383,9 @@ NEXT_PUBLIC_SITE_URL=https://nicolas-botero-mejia.com
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
 NEXT_PUBLIC_AMPLITUDE_API_KEY=your-amplitude-api-key
 
-# Password Protection (optional)
-PRODUCT_GLOBAL_PASSWORD=your-password-hash-here
-# Or per-product: PRODUCT_OCEAN_PASSWORD=hash-here
+# Password Protection (optional — for work items: products, features, side-projects)
+WORK_GLOBAL_PASSWORD=your-password-hash-here
+# Or per-item: WORK_OCEAN_PASSWORD=hash-here
 ```
 
 ### Custom Domain Setup

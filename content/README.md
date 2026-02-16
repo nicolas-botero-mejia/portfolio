@@ -197,17 +197,17 @@ To password-protect content (typically products):
    npm run hash-password "clientpassword"
    
    # Add to .env.local (NEVER commit this file)
-   PRODUCT_OCEAN_PASSWORD=hash-here
+   WORK_OCEAN_PASSWORD=hash-here
    ```
 
 3. **For global password (all locked content):**
    ```bash
-   PRODUCT_GLOBAL_PASSWORD=hash-here
+   WORK_GLOBAL_PASSWORD=hash-here
    ```
 
 **Password priority:**
-1. Product's `PRODUCT_[SLUG]_PASSWORD` env var
-2. Global `PRODUCT_GLOBAL_PASSWORD` env var
+1. Per-item `WORK_[SLUG]_PASSWORD` env var (slug = filename, UPPERCASE, hyphens → underscores)
+2. Global `WORK_GLOBAL_PASSWORD` env var (applies to all work items: products, features, side-projects)
 
 **⚠️ Never put passwords in frontmatter in production!**
 

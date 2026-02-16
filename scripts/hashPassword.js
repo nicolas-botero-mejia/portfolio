@@ -38,4 +38,4 @@ console.log(`  ${password}\n`);
 console.log('SHA-256 hash (add this to .env.local):');
 console.log(`  ${hash}\n`);
 console.log('Example .env.local entry:');
-console.log(`  PRODUCT_GLOBAL_PASSWORD=${hash}\n`);
+console.log(`  WORK_GLOBAL_PASSWORD=${hash}\n`);

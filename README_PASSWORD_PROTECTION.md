@@ -1,6 +1,6 @@
 # 🔒 Password Protection Quick Reference
 
-Your portfolio now has **server-side password protection** for products!
+**Server-side password protection for work items** (products, features, side-projects). One auth system: cookie prefix `work_auth_`, env vars `WORK_[SLUG]_PASSWORD` and `WORK_GLOBAL_PASSWORD`.
 
 ## Quick Setup (3 Steps)
 
@@ -11,44 +11,44 @@ npm run hash-password "yourpassword"
 
 ### 2️⃣ Create `.env.local`
 ```env
-PRODUCT_GLOBAL_PASSWORD=paste-hash-here
+WORK_GLOBAL_PASSWORD=paste-hash-here
 ```
 
-### 3️⃣ Lock Product
+### 3️⃣ Lock a Work Item
 ```yaml
 ---
-title: "Your Product"
+title: "Your Work Item"
 locked: true
 ---
 ```
 
 ## Common Tasks
 
-### Protect All Products
+### Protect All Locked Work Items
 ```env
 # .env.local
-PRODUCT_GLOBAL_PASSWORD=your-hash
+WORK_GLOBAL_PASSWORD=your-hash
 ```
 ```yaml
-# All product files
+# In any work MDX (products, features, side-projects)
 locked: true
 ```
 
-### Different Password Per Product
+### Different Password Per Item (by slug)
 ```bash
 npm run hash-password "ocean-password"
 npm run hash-password "sainapsis-password"
 ```
 ```env
 # .env.local
-PRODUCT_OCEAN_PASSWORD=first-hash
-PRODUCT_SAINAPSIS_PASSWORD=second-hash
+WORK_OCEAN_PASSWORD=first-hash
+WORK_SAINAPSIS_PASSWORD=second-hash
 ```
 ```yaml
 locked: true
 ```
 
-### Make Product Public
+### Make a Work Item Public
 ```yaml
 # Remove this line:
 locked: true

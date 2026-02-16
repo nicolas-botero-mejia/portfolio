@@ -273,7 +273,7 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [ ] Create Vercel account (or use existing) and install Vercel CLI if needed
   - [ ] Add project: import Git repo (GitHub/GitLab/Bitbucket) or link existing project
   - [ ] Configure build settings (framework: Next.js, root directory, build command, output)
-  - [ ] Add environment variables (match .env.local: NEXT_PUBLIC_*, PRODUCT_*_PASSWORD if used, GA/Amplitude keys when ready)
+  - [ ] Add environment variables (match .env.local: NEXT_PUBLIC_*, WORK_*_PASSWORD if used, GA/Amplitude keys when ready)
   - [ ] Trigger first production deploy (push to main or "Deploy" in dashboard)
   - [ ] Verify deployment (production URL loads, key routes work: /, /work, /about, product slug)
   - [ ] Verify assets and server behavior (images, MDX, password flow if used)
