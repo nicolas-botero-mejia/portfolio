@@ -49,9 +49,10 @@ function generateCSS(): string {
   lines.push('}');
 
   // Dark theme overrides (semantic colors only)
+  // Scoped under .dark selector so variables only apply when dark mode is active
   if (Object.keys(darkTokens.colors).length > 0) {
     lines.push('');
-    lines.push('@theme dark: {');
+    lines.push('.dark {');
     for (const [key, value] of Object.entries(darkTokens.colors)) {
       const varName = `--color-${key.replace(/\./g, '-')}`;
       lines.push(`  ${varName}: ${value};`);

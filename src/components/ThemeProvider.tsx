@@ -45,16 +45,26 @@ const ThemeContext = createContext<{
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>('system');
   const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light');
+  const [initialized, setInitialized] = useState(false);
 
+  // Read stored theme and apply in a single effect to avoid race conditions.
+  // The inline init script in layout.tsx handles the pre-hydration flash;
+  // this effect syncs React state with what the script already applied.
   useEffect(() => {
-    setThemeState(getStoredTheme());
-    setResolvedTheme(getResolvedTheme(getStoredTheme()));
+    const stored = getStoredTheme();
+    const resolved = getResolvedTheme(stored);
+    setThemeState(stored);
+    setResolvedTheme(resolved);
+    applyTheme(resolved);
+    setInitialized(true);
   }, []);
 
+  // Apply theme changes after initialization
   useEffect(() => {
-    applyTheme(resolvedTheme);
-  }, [resolvedTheme]);
+    if (initialized) applyTheme(resolvedTheme);
+  }, [resolvedTheme, initialized]);
 
+  // Listen for system theme changes
   useEffect(() => {
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = () => {

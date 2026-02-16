@@ -42,24 +42,24 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col lg:flex-row">
       {/* Left Panel - Fixed on Desktop */}
-      <aside className="lg:fixed lg:left-0 lg:top-0 lg:h-screen lg:w-[400px] lg:overflow-y-auto border-b lg:border-b-0 lg:border-r border-gray-200 bg-white">
+      <aside className="lg:fixed lg:left-0 lg:top-0 lg:h-screen lg:w-[400px] lg:overflow-y-auto border-b lg:border-b-0 lg:border-r border-border-default bg-background-surface">
         <div className="flex flex-col justify-between p-8 lg:p-12 lg:h-full">
           {/* Top Section */}
           <div>
             {/* Name/Logo */}
             <Link href={routes.work} className="block mb-8">
-              <h1 className="text-2xl font-bold text-gray-900">
+              <h1 className="text-2xl font-bold text-content-primary">
                 {profile.name}
               </h1>
-              <p className="text-sm text-gray-600 mt-1">{profile.title}</p>
+              <p className="text-sm text-content-muted mt-1">{profile.title}</p>
             </Link>
 
             {/* Short Bio */}
-            <div className="mb-8 text-sm text-gray-600 leading-relaxed space-y-3">
+            <div className="mb-8 text-sm text-content-muted leading-relaxed space-y-3">
               {profile.bio.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
-              <p className="text-gray-700">
+              <p className="text-content-secondary">
                 Previously at{' '}
                 {profile.companySlugs.map((slug, index) => {
                   const company = getCompany(slug);
@@ -70,7 +70,7 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                         href={company.url}
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        className="hover:text-gray-900 transition-colors"
+                        className="hover:text-content-primary transition-colors"
                         onClick={() => handleExternalLinkClick(company.url, company.name)}
                       >
                         {company.name}
@@ -94,7 +94,7 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                     <a
                       href={item.href}
                       onClick={(e) => handleNavClick(e, item.href, item.name)}
-                      className="block py-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+                      className="block py-2 text-sm font-medium text-content-muted hover:text-content-primary transition-colors"
                     >
                       {item.name}
                     </a>
@@ -105,12 +105,12 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
           </div>
 
           {/* Bottom Section - Contact */}
-          <div className="border-t border-gray-200 pt-8 mt-8">
+          <div className="border-t border-border-default pt-8 mt-8">
             <div className="space-y-3 text-sm">
               <div>
                 <a
                   href={`mailto:${profile.contact.email}`}
-                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                  className="text-content-muted hover:text-content-primary transition-colors"
                   onClick={() => handleContactClick('email')}
                 >
                   {profile.contact.email}
@@ -121,18 +121,18 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                   href={`https://linkedin.com/in/${profile.contact.linkedin}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                  className="text-content-muted hover:text-content-primary transition-colors"
                   onClick={() => handleContactClick('linkedin')}
                 >
                   LinkedIn ↗
                 </a>
               </div>
-              <div className="text-gray-500 pt-2">
+              <div className="text-content-muted pt-2">
                 <div>{profile.contact.location}</div>
                 <div className="text-xs mt-1">{profile.contact.locationSubtext}</div>
               </div>
-              <div className="text-gray-500 border-t border-gray-100 mt-3 pt-3">
-                <div className="text-gray-700 font-medium">{profile.contact.availability}</div>
+              <div className="text-content-muted border-t border-border-subtle mt-3 pt-3">
+                <div className="text-content-secondary font-medium">{profile.contact.availability}</div>
                 <div className="text-xs mt-1">{profile.contact.availabilityTypes}</div>
               </div>
             </div>
