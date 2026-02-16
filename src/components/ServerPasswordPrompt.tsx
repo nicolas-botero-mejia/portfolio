@@ -45,14 +45,14 @@ export default function ServerPasswordPrompt({
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-24 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-background-muted px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-md">
-        <div className="rounded-lg border border-gray-200 bg-white p-8 shadow-sm">
+        <div className="rounded-lg border border-border-default bg-background-surface p-8 shadow-sm">
           {/* Lock Icon */}
           <div className="mb-6 flex justify-center">
-            <div className="rounded-full bg-gray-100 p-3">
+            <div className="rounded-full bg-background-subtle p-3">
               <svg
-                className="h-8 w-8 text-gray-600"
+                className="h-8 w-8 text-content-muted"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -69,22 +69,22 @@ export default function ServerPasswordPrompt({
           </div>
 
           {/* Title */}
-          <h2 className="mb-2 text-center text-2xl font-bold text-gray-900">
+          <h2 className="mb-2 text-center text-2xl font-bold text-content-primary">
             Password Protected
           </h2>
-          <p className="mb-6 text-center text-gray-600">
+          <p className="mb-6 text-center text-content-muted">
             This case study requires a password to view
           </p>
 
           {/* Case Study Name */}
-          <div className="mb-6 rounded-md bg-gray-50 px-4 py-3">
-            <p className="text-sm font-medium text-gray-900">{caseStudyTitle}</p>
+          <div className="mb-6 rounded-md bg-background-muted px-4 py-3">
+            <p className="text-sm font-medium text-content-primary">{caseStudyTitle}</p>
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label htmlFor="password" className="mb-2 block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="mb-2 block text-sm font-medium text-content-secondary">
                 Password
               </label>
               <input
@@ -92,7 +92,7 @@ export default function ServerPasswordPrompt({
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-900"
+                className="w-full rounded-lg border border-border-strong px-4 py-2 bg-background-surface text-content-primary focus:border-action-primary-bg focus:outline-none focus:ring-1 focus:ring-action-primary-bg"
                 placeholder="Enter password"
                 autoFocus
                 required
@@ -102,8 +102,8 @@ export default function ServerPasswordPrompt({
 
             {/* Error Message */}
             {error && (
-              <div className="mb-4 rounded-md bg-red-50 px-4 py-3">
-                <p className="text-sm text-red-800">{error}</p>
+              <div className="mb-4 rounded-md bg-status-warning-bg px-4 py-3">
+                <p className="text-sm text-status-warning-text">{error}</p>
               </div>
             )}
 
@@ -111,7 +111,7 @@ export default function ServerPasswordPrompt({
             <button
               type="submit"
               disabled={isPending}
-              className="w-full rounded-lg bg-gray-900 px-6 py-3 font-medium text-white transition-colors hover:bg-gray-800 disabled:opacity-50"
+              className="w-full rounded-lg bg-action-primary-bg px-6 py-3 font-medium text-action-primary-text transition-colors hover:bg-action-primary-hover disabled:opacity-50"
             >
               {isPending ? 'Verifying...' : 'Unlock Case Study'}
             </button>
@@ -121,7 +121,7 @@ export default function ServerPasswordPrompt({
           <div className="mt-6 text-center">
             <Link
               href={routes.work}
-              className="text-sm text-gray-600 transition-colors hover:text-gray-900"
+              className="text-sm text-content-muted transition-colors hover:text-content-primary"
             >
               ← Back to portfolio
             </Link>

@@ -18,20 +18,20 @@ export default function Error({ error, reset }: ErrorProps) {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-4 lg:ml-[400px]">
       <div className="max-w-md text-center">
-        <h1 className="mb-4 text-2xl font-bold text-gray-900">Something went wrong</h1>
-        <p className="mb-8 text-gray-600">
+        <h1 className="mb-4 text-2xl font-bold text-content-primary">Something went wrong</h1>
+        <p className="mb-8 text-content-muted">
           An unexpected error occurred. Please try again.
         </p>
         <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
           <button
             onClick={reset}
-            className="rounded-lg bg-gray-900 px-6 py-3 font-medium text-white transition-colors hover:bg-gray-800"
+            className="rounded-lg bg-action-primary-bg px-6 py-3 font-medium text-action-primary-text transition-colors hover:bg-action-primary-hover"
           >
             Try again
           </button>
           <Link
             href={routes.work}
-            className="rounded-lg border border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
+            className="rounded-lg border border-action-secondary-border px-6 py-3 font-medium text-content-secondary transition-colors hover:bg-action-secondary-hover"
           >
             Back to work
           </Link>

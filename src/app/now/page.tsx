@@ -46,7 +46,7 @@ export default async function NowPage({ searchParams }: NowPageProps) {
               href="https://nownownow.com/about"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-500 hover:text-gray-700 underline text-sm"
+              className="text-content-muted hover:text-content-secondary underline text-sm"
             >
               What is a /now page?
             </a>
@@ -65,11 +65,11 @@ export default async function NowPage({ searchParams }: NowPageProps) {
             {entriesToShow.map((entry) => (
               <article
                 key={entry.slug}
-                className="border-b border-gray-200 pb-12 last:border-0"
+                className="border-b border-border-default pb-12 last:border-0"
               >
                 <time
                   dateTime={entry.frontmatter.date}
-                  className="block text-sm font-medium text-gray-500 mb-4"
+                  className="block text-sm font-medium text-content-muted mb-4"
                 >
                   {formatDate(entry.frontmatter.date)}
                 </time>
@@ -84,7 +84,7 @@ export default async function NowPage({ searchParams }: NowPageProps) {
             <div className="mt-12 text-center">
               <Link
                 href={`${routes.now}?page=${pageNum + 1}`}
-                className="rounded-lg border border-gray-300 px-6 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 inline-block"
+                className="rounded-lg border border-action-secondary-border px-6 py-3 text-sm font-medium text-content-secondary hover:bg-action-secondary-hover inline-block"
               >
                 Load more
               </Link>

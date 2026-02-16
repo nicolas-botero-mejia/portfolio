@@ -82,37 +82,37 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         {/* Back Link */}
         <Link
           href={routes.work}
-          className="inline-flex items-center text-sm text-gray-500 hover:text-gray-900 mb-8 transition-colors"
+          className="inline-flex items-center text-sm text-content-muted hover:text-content-primary mb-8 transition-colors"
         >
           ← Back to work
         </Link>
 
         {/* Header */}
         <header className="mb-12">
-          <h1 className="mb-4 text-4xl font-bold tracking-tight text-gray-900">
+          <h1 className="mb-4 text-4xl font-bold tracking-tight text-content-primary">
             {frontmatter.title}
           </h1>
 
-          <p className="mb-6 text-lg text-gray-600 leading-relaxed">
+          <p className="mb-6 text-lg text-content-muted leading-relaxed">
             {frontmatter.description}
           </p>
 
-          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-600 border-t border-b border-gray-200 py-4">
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-content-muted border-t border-b border-border-default py-4">
             <div>
-              <span className="font-medium text-gray-900">Role:</span> {frontmatter.role}
+              <span className="font-medium text-content-primary">Role:</span> {frontmatter.role}
             </div>
             <div>
-              <span className="font-medium text-gray-900">Duration:</span> {frontmatter.duration}
+              <span className="font-medium text-content-primary">Duration:</span> {frontmatter.duration}
             </div>
             <div>
-              <span className="font-medium text-gray-900">Year:</span> {frontmatter.year}
+              <span className="font-medium text-content-primary">Year:</span> {frontmatter.year}
             </div>
           </div>
         </header>
 
         {/* Hero Image Placeholder */}
-        <div className="mb-12 aspect-video w-full rounded-lg bg-gray-200">
-          <div className="flex h-full items-center justify-center text-gray-400">
+        <div className="mb-12 aspect-video w-full rounded-lg bg-background-subtle">
+          <div className="flex h-full items-center justify-center text-content-muted">
             Hero Image: {frontmatter.heroImage}
           </div>
         </div>
