@@ -396,8 +396,14 @@ Push to `main` → auto-deploys. Environment variables set in Vercel dashboard.
 |-----|---------|
 | [docs/FIGMA_LEARNINGS.md](docs/FIGMA_LEARNINGS.md) | Two-way Figma workflow, data contracts, canonical operations |
 | [docs/FIGMA_CONSOLE_MCP_COMPARISON.md](docs/FIGMA_CONSOLE_MCP_COMPARISON.md) | Figma Console MCP vs Desktop Bridge comparison |
-| [docs/FIGMA_INTEGRATION.md](docs/FIGMA_INTEGRATION.md) | Legacy Figma-as-source REST flow |
 | [docs/DESIGN_SYSTEMS_MCP.md](docs/DESIGN_SYSTEMS_MCP.md) | Design Systems MCP: tokens, a11y, WCAG compliance |
+
+### Planning & Optimization
+| Doc | Purpose |
+|-----|---------|
+| [docs/IMPLEMENTATION_ROADMAP.md](docs/IMPLEMENTATION_ROADMAP.md) | Future roadmap: testing, Storybook, Figma integration |
+| [docs/OPTIMIZATION_RECOMMENDATIONS.md](docs/OPTIMIZATION_RECOMMENDATIONS.md) | Code review findings and improvement tracking |
+| [docs/AGENT_SYSTEM.md](docs/AGENT_SYSTEM.md) | Multi-agent validation system proposal (future) |
 
 ### AI Agents
 Located in `.claude/agents/`: seo_optimizer, content_auditor, accessibility_checker, performance_optimizer, case_study_migrator. Invoke via Task tool.
