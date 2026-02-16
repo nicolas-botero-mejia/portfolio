@@ -4,16 +4,16 @@ import { useEffect } from 'react';
 import { trackEvent } from '@/lib/analytics';
 import { getCompanyName } from '@/data';
 
-interface ProductTrackerProps {
+interface WorkItemTrackerProps {
   slug: string;
   title: string;
   company: string;
 }
 
-export default function ProductTracker({ slug, title, company }: ProductTrackerProps) {
+export default function WorkItemTracker({ slug, title, company }: WorkItemTrackerProps) {
   useEffect(() => {
     trackEvent({
-      name: 'product_view',
+      name: 'work_item_view',
       properties: { slug, title, company: getCompanyName(company) },
     });
   }, [slug, title, company]);

@@ -81,8 +81,8 @@ export default function WorkClient({ allWork, title, description }: WorkClientPr
 
       {allWork.length === 0 ? (
         <EmptyState
-          title="No work items yet"
-          description="Products, features and side-projects will appear here when added"
+          title="No work samples yet"
+          description="Work samples will appear here when added"
         />
       ) : (
         <>

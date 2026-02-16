@@ -7,7 +7,7 @@ import { generatePageMetadata } from '@/lib/seo';
 import { Metadata } from 'next';
 import { requiresPassword, isAuthenticated } from '@/lib/serverPasswordAuth';
 import ServerPasswordPrompt from '@/components/ServerPasswordPrompt';
-import ProductTracker from '@/components/ProductTracker';
+import WorkItemTracker from '@/components/WorkItemTracker';
 import ContentNavigation from '@/components/ui/ContentNavigation';
 
 interface ProductPageProps {
@@ -65,7 +65,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     );
   }
 
-  // Render product content
+  // Render work item content
   const { frontmatter, content } = product;
   
   // Get adjacent products for next/prev navigation
@@ -73,7 +73,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <>
-      <ProductTracker 
+      <WorkItemTracker 
         slug={slug} 
         title={frontmatter.title} 
         company={frontmatter.company} 

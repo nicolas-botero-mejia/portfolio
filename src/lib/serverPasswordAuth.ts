@@ -21,7 +21,7 @@ function getPasswordEnvKey(slug: string): string {
 }
 
 /**
- * Check if a product requires password protection
+ * Check if a work item requires password protection.
  */
 export function requiresPassword(product: Product): boolean {
   return product.frontmatter.locked === true;
@@ -54,8 +54,8 @@ function getExpectedPasswordHash(product: Product): string | null {
 }
 
 /**
- * Validate a password for a product
- * Server-side only - never exposes actual passwords to client
+ * Validate a password for a work item.
+ * Server-side only - never exposes actual passwords to client.
  */
 export function validatePassword(product: Product, password: string): boolean {
   if (!requiresPassword(product)) {

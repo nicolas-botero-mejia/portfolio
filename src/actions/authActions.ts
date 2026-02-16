@@ -12,21 +12,21 @@ export interface AuthResult {
 }
 
 /**
- * Server action to authenticate a product
- * Called from the password form
+ * Server action to authenticate a work item.
+ * Called from the password form.
  */
-export async function authenticateProduct(
+export async function authenticateWorkItem(
   slug: string,
   password: string
 ): Promise<AuthResult> {
   try {
-    // Get the product
+    // Get the work item (currently products; later any work subtype)
     const product = getProductBySlug(slug);
 
     if (!product) {
       return {
         success: false,
-        error: 'Product not found',
+        error: 'Work sample not found',
       };
     }
 
@@ -43,14 +43,14 @@ export async function authenticateProduct(
     // Set authentication cookie
     await setAuthCookie(slug);
 
-    // Revalidate the product page to show the authenticated content
+    // Revalidate the work item page to show the authenticated content
     revalidatePath(getRoute(CONTENT_SLUGS.WORK, undefined, slug));
 
     return {
       success: true,
     };
   } catch (error) {
-    logError('authenticateProduct', error);
+    logError('authenticateWorkItem', error);
     return {
       success: false,
       error: 'An error occurred. Please try again.',

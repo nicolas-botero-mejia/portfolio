@@ -373,6 +373,11 @@ Push to `main` → auto-deploys. Environment variables set in Vercel dashboard.
 | [ROADMAP.md](ROADMAP.md) | Development timeline and phases |
 | [.env.example](.env.example) | Environment variable reference |
 
+### Conventions
+| Doc | Purpose |
+|-----|---------|
+| [docs/WORK_ITEM_TERMINOLOGY.md](docs/WORK_ITEM_TERMINOLOGY.md) | Internal "work item" vs user-facing "work sample" |
+
 ### Architecture & Design System
 | Doc | Purpose |
 |-----|---------|

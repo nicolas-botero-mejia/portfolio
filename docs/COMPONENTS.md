@@ -58,7 +58,7 @@ Design system components for the portfolio. Token-driven; Tailwind utilities map
 | **Typography** | H1–H4, Body, Caption | Prose handles MDX; standalone for structured content |
 | **Image** | Optimized image with blur | Next/Image wrapper with aspect ratio, placeholder |
 | **Avatar** | Profile photos | About, team sections |
-| **Breadcrumb** | Navigation trail | Work sample pages |
+| **Breadcrumb** | Navigation trail | Work sample (work item) pages |
 | **Skeleton** | Loading states | If we add loading UIs |
 | **Toast** | Notifications | If we add feedback (e.g. contact form success) |
 | **Select/Dropdown** | Filters, pickers | Reading filters, etc. |

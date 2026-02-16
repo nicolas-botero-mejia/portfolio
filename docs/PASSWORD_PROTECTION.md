@@ -2,6 +2,8 @@
 
 Secure work items (products, features, side-projects) with server-side password protection, HTTP-only cookies (`work_auth_[slug]`), and SHA-256 hashed passwords. One auth system for all work subtypes; env vars: `WORK_[SLUG]_PASSWORD` and `WORK_GLOBAL_PASSWORD`.
 
+**Terminology:** In code and this doc we use *work item*. In the UI (e.g. password screen, empty state) visitors see *work sample*. See [WORK_ITEM_TERMINOLOGY.md](WORK_ITEM_TERMINOLOGY.md).
+
 ---
 
 ## 🚀 Quick Start

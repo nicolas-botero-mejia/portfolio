@@ -1,6 +1,6 @@
 # 🔒 Password Protection Quick Reference
 
-**Server-side password protection for work items** (products, features, side-projects). One auth system: cookie prefix `work_auth_`, env vars `WORK_[SLUG]_PASSWORD` and `WORK_GLOBAL_PASSWORD`.
+**Server-side password protection for work items** (products, features, side-projects). Visitors see “work sample” in the UI. One auth system: cookie prefix `work_auth_`, env vars `WORK_[SLUG]_PASSWORD` and `WORK_GLOBAL_PASSWORD`.
 
 ## Quick Setup (3 Steps)
 

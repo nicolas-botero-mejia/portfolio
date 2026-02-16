@@ -513,7 +513,7 @@ Add rate limiting middleware or document the need.
  * const { success } = await ratelimit.limit(ip);
  * if (!success) return { success: false, error: "Too many attempts" };
  */
-export async function authenticateProduct(...) { ... }
+export async function authenticateWorkItem(...) { ... }
 ```
 
 **Production Solution:**
@@ -536,7 +536,7 @@ export const passwordRateLimit = new Ratelimit({
 import { passwordRateLimit } from '@/lib/ratelimit';
 import { headers } from 'next/headers';
 
-export async function authenticateProduct(slug: string, password: string) {
+export async function authenticateWorkItem(slug: string, password: string) {
   // Get IP address
   const headersList = await headers();
   const ip = headersList.get('x-forwarded-for') || 'anonymous';

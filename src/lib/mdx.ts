@@ -44,8 +44,8 @@ export interface ProductFrontmatter {
     metaDescription: string;
     keywords: string[];
   };
-  password?: string; // Optional: Dedicated password for this product
-  locked?: boolean;  // Optional: Whether this product requires password
+  password?: string; // Optional: Dedicated password for this work item
+  locked?: boolean;  // Optional: Whether this work item requires password
 }
 
 export type Product = ContentItem<ProductFrontmatter>;

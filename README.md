@@ -23,11 +23,11 @@ This portfolio showcases my work as a Product Designer, featuring product work w
 
 **Core Features:**
 - ⚡️ Blazing-fast performance (Next.js 16 + SSG)
-- 🎨 MDX-powered product work samples with type-safe content
+- 🎨 MDX-powered work samples with type-safe content
 - 🔍 SEO-optimized for design leadership keywords
 - ♿️ WCAG 2.1 AA accessible
 - 📱 Mobile-first responsive design
-- 🔒 Password protection for selective product work sample access
+- 🔒 Password protection for selective work sample access
 - 📊 Comprehensive analytics (Google Analytics + Amplitude)
 - 🤖 AI agents for content optimization
 
@@ -158,7 +158,7 @@ Use SEO Optimizer agent to analyze /sainapsis
 #### 2. Content Auditor
 
 ```bash
-Use Content Auditor agent to review product work samples
+Use Content Auditor agent to review work samples
 ```
 
 - Checks for metrics/impact
@@ -206,9 +206,9 @@ Use Product Migrator agent to convert markdown to MDX
 
 ## 📝 Content Structure
 
-### Product Work Sample Frontmatter
+### Work Sample Frontmatter (work items)
 
-Each product work sample uses MDX with structured frontmatter:
+Each work sample uses MDX with structured frontmatter:
 
 ```yaml
 ---
@@ -220,7 +220,7 @@ year: "2024-25"
 duration: "10 months"
 type: "Design System & Process Transformation"
 featured: true
-heroImage: "/images/work/sainapsis/hero.png"
+heroImage: "/images/work/product/sainapsis-hero.png"
 tags: ["design systems", "process transformation", "mentorship", "productivity"]
 seo:
   metaTitle: "Sainapsis - 16x Productivity with Design Systems | Nicolás Botero"
@@ -229,7 +229,7 @@ seo:
 ---
 ```
 
-### Adding Images to Product Work Samples
+### Adding Images to Work Samples
 
 ```jsx
 <Image
@@ -274,7 +274,7 @@ Comprehensive analytics implementation with Google Analytics 4 and Amplitude for
 **Features:**
 - Automatic page view tracking
 - User interaction events (clicks, navigation)
-- Work sample engagement metrics
+- Work sample engagement (work_item_view, work_item_password_attempt)
 - Password unlock analytics
 - Type-safe event tracking with TypeScript
 - Privacy-friendly (no PII collected)
@@ -412,7 +412,7 @@ WORK_GLOBAL_PASSWORD=your-password-hash-here
 - 100+ unique visitors
 - Indexed for "Nicolás Botero Product Designer"
 - 2+ min average session duration
-- 50+ product page views
+- 50+ work sample page views
 
 ### 90-Day Goals
 - 500+ unique visitors

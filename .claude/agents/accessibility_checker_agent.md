@@ -128,7 +128,7 @@ Check the accessibility of /app/page.tsx and ensure it meets WCAG 2.1 AA standar
 <a href="/sainapsis">Click here</a>
 
 // Good
-<a href="/sainapsis">Read Sainapsis product work sample on 16x productivity transformation</a>
+<a href="/sainapsis">Read Sainapsis work sample on 16x productivity transformation</a>
 ```
 
 ### Missing Form Labels

@@ -393,7 +393,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [ ] **Implement Amplitude in DS components** (if applicable)
   - [x] Add event tracking utilities and key events (see README_ANALYTICS.md)
   - [ ] Configure Amplitude API key in .env and production
-  - [ ] Test events in production (work card clicks, navigation, product views, etc.)
+  - [ ] Test events in production (work card clicks, navigation, work sample views, etc.)
   - [ ] Add component-level instrumentation if desired
 
 ---
@@ -449,8 +449,8 @@ Use this sequence so work builds on itself and nothing is blocked.
 ## Success metrics (Key Results)
 
 - **At launch:** Lighthouse 95+, unique meta per page, WCAG 2.1 AA, &lt;1s FCP, mobile-friendly, custom domain.
-- **30 days post-launch:** 100+ visitors, indexed for “Nicolás Botero Product Designer”, 2+ min session, 50+ product views, backlinks, 1+ interview request.
-- **90 days post-launch:** 500+ visitors, top 10 for 3+ keywords, 5+ min session, 200+ product views, 10+ backlinks, 5+ interview requests, 3+ testimonials.
+- **30 days post-launch:** 100+ visitors, indexed for “Nicolás Botero Product Designer”, 2+ min session, 50+ work sample views, backlinks, 1+ interview request.
+- **90 days post-launch:** 500+ visitors, top 10 for 3+ keywords, 5+ min session, 200+ work sample views, 10+ backlinks, 5+ interview requests, 3+ testimonials.
 
 ---
 

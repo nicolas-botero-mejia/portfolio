@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import Link from 'next/link';
-import { authenticateProduct } from '@/actions/authActions';
+import { authenticateWorkItem } from '@/actions/authActions';
 import { routes } from '@/data';
 import { useRouter } from 'next/navigation';
 import { trackEvent } from '@/lib/analytics';
@@ -30,11 +30,11 @@ export default function ServerPasswordPrompt({
     setError('');
 
     startTransition(async () => {
-      const result = await authenticateProduct(slug, password);
+      const result = await authenticateWorkItem(slug, password);
 
       // Track password attempt
       trackEvent({
-        name: 'product_password_attempt',
+        name: 'work_item_password_attempt',
         properties: { slug, success: result.success },
       });
 
@@ -77,7 +77,7 @@ export default function ServerPasswordPrompt({
             Password Protected
           </h2>
           <p className="mb-6 text-center text-content-muted">
-            This {workItemTypeLabel.toLowerCase()} requires a password to view
+            This work sample requires a password to view
           </p>
 
           {/* Work item title */}
