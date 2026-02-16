@@ -51,7 +51,7 @@ All MDX files require frontmatter with specific fields depending on content type
 2. Classification: type, subtitle
 3. Context: company, role, parent (features only)
 4. Timeline: year, duration, date
-5. Display: featured, heroImage, tags
+5. Display: featured, heroImage (optional for work: derived from slug when missing), tags
 6. Security: locked (products, optional)
 7. SEO: seo block (always last)
 

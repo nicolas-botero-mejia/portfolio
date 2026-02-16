@@ -81,6 +81,8 @@ Use the same extension consistently (e.g. `.png` or `.jpg`) if you like; the app
   - `getImagePath(contentType, subType, slug, level, ext?)` → same with any level
 - **Work-only convenience:** `getWorkHeroImagePath(subType, slug)`, `getWorkImagePath(subType, slug, level)`
 
+**Use in code (not in MDX):** The helpers are used when **loading** content. For work items, `heroImage` in frontmatter is optional: if omitted, the app derives it via `getWorkHeroImagePath(subType, slug)` in `src/lib/mdx.ts`. Set `heroImage` in frontmatter only when you need to override (e.g. different file name or extension). **In-body images** in MDX (e.g. `![Alt](/images/work/products/ocean-1.png)`) use the full path; there is no MDX-level helper, so authors follow the same convention.
+
 ## Migration from old layout
 
 If you had images under `public/images/products/`, `public/images/features/`, etc. (without the contentType level), move them under the contentType folder:

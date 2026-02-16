@@ -17,6 +17,7 @@ import {
   sortByDateDesc,
   sortByDateOrYear,
 } from './contentLoader';
+import { getWorkHeroImagePath, type WorkSubType } from '@/lib/contentPaths';
 
 export type { ContentItem };
 
@@ -34,7 +35,7 @@ export interface ProductFrontmatter {
   type: string;      // Work type: product, feature, side-project
   subtitle?: string; // Descriptive label e.g. "Design System & Process Transformation"
   featured: boolean;
-  heroImage: string;
+  heroImage?: string; // Optional: derived from getWorkHeroImagePath(subType, slug) when missing
   tags: string[];
   date?: string;     // For sorting (YYYY-MM-DD format)
   order?: number;    // For manual ordering
@@ -52,13 +53,30 @@ export type Product = ContentItem<ProductFrontmatter>;
 
 const PRODUCTS_PATH = getContentPath(CONTENT_SLUGS.WORK, CONTENT_SLUGS.WORK_PRODUCTS);
 
+function withWorkHeroImage<T extends { slug: string; frontmatter: { heroImage?: string } }>(
+  item: T,
+  subType: WorkSubType
+): T {
+  const hero = item.frontmatter.heroImage?.trim();
+  return {
+    ...item,
+    frontmatter: {
+      ...item.frontmatter,
+      heroImage: hero || getWorkHeroImagePath(subType, item.slug),
+    },
+  } as T;
+}
+
 export const getProducts = cache((): Product[] =>
-  getItemsFromPath<ProductFrontmatter>(PRODUCTS_PATH, sortByYearDesc)
+  getItemsFromPath<ProductFrontmatter>(PRODUCTS_PATH, sortByYearDesc).map((p) =>
+    withWorkHeroImage(p, CONTENT_SLUGS.WORK_PRODUCTS as WorkSubType)
+  )
 );
 
-export const getProductBySlug = cache((slug: string): Product | null =>
-  getItemBySlugFromPath<ProductFrontmatter>(PRODUCTS_PATH, slug)
-);
+export const getProductBySlug = cache((slug: string): Product | null => {
+  const item = getItemBySlugFromPath<ProductFrontmatter>(PRODUCTS_PATH, slug);
+  return item ? withWorkHeroImage(item, CONTENT_SLUGS.WORK_PRODUCTS as WorkSubType) : null;
+});
 
 export function getFeaturedProducts(): Product[] {
   return getFeaturedFromItems(getProducts());
@@ -80,12 +98,15 @@ export function getAdjacentProducts(currentSlug: string): AdjacentContent {
 const FEATURES_PATH = getContentPath(CONTENT_SLUGS.WORK, CONTENT_SLUGS.WORK_FEATURES);
 
 export const getFeatures = cache((): Product[] =>
-  getItemsFromPath<ProductFrontmatter>(FEATURES_PATH, sortByDateOrYear)
+  getItemsFromPath<ProductFrontmatter>(FEATURES_PATH, sortByDateOrYear).map((f) =>
+    withWorkHeroImage(f, CONTENT_SLUGS.WORK_FEATURES as WorkSubType)
+  )
 );
 
-export const getFeatureBySlug = cache((slug: string): Product | null =>
-  getItemBySlugFromPath<ProductFrontmatter>(FEATURES_PATH, slug)
-);
+export const getFeatureBySlug = cache((slug: string): Product | null => {
+  const item = getItemBySlugFromPath<ProductFrontmatter>(FEATURES_PATH, slug);
+  return item ? withWorkHeroImage(item, CONTENT_SLUGS.WORK_FEATURES as WorkSubType) : null;
+});
 
 export function getAdjacentFeatures(currentSlug: string): AdjacentContent {
   return getAdjacentFromItems(getFeatures(), currentSlug) as AdjacentContent;
