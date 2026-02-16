@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { getPageOrNotFound, getNowEntries } from '@/lib/mdx';
 import { generateMetadataForPage } from '@/lib/seo';
 import { CONTENT_SLUGS, routes } from '@/data';
-import { MDXRemote } from 'next-mdx-remote/rsc';
+import MDXRenderer from '@/components/MDXRenderer';
 import PageLayout from '@/components/ui/PageLayout';
 import PageHeader from '@/components/ui/PageHeader';
 import EmptyState from '@/components/ui/EmptyState';
@@ -74,9 +74,10 @@ export default async function NowPage({ searchParams }: NowPageProps) {
                 >
                   {formatDate(entry.frontmatter.date)}
                 </time>
-                <div className="prose prose-gray prose-lg max-w-none">
-                  <MDXRemote source={entry.content} />
-                </div>
+                <MDXRenderer
+                  content={entry.content}
+                  contentContext={{ contentType: CONTENT_SLUGS.NOW, subType: null, slug: entry.slug }}
+                />
               </article>
             ))}
           </div>

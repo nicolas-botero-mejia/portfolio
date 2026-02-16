@@ -17,7 +17,11 @@ export default function UsesPage() {
         description={page.frontmatter.description}
         variant="serif"
       />
-      <MDXRenderer content={page.content} />
+
+      <MDXRenderer
+        content={page.content}
+        contentContext={{ contentType: CONTENT_SLUGS.PAGES, subType: null, slug: CONTENT_SLUGS.USES }}
+      />
     </PageLayout>
   );
 }

@@ -17,7 +17,7 @@ import {
   sortByDateDesc,
   sortByDateOrYear,
 } from './contentLoader';
-import { getWorkHeroImagePath, type WorkSubType } from '@/lib/contentPaths';
+import { getHeroImagePath, type WorkSubType } from '@/lib/contentPaths';
 
 export type { ContentItem };
 
@@ -53,18 +53,28 @@ export type Product = ContentItem<ProductFrontmatter>;
 
 const PRODUCTS_PATH = getContentPath(CONTENT_SLUGS.WORK, CONTENT_SLUGS.WORK_PRODUCTS);
 
-function withWorkHeroImage<T extends { slug: string; frontmatter: { heroImage?: string } }>(
+/** Auto-derive heroImage from content path convention when not explicitly set. */
+function withHeroImage<T extends { slug: string; frontmatter: { heroImage?: string } }>(
   item: T,
-  subType: WorkSubType
+  contentType: string,
+  subType: string | null
 ): T {
   const hero = item.frontmatter.heroImage?.trim();
   return {
     ...item,
     frontmatter: {
       ...item.frontmatter,
-      heroImage: hero || getWorkHeroImagePath(subType, item.slug),
+      heroImage: hero || getHeroImagePath(contentType, subType, item.slug),
     },
   } as T;
+}
+
+/** Work-specific convenience wrapper. */
+function withWorkHeroImage<T extends { slug: string; frontmatter: { heroImage?: string } }>(
+  item: T,
+  subType: WorkSubType
+): T {
+  return withHeroImage(item, CONTENT_SLUGS.WORK, subType);
 }
 
 export const getProducts = cache((): Product[] =>

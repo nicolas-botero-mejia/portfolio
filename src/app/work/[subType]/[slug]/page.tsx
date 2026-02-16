@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { MDXRemote } from 'next-mdx-remote/rsc';
 import { getAllWork, getWorkItemBySlug, getAdjacentWork } from '@/lib/mdx';
+import MDXRenderer from '@/components/MDXRenderer';
 import { routes, getRoute, getWorkTypeLabel, CONTENT_SLUGS } from '@/data';
 import { generatePageMetadata } from '@/lib/seo';
 import { Metadata } from 'next';
@@ -121,9 +121,10 @@ export default async function WorkItemPage({ params }: WorkItemPageProps) {
         </div>
 
         {/* Content */}
-        <div className="prose prose-gray prose-lg max-w-none">
-          <MDXRemote source={content} />
-        </div>
+        <MDXRenderer
+          content={content}
+          contentContext={{ contentType: CONTENT_SLUGS.WORK, subType, slug }}
+        />
 
         {/* Next/Previous Navigation */}
         <ContentNavigation
