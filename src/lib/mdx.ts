@@ -4,6 +4,7 @@
  */
 
 import { cache } from 'react';
+import { notFound } from 'next/navigation';
 import { CONTENT_SLUGS } from '@/data';
 import {
   ContentItem,
@@ -126,6 +127,16 @@ const PAGES_PATH = getContentPath(CONTENT_SLUGS.PAGES);
 export const getPageBySlug = cache((slug: string): Page | null =>
   getItemBySlugFromPath<PageFrontmatter>(PAGES_PATH, slug)
 );
+
+/**
+ * Returns page content or triggers a 404.
+ * Usage: `const page = getPageOrNotFound('work');`
+ */
+export function getPageOrNotFound(slug: string): Page {
+  const page = getPageBySlug(slug);
+  if (!page) notFound();
+  return page;
+}
 
 // ============================================================================
 // NOW (dated snapshots)

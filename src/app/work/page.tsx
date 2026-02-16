@@ -1,33 +1,12 @@
+import { getPageOrNotFound, getAllWork } from '@/lib/mdx';
+import { generateMetadataForPage } from '@/lib/seo';
 import WorkClient from '@/components/work/WorkClient';
 import PageLayout from '@/components/ui/PageLayout';
-import { getPageBySlug, getAllWork } from '@/lib/mdx';
-import { generatePageMetadata } from '@/lib/seo';
-import { notFound } from 'next/navigation';
-import type { Metadata } from 'next';
 
-export async function generateMetadata(): Promise<Metadata> {
-  try {
-    const page = getPageBySlug('work');
-    if (!page) return {};
-
-    const { frontmatter } = page;
-    return generatePageMetadata({
-      title: frontmatter.seo.metaTitle,
-      description: frontmatter.seo.metaDescription,
-      keywords: frontmatter.seo.keywords,
-    });
-  } catch {
-    return {};
-  }
-}
+export const generateMetadata = generateMetadataForPage('work');
 
 export default function WorkPage() {
-  const page = getPageBySlug('work');
-
-  if (!page) {
-    notFound();
-  }
-
+  const page = getPageOrNotFound('work');
   const allWork = getAllWork();
 
   return (

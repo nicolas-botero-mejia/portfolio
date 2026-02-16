@@ -1,33 +1,13 @@
-import { getPageBySlug } from '@/lib/mdx';
-import { generatePageMetadata } from '@/lib/seo';
-import { notFound } from 'next/navigation';
-import type { Metadata } from 'next';
+import { getPageOrNotFound } from '@/lib/mdx';
+import { generateMetadataForPage } from '@/lib/seo';
 import PageLayout from '@/components/ui/PageLayout';
 import PageHeader from '@/components/ui/PageHeader';
 import EmptyState from '@/components/ui/EmptyState';
 
-export async function generateMetadata(): Promise<Metadata> {
-  try {
-    const page = getPageBySlug('writing');
-    if (!page) return {};
-
-    const { frontmatter } = page;
-    return generatePageMetadata({
-      title: frontmatter.seo.metaTitle,
-      description: frontmatter.seo.metaDescription,
-      keywords: frontmatter.seo.keywords,
-    });
-  } catch {
-    return {};
-  }
-}
+export const generateMetadata = generateMetadataForPage('writing');
 
 export default function WritingPage() {
-  const page = getPageBySlug('writing');
-
-  if (!page) {
-    notFound();
-  }
+  const page = getPageOrNotFound('writing');
 
   return (
     <PageLayout maxWidth="md">

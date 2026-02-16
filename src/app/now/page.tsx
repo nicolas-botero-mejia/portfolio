@@ -1,12 +1,10 @@
 import Link from 'next/link';
-import { getPageBySlug, getNowEntries } from '@/lib/mdx';
+import { getPageOrNotFound, getNowEntries } from '@/lib/mdx';
+import { generateMetadataForPage } from '@/lib/seo';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import PageLayout from '@/components/ui/PageLayout';
 import PageHeader from '@/components/ui/PageHeader';
 import EmptyState from '@/components/ui/EmptyState';
-import { generatePageMetadata } from '@/lib/seo';
-import { notFound } from 'next/navigation';
-import type { Metadata } from 'next';
 import { routes } from '@/data';
 
 const LIMIT = 10;
@@ -20,36 +18,18 @@ function formatDate(dateStr: string): string {
   });
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-  try {
-    const page = getPageBySlug('now');
-    if (!page) return {};
-
-    const { frontmatter } = page;
-    return generatePageMetadata({
-      title: frontmatter.seo.metaTitle,
-      description: frontmatter.seo.metaDescription,
-      keywords: frontmatter.seo.keywords,
-    });
-  } catch {
-    return {};
-  }
-}
+export const generateMetadata = generateMetadataForPage('now');
 
 interface NowPageProps {
   searchParams: Promise<{ page?: string }>;
 }
 
 export default async function NowPage({ searchParams }: NowPageProps) {
-  const pageMeta = getPageBySlug('now');
+  const pageMeta = getPageOrNotFound('now');
   const { page } = await searchParams;
   const pageNum = Math.max(1, parseInt(page ?? '1', 10) || 1);
 
   const allEntries = getNowEntries();
-
-  if (!pageMeta) {
-    notFound();
-  }
 
   const entriesToShow = allEntries.slice(0, pageNum * LIMIT);
   const hasMore = entriesToShow.length < allEntries.length;

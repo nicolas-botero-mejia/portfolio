@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { site } from '@/data';
+import { getPageBySlug } from './mdx';
 
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -46,6 +47,28 @@ export const defaultMetadata: Metadata = {
     },
   },
 };
+
+/**
+ * Returns a generateMetadata function for a page content file.
+ * Usage: `export const generateMetadata = generateMetadataForPage('work');`
+ */
+export function generateMetadataForPage(slug: string): () => Promise<Metadata> {
+  return async () => {
+    try {
+      const page = getPageBySlug(slug);
+      if (!page) return {};
+
+      const { frontmatter } = page;
+      return generatePageMetadata({
+        title: frontmatter.seo.metaTitle,
+        description: frontmatter.seo.metaDescription,
+        keywords: frontmatter.seo.keywords,
+      });
+    } catch {
+      return {};
+    }
+  };
+}
 
 export function generatePageMetadata({
   title,
