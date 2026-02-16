@@ -69,7 +69,7 @@ year: "2021-2024"
 duration: "3 years"
 date: "2024-06-15"            # For sorting (YYYY-MM-DD format)
 featured: true
-heroImage: "/images/products/ocean-hero.png"
+heroImage: "/images/work/products/ocean-hero.png"
 tags: ["design systems", "platform", "global"]
 locked: false                  # Password protection (optional)
 seo:
@@ -95,7 +95,7 @@ parent: "ocean"                # Slug of parent product (work/products/ocean.mdx
 year: "2023"
 duration: "3 months"
 featured: false
-heroImage: "/images/features/ocean-billing.png"
+heroImage: "/images/work/features/ocean-billing-hero.png"
 tags: ["enterprise", "billing", "dashboard"]
 seo:
   metaTitle: "Ocean Billing System | Nicolás Botero"
@@ -231,21 +231,21 @@ Content is automatically mapped to URLs:
 1. Create MDX file in appropriate folder
 2. Add required frontmatter
 3. Write content using Markdown or MDX components
-4. Add images to `public/images/<subType>/` with filenames `{slug}-hero.png`, `{slug}-thumbnail.png`, etc. (see [docs/ASSETS.md](../docs/ASSETS.md))
+4. Add images to `public/images/<contentType>/<subType>/` with filenames `{slug}-hero.png`, `{slug}-thumbnail.png`, etc. (see [docs/ASSETS.md](../docs/ASSETS.md))
 5. Test locally: `npm run dev`
 6. Commit and push
 
 ## Images
 
-**One folder per subType**, no slug subfolders. Filenames encode slug + level: `{slug}-hero.png`, `{slug}-thumbnail.png`, `{slug}-1.png`, etc. Mirrors MDX (flat files per folder).
+**One folder per contentType then subType** (e.g. `work/products/`, `writing/posts/`, `experiments/design/`). No slug subfolders. Filenames encode slug + level: `{slug}-hero.png`, `{slug}-thumbnail.png`, `{slug}-1.png`, etc.
 
-Example for products:
+Example for work products:
 - Content: `content/work/products/ocean.mdx`
-- Assets: `public/images/products/ocean-hero.png`, `ocean-thumbnail.png`, `ocean-1.png`, …
+- Assets: `public/images/work/products/ocean-hero.png`, `ocean-thumbnail.png`, `ocean-1.png`, …
 
 Reference in MDX:
 ```markdown
-![Alt text](/images/products/ocean-hero.png)
+![Alt text](/images/work/products/ocean-hero.png)
 ```
 
 Full layout, levels, and rationale: [docs/ASSETS.md](../docs/ASSETS.md).

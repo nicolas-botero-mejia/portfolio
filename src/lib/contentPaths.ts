@@ -1,24 +1,59 @@
 /**
- * Content path helpers - conventional paths for images, etc.
+ * Content path helpers - conventional paths for images by contentType and subType.
+ * All content types (work, experiments, writing, reading, now, pages) use the same pattern.
  */
 
 import { contentTypes } from '@/data';
 
-/** Work sub-type slugs derived from contentTypes */
+/** Work sub-type slugs for type-safe work image paths */
 type WorkContentType = Extract<(typeof contentTypes)[number], { slug: 'work' }>;
-type WorkSubType = WorkContentType['subTypes'][number]['slug'];
+export type WorkSubType = WorkContentType['subTypes'][number]['slug'];
 
-/** Conventional hero image path: flat per subType, slug-level in filename (e.g. ocean-hero.png) */
-export function getHeroImagePath(subType: WorkSubType, slug: string, ext = 'png'): string {
-  return `/images/${subType}/${slug}-hero.${ext}`;
+/**
+ * Conventional image path with contentType level.
+ * Pattern: /images/{contentType}/{subType?}/{slug}-{level}.{ext}
+ * - With subType (work, experiments, writing, reading): /images/work/products/ocean-hero.png
+ * - Without subType (now, pages): /images/now/2025-02-09-hero.png
+ */
+export function getImagePath(
+  contentType: string,
+  subType: string | null,
+  slug: string,
+  level: string,
+  ext = 'png'
+): string {
+  const base = `/images/${contentType}`;
+  const segment = subType ? `${subType}/${slug}-${level}` : `${slug}-${level}`;
+  return `${base}/${segment}.${ext}`;
 }
 
-/** Conventional image path for a given level (hero, thumbnail, 1, 2, n, or descriptive) */
-export function getImagePath(
+/**
+ * Hero image path. Convenience for getImagePath(..., 'hero', ext).
+ */
+export function getHeroImagePath(
+  contentType: string,
+  subType: string | null,
+  slug: string,
+  ext = 'png'
+): string {
+  return getImagePath(contentType, subType, slug, 'hero', ext);
+}
+
+/**
+ * Work-specific hero path (convenience for getHeroImagePath('work', subType, slug)).
+ */
+export function getWorkHeroImagePath(subType: WorkSubType, slug: string, ext = 'png'): string {
+  return getHeroImagePath('work', subType, slug, ext);
+}
+
+/**
+ * Work-specific image path (convenience for getImagePath('work', subType, slug, level)).
+ */
+export function getWorkImagePath(
   subType: WorkSubType,
   slug: string,
   level: string,
   ext = 'png'
 ): string {
-  return `/images/${subType}/${slug}-${level}.${ext}`;
+  return getImagePath('work', subType, slug, level, ext);
 }

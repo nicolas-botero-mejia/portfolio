@@ -25,7 +25,7 @@ year: "YYYY" or "YYYY-YY"
 duration: "X months" or "X years"
 type: "product"
 featured: true/false
-heroImage: "/images/products/slug-hero.png"
+heroImage: "/images/work/products/slug-hero.png"
 tags: ["tag1", "tag2", "tag3", "tag4"]
 seo:
   metaTitle: "Company - Key Impact | Nicolás Botero"
@@ -78,7 +78,7 @@ Insights and takeaways
 
 ```tsx
 <Image
-  src="/images/products/company-filename.png"
+  src="/images/work/products/company-filename.png"
   alt="Descriptive alt text explaining what the image shows"
   width={1200}
   height={800}
@@ -226,7 +226,7 @@ Before:
 
 After:
 <Image
-  src="/images/products/sainapsis-dashboard.png"
+  src="/images/work/products/sainapsis-dashboard.png"
   alt="Design system dashboard showing 80% component adoption across 12 products"
   width={1200}
   height={800}

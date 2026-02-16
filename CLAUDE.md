@@ -224,7 +224,7 @@ portfolio/
 │   ├── config/                      # Auth cookie config
 │   └── actions/                     # Server actions
 ├── content/                         # MDX content files
-├── public/images/                   # Static assets (work/, experiments/, writing/)
+├── public/images/                   # Static assets (work/, experiments/, writing/, now/, etc.)
 ├── scripts/                         # Token generation, password hashing, MCP
 ├── docs/                            # Detailed documentation
 └── .claude/agents/                  # AI optimization agents
@@ -287,7 +287,7 @@ When running `./scripts/mcp.sh stop app` or `stop figma`, use full permissions s
 ### Adding Content
 1. Create MDX file in appropriate `content/` subfolder
 2. Add required frontmatter (see [content/README.md](content/README.md) for schemas)
-3. Add images to `public/images/<subType>/` with `{slug}-hero.png` naming (see [docs/ASSETS.md](docs/ASSETS.md))
+3. Add images to `public/images/<contentType>/<subType>/` with `{slug}-hero.png` naming (see [docs/ASSETS.md](docs/ASSETS.md))
 4. Test locally: `npm run dev`
 5. Commit and push
 

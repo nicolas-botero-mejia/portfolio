@@ -93,7 +93,7 @@ portfolio/
 │   └── actions/
 │       └── authActions.ts         # Server actions
 │
-├── public/images/                 # Work, experiments, writing images
+├── public/images/                 # work/, experiments/, writing/, now/, etc.
 ├── scripts/hashPassword.js        # Password hashing utility
 ├── .env.example
 ├── next.config.ts
@@ -220,7 +220,7 @@ year: "2024-25"
 duration: "10 months"
 type: "Design System & Process Transformation"
 featured: true
-heroImage: "/images/work/product/sainapsis-hero.png"
+heroImage: "/images/work/products/sainapsis-hero.png"
 tags: ["design systems", "process transformation", "mentorship", "productivity"]
 seo:
   metaTitle: "Sainapsis - 16x Productivity with Design Systems | Nicolás Botero"
@@ -233,7 +233,7 @@ seo:
 
 ```jsx
 <Image
-  src="/images/work/product/sainapsis-handoff-timeline.png"
+  src="/images/work/products/sainapsis-handoff-timeline.png"
   alt="Timeline showing 2-month handoff cycle with weekly priority changes"
   width={1200}
   height={600}

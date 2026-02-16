@@ -161,7 +161,7 @@ Page routes fetch MDX content and render it:
 
 ## Assets (images and media)
 
-Images use **one folder per subType** (no slug subfolders); the filename carries slug + level (e.g. `ocean-hero.png`, `ocean-1.png`). Mirrors MDX: flat files per folder. See [docs/ASSETS.md](ASSETS.md) for the layout, naming convention, and rationale.
+Images use **one folder per contentType then subType** (e.g. `work/products/`, `writing/posts/`, `experiments/design/`); no slug subfolders; the filename carries slug + level (e.g. `ocean-hero.png`). See [docs/ASSETS.md](ASSETS.md) for the full layout, naming convention, and path helpers.
 
 ## Adding New Content
 
