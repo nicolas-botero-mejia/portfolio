@@ -1,8 +1,9 @@
 import Link from 'next/link';
-import { getNowEntries } from '@/lib/mdx';
+import { getPageBySlug, getNowEntries } from '@/lib/mdx';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import PageLayout from '@/components/ui/PageLayout';
 import PageHeader from '@/components/ui/PageHeader';
+import EmptyState from '@/components/ui/EmptyState';
 import { generatePageMetadata } from '@/lib/seo';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -21,11 +22,10 @@ function formatDate(dateStr: string): string {
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
-    const entries = getNowEntries();
-    const latest = entries[0];
-    if (!latest) return {};
+    const page = getPageBySlug('now');
+    if (!page) return {};
 
-    const { frontmatter } = latest;
+    const { frontmatter } = page;
     return generatePageMetadata({
       title: frontmatter.seo.metaTitle,
       description: frontmatter.seo.metaDescription,
@@ -41,12 +41,13 @@ interface NowPageProps {
 }
 
 export default async function NowPage({ searchParams }: NowPageProps) {
+  const pageMeta = getPageBySlug('now');
   const { page } = await searchParams;
   const pageNum = Math.max(1, parseInt(page ?? '1', 10) || 1);
 
   const allEntries = getNowEntries();
 
-  if (allEntries.length === 0) {
+  if (!pageMeta) {
     notFound();
   }
 
@@ -56,10 +57,10 @@ export default async function NowPage({ searchParams }: NowPageProps) {
   return (
     <PageLayout maxWidth="prose">
       <PageHeader
-        title="Now"
+        title={pageMeta.frontmatter.title}
         description={
           <>
-            What I&apos;m doing, thinking about, and focusing on right now.
+            {pageMeta.frontmatter.description}
             <br />
             <a
               href="https://nownownow.com/about"
@@ -73,34 +74,43 @@ export default async function NowPage({ searchParams }: NowPageProps) {
         }
       />
 
-      <div className="space-y-12">
-        {entriesToShow.map((entry) => (
-          <article
-            key={entry.slug}
-            className="border-b border-gray-200 pb-12 last:border-0"
-          >
-            <time
-              dateTime={entry.frontmatter.date}
-              className="block text-sm font-medium text-gray-500 mb-4"
-            >
-              {formatDate(entry.frontmatter.date)}
-            </time>
-            <div className="prose prose-gray prose-lg max-w-none">
-              <MDXRemote source={entry.content} />
-            </div>
-          </article>
-        ))}
-      </div>
+      {allEntries.length === 0 ? (
+        <EmptyState
+          title="No updates yet"
+          description="Check back soon for updates on what I'm working on"
+        />
+      ) : (
+        <>
+          <div className="space-y-12">
+            {entriesToShow.map((entry) => (
+              <article
+                key={entry.slug}
+                className="border-b border-gray-200 pb-12 last:border-0"
+              >
+                <time
+                  dateTime={entry.frontmatter.date}
+                  className="block text-sm font-medium text-gray-500 mb-4"
+                >
+                  {formatDate(entry.frontmatter.date)}
+                </time>
+                <div className="prose prose-gray prose-lg max-w-none">
+                  <MDXRemote source={entry.content} />
+                </div>
+              </article>
+            ))}
+          </div>
 
-      {hasMore && (
-        <div className="mt-12 text-center">
-          <Link
-            href={`${routes.now}?page=${pageNum + 1}`}
-            className="rounded-lg border border-gray-300 px-6 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 inline-block"
-          >
-            Load more
-          </Link>
-        </div>
+          {hasMore && (
+            <div className="mt-12 text-center">
+              <Link
+                href={`${routes.now}?page=${pageNum + 1}`}
+                className="rounded-lg border border-gray-300 px-6 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 inline-block"
+              >
+                Load more
+              </Link>
+            </div>
+          )}
+        </>
       )}
     </PageLayout>
   );

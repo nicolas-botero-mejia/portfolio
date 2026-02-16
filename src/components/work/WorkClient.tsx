@@ -35,6 +35,8 @@ interface WorkItem {
 
 interface WorkClientProps {
   allWork: WorkItem[];
+  title: string;
+  description: string;
 }
 
 // 2-col grid for landscape cards (reference: 2x2)
@@ -53,7 +55,7 @@ const CARD_TITLE_OVERLAY =
 const CARD_META_OVERLAY = 'text-xs text-white/80';
 const TAG_OVERLAY = 'text-xs text-white/70';
 
-export default function WorkClient({ allWork }: WorkClientProps) {
+export default function WorkClient({ allWork, title, description }: WorkClientProps) {
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
   const visibleWork = allWork.slice(0, visibleCount);
   const hasMore = visibleCount < allWork.length;
@@ -72,8 +74,8 @@ export default function WorkClient({ allWork }: WorkClientProps) {
   return (
     <>
       <PageHeader
-        title="Work"
-        description="Case studies, product features, and projects with measurable impact"
+        title={title}
+        description={description}
         variant="serif"
       />
 
