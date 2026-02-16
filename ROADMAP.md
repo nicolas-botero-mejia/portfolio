@@ -123,6 +123,9 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [ ] Implement conflict resolution (new keys add; same path code wins unless override)
   - [ ] (Optional) Add component spec extraction from Figma (after variables stable)
 - [x] Add client-side analytics wiring (Amplitude + GA4 structure; configure keys and test in prod per 6.2)
+- [x] Implement hierarchical URL structure (`/work/[subType]/[slug]`)
+- [x] Standardize work item terminology across codebase (case studies → products/work items; see `docs/WORK_ITEM_TERMINOLOGY.md`)
+- [x] Reorganize asset paths to match content hierarchy (`public/images/work/products/`)
 - [ ] **Implement mobile responsiveness**
   - [ ] Audit key pages at breakpoints (e.g. 320, 375, 768, 1024px)
   - [ ] Fix layout and overflow (sidebar, cards, typography, containers)
@@ -205,6 +208,11 @@ Use this sequence so work builds on itself and nothing is blocked.
     - [ ] For each new component: write story → write tests → implement → run Chromatic → document
     - [ ] Maintain component status tracker (see below)
   - [ ] **Build MDX element override components** (markdown-first rendering; see `src/lib/mdxComponents.tsx`)
+    - [x] Typography components (H1-H4, Lead, Body, Caption, Strong, Em → DS styled headings and text)
+    - [x] List components (ul/ol/li → DS styled lists with proper spacing)
+    - [x] Link component (MDX `a` → DS styled Link with internal/external handling)
+    - [x] Divider component (`---` → DS styled horizontal rule)
+    - [x] Image component (`img` → DS styled image with optional caption)
     - [ ] Callout/Blockquote component (`> blockquote` → DS styled callout)
     - [ ] InlineCode component (`` `code` `` → DS styled inline code)
     - [ ] CodeBlock component (` ```block``` ` → DS styled code block with syntax highlighting)
@@ -250,11 +258,11 @@ Use this sequence so work builds on itself and nothing is blocked.
 | ScrollArea | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
 | ContentNavigation | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
 | CheckIcon | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | Retrofit Needed |
-| Typography (H1-H6, Strong, Em) | ❌ | ❌ | ❌ | ❌ | ❌ | Implemented (MDX override) |
-| List (ul/ol/li) | ❌ | ❌ | ❌ | ❌ | ❌ | Implemented (MDX override) |
-| Link (MDX override) | ❌ | ❌ | ❌ | ❌ | ❌ | Implemented (MDX override) |
-| Divider (MDX override) | ❌ | ❌ | ❌ | ❌ | ❌ | Implemented (MDX override) |
-| Image (MDX override) | ❌ | ❌ | ❌ | ❌ | ❌ | Implemented (MDX override) |
+| Typography (H1-H4, Lead, Body, Caption, Strong, Em) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ Implemented (MDX override) |
+| List (ul/ol/li) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ Implemented (MDX override) |
+| Link (MDX override) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ Implemented (MDX override) |
+| Divider (MDX override) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ Implemented (MDX override) |
+| Image (MDX override) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ Implemented (MDX override) |
 | Callout/Blockquote | ❌ | ❌ | ❌ | ❌ | ❌ | Not Started |
 | InlineCode | ❌ | ❌ | ❌ | ❌ | ❌ | Not Started |
 | CodeBlock | ❌ | ❌ | ❌ | ❌ | ❌ | Not Started |
