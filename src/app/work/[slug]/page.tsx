@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import { getProducts, getProductBySlug, getAdjacentProducts } from '@/lib/mdx';
+import { getAllWork, getWorkItemBySlug, getAdjacentWork } from '@/lib/mdx';
 import { routes, getWorkTypeLabel } from '@/data';
 import { generatePageMetadata } from '@/lib/seo';
 import { Metadata } from 'next';
@@ -10,27 +10,26 @@ import ServerPasswordPrompt from '@/components/ServerPasswordPrompt';
 import WorkItemTracker from '@/components/WorkItemTracker';
 import ContentNavigation from '@/components/ui/ContentNavigation';
 
-interface ProductPageProps {
+interface WorkItemPageProps {
   params: Promise<{
     slug: string;
   }>;
 }
 
 export async function generateStaticParams() {
-  const products = getProducts();
-  return products.map((product) => ({
-    slug: product.slug,
+  return getAllWork().map((item) => ({
+    slug: item.slug,
   }));
 }
 
-export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: WorkItemPageProps): Promise<Metadata> {
   try {
     const { slug } = await params;
-    const product = getProductBySlug(slug);
+    const workItem = getWorkItemBySlug(slug);
 
-    if (!product) return {};
+    if (!workItem) return {};
 
-    const { frontmatter } = product;
+    const { frontmatter } = workItem;
     return generatePageMetadata({
       title: frontmatter.seo.metaTitle,
       description: frontmatter.seo.metaDescription,
@@ -42,16 +41,16 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   }
 }
 
-export default async function ProductPage({ params }: ProductPageProps) {
+export default async function WorkItemPage({ params }: WorkItemPageProps) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const workItem = getWorkItemBySlug(slug);
 
-  if (!product) {
+  if (!workItem) {
     notFound();
   }
 
   // Server-side authentication check
-  const needsPassword = requiresPassword(product);
+  const needsPassword = requiresPassword(workItem);
   const authenticated = needsPassword ? await isAuthenticated(slug) : true;
 
   // Show password prompt if locked and not authenticated
@@ -59,17 +58,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
     return (
       <ServerPasswordPrompt
         slug={slug}
-        title={product.frontmatter.title}
-        workItemTypeLabel={getWorkTypeLabel(product.frontmatter.type)}
+        title={workItem.frontmatter.title}
+        workItemTypeLabel={getWorkTypeLabel(workItem.frontmatter.type)}
       />
     );
   }
 
   // Render work item content
-  const { frontmatter, content } = product;
-  
-  // Get adjacent products for next/prev navigation
-  const { prev, next } = getAdjacentProducts(slug);
+  const { frontmatter, content } = workItem;
+
+  // Get adjacent work items for next/prev navigation
+  const { prev, next } = getAdjacentWork(slug);
 
   return (
     <>

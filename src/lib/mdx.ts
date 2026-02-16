@@ -102,8 +102,28 @@ export function getFeaturedFeatures(): Product[] {
 export const getAllWork = cache((): Product[] => {
   const products = getProducts();
   const features = getFeatures();
-  return [...products, ...features].sort(sortByDateOrYear);
+  const all = [...products, ...features];
+
+  // Featured items first, then non-featured. Each group sorted by date/year.
+  const featured = all.filter((i) => i.frontmatter.featured).sort(sortByDateOrYear);
+  const rest = all.filter((i) => !i.frontmatter.featured).sort(sortByDateOrYear);
+  return [...featured, ...rest];
 });
+
+/**
+ * Unified lookup across all work sub-types (products, features).
+ * Returns the first match or null.
+ */
+export const getWorkItemBySlug = cache((slug: string): Product | null =>
+  getProductBySlug(slug) ?? getFeatureBySlug(slug)
+);
+
+/**
+ * Adjacent navigation spanning all work items (respects featured-first order).
+ */
+export function getAdjacentWork(currentSlug: string): AdjacentContent {
+  return getAdjacentFromItems(getAllWork(), currentSlug) as AdjacentContent;
+}
 
 // ============================================================================
 // PAGES (about, uses, colophon)
