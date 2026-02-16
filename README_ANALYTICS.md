@@ -60,7 +60,7 @@ src/
 ├── app/
 │   ├── layout.tsx                # Google Analytics + Provider
 │   ├── page.tsx                  # Home page (server component)
-│   └── work/[slug]/page.tsx      # Work sample pages
+│   └── work/[subType]/[slug]/page.tsx  # Work sample pages
 ```
 
 ### How It Works
@@ -119,7 +119,7 @@ trackEvent({
 ```typescript
 import { trackPageView } from '@/lib/analytics';
 
-trackPageView('/work/sainapsis', 'Sainapsis');
+trackPageView('/work/products/sainapsis', 'Sainapsis');
 ```
 
 ### Identify User (Optional)

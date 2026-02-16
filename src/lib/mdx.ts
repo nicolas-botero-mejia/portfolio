@@ -99,9 +99,17 @@ export function getFeaturedFeatures(): Product[] {
 // WORK - All (combined products + features)
 // ============================================================================
 
-export const getAllWork = cache((): Product[] => {
-  const products = getProducts();
-  const features = getFeatures();
+/** Work item with subType derived from its content folder (e.g., 'products', 'features'). */
+export type WorkItem = Product & { subType: string };
+
+export interface AdjacentWorkItem {
+  prev: WorkItem | null;
+  next: WorkItem | null;
+}
+
+export const getAllWork = cache((): WorkItem[] => {
+  const products: WorkItem[] = getProducts().map((p) => ({ ...p, subType: CONTENT_SLUGS.WORK_PRODUCTS }));
+  const features: WorkItem[] = getFeatures().map((f) => ({ ...f, subType: CONTENT_SLUGS.WORK_FEATURES }));
   const all = [...products, ...features];
 
   // Featured items first, then non-featured. Each group sorted by date/year.
@@ -111,18 +119,21 @@ export const getAllWork = cache((): Product[] => {
 });
 
 /**
- * Unified lookup across all work sub-types (products, features).
- * Returns the first match or null.
+ * Lookup a work item by its content subType and slug.
+ * SubType is the content folder slug: 'products', 'features', 'side-projects'.
  */
-export const getWorkItemBySlug = cache((slug: string): Product | null =>
-  getProductBySlug(slug) ?? getFeatureBySlug(slug)
-);
+export const getWorkItemBySlug = cache((subType: string, slug: string): Product | null => {
+  if (subType === CONTENT_SLUGS.WORK_PRODUCTS) return getProductBySlug(slug);
+  if (subType === CONTENT_SLUGS.WORK_FEATURES) return getFeatureBySlug(slug);
+  return null;
+});
 
 /**
  * Adjacent navigation spanning all work items (respects featured-first order).
+ * Returns WorkItem with subType so callers can build correct URLs.
  */
-export function getAdjacentWork(currentSlug: string): AdjacentContent {
-  return getAdjacentFromItems(getAllWork(), currentSlug) as AdjacentContent;
+export function getAdjacentWork(currentSlug: string): AdjacentWorkItem {
+  return getAdjacentFromItems(getAllWork(), currentSlug) as AdjacentWorkItem;
 }
 
 // ============================================================================

@@ -219,7 +219,7 @@ Content is automatically mapped to URLs:
 
 | File | URL |
 |------|-----|
-| `work/products/ocean.mdx` | `/work/ocean` |
+| `work/products/ocean.mdx` | `/work/products/ocean` |
 | `work/features/ocean-billing.mdx` | `/work/features/ocean-billing` |
 | `writing/posts/design-systems.mdx` | `/writing/posts/design-systems` |
 | `writing/quotes/perfect-is-enemy.mdx` | `/writing/quotes/perfect-is-enemy` |

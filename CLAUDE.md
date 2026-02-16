@@ -159,7 +159,7 @@ src/app/
 ├── page.tsx              # Redirects to /work
 ├── work/
 │   ├── page.tsx          # Work listing
-│   └── [slug]/page.tsx   # Individual work items
+│   └── [subType]/[slug]/page.tsx   # Individual work items (e.g., /work/products/ocean)
 ├── about/page.tsx        # Renders about.mdx
 ├── now/page.tsx          # Renders latest now entry
 ├── uses/page.tsx         # Renders uses.mdx

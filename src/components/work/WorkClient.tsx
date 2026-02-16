@@ -19,6 +19,7 @@ const LOAD_MORE_STEP = 4;
 
 interface WorkItem {
   slug: string;
+  subType: string;
   frontmatter: {
     title: string;
     description: string;
@@ -90,7 +91,7 @@ export default function WorkClient({ allWork, title, description }: WorkClientPr
             {visibleWork.map((item, index) => (
               <Link
                 key={item.slug}
-                href={getRoute(CONTENT_SLUGS.WORK, undefined, item.slug)}
+                href={getRoute(CONTENT_SLUGS.WORK, item.subType, item.slug)}
                 className="block"
                 onClick={() =>
                   handleWorkCardClick(item.slug, item.frontmatter.title, index)

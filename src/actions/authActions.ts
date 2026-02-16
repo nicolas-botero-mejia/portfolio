@@ -1,7 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { getProductBySlug } from '@/lib/mdx';
+import { getWorkItemBySlug } from '@/lib/mdx';
 import { validatePassword, setAuthCookie } from '@/lib/serverPasswordAuth';
 import { logError } from '@/lib/errors';
 import { getRoute, CONTENT_SLUGS } from '@/data';
@@ -16,14 +16,14 @@ export interface AuthResult {
  * Called from the password form.
  */
 export async function authenticateWorkItem(
+  subType: string,
   slug: string,
   password: string
 ): Promise<AuthResult> {
   try {
-    // Get the work item (currently products; later any work subtype)
-    const product = getProductBySlug(slug);
+    const workItem = getWorkItemBySlug(subType, slug);
 
-    if (!product) {
+    if (!workItem) {
       return {
         success: false,
         error: 'Work sample not found',
@@ -31,7 +31,7 @@ export async function authenticateWorkItem(
     }
 
     // Validate password (server-side)
-    const isValid = validatePassword(product, password);
+    const isValid = validatePassword(workItem, password);
 
     if (!isValid) {
       return {
@@ -44,7 +44,7 @@ export async function authenticateWorkItem(
     await setAuthCookie(slug);
 
     // Revalidate the work item page to show the authenticated content
-    revalidatePath(getRoute(CONTENT_SLUGS.WORK, undefined, slug));
+    revalidatePath(getRoute(CONTENT_SLUGS.WORK, subType, slug));
 
     return {
       success: true,

@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { getAllWork, getWorkItemBySlug, getAdjacentWork } from '@/lib/mdx';
-import { routes, getWorkTypeLabel } from '@/data';
+import { routes, getRoute, getWorkTypeLabel, CONTENT_SLUGS } from '@/data';
 import { generatePageMetadata } from '@/lib/seo';
 import { Metadata } from 'next';
 import { requiresPassword, isAuthenticated } from '@/lib/serverPasswordAuth';
@@ -12,20 +12,22 @@ import ContentNavigation from '@/components/ui/ContentNavigation';
 
 interface WorkItemPageProps {
   params: Promise<{
+    subType: string;
     slug: string;
   }>;
 }
 
 export async function generateStaticParams() {
   return getAllWork().map((item) => ({
+    subType: item.subType,
     slug: item.slug,
   }));
 }
 
 export async function generateMetadata({ params }: WorkItemPageProps): Promise<Metadata> {
   try {
-    const { slug } = await params;
-    const workItem = getWorkItemBySlug(slug);
+    const { subType, slug } = await params;
+    const workItem = getWorkItemBySlug(subType, slug);
 
     if (!workItem) return {};
 
@@ -42,8 +44,8 @@ export async function generateMetadata({ params }: WorkItemPageProps): Promise<M
 }
 
 export default async function WorkItemPage({ params }: WorkItemPageProps) {
-  const { slug } = await params;
-  const workItem = getWorkItemBySlug(slug);
+  const { subType, slug } = await params;
+  const workItem = getWorkItemBySlug(subType, slug);
 
   if (!workItem) {
     notFound();
@@ -57,6 +59,7 @@ export default async function WorkItemPage({ params }: WorkItemPageProps) {
   if (needsPassword && !authenticated) {
     return (
       <ServerPasswordPrompt
+        subType={subType}
         slug={slug}
         title={workItem.frontmatter.title}
         workItemTypeLabel={getWorkTypeLabel(workItem.frontmatter.type)}
@@ -72,10 +75,10 @@ export default async function WorkItemPage({ params }: WorkItemPageProps) {
 
   return (
     <>
-      <WorkItemTracker 
-        slug={slug} 
-        title={frontmatter.title} 
-        company={frontmatter.company} 
+      <WorkItemTracker
+        slug={slug}
+        title={frontmatter.title}
+        company={frontmatter.company}
       />
       <article className="px-8 py-16 lg:px-16 lg:py-24">
         <div className="max-w-3xl">
@@ -124,9 +127,8 @@ export default async function WorkItemPage({ params }: WorkItemPageProps) {
 
         {/* Next/Previous Navigation */}
         <ContentNavigation
-          prev={prev ? { slug: prev.slug, title: prev.frontmatter.title } : null}
-          next={next ? { slug: next.slug, title: next.frontmatter.title } : null}
-          basePath={routes.work}
+          prev={prev ? { href: getRoute(CONTENT_SLUGS.WORK, prev.subType, prev.slug), title: prev.frontmatter.title } : null}
+          next={next ? { href: getRoute(CONTENT_SLUGS.WORK, next.subType, next.slug), title: next.frontmatter.title } : null}
         />
         </div>
       </article>

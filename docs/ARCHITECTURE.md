@@ -18,25 +18,11 @@
 - Workflow + Experience moved to `/about` — natural home for process and career
 - Contact centralized in sidebar (`SplitLayout.tsx`) — always visible, no repeated CTAs
 
-## URL Structure: Flat (Current) vs Hierarchical (Future)
+## URL Structure
 
-### Current: Flat work URLs
+Work items use **hierarchical** URLs: `/work/[subType]/[slug]` (e.g., `/work/products/ocean`, `/work/features/billing`). The app route is `src/app/work/[subType]/[slug]/page.tsx`. This mirrors the content folder structure and is consistent with all other content sections (`/writing/posts/[slug]`, `/reading/books/[slug]`).
 
-Work items use **flat** URLs: `/work/ocean`, `/work/sainapsis`, `/work/aquads`. The app route is `src/app/work/[slug]/page.tsx`, which serves both products and features from a single slug namespace. Content lives in `content/work/products/` and `content/work/features/`; the slug alone identifies the item.
-
-### Future consideration: Hierarchical URLs
-
-If content grows and slug collisions become likely, migrate to hierarchical: `/work/products/ocean`.
-
-| Aspect | Hierarchical | Flat (current) |
-|--------|-------------|------|
-| **Clarity** | Self-documenting | Ambiguous type |
-| **Length** | Longer (~14 chars) | Shorter |
-| **Namespace** | No conflicts | Collision risk |
-| **Maintenance** | Mirrors folders | Check frontmatter |
-| **SEO** | Keyword-rich | Clean |
-
-**When to migrate:** When content exceeds ~20 items and slug collisions become a real risk.
+Legacy flat URLs (`/work/ocean`) are permanently redirected via `next.config.ts`.
 
 ---
 
@@ -52,21 +38,20 @@ Displays all work items sorted by date. Future: add filtering/tabs and "Load Mor
 
 ## Navigation Logic
 
-### Next/Previous: Within Subcategory
+### Next/Previous: Across All Work
 
-Navigate through items of the same type (product to product, not product to feature).
+Navigate through all work items in featured-first order (featured items first, then by date/year).
 
 ```typescript
-const { prev, next } = getAdjacentProducts('ocean');
+const { prev, next } = getAdjacentWork('ocean');
+// Returns WorkItem with subType, so URLs can be built correctly
 ```
-
-**Why within subcategory:** Users viewing a product expect more products. Cross-type navigation is jarring. Use cross-type only for category landing pages or search results.
 
 ### Implementation
 
-- `getAdjacentProducts()` in content utilities
+- `getAdjacentWork()` in `src/lib/mdx.ts` — spans all work types
 - `ContentNavigation.tsx` component (reusable, responsive, handles empty states)
-- Sorted by year (most recent first)
+- Each nav item carries its own `href` (no `basePath` needed)
 
 ---
 
@@ -96,7 +81,7 @@ Not: `cs-ocean.mdx`, `ft-billing.mdx` (prefix = anti-pattern)
 3. Cross-category navigation for browse-all views
 4. Keyboard shortcuts (arrow keys for next/prev)
 5. Progress indicator ("3 of 8 products")
-6. Hierarchical URLs when content scales
+6. ~~Hierarchical URLs when content scales~~ (done — `/work/[subType]/[slug]`)
 
 ---
 

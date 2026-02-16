@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { trackEvent } from '@/lib/analytics';
 
 interface ServerPasswordPromptProps {
+  subType: string;
   slug: string;
   /** Work item title (e.g. "Ocean — Scaling to 300M Messages") */
   title: string;
@@ -16,6 +17,7 @@ interface ServerPasswordPromptProps {
 }
 
 export default function ServerPasswordPrompt({
+  subType,
   slug,
   title,
   workItemTypeLabel,
@@ -30,7 +32,7 @@ export default function ServerPasswordPrompt({
     setError('');
 
     startTransition(async () => {
-      const result = await authenticateWorkItem(slug, password);
+      const result = await authenticateWorkItem(subType, slug, password);
 
       // Track password attempt
       trackEvent({

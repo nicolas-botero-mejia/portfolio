@@ -1,15 +1,13 @@
 import Link from 'next/link';
-import { routes } from '@/data';
 
 interface NavigationItem {
-  slug: string;
+  href: string;
   title: string;
 }
 
 interface ContentNavigationProps {
   prev: NavigationItem | null;
   next: NavigationItem | null;
-  basePath?: string; // e.g., routes.work or getRoute(CONTENT_SLUGS.WORK, CONTENT_SLUGS.WORK_PRODUCTS)
 }
 
 // 1. Layout — primitive scale
@@ -24,7 +22,7 @@ const TITLE_LAYOUT = 'text-lg font-semibold';
 const labelStyles = 'text-content-muted group-hover:text-content-secondary transition-colors';
 const titleStyles = 'text-content-primary group-hover:text-content-muted transition-colors';
 
-export default function ContentNavigation({ prev, next, basePath = routes.work }: ContentNavigationProps) {
+export default function ContentNavigation({ prev, next }: ContentNavigationProps) {
   if (!prev && !next) {
     return null;
   }
@@ -33,7 +31,7 @@ export default function ContentNavigation({ prev, next, basePath = routes.work }
     <nav className={NAV_LAYOUT}>
       <div className={GRID_LAYOUT}>
         {prev ? (
-          <Link href={`${basePath}/${prev.slug}`} className={LINK_LAYOUT}>
+          <Link href={prev.href} className={LINK_LAYOUT}>
             <span className={`${LABEL_LAYOUT} ${labelStyles}`}>← Previous</span>
             <span className={titleStyles}>{prev.title}</span>
           </Link>
@@ -43,7 +41,7 @@ export default function ContentNavigation({ prev, next, basePath = routes.work }
 
         {next && (
           <Link
-            href={`${basePath}/${next.slug}`}
+            href={next.href}
             className={`${LINK_LAYOUT} text-right sm:col-start-2`}
           >
             <span className={`${LABEL_LAYOUT} ${labelStyles}`}>Next →</span>
