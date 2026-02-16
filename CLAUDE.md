@@ -175,7 +175,7 @@ Full architecture: [docs/CONTENT_ARCHITECTURE.md](docs/CONTENT_ARCHITECTURE.md)
 
 ```
 content/
-├── work/               # case-studies/, features/, side-projects/
+├── work/               # products/, features/, side-projects/
 ├── writing/            # posts/, thoughts/, quotes/
 ├── experiments/        # design/, code/, prototypes/
 ├── reading/            # books/, articles/
@@ -244,7 +244,7 @@ portfolio/
 - **Components:** `PascalCase.tsx` (e.g., `ServerPasswordPrompt.tsx`)
 - **Other files:** `kebab-case.tsx` (e.g., `content-loader.ts`)
 - **MDX:** `lowercase.mdx` or `kebab-case.mdx`
-- **Folders:** All lowercase, hyphens for multi-word (e.g., `case-studies/`)
+- **Folders:** All lowercase, hyphens for multi-word (e.g., `side-projects/`)
 
 ### Commit Convention
 - Conventional commits: `type: description`
@@ -349,7 +349,7 @@ Push to `main` → auto-deploys. Environment variables set in Vercel dashboard.
 ### Content
 - No emojis in code/commits/docs unless explicitly requested
 - Professional tone in all user-facing content
-- Quantified impact in case studies (e.g., "16x productivity", "300M+ messages/month")
+- Quantified impact in products (e.g., "16x productivity", "300M+ messages/month")
 
 ### Security
 - Never expose passwords in code or frontmatter (use `.env.local`)
@@ -406,7 +406,7 @@ Push to `main` → auto-deploys. Environment variables set in Vercel dashboard.
 | [docs/AGENT_SYSTEM.md](docs/AGENT_SYSTEM.md) | Multi-agent validation system proposal (future) |
 
 ### AI Agents
-Located in `.claude/agents/`: seo_optimizer, content_auditor, accessibility_checker, performance_optimizer, case_study_migrator. Invoke via Task tool.
+Located in `.claude/agents/`: seo_optimizer, content_auditor, accessibility_checker, performance_optimizer, product_migrator. Invoke via Task tool.
 
 ---
 

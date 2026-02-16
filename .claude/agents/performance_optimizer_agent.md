@@ -147,13 +147,13 @@ Analyze the performance of /app/[slug]/page.tsx and optimize for Core Web Vitals
 ### Image Optimization
 ```tsx
 // Before: Regular img tag
-<img src="/case-study-hero.jpg" alt="Hero image" />
+<img src="/product-hero.jpg" alt="Hero image" />
 
 // After: Next.js Image with optimization
 import Image from 'next/image';
 
 <Image
-  src="/case-study-hero.jpg"
+  src="/product-hero.jpg"
   alt="Sainapsis design system dashboard showing 16x productivity metrics"
   width={1200}
   height={630}

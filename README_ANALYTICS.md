@@ -54,13 +54,13 @@ src/
 │   └── analytics.ts              # Core analytics utilities
 ├── components/
 │   ├── AnalyticsProvider.tsx     # Global analytics provider
-│   ├── CaseStudyTracker.tsx      # Case study view tracking
+│   ├── ProductTracker.tsx        # Product view tracking
 │   └── home/
 │       └── HomeClient.tsx        # Home page with tracking
 ├── app/
 │   ├── layout.tsx                # Google Analytics + Provider
 │   ├── page.tsx                  # Home page (server component)
-│   └── work/[slug]/page.tsx      # Case study pages
+│   └── work/[slug]/page.tsx      # Product pages
 ```
 
 ### How It Works
@@ -85,9 +85,9 @@ src/
 
 | Event | Properties | Triggered When |
 |-------|-----------|----------------|
-| `work_card_click` | `slug`, `title`, `position` | User clicks a case study card on home page |
-| `case_study_view` | `slug`, `title`, `company` | User views a case study page |
-| `case_study_password_attempt` | `slug`, `success` | User attempts to unlock a case study |
+| `work_card_click` | `slug`, `title`, `position` | User clicks a work card on home page |
+| `product_view` | `slug`, `title`, `company` | User views a product page |
+| `product_password_attempt` | `slug`, `success` | User attempts to unlock a product |
 | `contact_click` | `method` (email/linkedin), `section` | User clicks a contact link |
 | `external_link_click` | `url`, `label`, `section` | User clicks an external link |
 | `navigation_click` | `section`, `from` | User clicks a navigation link |
@@ -107,10 +107,10 @@ trackEvent({
   properties: { method: 'email', section: 'hero' },
 });
 
-// Track case study view
+// Track product view
 trackEvent({
-  name: 'case_study_view',
-  properties: { slug: 'sainapsis', title: 'Sainapsis Case Study', company: 'Sainapsis' },
+  name: 'product_view',
+  properties: { slug: 'sainapsis', title: 'Sainapsis', company: 'Sainapsis' },
 });
 ```
 
@@ -119,7 +119,7 @@ trackEvent({
 ```typescript
 import { trackPageView } from '@/lib/analytics';
 
-trackPageView('/work/sainapsis', 'Sainapsis Case Study');
+trackPageView('/work/sainapsis', 'Sainapsis');
 ```
 
 ### Identify User (Optional)
@@ -143,7 +143,7 @@ identifyUser('user-123', {
 ✅ **DO track:**
 - Primary user actions (clicks, form submissions)
 - Navigation between sections/pages
-- Key conversion events (contact clicks, case study views)
+- Key conversion events (contact clicks, product views)
 - Error states or failed actions
 
 ❌ **DON'T track:**
@@ -207,19 +207,19 @@ trackEvent({
 **Setup Conversions:**
 1. Go to Admin → Events
 2. Mark `contact_click` as conversion
-3. Create audience for users who viewed case studies
+3. Create audience for users who viewed products
 
 ### Amplitude
 
 **Key Charts:**
 - **Event Segmentation**: Count of events over time
-- **Funnel Analysis**: Homepage → Case Study View → Contact Click
+- **Funnel Analysis**: Homepage → Product View → Contact Click
 - **User Paths**: Common navigation flows
-- **Retention**: Users who return after viewing case studies
+- **Retention**: Users who return after viewing products
 
 **Recommended Charts:**
-1. Work card clicks by position (which case studies get clicked most)
-2. Case study views by slug (most popular projects)
+1. Work card clicks by position (which items get clicked most)
+2. Product views by slug (most popular projects)
 3. Contact conversion rate (% of visitors who click contact)
 4. Password success rate (% of successful unlocks)
 
@@ -232,7 +232,7 @@ trackEvent({
 This implementation collects:
 - Page URLs and titles
 - Click events with context (section, position)
-- Case study interactions (views, password attempts)
+- Product interactions (views, password attempts)
 - No personal data (names, emails, etc.) unless explicitly provided
 
 ### GDPR/CCPA Compliance

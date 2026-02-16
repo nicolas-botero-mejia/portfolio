@@ -29,7 +29,7 @@ Learnings for a **two-way** Figma workflow: create in Figma from prompts (views,
 **Create in Figma (prompt-driven):** You can ask with a **complete prompt** to create in Figma, and the AI uses `evaluate_script` (and our token/component patterns) to do it. Expected use cases:
 
 - **Views and components:** Create a view or a component in Figma—using **subcomponents** and **variables** (tokens)—from a descriptive prompt (e.g. “Dashboard header with nav and user menu”).
-- **Flows:** Create **different views** (screens, states) so you can see a **flow** (e.g. onboarding steps, checkout, or a case study sequence). Multiple frames or pages that tell a story.
+- **Flows:** Create **different views** (screens, states) so you can see a **flow** (e.g. onboarding steps, checkout, or a product sequence). Multiple frames or pages that tell a story.
 
 Scripts run in the plugin context: create frames, use existing or new variables, instantiate or create components, bind tokens, position and layout. The runbook and best practices in this doc support that.
 

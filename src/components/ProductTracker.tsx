@@ -2,19 +2,18 @@
 
 import { useEffect } from 'react';
 import { trackEvent } from '@/lib/analytics';
+import { getCompanyName } from '@/data';
 
-interface CaseStudyTrackerProps {
+interface ProductTrackerProps {
   slug: string;
   title: string;
   company: string;
 }
 
-import { getCompanyName } from '@/data';
-
-export default function CaseStudyTracker({ slug, title, company }: CaseStudyTrackerProps) {
+export default function ProductTracker({ slug, title, company }: ProductTrackerProps) {
   useEffect(() => {
     trackEvent({
-      name: 'case_study_view',
+      name: 'product_view',
       properties: { slug, title, company: getCompanyName(company) },
     });
   }, [slug, title, company]);

@@ -1,5 +1,5 @@
 /**
- * MDX content API - case studies, pages, now entries, etc.
+ * MDX content API - products, pages, now entries, etc.
  * Uses contentLoader for generic read/parse/sort logic.
  */
 
@@ -21,56 +21,56 @@ import {
 export type { ContentItem };
 
 // ============================================================================
-// WORK - Case Studies
+// WORK - Products
 // ============================================================================
 
-export interface CaseStudyFrontmatter {
+export interface ProductFrontmatter {
   title: string;
   description: string;
   company: string;   // Company slug - resolve with getCompany()
   role: string;
   year: string;
   duration: string;
-  type: string;      // Work type: case-study, feature, side-project
+  type: string;      // Work type: product, feature, side-project
   subtitle?: string; // Descriptive label e.g. "Design System & Process Transformation"
   featured: boolean;
   heroImage: string;
   tags: string[];
   date?: string;     // For sorting (YYYY-MM-DD format)
   order?: number;    // For manual ordering
-  parent?: string;   // For features: links to parent case study
+  parent?: string;   // For features: links to parent product
   seo: {
     metaTitle: string;
     metaDescription: string;
     keywords: string[];
   };
-  password?: string; // Optional: Dedicated password for this case study
-  locked?: boolean;  // Optional: Whether this case study requires password
+  password?: string; // Optional: Dedicated password for this product
+  locked?: boolean;  // Optional: Whether this product requires password
 }
 
-export type CaseStudy = ContentItem<CaseStudyFrontmatter>;
+export type Product = ContentItem<ProductFrontmatter>;
 
-const CASE_STUDIES_PATH = getContentPath(CONTENT_SLUGS.WORK, CONTENT_SLUGS.WORK_CASE_STUDIES);
+const PRODUCTS_PATH = getContentPath(CONTENT_SLUGS.WORK, CONTENT_SLUGS.WORK_PRODUCTS);
 
-export const getCaseStudies = cache((): CaseStudy[] =>
-  getItemsFromPath<CaseStudyFrontmatter>(CASE_STUDIES_PATH, sortByYearDesc)
+export const getProducts = cache((): Product[] =>
+  getItemsFromPath<ProductFrontmatter>(PRODUCTS_PATH, sortByYearDesc)
 );
 
-export const getCaseStudyBySlug = cache((slug: string): CaseStudy | null =>
-  getItemBySlugFromPath<CaseStudyFrontmatter>(CASE_STUDIES_PATH, slug)
+export const getProductBySlug = cache((slug: string): Product | null =>
+  getItemBySlugFromPath<ProductFrontmatter>(PRODUCTS_PATH, slug)
 );
 
-export function getFeaturedCaseStudies(): CaseStudy[] {
-  return getFeaturedFromItems(getCaseStudies());
+export function getFeaturedProducts(): Product[] {
+  return getFeaturedFromItems(getProducts());
 }
 
 export interface AdjacentContent {
-  prev: CaseStudy | null;
-  next: CaseStudy | null;
+  prev: Product | null;
+  next: Product | null;
 }
 
-export function getAdjacentCaseStudies(currentSlug: string): AdjacentContent {
-  return getAdjacentFromItems(getCaseStudies(), currentSlug) as AdjacentContent;
+export function getAdjacentProducts(currentSlug: string): AdjacentContent {
+  return getAdjacentFromItems(getProducts(), currentSlug) as AdjacentContent;
 }
 
 // ============================================================================
@@ -79,30 +79,30 @@ export function getAdjacentCaseStudies(currentSlug: string): AdjacentContent {
 
 const FEATURES_PATH = getContentPath(CONTENT_SLUGS.WORK, CONTENT_SLUGS.WORK_FEATURES);
 
-export const getFeatures = cache((): CaseStudy[] =>
-  getItemsFromPath<CaseStudyFrontmatter>(FEATURES_PATH, sortByDateOrYear)
+export const getFeatures = cache((): Product[] =>
+  getItemsFromPath<ProductFrontmatter>(FEATURES_PATH, sortByDateOrYear)
 );
 
-export const getFeatureBySlug = cache((slug: string): CaseStudy | null =>
-  getItemBySlugFromPath<CaseStudyFrontmatter>(FEATURES_PATH, slug)
+export const getFeatureBySlug = cache((slug: string): Product | null =>
+  getItemBySlugFromPath<ProductFrontmatter>(FEATURES_PATH, slug)
 );
 
 export function getAdjacentFeatures(currentSlug: string): AdjacentContent {
   return getAdjacentFromItems(getFeatures(), currentSlug) as AdjacentContent;
 }
 
-export function getFeaturedFeatures(): CaseStudy[] {
+export function getFeaturedFeatures(): Product[] {
   return getFeaturedFromItems(getFeatures());
 }
 
 // ============================================================================
-// WORK - All (combined case studies + features)
+// WORK - All (combined products + features)
 // ============================================================================
 
-export const getAllWork = cache((): CaseStudy[] => {
-  const caseStudies = getCaseStudies();
+export const getAllWork = cache((): Product[] => {
+  const products = getProducts();
   const features = getFeatures();
-  return [...caseStudies, ...features].sort(sortByDateOrYear);
+  return [...products, ...features].sort(sortByDateOrYear);
 });
 
 // ============================================================================
@@ -177,10 +177,10 @@ export const getNowBySlug = cache((slug: string): NowEntry | null =>
 //
 //   const SIDE_PROJECTS_PATH = getContentPath(CONTENT_SLUGS.WORK, CONTENT_SLUGS.WORK_SIDE_PROJECTS);
 //   export function getSideProjects() {
-//     return getItemsFromPath<CaseStudyFrontmatter>(SIDE_PROJECTS_PATH, sortByDateOrYear);
+//     return getItemsFromPath<ProductFrontmatter>(SIDE_PROJECTS_PATH, sortByDateOrYear);
 //   }
 //   export function getSideProjectBySlug(slug: string) {
-//     return getItemBySlugFromPath<CaseStudyFrontmatter>(SIDE_PROJECTS_PATH, slug);
+//     return getItemBySlugFromPath<ProductFrontmatter>(SIDE_PROJECTS_PATH, slug);
 //   }
 //   export function getFeaturedSideProjects() {
 //     return getFeaturedFromItems(getSideProjects());

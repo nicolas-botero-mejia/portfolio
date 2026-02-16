@@ -1,36 +1,36 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import { getCaseStudies, getCaseStudyBySlug, getAdjacentCaseStudies } from '@/lib/mdx';
+import { getProducts, getProductBySlug, getAdjacentProducts } from '@/lib/mdx';
 import { routes } from '@/data';
 import { generatePageMetadata } from '@/lib/seo';
 import { Metadata } from 'next';
 import { requiresPassword, isAuthenticated } from '@/lib/serverPasswordAuth';
 import ServerPasswordPrompt from '@/components/ServerPasswordPrompt';
-import CaseStudyTracker from '@/components/CaseStudyTracker';
+import ProductTracker from '@/components/ProductTracker';
 import ContentNavigation from '@/components/ui/ContentNavigation';
 
-interface CaseStudyPageProps {
+interface ProductPageProps {
   params: Promise<{
     slug: string;
   }>;
 }
 
 export async function generateStaticParams() {
-  const caseStudies = getCaseStudies();
-  return caseStudies.map((caseStudy) => ({
-    slug: caseStudy.slug,
+  const products = getProducts();
+  return products.map((product) => ({
+    slug: product.slug,
   }));
 }
 
-export async function generateMetadata({ params }: CaseStudyPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   try {
     const { slug } = await params;
-    const caseStudy = getCaseStudyBySlug(slug);
+    const product = getProductBySlug(slug);
 
-    if (!caseStudy) return {};
+    if (!product) return {};
 
-    const { frontmatter } = caseStudy;
+    const { frontmatter } = product;
     return generatePageMetadata({
       title: frontmatter.seo.metaTitle,
       description: frontmatter.seo.metaDescription,
@@ -42,16 +42,16 @@ export async function generateMetadata({ params }: CaseStudyPageProps): Promise<
   }
 }
 
-export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
+export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
-  const caseStudy = getCaseStudyBySlug(slug);
+  const product = getProductBySlug(slug);
 
-  if (!caseStudy) {
+  if (!product) {
     notFound();
   }
 
   // Server-side authentication check
-  const needsPassword = requiresPassword(caseStudy);
+  const needsPassword = requiresPassword(product);
   const authenticated = needsPassword ? await isAuthenticated(slug) : true;
 
   // Show password prompt if locked and not authenticated
@@ -59,20 +59,20 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
     return (
       <ServerPasswordPrompt
         slug={slug}
-        caseStudyTitle={caseStudy.frontmatter.title}
+        productTitle={product.frontmatter.title}
       />
     );
   }
 
-  // Render case study content
-  const { frontmatter, content } = caseStudy;
+  // Render product content
+  const { frontmatter, content } = product;
   
-  // Get adjacent case studies for next/prev navigation
-  const { prev, next } = getAdjacentCaseStudies(slug);
+  // Get adjacent products for next/prev navigation
+  const { prev, next } = getAdjacentProducts(slug);
 
   return (
     <>
-      <CaseStudyTracker 
+      <ProductTracker 
         slug={slug} 
         title={frontmatter.title} 
         company={frontmatter.company} 

@@ -24,7 +24,7 @@ Design system components for the portfolio. Token-driven; Tailwind utilities map
 | **CheckIcon** | SVG checkmark | — | — |
 | **PageHeader** | Section/page title + optional description | default, serif | typography, content-primary/muted |
 | **ScrollPrompt** | Scroll-for-more affordance (icon + label) | — | content-muted; label configurable |
-| **Breadcrumb** | Navigation trail (e.g. Work → Project) | — | content-primary/muted, border |
+| **Breadcrumb** | Navigation trail (e.g. Work → Work sample) | — | content-primary/muted, border |
 | **Link** | Styled internal/external links | default, muted, ghost | content, border (underline) |
 | **Divider** | Section separation | horizontal, vertical; optional label | border-subtle, content-muted |
 | **EmptyState** | No content yet / no results | — | background-subtle, border-subtle, content-primary/muted |
@@ -58,7 +58,7 @@ Design system components for the portfolio. Token-driven; Tailwind utilities map
 | **Typography** | H1–H4, Body, Caption | Prose handles MDX; standalone for structured content |
 | **Image** | Optimized image with blur | Next/Image wrapper with aspect ratio, placeholder |
 | **Avatar** | Profile photos | About, team sections |
-| **Breadcrumb** | Navigation trail | Case study pages |
+| **Breadcrumb** | Navigation trail | Work sample pages |
 | **Skeleton** | Loading states | If we add loading UIs |
 | **Toast** | Notifications | If we add feedback (e.g. contact form success) |
 | **Select/Dropdown** | Filters, pickers | Reading filters, etc. |
@@ -189,7 +189,7 @@ Prioritized by typical portfolio needs; add when the Expansion Rule applies (2+ 
 
 | Priority | Component | When to add | MCP / design-system note |
 |----------|-----------|-------------|---------------------------|
-| **High** | ~~**Breadcrumb**~~ | ~~Case study pages~~ | **Done.** Use `<Breadcrumb items={[{ label: 'Work', href: '/work' }, { label: 'Project' }]} />`. |
+| **High** | ~~**Breadcrumb**~~ | ~~Product pages~~ | **Done.** Use `<Breadcrumb items={[{ label: 'Work', href: '/work' }, { label: 'Work sample' }]} />`. |
 | **High** | ~~**Link**~~ | ~~Styled internal/external~~ | **Done.** `<Link href="..." external variant="default|muted|ghost">`. |
 | **High** | ~~**Divider**~~ | ~~Section separation~~ | **Done.** `<Divider />`, `<Divider label="Or" />`, `<Divider orientation="vertical" />`. |
 | **Medium** | ~~**Empty state**~~ | ~~No content / no results~~ | **Done.** `<EmptyState title="..." description="..." action={} />`. |

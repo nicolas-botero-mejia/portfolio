@@ -15,7 +15,7 @@
 
 ## 🎯 Project Overview
 
-This portfolio showcases my work as a Product Designer, featuring detailed case studies with quantified impact:
+This portfolio showcases my work as a Product Designer, featuring product work with quantified impact:
 
 - **Sainapsis** - 16x productivity transformation through design system & process innovation
 - **Ocean** - Global CPaaS platform serving 300M+ messages/month across Colombia & India
@@ -23,11 +23,11 @@ This portfolio showcases my work as a Product Designer, featuring detailed case 
 
 **Core Features:**
 - ⚡️ Blazing-fast performance (Next.js 16 + SSG)
-- 🎨 MDX-powered case studies with type-safe content
+- 🎨 MDX-powered product work samples with type-safe content
 - 🔍 SEO-optimized for design leadership keywords
 - ♿️ WCAG 2.1 AA accessible
 - 📱 Mobile-first responsive design
-- 🔒 Password protection for selective case study access
+- 🔒 Password protection for selective product work sample access
 - 📊 Comprehensive analytics (Google Analytics + Amplitude)
 - 🤖 AI agents for content optimization
 
@@ -64,7 +64,7 @@ portfolio/
 ├── .claude/agents/                # AI optimization agents
 ├── content/                       # MDX content (source of truth)
 │   ├── work/
-│   │   ├── case-studies/          # Case studies (sainapsis, ocean, aquads)
+│   │   ├── products/              # Products (sainapsis, ocean, aquads)
 │   │   ├── features/              # Granular features
 │   │   └── side-projects/         # Personal projects
 │   ├── pages/                     # Static pages (about, uses, colophon)
@@ -83,7 +83,7 @@ portfolio/
 │   │   └── derived/               # Routes, navigation (computed)
 │   ├── lib/                       # Utilities & services
 │   │   ├── contentLoader.ts       # MDX read/parse/sort
-│   │   ├── mdx.ts                 # Content API (getCaseStudies, etc.)
+│   │   ├── mdx.ts                 # Content API (getProducts, etc.)
 │   │   ├── seo.ts                 # Metadata generation
 │   │   ├── serverPasswordAuth.ts  # Password validation
 │   │   ├── analytics.ts           # Amplitude + GA tracking
@@ -158,7 +158,7 @@ Use SEO Optimizer agent to analyze /sainapsis
 #### 2. Content Auditor
 
 ```bash
-Use Content Auditor agent to review case studies
+Use Content Auditor agent to review product work samples
 ```
 
 - Checks for metrics/impact
@@ -191,10 +191,10 @@ Use Performance Optimizer agent to optimize site speed
 - Lazy loading suggestions
 - Caching strategy validation
 
-#### 5. Case Study Migrator
+#### 5. Product Migrator
 
 ```bash
-Use Case Study Migrator agent to convert markdown to MDX
+Use Product Migrator agent to convert markdown to MDX
 ```
 
 - Adds frontmatter with metadata
@@ -206,9 +206,9 @@ Use Case Study Migrator agent to convert markdown to MDX
 
 ## 📝 Content Structure
 
-### Case Study Frontmatter
+### Product Work Sample Frontmatter
 
-Each case study uses MDX with structured frontmatter:
+Each product work sample uses MDX with structured frontmatter:
 
 ```yaml
 ---
@@ -223,17 +223,17 @@ featured: true
 heroImage: "/images/work/sainapsis/hero.png"
 tags: ["design systems", "process transformation", "mentorship", "productivity"]
 seo:
-  metaTitle: "Sainapsis Case Study - 16x Productivity with Design Systems | Nicolás Botero"
+  metaTitle: "Sainapsis - 16x Productivity with Design Systems | Nicolás Botero"
   metaDescription: "How I transformed a chaotic design process into a 16x productivity system through design systems, process innovation, and mentorship."
   keywords: ["design systems", "productivity transformation", "design leadership"]
 ---
 ```
 
-### Adding Images to Case Studies
+### Adding Images to Product Work Samples
 
 ```jsx
 <Image
-  src="/images/work/sainapsis/handoff-timeline.png"
+  src="/images/work/product/sainapsis-handoff-timeline.png"
   alt="Timeline showing 2-month handoff cycle with weekly priority changes"
   width={1200}
   height={600}
@@ -244,12 +244,12 @@ seo:
 
 ## 🔒 Password Protection
 
-Secure password protection for case studies with server-side validation, SHA-256 hashing, and HTTP-only cookies. All case studies are publicly accessible by default unless explicitly locked.
+Secure password protection for product work samples with server-side validation, SHA-256 hashing, and HTTP-only cookies. All product work samples are publicly accessible by default unless explicitly locked.
 
 **Key Features:**
 - Server-side validation (passwords never exposed to client)
 - 7-day authentication with XSS/CSRF protection
-- Global or per-case-study passwords
+- Global or per-work-sample passwords
 - Works with static generation
 
 **Quick Setup:**
@@ -262,7 +262,7 @@ npm run hash-password "yourpassword"
 - **Quick Reference:** [README_PASSWORD_PROTECTION.md](README_PASSWORD_PROTECTION.md) - 3-step setup guide
 - **Full Guide:** [docs/PASSWORD_PROTECTION.md](docs/PASSWORD_PROTECTION.md) - Complete documentation with examples, troubleshooting, and deployment
 
-**Use for:** Client portfolios, WIP case studies, professional courtesy
+**Use for:** Client portfolios, WIP products, professional courtesy
 **Not for:** HIPAA/PCI compliance, enterprise security, audit requirements
 
 ---
@@ -274,7 +274,7 @@ Comprehensive analytics implementation with Google Analytics 4 and Amplitude for
 **Features:**
 - Automatic page view tracking
 - User interaction events (clicks, navigation)
-- Case study engagement metrics
+- Work sample engagement metrics
 - Password unlock analytics
 - Type-safe event tracking with TypeScript
 - Privacy-friendly (no PII collected)
@@ -282,7 +282,7 @@ Comprehensive analytics implementation with Google Analytics 4 and Amplitude for
 **Tracked Events:**
 - Page views across all routes
 - Work card clicks with position tracking
-- Case study views and engagement
+- Work sample views and engagement
 - Contact button interactions
 - External link clicks
 - Navigation usage patterns
@@ -318,7 +318,7 @@ NEXT_PUBLIC_AMPLITUDE_API_KEY=your-amplitude-api-key
 - Senior Product Designer Remote
 - SaaS Product Designer
 - Design System Architect
-- Product Design Case Studies
+- Product Design Work
 
 **Impact-Based:**
 - Design Team Transformation
@@ -384,8 +384,8 @@ NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
 NEXT_PUBLIC_AMPLITUDE_API_KEY=your-amplitude-api-key
 
 # Password Protection (optional)
-CASE_STUDY_GLOBAL_PASSWORD=your-password-hash-here
-# Or per-case-study: CASE_STUDY_OCEAN_PASSWORD=hash-here
+PRODUCT_GLOBAL_PASSWORD=your-password-hash-here
+# Or per-product: PRODUCT_OCEAN_PASSWORD=hash-here
 ```
 
 ### Custom Domain Setup
@@ -412,7 +412,7 @@ CASE_STUDY_GLOBAL_PASSWORD=your-password-hash-here
 - 100+ unique visitors
 - Indexed for "Nicolás Botero Product Designer"
 - 2+ min average session duration
-- 50+ case study page views
+- 50+ product page views
 
 ### 90-Day Goals
 - 500+ unique visitors
@@ -444,7 +444,7 @@ This is a personal portfolio project, but feedback is welcome!
 
 Copyright © 2025 Nicolás Botero. All rights reserved.
 
-Code is MIT licensed. Content (case studies, images, copy) is proprietary.
+Code is MIT licensed. Content (products, images, copy) is proprietary.
 
 ---
 

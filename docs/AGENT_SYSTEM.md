@@ -22,7 +22,7 @@
 
 When building a portfolio for Staff/Lead Product Designer roles:
 - No way to validate from recruiter's perspective
-- Can't objectively evaluate case study quality
+- Can't objectively evaluate product quality
 - Architecture drift goes unnoticed
 - Design-code consistency is manual to check
 - Accessibility issues discovered too late
@@ -129,7 +129,7 @@ When building a portfolio for Staff/Lead Product Designer roles:
 **Persona:** Senior tech recruiter at FAANG company, reviewing 50+ portfolios/week
 
 **What it checks:**
-- ✓ Case study structure (problem → solution → results)
+- ✓ Product structure (problem → solution → results)
 - ✓ Metrics and outcomes (quantified impact)
 - ✓ Leadership signals (team collaboration, decision-making)
 - ✓ Red flags (typos, broken links, unclear value)
@@ -138,7 +138,7 @@ When building a portfolio for Staff/Lead Product Designer roles:
 
 **Technology Stack:**
 ```typescript
-Playwright: Extract case study content
+Playwright: Extract product content
 Claude API: Analyze as recruiter would
 Custom checks: Contact info, resume, broken links
 ```
@@ -217,7 +217,7 @@ Score: 92/100
 - ✓ Relevant work examples
 - ✓ Trust signals (testimonials, case results)
 - ✓ Contact/CTA effectiveness
-- ✓ Case study clarity
+- ✓ Product clarity
 - ✓ Pricing/process transparency
 
 **Technology Stack:**
@@ -234,7 +234,7 @@ Score: 88/100
 
 ✅ Confidence Signals:
   • Value prop clear within 3s
-  • Relevant case studies (SaaS, enterprise)
+  • Relevant products (SaaS, enterprise)
   • Strong metrics (credibility)
   • Easy contact process
 
@@ -414,7 +414,7 @@ Score: 93/100
 ⚠️ Warnings:
   • Bundle: 287KB (5% over 250KB budget)
   • 3 unoptimized images (120KB saved)
-  • Lazy loading opportunity (case studies)
+  • Lazy loading opportunity (products)
   • Font loading not optimized
 
 📊 Lighthouse Scores:
@@ -681,14 +681,14 @@ export class RecruiterAgent extends Agent {
       // Check for essential elements
       const hasContactInfo = await this.checkContactInfo(page);
       const hasMetrics = await this.checkForMetrics(page);
-      const hasCaseStudies = await this.checkCaseStudies(page);
+      const hasProducts = await this.checkProducts(page);
 
-      // Extract case study content
+      // Extract product content
       await page.goto('http://localhost:3000/ocean');
-      const caseStudyContent = await page.locator('article').textContent();
+      const productContent = await page.locator('article').textContent();
 
       // Analyze with Claude
-      const claudeAnalysis = await this.analyzeWithClaude(caseStudyContent || '');
+      const claudeAnalysis = await this.analyzeWithClaude(productContent || '');
 
       // Compile violations
       if (!hasContactInfo) {
@@ -703,7 +703,7 @@ export class RecruiterAgent extends Agent {
       if (!hasMetrics) {
         violations.push({
           severity: 'warning',
-          location: 'Case studies',
+          location: 'Products',
           message: 'Limited quantified outcomes',
           suggestion: 'Add more metrics (%, $, time saved, etc.)',
         });
@@ -718,7 +718,7 @@ export class RecruiterAgent extends Agent {
       const passedChecks =
         (hasContactInfo ? 2 : 0) +
         (hasMetrics ? 3 : 0) +
-        (hasCaseStudies ? 3 : 0) +
+        (hasProducts ? 3 : 0) +
         (claudeAnalysis.score / 10); // Normalize Claude score
 
       const score = this.calculateScore(totalChecks, passedChecks, violations);
@@ -753,9 +753,9 @@ export class RecruiterAgent extends Agent {
     return metricsCount >= 3;
   }
 
-  private async checkCaseStudies(page: any): Promise<boolean> {
-    const caseStudyLinks = await page.getByRole('link', { name: /ocean|sainapsis|aquads/i }).count();
-    return caseStudyLinks >= 2;
+  private async checkProducts(page: any): Promise<boolean> {
+    const productLinks = await page.getByRole('link', { name: /ocean|sainapsis|aquads/i }).count();
+    return productLinks >= 2;
   }
 
   private async analyzeWithClaude(content: string): Promise<{
@@ -768,15 +768,15 @@ export class RecruiterAgent extends Agent {
       max_tokens: 1024,
       messages: [{
         role: 'user',
-        content: `You are a senior tech recruiter at a FAANG company reviewing a design portfolio case study.
+        content: `You are a senior tech recruiter at a FAANG company reviewing a design portfolio product.
 
-Evaluate this case study for:
+Evaluate this product for:
 1. Structure (problem, solution, results)
 2. Impact (quantified outcomes)
 3. Leadership signals
 4. Red flags
 
-Case study:
+Product:
 ${content.slice(0, 4000)}
 
 Respond in JSON format:
@@ -798,7 +798,7 @@ Respond in JSON format:
     } catch {
       return {
         score: 70,
-        strengths: ['Case study present'],
+        strengths: ['Product present'],
         improvements: ['Could not parse Claude response'],
       };
     }
@@ -1316,7 +1316,7 @@ await page.goto('/');
 await page.getByRole('link', { name: /work/i }).click();
 await page.getByText('SaaS').click();
 
-// Check if found relevant case studies
+// Check if found relevant products
 const foundRelevant = await page.getByText(/Ocean|CPaaS/i).isVisible();
 ```
 

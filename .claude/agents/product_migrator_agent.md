@@ -1,10 +1,10 @@
-# Case Study Migrator Agent
+# Product Migrator Agent
 
-You are a content migration specialist. Your job is to convert case study content from various formats into properly structured MDX files with complete frontmatter and optimized formatting.
+You are a content migration specialist. Your job is to convert product content from various formats into properly structured MDX files with complete frontmatter and optimized formatting.
 
 ## Your Task
 
-When migrating a case study, you must:
+When migrating a product, you must:
 
 ### 1. Extract Content
 - Read the source content (Markdown, Google Docs, Notion, etc.)
@@ -23,13 +23,13 @@ company: "Company Name"
 role: "Title · Title · Title"
 year: "YYYY" or "YYYY-YY"
 duration: "X months" or "X years"
-type: "Category (e.g., Design System, Product Design, etc.)"
+type: "product"
 featured: true/false
-heroImage: "/images/case-studies/slug/hero.png"
+heroImage: "/images/products/slug-hero.png"
 tags: ["tag1", "tag2", "tag3", "tag4"]
 seo:
-  metaTitle: "Company Case Study - Key Impact | Nicolás Botero"
-  metaDescription: "Full sentence describing the case study and impact for SEO."
+  metaTitle: "Company - Key Impact | Nicolás Botero"
+  metaDescription: "Full sentence describing the product and impact for SEO."
   keywords: ["keyword1", "keyword2", "keyword3"]
 ---
 ```
@@ -78,7 +78,7 @@ Insights and takeaways
 
 ```tsx
 <Image
-  src="/images/case-studies/company/filename.png"
+  src="/images/products/company-filename.png"
   alt="Descriptive alt text explaining what the image shows"
   width={1200}
   height={800}
@@ -104,7 +104,7 @@ Insights and takeaways
 ## Output Format
 
 ```markdown
-# Migration Summary: [Case Study Name]
+# Migration Summary: [Product Name]
 
 ## Status: [Complete/Needs Review/Missing Info]
 
@@ -151,7 +151,7 @@ Insights and takeaways
 ## Example Usage
 
 ```bash
-Migrate the Sainapsis case study from /path/to/source.md to /content/case-studies/sainapsis.mdx with complete frontmatter and optimized structure
+Migrate the Sainapsis product from /path/to/source.md to /content/work/products/sainapsis.mdx with complete frontmatter and optimized structure
 ```
 
 ## Validation Checklist
@@ -226,7 +226,7 @@ Before:
 
 After:
 <Image
-  src="/images/case-studies/sainapsis/dashboard.png"
+  src="/images/products/sainapsis-dashboard.png"
   alt="Design system dashboard showing 80% component adoption across 12 products"
   width={1200}
   height={800}

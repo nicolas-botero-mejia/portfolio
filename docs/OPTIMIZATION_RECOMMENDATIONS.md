@@ -245,16 +245,16 @@ import { mainNavigation, socialLinks } from '@/config/navigation';
 #### Issue 2.1: Repeated File System Reads (Priority: High) — IMPLEMENTED
 **Location:** `src/lib/mdx.ts`
 
-**Status:** Resolved. `getCaseStudies`, `getCaseStudyBySlug`, `getFeatures`, `getPageBySlug`, `getNowEntries`, `getNowBySlug` use React `cache()` for request-level memoization.
+**Status:** Resolved. `getProducts`, `getProductBySlug`, `getFeatures`, `getPageBySlug`, `getNowEntries`, `getNowBySlug` use React `cache()` for request-level memoization.
 
 **Problem (was):**
-`getCaseStudies()` reads from file system on every page render. This function is called in the Header component which renders on every page.
+`getProducts()` reads from file system on every page render. This function is called in the Header component which renders on every page.
 
 **Current Code:**
 ```tsx
 // Header.tsx - runs on EVERY page render
 export default function Header() {
-  const caseStudies = getCaseStudies(); // 🐌 File system read!
+  const products = getProducts(); // 🐌 File system read!
   return <header>...</header>;
 }
 ```
@@ -268,20 +268,20 @@ Use React Server Components caching or move to layout level.
 import { cache } from 'react';
 
 // Add cache wrapper for automatic request-level memoization
-export const getCaseStudies = cache((): CaseStudy[] => {
-  const caseStudiesPath = path.join(contentDirectory, 'case-studies');
+export const getProducts = cache((): Product[] => {
+  const productsPath = path.join(contentDirectory, 'products');
   // ... existing logic
 });
 
 // Alternative: Pass from layout
 // src/app/layout.tsx
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const caseStudies = getCaseStudies(); // Read once per request
+  const products = getProducts(); // Read once per request
 
   return (
     <html lang="en">
       <body>
-        <Header caseStudies={caseStudies} />
+        <Header products={products} />
         <main>{children}</main>
         <Footer />
       </body>
@@ -302,7 +302,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 #### Issue 2.2: MDX Content Rendering (Priority: Medium) — IMPLEMENTED
 **Location:** `src/app/work/[slug]/page.tsx`
 
-**Status:** Resolved. Case study page uses `MDXRemote` from next-mdx-remote/rsc for proper MDX rendering.
+**Status:** Resolved. Product page uses `MDXRemote` from next-mdx-remote/rsc for proper MDX rendering.
 
 **Problem (was):**
 Using `dangerouslySetInnerHTML` with raw content string instead of proper MDX rendering.
@@ -330,10 +330,10 @@ Implement proper MDX rendering with `@next/mdx`.
 // src/app/[slug]/page.tsx
 import { MDXRemote } from 'next-mdx-remote/rsc';
 
-export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
+export default async function ProductPage({ params }: ProductPageProps) {
   // ... existing code
 
-  const { frontmatter, content } = caseStudy;
+  const { frontmatter, content } = product;
 
   return (
     <article>
@@ -462,7 +462,7 @@ if (result.success) {
     className="mb-4 rounded-md bg-green-50 px-4 py-3"
   >
     <p className="text-sm text-green-800">
-      ✓ Password correct! Loading case study...
+      ✓ Password correct! Loading product...
     </p>
   </div>
 )}
@@ -495,7 +495,7 @@ Add rate limiting middleware or document the need.
 ```tsx
 // src/actions/authActions.ts
 /**
- * Server action to authenticate a case study
+ * Server action to authenticate a product
  *
  * Security considerations:
  * - Passwords are validated server-side only
@@ -513,7 +513,7 @@ Add rate limiting middleware or document the need.
  * const { success } = await ratelimit.limit(ip);
  * if (!success) return { success: false, error: "Too many attempts" };
  */
-export async function authenticateCaseStudy(...) { ... }
+export async function authenticateProduct(...) { ... }
 ```
 
 **Production Solution:**
@@ -536,7 +536,7 @@ export const passwordRateLimit = new Ratelimit({
 import { passwordRateLimit } from '@/lib/ratelimit';
 import { headers } from 'next/headers';
 
-export async function authenticateCaseStudy(slug: string, password: string) {
+export async function authenticateProduct(slug: string, password: string) {
   // Get IP address
   const headersList = await headers();
   const ip = headersList.get('x-forwarded-for') || 'anonymous';
@@ -576,9 +576,9 @@ Password-protected pages still expose full metadata (title, description, images)
 
 **Current Code:**
 ```tsx
-export async function generateMetadata({ params }: CaseStudyPageProps) {
+export async function generateMetadata({ params }: ProductPageProps) {
   const { slug } = await params;
-  const caseStudy = getCaseStudyBySlug(slug);
+  const product = getProductBySlug(slug);
 
   // Always returns full metadata, even if password-protected
   return generatePageMetadata({
@@ -595,25 +595,25 @@ Return limited metadata for locked pages.
 
 **Solution:**
 ```tsx
-export async function generateMetadata({ params }: CaseStudyPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const caseStudy = getCaseStudyBySlug(slug);
+  const product = getProductBySlug(slug);
 
-  if (!caseStudy) {
+  if (!product) {
     return {};
   }
 
-  const { frontmatter } = caseStudy;
+  const { frontmatter } = product;
 
   // Check if password-protected
-  const isLocked = requiresPassword(caseStudy);
+  const isLocked = requiresPassword(product);
 
   if (isLocked) {
     // Return limited metadata for locked pages
     return generatePageMetadata({
       title: `${frontmatter.company} - Password Protected`,
-      description: 'This case study is password protected. Contact Nicolás for access.',
-      keywords: ['portfolio', 'case study', 'product design'],
+      description: 'This product is password protected. Contact Nicolás for access.',
+      keywords: ['portfolio', 'product', 'product design'],
       noIndex: true, // Don't index locked pages
     });
   }
@@ -645,8 +645,8 @@ export async function generateMetadata({ params }: CaseStudyPageProps): Promise<
 2. **Issue 1.2: Inline Data** — Data in `data/content/` (workflow, experience, profile)
 3. **Issue 1.3: Navigation** — Centralized in `data/derived/navigation.ts`
 4. **Issue 1.4: passwords.ts** — `AUTH_COOKIE_PREFIX`, `AUTH_COOKIE_MAX_AGE` used by serverPasswordAuth
-5. **Issue 2.1: Cache** — `getCaseStudies` and all content fetchers use React `cache()`
-6. **Issue 2.2: MDX Rendering** — Case studies use `MDXRemote`
+5. **Issue 2.1: Cache** — `getProducts` and all content fetchers use React `cache()`
+6. **Issue 2.2: MDX Rendering** — Products use `MDXRemote`
 
 ### 🟡 Remaining (Medium Priority)
 
@@ -676,7 +676,7 @@ Remaining improvements that can be done quickly:
 
 ```bash
 # 1. Issue 3.1: Add ARIA live regions to ServerPasswordPrompt (5 min)
-# 2. Issue 5.1: Limited metadata for locked case studies (5 min)
+# 2. Issue 5.1: Limited metadata for locked products (5 min)
 
 # Total: 10 minutes for 2 improvements
 ```
@@ -746,7 +746,7 @@ Remaining improvements that can be done quickly:
 ## 🚀 Action Plan
 
 ### ✅ Completed
-- Cache on content fetchers (`getCaseStudies`, etc.)
+- Cache on content fetchers (`getProducts`, etc.)
 - Centralized navigation (`data/derived/navigation.ts`)
 - Data layer restructure (sources, resolvers, derived, content)
 - MDX rendering with `MDXRemote`
@@ -771,7 +771,7 @@ Remaining improvements that can be done quickly:
 
 2. **Analytics Integration**
    - Track password unlock attempts (anonymized)
-   - Monitor which case studies are most viewed
+   - Monitor which products are most viewed
    - A/B test portfolio messaging
 
 3. **Content Management**

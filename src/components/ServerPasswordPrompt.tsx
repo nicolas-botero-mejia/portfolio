@@ -2,19 +2,19 @@
 
 import { useState, useTransition } from 'react';
 import Link from 'next/link';
-import { authenticateCaseStudy } from '@/actions/authActions';
+import { authenticateProduct } from '@/actions/authActions';
 import { routes } from '@/data';
 import { useRouter } from 'next/navigation';
 import { trackEvent } from '@/lib/analytics';
 
 interface ServerPasswordPromptProps {
   slug: string;
-  caseStudyTitle: string;
+  productTitle: string;
 }
 
 export default function ServerPasswordPrompt({
   slug,
-  caseStudyTitle
+  productTitle
 }: ServerPasswordPromptProps) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -26,11 +26,11 @@ export default function ServerPasswordPrompt({
     setError('');
 
     startTransition(async () => {
-      const result = await authenticateCaseStudy(slug, password);
+      const result = await authenticateProduct(slug, password);
 
       // Track password attempt
       trackEvent({
-        name: 'case_study_password_attempt',
+        name: 'product_password_attempt',
         properties: { slug, success: result.success },
       });
 
@@ -73,12 +73,12 @@ export default function ServerPasswordPrompt({
             Password Protected
           </h2>
           <p className="mb-6 text-center text-content-muted">
-            This case study requires a password to view
+            This product requires a password to view
           </p>
 
-          {/* Case Study Name */}
+          {/* Product Name */}
           <div className="mb-6 rounded-md bg-background-muted px-4 py-3">
-            <p className="text-sm font-medium text-content-primary">{caseStudyTitle}</p>
+            <p className="text-sm font-medium text-content-primary">{productTitle}</p>
           </div>
 
           {/* Form */}
@@ -113,7 +113,7 @@ export default function ServerPasswordPrompt({
               disabled={isPending}
               className="w-full rounded-lg bg-action-primary-bg px-6 py-3 font-medium text-action-primary-text transition-colors hover:bg-action-primary-hover disabled:opacity-50"
             >
-              {isPending ? 'Verifying...' : 'Unlock Case Study'}
+              {isPending ? 'Verifying...' : 'Unlock Product'}
             </button>
           </form>
 

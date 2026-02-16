@@ -20,7 +20,7 @@ interface TabsProps {
  *     defaultValue="all"
  *     tabs={[
  *       { value: 'all', label: 'All', content: <div>...</div> },
- *       { value: 'case-studies', label: 'Case Studies', content: <div>...</div> },
+ *       { value: 'products', label: 'Products', content: <div>...</div> },
  *     ]}
  *   />
  */

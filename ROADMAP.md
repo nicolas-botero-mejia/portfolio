@@ -43,7 +43,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 - **Project 2, 2.1:** Architecture and tooling first; mobile responsiveness (audit → fix → verify → document).
 - **Project 2, 2.2:** Design-to-code, Storybook, and DS structure can run in parallel or in any order; DS structure and Storybook reinforce each other as components grow.
-- **Project 3, 3.1:** Create missing content → Complete About/Uses → Add case study assets → Optimize images → Write SEO meta.
+- **Project 3, 3.1:** Create missing content → Complete About/Uses → Add product assets → Optimize images → Write SEO meta.
 - **Project 3, 3.2:** Implement SEO → Run agents → SEO enhancements → Technical optimization → Testing → Sitemap & Search Console.
 - **Project 4, 4.1:** A11y (audit → fix → document) before code cleanup (scan → remove).
 - **Project 4, 4.2:** Deploy and launch on Vercel (full process) → CI/CD pipeline → Playwright → Chromatic.
@@ -73,8 +73,8 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [x] Install dependencies (gray-matter, next-mdx-remote, Zod, Framer Motion, next-seo, next-sitemap)
 - [x] Configure MDX processing (gray-matter + next-mdx-remote)
 - [x] Set up project structure (components, content, lib, data)
-- [x] Create 5 AI agents in `.claude/agents/` (SEO, Content Auditor, Accessibility, Performance, Case Study Migrator)
-- [x] Migrate 3 case studies (Sainapsis, Ocean, AquaDS) and frontmatter
+- [x] Create 5 AI agents in `.claude/agents/` (SEO, Content Auditor, Accessibility, Performance, Product Migrator)
+- [x] Migrate 3 products (Sainapsis, Ocean, AquaDS) and frontmatter
 - [x] Migrate home page content
 - [x] Create basic layout components (Header, Footer, Navigation; superseded by SplitLayout in Project 2)
 
@@ -85,11 +85,11 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [x] Create Tailwind design tokens (color, typography, spacing, shadows, radii)
 - [x] Add token generation pipeline (sources → generated CSS, Figma sync)
 - [x] Build component library (Button, Card, Badge, typography, Image, Link)
-- [x] Build home page and case study template
+- [x] Build home page and product template
 - [x] Collect or create assets and configure SEO basics
   - [x] Default and per-page metadata (custom `seo.ts`; Open Graph, Twitter Card, robots)
   - [x] Robots (index/follow) via metadata; sitemap deferred to Project 3
-- [x] Implement password protection (server-side, locked case studies, HTTP-only cookies)
+- [x] Implement password protection (server-side, locked products, HTTP-only cookies)
 
 ---
 
@@ -273,9 +273,9 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [ ] Create Vercel account (or use existing) and install Vercel CLI if needed
   - [ ] Add project: import Git repo (GitHub/GitLab/Bitbucket) or link existing project
   - [ ] Configure build settings (framework: Next.js, root directory, build command, output)
-  - [ ] Add environment variables (match .env.local: NEXT_PUBLIC_*, CASE_STUDY_*_PASSWORD if used, GA/Amplitude keys when ready)
+  - [ ] Add environment variables (match .env.local: NEXT_PUBLIC_*, PRODUCT_*_PASSWORD if used, GA/Amplitude keys when ready)
   - [ ] Trigger first production deploy (push to main or "Deploy" in dashboard)
-  - [ ] Verify deployment (production URL loads, key routes work: /, /work, /about, case study slug)
+  - [ ] Verify deployment (production URL loads, key routes work: /, /work, /about, product slug)
   - [ ] Verify assets and server behavior (images, MDX, password flow if used)
   - [ ] Set up custom domain (add domain in Vercel, configure DNS records, wait for SSL)
   - [ ] Document deploy process and rollback steps (redeploy previous, or revert commit and push)
@@ -301,9 +301,9 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [ ] Set up test fixtures and helpers (auth states, page objects, custom matchers)
   - [ ] **Define E2E test scenarios** (critical user journeys with real content from Project 3)
     - [ ] Homepage flow: visit /, verify redirect to /work, check work cards render
-    - [ ] Work list: click work card, verify navigation to case study
-    - [ ] Case study flow: visit case study, verify content loads, check navigation works
-    - [ ] Password-protected case study: enter password, verify access, check cookie persistence
+    - [ ] Work list: click work card, verify navigation to product
+    - [ ] Product flow: visit product, verify content loads, check navigation works
+    - [ ] Password-protected product: enter password, verify access, check cookie persistence
     - [ ] About page: visit /about, verify sections render (bio, workflow, experience if present)
     - [ ] Uses page: visit /uses, verify tools and setup render
     - [ ] Navigation: test sidebar navigation, verify active states, test mobile menu if present
@@ -311,7 +311,7 @@ Use this sequence so work builds on itself and nothing is blocked.
     - [ ] Theme switching: toggle dark mode (if implemented), verify persistence
     - [ ] Analytics: verify page view events fire (mock or test analytics in dev)
   - [ ] **Write Playwright test scripts**
-    - [ ] Create test files per scenario (tests/e2e/homepage.spec.ts, work.spec.ts, case-study.spec.ts, etc.)
+    - [ ] Create test files per scenario (tests/e2e/homepage.spec.ts, work.spec.ts, product.spec.ts, etc.)
     - [ ] Write tests with assertions (expect page title, check element visibility, verify URL changes)
     - [ ] Add accessibility checks (e.g., run axe-core via playwright-axe or @axe-core/playwright)
     - [ ] Test responsive behavior (run tests at multiple viewport sizes: mobile, tablet, desktop)
@@ -338,7 +338,7 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [ ] If needed: configure Playwright visual comparisons (toHaveScreenshot, update baselines)
   - [ ] Or: extend Chromatic to capture full-page snapshots (e.g., Storybook stories for page templates)
   - [ ] Or: use separate tool like Percy, Applitools, or BackstopJS (research and choose)
-  - [ ] Set up baseline images for key pages (/, /work, /about, case study template, 404)
+  - [ ] Set up baseline images for key pages (/, /work, /about, product template, 404)
   - [ ] Add visual regression to CI (run on PR, flag visual changes for review)
   - [ ] Document visual regression workflow (how to approve changes, update baselines)
 
@@ -370,14 +370,14 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 **Tasks:**
 
-- [ ] **Break out Ocean case study into Features**
-  - [ ] List features to extract from Ocean case study
+- [ ] **Break out Ocean product into Features**
+  - [ ] List features to extract from Ocean product
   - [ ] Create feature MDX content entries and routes
-  - [ ] Update Ocean case study to link to or summarize features
-- [ ] **Break out Bridge case study into Features**
-  - [ ] List features to extract from Bridge case study
+  - [ ] Update Ocean product to link to or summarize features
+- [ ] **Break out Bridge product into Features**
+  - [ ] List features to extract from Bridge product
   - [ ] Create feature MDX content entries and routes
-  - [ ] Update Bridge case study to link to or summarize features
+  - [ ] Update Bridge product to link to or summarize features
 - [ ] **Add work list pagination** (Load More or pagination when 10+ work items exist)
 
 ### Milestone 6.2 – Analytics
@@ -393,7 +393,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [ ] **Implement Amplitude in DS components** (if applicable)
   - [x] Add event tracking utilities and key events (see README_ANALYTICS.md)
   - [ ] Configure Amplitude API key in .env and production
-  - [ ] Test events in production (work card clicks, navigation, case study views, etc.)
+  - [ ] Test events in production (work card clicks, navigation, product views, etc.)
   - [ ] Add component-level instrumentation if desired
 
 ---
@@ -406,9 +406,9 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 **Tasks:**
 
-- [ ] Add remaining case studies (Masiv, PayU Latam)
+- [ ] Add remaining products (Masiv, PayU Latam)
 - [ ] Gather testimonials and add to About section
-- [ ] Add content enhancements (thumbnails on Work section, filtering by year/type, Related projects on case studies)
+- [ ] Add content enhancements (thumbnails on Work section, filtering by year/type, Related projects on products)
 - [ ] Add placeholder or first content for Writing, Reading, Experiments pages (or keep coming-soon until ready)
 - [ ] Monitor and optimize SEO (Search Console, underperforming pages, backlinks)
 
@@ -417,16 +417,16 @@ Use this sequence so work builds on itself and nothing is blocked.
 **Tasks:**
 
 - [ ] Add blog (layout, first 3–5 articles, RSS, promote on LinkedIn)
-- [ ] Add case study enhancements (interactive prototypes, before/after sliders, video walkthroughs e.g. Loom)
+- [ ] Add product enhancements (interactive prototypes, before/after sliders, video walkthroughs e.g. Loom)
 - [ ] Add portfolio v2 sections (side projects, design principles page, resources/tools, public AquaDS-style docs)
-- [ ] Add nice-to-haves when bandwidth allows (dark mode, contact form (spam protection), “Back to top”, reading progress on case studies)
+- [ ] Add nice-to-haves when bandwidth allows (dark mode, contact form (spam protection), “Back to top”, reading progress on products)
 
 ### Milestone 7.3 – Long-term (6–12 months)
 
 **Tasks:**
 
 - [ ] Build community (newsletter, regular posts, speaking/podcasts)
-- [ ] Add advanced offerings (case study templates, design resources/freebies, workshop/course if desired)
+- [ ] Add advanced offerings (product templates, design resources/freebies, workshop/course if desired)
 - [ ] Run analytics review (quarterly review, conversion tracking, A/B tests on key pages)
 - [ ] Execute post-launch promotion (design directories e.g. bestfolios, layers.to, uxfolio, dribbble, behance; backlink maintenance)
 
@@ -440,8 +440,8 @@ Use this sequence so work builds on itself and nothing is blocked.
 - Design critique service / mentorship program page
 - Podcast or video series on design leadership
 - Job board or community forum for designers
-- Open Graph image generator for case studies
-- Case study PDF export or print view
+- Open Graph image generator for products
+- Product PDF export or print view
 - Integrate Portfolio roadmap with ClickUp
 
 ---
@@ -449,8 +449,8 @@ Use this sequence so work builds on itself and nothing is blocked.
 ## Success metrics (Key Results)
 
 - **At launch:** Lighthouse 95+, unique meta per page, WCAG 2.1 AA, &lt;1s FCP, mobile-friendly, custom domain.
-- **30 days post-launch:** 100+ visitors, indexed for “Nicolás Botero Product Designer”, 2+ min session, 50+ case study views, backlinks, 1+ interview request.
-- **90 days post-launch:** 500+ visitors, top 10 for 3+ keywords, 5+ min session, 200+ case study views, 10+ backlinks, 5+ interview requests, 3+ testimonials.
+- **30 days post-launch:** 100+ visitors, indexed for “Nicolás Botero Product Designer”, 2+ min session, 50+ product views, backlinks, 1+ interview request.
+- **90 days post-launch:** 500+ visitors, top 10 for 3+ keywords, 5+ min session, 200+ product views, 10+ backlinks, 5+ interview requests, 3+ testimonials.
 
 ---
 
@@ -464,8 +464,8 @@ Use this sequence so work builds on itself and nothing is blocked.
 ## Key decisions
 
 - **Stack:** Next.js 16, Tailwind 4, MDX (gray-matter + next-mdx-remote), Vercel.
-- **Scope:** Launch with 3 case studies; add Masiv/PayU later. Blog in Project 7. Dark mode and contact form optional.
-- **SEO:** Case studies first, then home (Work, Workflow, About, Resume, Contact).
+- **Scope:** Launch with 3 products; add Masiv/PayU later. Blog in Project 7. Dark mode and contact form optional.
+- **SEO:** Products first, then home (Work, Workflow, About, Resume, Contact).
 
 ---
 

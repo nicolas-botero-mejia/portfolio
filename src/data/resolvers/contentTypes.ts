@@ -16,7 +16,7 @@ export function getContentSubType(parentSlug: string, subSlug: string): ContentS
   return parent?.subTypes.find((st) => st.slug === subSlug);
 }
 
-/** Breadcrumb label: "Reading · Books" or "Work · Case Studies" */
+/** Breadcrumb label: "Reading · Books" or "Work · Products" */
 export function getBreadcrumbLabel(parentSlug: string, subSlug?: string): string {
   const parent = getContentType(parentSlug);
   if (!parent) return parentSlug;

@@ -9,7 +9,7 @@ export interface ContentSubType {
   slug: string;
   label: string;
   path: string; // Folder path relative to content/
-  route: string; // URL base (e.g., /work/case-studies)
+  route: string; // URL base (e.g., /work/products)
 }
 
 export interface ContentType {
@@ -27,7 +27,7 @@ export const contentTypes: ContentType[] = [
     path: 'work',
     route: '/work',
     subTypes: [
-      { slug: 'case-studies', label: 'Case Studies', path: 'work/case-studies', route: '/work/case-studies' },
+      { slug: 'products', label: 'Products', path: 'work/products', route: '/work/products' },
       { slug: 'features', label: 'Features', path: 'work/features', route: '/work/features' },
       { slug: 'side-projects', label: 'Side Projects', path: 'work/side-projects', route: '/work/side-projects' },
     ],

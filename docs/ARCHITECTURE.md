@@ -4,7 +4,7 @@
 
 ```
 / (root) → redirects to /work
-/work → All work items (case studies + features), sorted by date
+/work → All work items (products + features), sorted by date
 /about → About + Workflow + Experience (renders about.mdx)
 /now → Latest now entry
 /uses → Tools and setup (renders uses.mdx)
@@ -22,11 +22,11 @@
 
 ### Current: Flat work URLs
 
-Work items use **flat** URLs: `/work/ocean`, `/work/sainapsis`, `/work/aquads`. The app route is `src/app/work/[slug]/page.tsx`, which serves both case studies and features from a single slug namespace. Content lives in `content/work/case-studies/` and `content/work/features/`; the slug alone identifies the item.
+Work items use **flat** URLs: `/work/ocean`, `/work/sainapsis`, `/work/aquads`. The app route is `src/app/work/[slug]/page.tsx`, which serves both products and features from a single slug namespace. Content lives in `content/work/products/` and `content/work/features/`; the slug alone identifies the item.
 
 ### Future consideration: Hierarchical URLs
 
-If content grows and slug collisions become likely, migrate to hierarchical: `/work/case-studies/ocean`.
+If content grows and slug collisions become likely, migrate to hierarchical: `/work/products/ocean`.
 
 | Aspect | Hierarchical | Flat (current) |
 |--------|-------------|------|
@@ -54,17 +54,17 @@ Displays all work items sorted by date. Future: add filtering/tabs and "Load Mor
 
 ### Next/Previous: Within Subcategory
 
-Navigate through items of the same type (case study to case study, not case study to feature).
+Navigate through items of the same type (product to product, not product to feature).
 
 ```typescript
-const { prev, next } = getAdjacentCaseStudies('ocean');
+const { prev, next } = getAdjacentProducts('ocean');
 ```
 
-**Why within subcategory:** Users viewing a case study expect more case studies. Cross-type navigation is jarring. Use cross-type only for category landing pages or search results.
+**Why within subcategory:** Users viewing a product expect more products. Cross-type navigation is jarring. Use cross-type only for category landing pages or search results.
 
 ### Implementation
 
-- `getAdjacentCaseStudies()` in content utilities
+- `getAdjacentProducts()` in content utilities
 - `ContentNavigation.tsx` component (reusable, responsive, handles empty states)
 - Sorted by year (most recent first)
 
@@ -81,7 +81,7 @@ const { prev, next } = getAdjacentCaseStudies('ocean');
 ### Folder Structure Over Filename Prefixes
 
 ```
-content/work/case-studies/ocean.mdx     (folder = type)
+content/work/products/ocean.mdx        (folder = type)
 content/work/features/billing.mdx       (folder = type)
 ```
 
@@ -95,7 +95,7 @@ Not: `cs-ocean.mdx`, `ft-billing.mdx` (prefix = anti-pattern)
 2. Related content via `tags` for suggestions
 3. Cross-category navigation for browse-all views
 4. Keyboard shortcuts (arrow keys for next/prev)
-5. Progress indicator ("3 of 8 case studies")
+5. Progress indicator ("3 of 8 products")
 6. Hierarchical URLs when content scales
 
 ---

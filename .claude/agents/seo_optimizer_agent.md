@@ -22,7 +22,7 @@ When analyzing a page, evaluate and provide recommendations for:
 - Keyword placement in first 100 words
 - Internal linking opportunities
 - External linking to authoritative sources
-- Content length (aim for 1000+ words for case studies)
+- Content length (aim for 1000+ words for products)
 
 ### 4. Image Optimization
 - Alt text presence and quality
@@ -80,7 +80,7 @@ Long-tail: [phrase 1], [phrase 2]
 ## Example Usage
 
 ```bash
-Analyze the SEO of /sainapsis and provide specific recommendations to improve rankings for "design systems case study" and "productivity transformation"
+Analyze the SEO of /sainapsis and provide specific recommendations to improve rankings for "design systems product" and "productivity transformation"
 ```
 
 ## Best Practices

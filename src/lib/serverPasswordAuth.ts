@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import crypto from 'crypto';
 import { AUTH_COOKIE_PREFIX, AUTH_COOKIE_MAX_AGE } from '@/config/passwords';
-import type { CaseStudy } from './mdx';
+import type { Product } from './mdx';
 import { logError } from './errors';
 
 /**
@@ -12,43 +12,43 @@ function hashPassword(password: string): string {
 }
 
 /**
- * Get the environment variable key for a case study password
+ * Get the environment variable key for a product password
  */
 function getPasswordEnvKey(slug: string): string {
   // Convert slug to uppercase and replace hyphens with underscores
-  // e.g., "ocean" -> "CASE_STUDY_OCEAN_PASSWORD"
-  return `CASE_STUDY_${slug.toUpperCase().replace(/-/g, '_')}_PASSWORD`;
+  // e.g., "ocean" -> "PRODUCT_OCEAN_PASSWORD"
+  return `PRODUCT_${slug.toUpperCase().replace(/-/g, '_')}_PASSWORD`;
 }
 
 /**
- * Check if a case study requires password protection
+ * Check if a product requires password protection
  */
-export function requiresPassword(caseStudy: CaseStudy): boolean {
-  return caseStudy.frontmatter.locked === true;
+export function requiresPassword(product: Product): boolean {
+  return product.frontmatter.locked === true;
 }
 
 /**
- * Get the expected password hash for a case study
+ * Get the expected password hash for a product
  * Checks in order:
- * 1. Case study's dedicated password from frontmatter (hashed)
- * 2. Environment variable for that specific case study
+ * 1. Product's dedicated password from frontmatter (hashed)
+ * 2. Environment variable for that specific product
  * 3. Global password environment variable
  */
-function getExpectedPasswordHash(caseStudy: CaseStudy): string | null {
-  // Check case study's dedicated password first
-  if (caseStudy.frontmatter.password) {
-    return hashPassword(caseStudy.frontmatter.password);
+function getExpectedPasswordHash(product: Product): string | null {
+  // Check product's dedicated password first
+  if (product.frontmatter.password) {
+    return hashPassword(product.frontmatter.password);
   }
 
-  // Check environment variable for specific case study
-  const specificEnvKey = getPasswordEnvKey(caseStudy.slug);
+  // Check environment variable for specific product
+  const specificEnvKey = getPasswordEnvKey(product.slug);
   const specificPassword = process.env[specificEnvKey];
   if (specificPassword) {
     return specificPassword; // Already hashed in env
   }
 
   // Check global password
-  const globalPassword = process.env.CASE_STUDY_GLOBAL_PASSWORD;
+  const globalPassword = process.env.PRODUCT_GLOBAL_PASSWORD;
   if (globalPassword) {
     return globalPassword; // Already hashed in env
   }
@@ -57,15 +57,15 @@ function getExpectedPasswordHash(caseStudy: CaseStudy): string | null {
 }
 
 /**
- * Validate a password for a case study
+ * Validate a password for a product
  * Server-side only - never exposes actual passwords to client
  */
-export function validatePassword(caseStudy: CaseStudy, password: string): boolean {
-  if (!requiresPassword(caseStudy)) {
+export function validatePassword(product: Product, password: string): boolean {
+  if (!requiresPassword(product)) {
     return true; // Not protected
   }
 
-  const expectedHash = getExpectedPasswordHash(caseStudy);
+  const expectedHash = getExpectedPasswordHash(product);
   if (!expectedHash) {
     return true; // No password configured, allow access
   }
@@ -75,7 +75,7 @@ export function validatePassword(caseStudy: CaseStudy, password: string): boolea
 }
 
 /**
- * Set authentication cookie for a case study
+ * Set authentication cookie for a product
  * Server-side only
  */
 export async function setAuthCookie(slug: string): Promise<void> {
@@ -95,7 +95,7 @@ export async function setAuthCookie(slug: string): Promise<void> {
 }
 
 /**
- * Check if user is authenticated for a case study
+ * Check if user is authenticated for a product
  * Server-side only
  */
 export async function isAuthenticated(slug: string): Promise<boolean> {
@@ -110,7 +110,7 @@ export async function isAuthenticated(slug: string): Promise<boolean> {
 }
 
 /**
- * Remove authentication cookie for a case study
+ * Remove authentication cookie for a product
  * Server-side only
  */
 export async function clearAuthCookie(slug: string): Promise<void> {
@@ -123,7 +123,7 @@ export async function clearAuthCookie(slug: string): Promise<void> {
 }
 
 /**
- * Clear all case study authentication cookies
+ * Clear all product authentication cookies
  * Server-side only
  */
 export async function clearAllAuthCookies(): Promise<void> {

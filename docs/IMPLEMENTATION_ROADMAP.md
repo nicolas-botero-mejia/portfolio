@@ -344,7 +344,7 @@ Week 4: Metrics & Polish
 │   └── Organisms (Navigation, Header)
 └── 📑 Pages
     ├── Homepage mockup
-    └── Case study mockup
+    └── Product mockup
 ```
 
 **Figma Variables Setup:**

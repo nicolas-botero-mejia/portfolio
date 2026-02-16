@@ -64,7 +64,7 @@ Deploy (if passes threshold)
 ### Week 4: Metrics & Polish
 - ✓ Original Phase 4
 - **+ Client Agent:** Simulate client perspective
-- **+ Design Director Agent:** Evaluate case studies
+- **+ Design Director Agent:** Evaluate products
 
 ### Week 5: Agent System (NEW)
 - Implement Recruiter Agent (most valuable)
@@ -355,17 +355,17 @@ Each layer builds on the previous, and agents validate all layers.
 
 **1. Recruiter Agent**
 - Integrates with: Playwright (content extraction)
-- Uses data from: Case studies, homepage, navigation
+- Uses data from: Products, homepage, navigation
 - Validates: Portfolio structure, metrics, hiring signals
 
 **2. Design Director Agent**
 - Integrates with: Chromatic (visual quality), Claude (analysis)
-- Uses data from: Case studies, design process docs
+- Uses data from: Products, design process docs
 - Validates: Design thinking, strategic impact, visual design
 
 **3. Client Agent**
 - Integrates with: Playwright (user journey)
-- Uses data from: Homepage, case studies, contact flow
+- Uses data from: Homepage, products, contact flow
 - Validates: Value prop, trust signals, conversion path
 
 **4. Accessibility Agent**

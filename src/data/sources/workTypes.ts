@@ -8,7 +8,7 @@ export interface WorkType {
 }
 
 export const workTypes: WorkType[] = [
-  { slug: 'case-study', label: 'Case Study' },
+  { slug: 'product', label: 'Product' },
   { slug: 'feature', label: 'Feature' },
   { slug: 'side-project', label: 'Side Project' },
   { slug: 'platform-design', label: 'Platform Design' },
@@ -16,7 +16,7 @@ export const workTypes: WorkType[] = [
 ];
 
 export const WORK_TYPE_SLUGS = {
-  CASE_STUDY: 'case-study',
+  PRODUCT: 'product',
   FEATURE: 'feature',
   SIDE_PROJECT: 'side-project',
   PLATFORM_DESIGN: 'platform-design',

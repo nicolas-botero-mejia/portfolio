@@ -13,7 +13,7 @@
 ```
 content/
 ├── work/
-│   ├── case-studies/     # Full case studies (sainapsis, ocean, aquads)
+│   ├── products/        # Products (sainapsis, ocean, aquads)
 │   ├── features/         # Individual product features
 │   └── side-projects/    # Personal/side projects
 ├── writing/

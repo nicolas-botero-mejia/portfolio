@@ -7,7 +7,7 @@ This folder contains all content for the portfolio site, organized by type.
 ```
 content/
 ├── work/                      # Professional work
-│   ├── case-studies/          # Full platform/project stories
+│   ├── products/              # Full platform/product stories
 │   ├── features/              # Granular product features
 │   └── side-projects/         # Personal/experimental projects
 │
@@ -52,16 +52,16 @@ All MDX files require frontmatter with specific fields depending on content type
 3. Context: company, role, parent (features only)
 4. Timeline: year, duration, date
 5. Display: featured, heroImage, tags
-6. Security: locked (case studies, optional)
+6. Security: locked (products, optional)
 7. SEO: seo block (always last)
 
-### Case Studies (`work/case-studies/`)
+### Products (`work/products/`)
 
 ```yaml
 ---
 title: "Ocean — Global CPaaS Platform"
 description: "Short description for listings (150-160 chars)"
-type: "case-study"
+type: "product"
 subtitle: "SaaS Product Design & Scaling"
 company: "routemobile"         # Company slug (see src/data/ — COMPANY_SLUGS in sources/companies)
 role: "Lead Product Designer"
@@ -69,7 +69,7 @@ year: "2021-2024"
 duration: "3 years"
 date: "2024-06-15"            # For sorting (YYYY-MM-DD format)
 featured: true
-heroImage: "/images/case-studies/ocean-hero.png"
+heroImage: "/images/products/ocean-hero.png"
 tags: ["design systems", "platform", "global"]
 locked: false                  # Password protection (optional)
 seo:
@@ -88,7 +88,8 @@ description: "Redesigned billing dashboard for 1000+ enterprise clients"
 type: "feature"
 subtitle: "Enterprise Billing Dashboard"
 company: "routemobile"
-parent: "ocean"                # Links to parent case study
+role: "Lead Product Designer"
+parent: "ocean"                # Links to parent product
 year: "2023"
 duration: "3 months"
 featured: false
@@ -183,7 +184,7 @@ tags: ["systems thinking", "complexity"]
 
 ## Password Protection
 
-To password-protect content (typically case studies):
+To password-protect content (typically products):
 
 1. **Set `locked: true` in frontmatter:**
    ```yaml
@@ -196,17 +197,17 @@ To password-protect content (typically case studies):
    npm run hash-password "clientpassword"
    
    # Add to .env.local (NEVER commit this file)
-   CASE_STUDY_OCEAN_PASSWORD=hash-here
+   PRODUCT_OCEAN_PASSWORD=hash-here
    ```
 
 3. **For global password (all locked content):**
    ```bash
-   CASE_STUDY_GLOBAL_PASSWORD=hash-here
+   PRODUCT_GLOBAL_PASSWORD=hash-here
    ```
 
 **Password priority:**
-1. Case study's `CASE_STUDY_[SLUG]_PASSWORD` env var
-2. Global `CASE_STUDY_GLOBAL_PASSWORD` env var
+1. Product's `PRODUCT_[SLUG]_PASSWORD` env var
+2. Global `PRODUCT_GLOBAL_PASSWORD` env var
 
 **⚠️ Never put passwords in frontmatter in production!**
 
@@ -216,7 +217,7 @@ Content is automatically mapped to URLs:
 
 | File | URL |
 |------|-----|
-| `work/case-studies/ocean.mdx` | `/work/case-studies/ocean` |
+| `work/products/ocean.mdx` | `/work/ocean` |
 | `work/features/ocean-billing.mdx` | `/work/features/ocean-billing` |
 | `writing/posts/design-systems.mdx` | `/writing/posts/design-systems` |
 | `writing/quotes/perfect-is-enemy.mdx` | `/writing/quotes/perfect-is-enemy` |
@@ -236,13 +237,13 @@ Content is automatically mapped to URLs:
 
 **One folder per subType**, no slug subfolders. Filenames encode slug + level: `{slug}-hero.png`, `{slug}-thumbnail.png`, `{slug}-1.png`, etc. Mirrors MDX (flat files per folder).
 
-Example for case studies:
-- Content: `content/work/case-studies/ocean.mdx`
-- Assets: `public/images/case-studies/ocean-hero.png`, `ocean-thumbnail.png`, `ocean-1.png`, …
+Example for products:
+- Content: `content/work/products/ocean.mdx`
+- Assets: `public/images/products/ocean-hero.png`, `ocean-thumbnail.png`, `ocean-1.png`, …
 
 Reference in MDX:
 ```markdown
-![Alt text](/images/case-studies/ocean-hero.png)
+![Alt text](/images/products/ocean-hero.png)
 ```
 
 Full layout, levels, and rationale: [docs/ASSETS.md](../docs/ASSETS.md).

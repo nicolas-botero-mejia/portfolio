@@ -1,6 +1,6 @@
 # 🔒 Password Protection Quick Reference
 
-Your portfolio now has **server-side password protection** for case studies!
+Your portfolio now has **server-side password protection** for products!
 
 ## Quick Setup (3 Steps)
 
@@ -11,44 +11,44 @@ npm run hash-password "yourpassword"
 
 ### 2️⃣ Create `.env.local`
 ```env
-CASE_STUDY_GLOBAL_PASSWORD=paste-hash-here
+PRODUCT_GLOBAL_PASSWORD=paste-hash-here
 ```
 
-### 3️⃣ Lock Case Study
+### 3️⃣ Lock Product
 ```yaml
 ---
-title: "Your Case Study"
+title: "Your Product"
 locked: true
 ---
 ```
 
 ## Common Tasks
 
-### Protect All Case Studies
+### Protect All Products
 ```env
 # .env.local
-CASE_STUDY_GLOBAL_PASSWORD=your-hash
+PRODUCT_GLOBAL_PASSWORD=your-hash
 ```
 ```yaml
-# All case study files
+# All product files
 locked: true
 ```
 
-### Different Password Per Case Study
+### Different Password Per Product
 ```bash
 npm run hash-password "ocean-password"
 npm run hash-password "sainapsis-password"
 ```
 ```env
 # .env.local
-CASE_STUDY_OCEAN_PASSWORD=first-hash
-CASE_STUDY_SAINAPSIS_PASSWORD=second-hash
+PRODUCT_OCEAN_PASSWORD=first-hash
+PRODUCT_SAINAPSIS_PASSWORD=second-hash
 ```
 ```yaml
 locked: true
 ```
 
-### Make Case Study Public
+### Make Product Public
 ```yaml
 # Remove this line:
 locked: true

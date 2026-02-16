@@ -1,6 +1,6 @@
-# Server-Side Password Protection for Case Studies
+# Server-Side Password Protection for Products
 
-Secure your case studies with server-side password protection, HTTP-only cookies, and SHA-256 hashed passwords.
+Secure your products with server-side password protection, HTTP-only cookies, and SHA-256 hashed passwords.
 
 ---
 
@@ -25,17 +25,17 @@ SHA-256 hash (add this to .env.local):
 Create `.env.local` in project root:
 
 ```env
-# Global password for all locked case studies
-CASE_STUDY_GLOBAL_PASSWORD=5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
+# Global password for all locked products
+PRODUCT_GLOBAL_PASSWORD=5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
 ```
 
-### 3. Lock a Case Study
+### 3. Lock a Product
 
-Edit your case study frontmatter:
+Edit your product frontmatter:
 
 ```yaml
 ---
-title: "Protected Case Study"
+title: "Protected Product"
 company: "Client Name"
 locked: true
 ---
@@ -47,7 +47,7 @@ locked: true
 npm run dev
 ```
 
-Visit the locked case study and enter your password!
+Visit the locked product and enter your password!
 
 ---
 
@@ -55,7 +55,7 @@ Visit the locked case study and enter your password!
 
 ### Option 1: Global Password
 
-One password for all locked case studies.
+One password for all locked products.
 
 **Generate hash:**
 ```bash
@@ -64,19 +64,19 @@ npm run hash-password "portfolio2024"
 
 **Add to `.env.local`:**
 ```env
-CASE_STUDY_GLOBAL_PASSWORD=hash-from-above
+PRODUCT_GLOBAL_PASSWORD=hash-from-above
 ```
 
-**Lock case studies:**
+**Lock products:**
 ```yaml
 locked: true
 ```
 
 ---
 
-### Option 2: Per-Case-Study Passwords
+### Option 2: Per-Product Passwords
 
-Different password for each case study.
+Different password for each product.
 
 **Generate hash:**
 ```bash
@@ -85,17 +85,17 @@ npm run hash-password "ocean-secret"
 
 **Add to `.env.local`:**
 ```env
-# Format: CASE_STUDY_[SLUG]_PASSWORD
-CASE_STUDY_OCEAN_PASSWORD=hash-from-above
-CASE_STUDY_SAINAPSIS_PASSWORD=another-hash-here
+# Format: PRODUCT_[SLUG]_PASSWORD
+PRODUCT_OCEAN_PASSWORD=hash-from-above
+PRODUCT_SAINAPSIS_PASSWORD=another-hash-here
 ```
 
 Slug naming rules:
-- `ocean.mdx` → `CASE_STUDY_OCEAN_PASSWORD`
-- `sainapsis.mdx` → `CASE_STUDY_SAINAPSIS_PASSWORD`
-- `my-project.mdx` → `CASE_STUDY_MY_PROJECT_PASSWORD`
+- `ocean.mdx` → `PRODUCT_OCEAN_PASSWORD`
+- `sainapsis.mdx` → `PRODUCT_SAINAPSIS_PASSWORD`
+- `my-product.mdx` → `PRODUCT_MY_PRODUCT_PASSWORD`
 
-**Lock case studies:**
+**Lock products:**
 ```yaml
 locked: true
 ```
@@ -121,11 +121,11 @@ password: "testpass123"  # Plain text, will be hashed
 
 When validating, passwords are checked in this order:
 
-1. **Frontmatter password** (if set in case study MDX)
-2. **Environment variable** for specific case study (`CASE_STUDY_[SLUG]_PASSWORD`)
-3. **Global password** (`CASE_STUDY_GLOBAL_PASSWORD`)
+1. **Frontmatter password** (if set in product MDX)
+2. **Environment variable** for specific product (`PRODUCT_[SLUG]_PASSWORD`)
+3. **Global password** (`PRODUCT_GLOBAL_PASSWORD`)
 
-If any match, the case study unlocks.
+If any match, the product unlocks.
 
 ---
 
@@ -133,11 +133,11 @@ If any match, the case study unlocks.
 
 ### Example 1: All Public Except One
 
-Most case studies public, one client-confidential.
+Most products public, one client-confidential.
 
 **`.env.local`:**
 ```env
-CASE_STUDY_CONFIDENTIAL_PASSWORD=hash-here
+PRODUCT_CONFIDENTIAL_PASSWORD=hash-here
 ```
 
 **Files:**
@@ -168,7 +168,7 @@ Entire portfolio password-protected.
 
 **`.env.local`:**
 ```env
-CASE_STUDY_GLOBAL_PASSWORD=hash-here
+PRODUCT_GLOBAL_PASSWORD=hash-here
 ```
 
 **All files:**
@@ -186,9 +186,9 @@ Different password for each client.
 
 **`.env.local`:**
 ```env
-CASE_STUDY_GLOBAL_PASSWORD=backup-password-hash
-CASE_STUDY_CLIENT_A_PASSWORD=client-a-hash
-CASE_STUDY_CLIENT_B_PASSWORD=client-b-hash
+PRODUCT_GLOBAL_PASSWORD=backup-password-hash
+PRODUCT_CLIENT_A_PASSWORD=client-a-hash
+PRODUCT_CLIENT_B_PASSWORD=client-b-hash
 ```
 
 **Files:**
@@ -259,7 +259,7 @@ This is **password authentication**, not enterprise security:
 
 **Use this for:**
 - Client portfolios (casual protection)
-- Work-in-progress case studies
+- Work-in-progress products
 - Professional courtesy
 - Simple password needs
 
@@ -279,7 +279,7 @@ For enterprise needs, use NextAuth.js, Auth0, or similar.
 
 1. Project Settings → Environment Variables
 2. Add variables:
-   - `CASE_STUDY_GLOBAL_PASSWORD`
+   - `PRODUCT_GLOBAL_PASSWORD`
    - Any specific passwords
 3. Deploy
 
@@ -304,7 +304,7 @@ All major platforms support environment variables. Add them in your platform's d
 npm run hash-password "yourpassword"
 
 # 2. Check environment file
-cat .env.local | grep CASE_STUDY
+cat .env.local | grep PRODUCT
 
 # 3. Restart dev server (required after .env changes)
 npm run dev
@@ -318,8 +318,8 @@ npm run dev
 
 ### Build Errors
 
-- Missing env vars? Case study will be accessible (security risk!)
-- Check all locked case studies have passwords configured
+- Missing env vars? Product will be accessible (security risk!)
+- Check all locked products have passwords configured
 
 ---
 
@@ -374,7 +374,7 @@ npm run dev
 2. Test with frontmatter passwords first (simpler)
 3. Check browser console for errors
 4. Review server logs
-5. Verify case study has `locked: true`
+5. Verify product has `locked: true`
 
 ---
 
