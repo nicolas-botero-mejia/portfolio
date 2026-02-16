@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { getPageOrNotFound, getNowEntries } from '@/lib/mdx';
 import { generateMetadataForPage } from '@/lib/seo';
+import { CONTENT_SLUGS, routes } from '@/data';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import PageLayout from '@/components/ui/PageLayout';
 import PageHeader from '@/components/ui/PageHeader';
 import EmptyState from '@/components/ui/EmptyState';
-import { routes } from '@/data';
 
 const LIMIT = 10;
 
@@ -18,14 +18,14 @@ function formatDate(dateStr: string): string {
   });
 }
 
-export const generateMetadata = generateMetadataForPage('now');
+export const generateMetadata = generateMetadataForPage(CONTENT_SLUGS.NOW);
 
 interface NowPageProps {
   searchParams: Promise<{ page?: string }>;
 }
 
 export default async function NowPage({ searchParams }: NowPageProps) {
-  const pageMeta = getPageOrNotFound('now');
+  const pageMeta = getPageOrNotFound(CONTENT_SLUGS.NOW);
   const { page } = await searchParams;
   const pageNum = Math.max(1, parseInt(page ?? '1', 10) || 1);
 

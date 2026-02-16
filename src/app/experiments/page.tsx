@@ -1,13 +1,14 @@
 import { getPageOrNotFound } from '@/lib/mdx';
 import { generateMetadataForPage } from '@/lib/seo';
+import { CONTENT_SLUGS } from '@/data';
 import PageLayout from '@/components/ui/PageLayout';
 import PageHeader from '@/components/ui/PageHeader';
 import EmptyState from '@/components/ui/EmptyState';
 
-export const generateMetadata = generateMetadataForPage('experiments');
+export const generateMetadata = generateMetadataForPage(CONTENT_SLUGS.EXPERIMENTS);
 
 export default function ExperimentsPage() {
-  const page = getPageOrNotFound('experiments');
+  const page = getPageOrNotFound(CONTENT_SLUGS.EXPERIMENTS);
 
   return (
     <PageLayout maxWidth="md">
