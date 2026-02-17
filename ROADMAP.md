@@ -127,6 +127,8 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [x] Add convention-based image path helpers (`getWorkThumbnailPath`, `getThumbnailPath`, `IMAGE_VARIANTS`, `DEFAULT_IMAGE_EXT` constants)
 - [x] Enforce constants over literals (`CONTENT_SLUGS.*`, `IMAGE_VARIANTS.*`, `DEFAULT_IMAGE_EXT`; rule added to CLAUDE.md)
 - [x] Harden SEO metadata for work items (ogImage from thumbnail, canonical URLs, `noIndex` + restrictive googleBot directives for locked/NDA items)
+- [x] Implement side-projects content accessor in `mdx.ts` (`getSideProjects`, `getSideProjectBySlug`; `getAllWork` now includes side-projects)
+- [x] Disable frontmatter passwords in production (dev-only guard in `getExpectedPasswordHash`)
 
 *Design-to-code Figma integration → moved to Project 7.1*
 *Mobile responsiveness → moved to Project 4.2 (audit with real content in place)*
@@ -141,6 +143,9 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [x] Create Badge component
 - [x] Add remaining UI components (Button, Tabs, Tooltip, Dialog, ScrollArea, ContentNavigation, CheckIcon)
 - [x] Add theme support (light/dark)
+- [x] Complete UI barrel export (`src/components/ui/index.ts` — add missing Divider, Link, Skeleton, Breadcrumb, Typography exports)
+- [x] Use `<Button>` component in ServerPasswordPrompt (replace hardcoded `<button>` for design system consistency)
+- [x] Deduplicate analytics logging (import `logError` from `errors.ts` in `analytics.ts`)
 - **Build MDX element override components** (markdown-first rendering; see `src/lib/mdxComponents.tsx`)
   - [x] Typography components (H1-H4, Lead, Body, Caption, Strong, Em → DS styled headings and text)
   - [x] List components (ul/ol/li → DS styled lists with proper spacing)
@@ -182,7 +187,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [ ] **Migrate Sainapsis product to Bridge** (rewrite MDX content, update frontmatter; hero/thumbnail images already exist as `bridge-hero.png`/`bridge-thumbnail.png`; remove sainapsis assets)
 - [ ] **Review and polish product case studies** (Ocean, AquaDS, Bridge — verify metrics, proofread, check formatting)
 - [ ] **Optimize images** (compression, appropriate dimensions for hero and thumbnail)
-- [ ] **Audit SEO meta** (verify all pages have unique, optimized title 50-60 chars + description 150-160 chars)
+- [ ] **Audit SEO meta** (verify all pages have unique, optimized title 50-60 chars + description 150-160 chars; product meta titles shortened and double-attribution bug fixed in architecture review)
 
 ### Milestone 3.3 – SEO Optimization
 
@@ -229,7 +234,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [ ] **Check cross-browser** (Chrome, Safari, Firefox — verify layout, fonts, interactions)
 - [ ] **Scan for unused code and libraries**
   - [ ] Run bundle and code analysis
-  - [ ] Remove or replace unused dependencies (e.g. framer-motion, react-wrap-balancer, next-seo, next-sitemap if confirmed unused)
+  - [ ] Remove or replace unused dependencies (next-seo and react-wrap-balancer already removed in architecture review; check framer-motion, next-sitemap usage)
   - [ ] Remove dead code and unused components
 
 ### Milestone 4.3 – Launch
@@ -542,14 +547,15 @@ This is the learning and tooling project. Building tests and stories against a l
 - **Sequencing:** Ship-first — launch the site (Projects 1-4), then build infrastructure (5-8). Testing and Storybook are more valuable against a live, content-complete site.
 - **Learning-first:** Testing, Storybook, Figma pipelines, and CI/CD are learning goals, not overhead. They're sequenced post-launch, not deprioritized.
 - **SEO:** Products first, then home (Work, Workflow, About, Resume, Contact).
-- **Sainapsis → Bridge:** Sainapsis product migrated to Bridge (same slot, rewritten content).
+- **Sainapsis → Bridge:** Sainapsis product to be migrated to Bridge (Project 3.2 — same slot, rewritten content).
 
 ---
 
 ## Change log
 
+- **Feb 2026 (architecture review):** Full codebase architecture review. Completed UI barrel export (added missing Divider, Link, Skeleton, Breadcrumb, Typography exports). Replaced hardcoded `<button>` in ServerPasswordPrompt with `<Button>` component. Added side-projects content accessor to `mdx.ts` (`getAllWork` now includes side-projects). Shortened SEO meta titles to under 60 chars and fixed double-attribution bug (titleTemplate already appends name). Disabled frontmatter passwords in production. Removed unused dependencies (next-seo, react-wrap-balancer). Fixed documentation drift in CLAUDE.md (layout components, tech stack, routes). Deduplicated analytics logging.
 - **Feb 2026 (type system & SEO):** Refactored work item types (`ProductFrontmatter` → `WorkItemFrontmatter`), removed `heroImage` from frontmatter in favor of convention-based image paths (`getWorkThumbnailPath`, `getThumbnailPath`). Added `IMAGE_VARIANTS` and `DEFAULT_IMAGE_EXT` constants, enforced constants-over-literals rule in CLAUDE.md. Hardened SEO metadata: ogImage from thumbnails for public items, canonical URLs on work items, `noIndex` with restrictive googleBot directives for locked/NDA items. Updated example MDX templates and docs.
-- **Feb 2026 (restructure):** Reorganized from 7 to 8 projects with ship-first sequencing. Added missing Project 3 (Content & Launch Readiness). Moved Storybook/testing/CI from pre-launch (old 2.2/4.2) to post-launch (new Project 6). Moved Figma sync and DS docs to Project 7. Moved mobile/a11y audits to Project 4.2 pre-launch QA. Merged old Projects 4+5 into new Project 4 (Deploy & Launch). Renamed old Project 7 milestones from time-based to theme-based (new Project 8). Migrated Sainapsis to Bridge. All completed tasks preserved.
+- **Feb 2026 (restructure):** Reorganized from 7 to 8 projects with ship-first sequencing. Added missing Project 3 (Content & Launch Readiness). Moved Storybook/testing/CI from pre-launch (old 2.2/4.2) to post-launch (new Project 6). Moved Figma sync and DS docs to Project 7. Moved mobile/a11y audits to Project 4.2 pre-launch QA. Merged old Projects 4+5 into new Project 4 (Deploy & Launch). Renamed old Project 7 milestones from time-based to theme-based (new Project 8). Planned Sainapsis → Bridge migration (Project 3.2). All completed tasks preserved.
 - **Feb 2026:** Doc pass before execution: moved "Integrate design-to-code logic" from 2.1 to 2.2 (was only in 2.2 by title; now single place). README: status/phase → ROADMAP-aligned (pre-launch, Project 2 focus); Next.js 15 → 16; roadmap section simplified.
 - **Feb 2026:** Project 2 split: moved mobile responsiveness from P1 to Milestone 2.1 with subtasks (audit breakpoints, fix layout, touch targets, test nav, document). Created Milestone 2.2 for design-to-code, Storybook, and Design System structure (2.2 grows with components). Updated recommended order and task-order bullets.
 

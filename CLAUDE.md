@@ -123,8 +123,8 @@ All in `src/components/ui/`. Full details, token wiring, and expansion rules: [d
 | Tooltip | Hover tooltips (Radix) |
 | ScrollArea | Scrollable regions (Radix) |
 
-Layout components in `src/components/layout/`: Header, Footer, SplitLayout.
-MDX renderer: `src/components/MDXRenderer.tsx`
+Layout components in `src/components/layout/`: SplitLayout (sidebar + main content area with inline header, nav, and contact).
+MDX renderer: `src/components/MDXRenderer.tsx` (not in `ui/` — standalone component)
 
 ---
 
@@ -136,16 +136,16 @@ MDX renderer: `src/components/MDXRenderer.tsx`
 ### Styling & UI
 - **Tailwind CSS 4** — CSS-first config (no `tailwind.config.ts`). Tokens via `@theme` in generated CSS.
 - **Radix UI** — Dialog, Tabs, Tooltip, ScrollArea primitives
-- **Framer Motion** — Animations
-- **React Wrap Balancer** — Typography
+- **Framer Motion** — Animations (installed, planned for Project 4.3)
 
 ### Content
 - **MDX** via `next-mdx-remote` — Markdown with React components
 - **gray-matter** — Frontmatter parsing
-- **Zod** — Schema validation
+- **Zod** — Schema validation (installed, planned for frontmatter runtime validation)
 
 ### SEO & Deployment
-- **next-seo** + **next-sitemap** — SEO optimization and sitemap generation
+- **Next.js Metadata API** + custom utilities (`src/lib/seo.ts`) — SEO optimization
+- **next-sitemap** — Sitemap generation (installed, planned for Project 3.1)
 - **Vercel** — Hosting and CI/CD
 
 ---
@@ -161,6 +161,7 @@ src/app/
 │   ├── page.tsx          # Work listing
 │   └── [subType]/[slug]/page.tsx   # Individual work items (e.g., /work/products/ocean)
 ├── about/page.tsx        # Renders about.mdx
+├── colophon/page.tsx     # Renders colophon.mdx
 ├── now/page.tsx          # Renders latest now entry
 ├── uses/page.tsx         # Renders uses.mdx
 ├── experiments/page.tsx  # Experiments listing
@@ -215,7 +216,7 @@ portfolio/
 │   ├── app/                         # Next.js App Router pages
 │   ├── components/
 │   │   ├── ui/                      # Design system components (see inventory above)
-│   │   ├── layout/                  # Header, Footer, SplitLayout
+│   │   ├── layout/                  # SplitLayout
 │   │   ├── home/                    # Home page sections
 │   │   ├── MDXRenderer.tsx          # MDX content renderer
 │   │   └── ServerPasswordPrompt.tsx # Password protection UI
@@ -416,5 +417,5 @@ Located in `.claude/agents/`: seo_optimizer, content_auditor, accessibility_chec
 
 ---
 
-**Last Updated:** February 15, 2026
+**Last Updated:** February 16, 2026
 **Maintained by:** Nicolas Botero + Claude Code

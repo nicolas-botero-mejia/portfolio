@@ -18,3 +18,8 @@ export { default as Tooltip } from './Tooltip';
 export { default as PageHeader } from './PageHeader';
 export { default as PageLayout } from './PageLayout';
 export { default as ScrollPrompt } from './ScrollPrompt';
+export { default as Breadcrumb } from './Breadcrumb';
+export { default as Divider } from './Divider';
+export { default as Link } from './Link';
+export { Skeleton, SkeletonText, SkeletonImage } from './Skeleton';
+export { Typography, H1, H2, H3, H4, H5, H6, Lead, Body, Caption, Strong, Em } from './Typography';

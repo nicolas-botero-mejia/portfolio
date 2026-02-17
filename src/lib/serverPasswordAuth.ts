@@ -35,7 +35,8 @@ export function requiresPassword(product: WorkItemContent): boolean {
  * 3. Global work password (WORK_GLOBAL_PASSWORD)
  */
 function getExpectedPasswordHash(product: WorkItemContent): string | null {
-  if (product.frontmatter.password) {
+  // Frontmatter passwords only in development (avoid accidental git commits in production)
+  if (product.frontmatter.password && process.env.NODE_ENV !== 'production') {
     return hashPassword(product.frontmatter.password);
   }
 

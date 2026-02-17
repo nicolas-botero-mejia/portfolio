@@ -101,7 +101,29 @@ export function getFeaturedFeatures(): WorkItemContent[] {
 }
 
 // ============================================================================
-// WORK - All (combined products + features)
+// WORK - Side Projects
+// ============================================================================
+
+const SIDE_PROJECTS_PATH = getContentPath(CONTENT_SLUGS.WORK, CONTENT_SLUGS.WORK_SIDE_PROJECTS);
+
+export const getSideProjects = cache((): WorkItemContent[] =>
+  getItemsFromPath<WorkItemFrontmatter>(SIDE_PROJECTS_PATH, sortByDateOrYear)
+);
+
+export const getSideProjectBySlug = cache((slug: string): WorkItemContent | null =>
+  getItemBySlugFromPath<WorkItemFrontmatter>(SIDE_PROJECTS_PATH, slug)
+);
+
+export function getFeaturedSideProjects(): WorkItemContent[] {
+  return getFeaturedFromItems(getSideProjects());
+}
+
+export function getAdjacentSideProjects(currentSlug: string): AdjacentContent {
+  return getAdjacentFromItems(getSideProjects(), currentSlug) as AdjacentContent;
+}
+
+// ============================================================================
+// WORK - All (combined products + features + side-projects)
 // ============================================================================
 
 /** Work item with subType derived from its content folder (e.g., 'products', 'features'). */
@@ -115,7 +137,8 @@ export interface AdjacentWorkItem {
 export const getAllWork = cache((): WorkItem[] => {
   const products: WorkItem[] = getProducts().map((p) => ({ ...p, subType: CONTENT_SLUGS.WORK_PRODUCTS }));
   const features: WorkItem[] = getFeatures().map((f) => ({ ...f, subType: CONTENT_SLUGS.WORK_FEATURES }));
-  const all = [...products, ...features];
+  const sideProjects: WorkItem[] = getSideProjects().map((sp) => ({ ...sp, subType: CONTENT_SLUGS.WORK_SIDE_PROJECTS }));
+  const all = [...products, ...features, ...sideProjects];
 
   // Featured items first, then non-featured. Each group sorted by date/year.
   const featured = all.filter((i) => i.frontmatter.featured).sort(sortByDateOrYear);
@@ -130,6 +153,7 @@ export const getAllWork = cache((): WorkItem[] => {
 export const getWorkItemBySlug = cache((subType: string, slug: string): WorkItemContent | null => {
   if (subType === CONTENT_SLUGS.WORK_PRODUCTS) return getProductBySlug(slug);
   if (subType === CONTENT_SLUGS.WORK_FEATURES) return getFeatureBySlug(slug);
+  if (subType === CONTENT_SLUGS.WORK_SIDE_PROJECTS) return getSideProjectBySlug(slug);
   return null;
 });
 
@@ -208,22 +232,6 @@ export const getNowBySlug = cache((slug: string): NowEntry | null =>
 // ============================================================================
 // Adding new content types
 // ============================================================================
-//
-// Use contentLoader helpers. Example for work/side-projects:
-//
-//   const SIDE_PROJECTS_PATH = getContentPath(CONTENT_SLUGS.WORK, CONTENT_SLUGS.WORK_SIDE_PROJECTS);
-//   export function getSideProjects() {
-//     return getItemsFromPath<WorkItemFrontmatter>(SIDE_PROJECTS_PATH, sortByDateOrYear);
-//   }
-//   export function getSideProjectBySlug(slug: string) {
-//     return getItemBySlugFromPath<WorkItemFrontmatter>(SIDE_PROJECTS_PATH, slug);
-//   }
-//   export function getFeaturedSideProjects() {
-//     return getFeaturedFromItems(getSideProjects());
-//   }
-//   export function getAdjacentSideProjects(currentSlug: string) {
-//     return getAdjacentFromItems(getSideProjects(), currentSlug) as AdjacentContent;
-//   }
-//
 // Content types to add: writing (posts, thoughts, quotes), experiments, reading.
+// Follow the same pattern as products/features/side-projects above.
 // ============================================================================

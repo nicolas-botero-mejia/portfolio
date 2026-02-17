@@ -1,17 +1,11 @@
 import * as amplitude from '@amplitude/analytics-browser';
+import { logError } from './errors';
 
 const DEBUG = process.env.NODE_ENV === 'development';
-const PREFIX = '[Analytics]';
-
-function logError(message: string, error?: unknown): void {
-  if (DEBUG) {
-    console.error(`${PREFIX} ${message}`, error ?? '');
-  }
-}
 
 function logDebug(message: string, data?: unknown): void {
   if (DEBUG) {
-    console.log(`${PREFIX} ${message}`, data ?? '');
+    console.log(`[Analytics] ${message}`, data ?? '');
   }
 }
 

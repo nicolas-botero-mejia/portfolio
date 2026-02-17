@@ -6,6 +6,7 @@ import { authenticateWorkItem } from '@/actions/authActions';
 import { routes } from '@/data';
 import { useRouter } from 'next/navigation';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
+import Button from '@/components/ui/Button';
 
 interface ServerPasswordPromptProps {
   subType: string;
@@ -114,13 +115,9 @@ export default function ServerPasswordPrompt({
             )}
 
             {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isPending}
-              className="w-full rounded-lg bg-action-primary-bg px-6 py-3 font-medium text-action-primary-text transition-colors hover:bg-action-primary-hover disabled:opacity-50"
-            >
+            <Button as="button" type="submit" disabled={isPending} variant="primary" className="w-full py-3">
               {isPending ? 'Verifying...' : `Unlock ${workItemTypeLabel}`}
-            </button>
+            </Button>
           </form>
 
           {/* Back Link */}
