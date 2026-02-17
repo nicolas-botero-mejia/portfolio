@@ -7,15 +7,6 @@ export interface WorkType {
   label: string;
 }
 
-export const workTypes: WorkType[] = [
-  { slug: 'product', label: 'Product' },
-  { slug: 'feature', label: 'Feature' },
-  { slug: 'side-project', label: 'Side Project' },
-  { slug: 'platform-design', label: 'Platform Design' },
-  { slug: 'design-system', label: 'Design System' },
-  { slug: 'transformation', label: 'Transformation' },
-];
-
 export const WORK_TYPE_SLUGS = {
   PRODUCT: 'product',
   FEATURE: 'feature',
@@ -24,3 +15,12 @@ export const WORK_TYPE_SLUGS = {
   DESIGN_SYSTEM: 'design-system',
   TRANSFORMATION: 'transformation',
 } as const;
+
+export const workTypes: WorkType[] = [
+  { slug: WORK_TYPE_SLUGS.PRODUCT, label: 'Product' },
+  { slug: WORK_TYPE_SLUGS.FEATURE, label: 'Feature' },
+  { slug: WORK_TYPE_SLUGS.SIDE_PROJECT, label: 'Side Project' },
+  { slug: WORK_TYPE_SLUGS.PLATFORM_DESIGN, label: 'Platform Design' },
+  { slug: WORK_TYPE_SLUGS.DESIGN_SYSTEM, label: 'Design System' },
+  { slug: WORK_TYPE_SLUGS.TRANSFORMATION, label: 'Transformation' },
+];
