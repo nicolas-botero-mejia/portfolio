@@ -214,7 +214,7 @@ Server-side validation with HTTP-only cookies (SHA-256, 7-day expiry).
 Priority: per-slug env var → global env var.
 Setup and details: [README_PASSWORD_PROTECTION.md](README_PASSWORD_PROTECTION.md) | [docs/PASSWORD_PROTECTION.md](docs/PASSWORD_PROTECTION.md)
 
-Key files: `src/lib/serverPasswordAuth.ts`, `src/actions/authActions.ts`, `src/components/ServerPasswordPrompt.tsx`
+Key files: `src/lib/serverPasswordAuth.ts`, `src/actions/authActions.ts`, `src/components/auth/ServerPasswordPrompt.tsx`
 
 ### Feature Flags
 
@@ -242,10 +242,10 @@ portfolio/
 │   ├── app/                         # Next.js App Router pages
 │   ├── components/
 │   │   ├── ui/                      # Design system components (see inventory above)
-│   │   ├── layout/                  # SplitLayout
+│   │   ├── layout/                  # SplitLayout, TopNav, DevToolsPanel
+│   │   ├── auth/                    # ServerPasswordPrompt
 │   │   ├── home/                    # Home page sections
-│   │   ├── MDXRenderer.tsx          # MDX content renderer
-│   │   └── ServerPasswordPrompt.tsx # Password protection UI
+│   │   └── MDXRenderer.tsx          # MDX content renderer
 │   ├── data/                        # Structured data layer (see above)
 │   ├── lib/                         # Utilities (contentLoader, seo, mdx, serverPasswordAuth)
 │   ├── config/                      # Feature flags, auth cookie config

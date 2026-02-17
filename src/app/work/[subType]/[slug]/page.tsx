@@ -8,7 +8,7 @@ import { Metadata } from 'next';
 import { requiresPassword, isAuthenticated } from '@/lib/serverPasswordAuth';
 import { getWorkThumbnailPath, type WorkSubType } from '@/lib/contentPaths';
 import { isSubTypeEnabled } from '@/config/features';
-import ServerPasswordPrompt from '@/components/ServerPasswordPrompt';
+import ServerPasswordPrompt from '@/components/auth/ServerPasswordPrompt';
 import WorkItemTracker from '@/components/WorkItemTracker';
 import ContentNavigation from '@/components/ui/ContentNavigation';
 
