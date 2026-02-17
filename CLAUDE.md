@@ -239,7 +239,7 @@ portfolio/
 - **React:** Functional components with hooks, Server Components by default
 - **Tailwind:** Semantic tokens for colors, primitive scale for layout (see Design System above)
 - **Imports:** Absolute imports with `@/` prefix (maps to `src/`)
-- **Constants over literals:** Always use existing constants instead of string literals. Content type slugs use `CONTENT_SLUGS.*` (from `@/data`), image levels use `IMAGE_LEVELS.*`, default extension uses `DEFAULT_IMAGE_EXT` (both from `@/lib/contentPaths`). Never hardcode values like `'work'`, `'hero'`, `'thumbnail'`, `'png'` when a constant exists.
+- **Constants over literals:** Always use existing constants instead of string literals. Content type slugs use `CONTENT_SLUGS.*` (from `@/data`), image variants use `IMAGE_VARIANTS.*`, default extension uses `DEFAULT_IMAGE_EXT` (both from `@/lib/contentPaths`). Never hardcode values like `'work'`, `'hero'`, `'thumbnail'`, `'png'` when a constant exists.
 
 ### File Naming
 - **Components:** `PascalCase.tsx` (e.g., `ServerPasswordPrompt.tsx`)

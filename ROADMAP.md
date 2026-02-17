@@ -124,8 +124,8 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [x] Standardize work item terminology across codebase (case studies → products/work items; see `docs/WORK_ITEM_TERMINOLOGY.md`)
 - [x] Reorganize asset paths to match content hierarchy (`public/images/work/products/`)
 - [x] Refactor work item type system (`ProductFrontmatter` → `WorkItemFrontmatter`, transversal vs subtype-specific fields, remove `heroImage` from frontmatter)
-- [x] Add convention-based image path helpers (`getWorkThumbnailPath`, `getThumbnailPath`, `IMAGE_LEVELS`, `DEFAULT_IMAGE_EXT` constants)
-- [x] Enforce constants over literals (`CONTENT_SLUGS.*`, `IMAGE_LEVELS.*`, `DEFAULT_IMAGE_EXT`; rule added to CLAUDE.md)
+- [x] Add convention-based image path helpers (`getWorkThumbnailPath`, `getThumbnailPath`, `IMAGE_VARIANTS`, `DEFAULT_IMAGE_EXT` constants)
+- [x] Enforce constants over literals (`CONTENT_SLUGS.*`, `IMAGE_VARIANTS.*`, `DEFAULT_IMAGE_EXT`; rule added to CLAUDE.md)
 - [x] Harden SEO metadata for work items (ogImage from thumbnail, canonical URLs, `noIndex` + restrictive googleBot directives for locked/NDA items)
 
 *Design-to-code Figma integration → moved to Project 7.1*
@@ -548,7 +548,7 @@ This is the learning and tooling project. Building tests and stories against a l
 
 ## Change log
 
-- **Feb 2026 (type system & SEO):** Refactored work item types (`ProductFrontmatter` → `WorkItemFrontmatter`), removed `heroImage` from frontmatter in favor of convention-based image paths (`getWorkThumbnailPath`, `getThumbnailPath`). Added `IMAGE_LEVELS` and `DEFAULT_IMAGE_EXT` constants, enforced constants-over-literals rule in CLAUDE.md. Hardened SEO metadata: ogImage from thumbnails for public items, canonical URLs on work items, `noIndex` with restrictive googleBot directives for locked/NDA items. Updated example MDX templates and docs.
+- **Feb 2026 (type system & SEO):** Refactored work item types (`ProductFrontmatter` → `WorkItemFrontmatter`), removed `heroImage` from frontmatter in favor of convention-based image paths (`getWorkThumbnailPath`, `getThumbnailPath`). Added `IMAGE_VARIANTS` and `DEFAULT_IMAGE_EXT` constants, enforced constants-over-literals rule in CLAUDE.md. Hardened SEO metadata: ogImage from thumbnails for public items, canonical URLs on work items, `noIndex` with restrictive googleBot directives for locked/NDA items. Updated example MDX templates and docs.
 - **Feb 2026 (restructure):** Reorganized from 7 to 8 projects with ship-first sequencing. Added missing Project 3 (Content & Launch Readiness). Moved Storybook/testing/CI from pre-launch (old 2.2/4.2) to post-launch (new Project 6). Moved Figma sync and DS docs to Project 7. Moved mobile/a11y audits to Project 4.2 pre-launch QA. Merged old Projects 4+5 into new Project 4 (Deploy & Launch). Renamed old Project 7 milestones from time-based to theme-based (new Project 8). Migrated Sainapsis to Bridge. All completed tasks preserved.
 - **Feb 2026:** Doc pass before execution: moved "Integrate design-to-code logic" from 2.1 to 2.2 (was only in 2.2 by title; now single place). README: status/phase → ROADMAP-aligned (pre-launch, Project 2 focus); Next.js 15 → 16; roadmap section simplified.
 - **Feb 2026:** Project 2 split: moved mobile responsiveness from P1 to Milestone 2.1 with subtasks (audit breakpoints, fix layout, touch targets, test nav, document). Created Milestone 2.2 for design-to-code, Storybook, and Design System structure (2.2 grows with components). Updated recommended order and task-order bullets.

@@ -12,16 +12,16 @@ export type WorkSubType = WorkContentType['subTypes'][number]['slug'];
 /** Default image file extension */
 export const DEFAULT_IMAGE_EXT = 'png';
 
-/** Standard image level constants */
-export const IMAGE_LEVELS = {
+/** Standard image variant constants */
+export const IMAGE_VARIANTS = {
   HERO: 'hero',
   THUMBNAIL: 'thumbnail',
   OG: 'og',
 } as const;
 
 /**
- * Conventional image path with contentType level.
- * Pattern: /images/{contentType}/{subType?}/{slug}-{level}.{ext}
+ * Conventional image path with contentType variant.
+ * Pattern: /images/{contentType}/{subType?}/{slug}-{variant}.{ext}
  * - With subType (work, experiments, writing, reading): /images/work/products/ocean-hero.png
  * - Without subType (now, pages): /images/now/2025-02-09-hero.png
  */
@@ -29,12 +29,19 @@ export function getImagePath(
   contentType: string,
   subType: string | null,
   slug: string,
-  level: string,
+  variant: string,
   ext = DEFAULT_IMAGE_EXT
 ): string {
   const base = `/images/${contentType}`;
-  const segment = subType ? `${subType}/${slug}-${level}` : `${slug}-${level}`;
+  const segment = subType ? `${subType}/${slug}-${variant}` : `${slug}-${variant}`;
   return `${base}/${segment}.${ext}`;
+}
+
+/**
+ * Work-specific image path (convenience for getImagePath('work', subType, slug, variant)).
+ */
+export function getWorkImagePath(subType: WorkSubType, slug: string, variant: string, ext = DEFAULT_IMAGE_EXT): string {
+  return getImagePath(CONTENT_SLUGS.WORK, subType, slug, variant, ext);
 }
 
 /**
@@ -46,7 +53,7 @@ export function getHeroImagePath(
   slug: string,
   ext = DEFAULT_IMAGE_EXT
 ): string {
-  return getImagePath(contentType, subType, slug, IMAGE_LEVELS.HERO, ext);
+  return getImagePath(contentType, subType, slug, IMAGE_VARIANTS.HERO, ext);
 }
 
 /**
@@ -65,7 +72,7 @@ export function getThumbnailPath(
   slug: string,
   ext = DEFAULT_IMAGE_EXT
 ): string {
-  return getImagePath(contentType, subType, slug, IMAGE_LEVELS.THUMBNAIL, ext);
+  return getImagePath(contentType, subType, slug, IMAGE_VARIANTS.THUMBNAIL, ext);
 }
 
 /**
@@ -84,7 +91,7 @@ export function getOgImagePath(
   slug: string,
   ext = DEFAULT_IMAGE_EXT
 ): string {
-  return getImagePath(contentType, subType, slug, IMAGE_LEVELS.OG, ext);
+  return getImagePath(contentType, subType, slug, IMAGE_VARIANTS.OG, ext);
 }
 
 /**
@@ -92,16 +99,4 @@ export function getOgImagePath(
  */
 export function getWorkOgImagePath(subType: WorkSubType, slug: string, ext = DEFAULT_IMAGE_EXT): string {
   return getOgImagePath(CONTENT_SLUGS.WORK, subType, slug, ext);
-}
-
-/**
- * Work-specific image path (convenience for getImagePath('work', subType, slug, level)).
- */
-export function getWorkImagePath(
-  subType: WorkSubType,
-  slug: string,
-  level: string,
-  ext = DEFAULT_IMAGE_EXT
-): string {
-  return getImagePath(CONTENT_SLUGS.WORK, subType, slug, level, ext);
 }
