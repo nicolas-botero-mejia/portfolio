@@ -13,9 +13,22 @@
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const contentDir = path.join(process.cwd(), 'content');
 const manifestPath = path.join(process.cwd(), 'src', 'lib', 'contentManifest.ts');
+
+// Track file hashes to avoid spurious bumps from macOS FSEvents noise
+const fileHashes = new Map();
+
+function hashFile(filePath) {
+  try {
+    const content = fs.readFileSync(filePath, 'utf8');
+    return crypto.createHash('md5').update(content).digest('hex');
+  } catch {
+    return null; // File deleted or unreadable
+  }
+}
 
 function writeManifest() {
   const content = `/**
@@ -39,13 +52,27 @@ let timer;
 function bumpManifest(filePath) {
   clearTimeout(timer);
   timer = setTimeout(() => {
+    // Check if file content actually changed (guards against FSEvents noise)
+    const newHash = hashFile(filePath);
+    const oldHash = fileHashes.get(filePath);
+
+    if (newHash === null) {
+      // File was deleted — that's a real change
+      fileHashes.delete(filePath);
+    } else if (newHash === oldHash) {
+      // Content unchanged — spurious event, skip
+      return;
+    } else {
+      fileHashes.set(filePath, newHash);
+    }
+
     writeManifest();
     console.log(
       '[watchContent]',
       path.relative(process.cwd(), filePath),
       '-> bumped contentManifest'
     );
-  }, 100);
+  }, 150);
 }
 
 function watch() {
