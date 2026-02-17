@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect } from 'react';
-import Link from 'next/link';
 import { routes } from '@/data';
 import { logError } from '@/lib/errors';
+import Button from '@/components/ui/Button';
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -23,18 +23,12 @@ export default function Error({ error, reset }: ErrorProps) {
           An unexpected error occurred. Please try again.
         </p>
         <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-          <button
-            onClick={reset}
-            className="rounded-lg bg-action-primary-bg px-6 py-3 font-medium text-action-primary-text transition-colors hover:bg-action-primary-hover"
-          >
+          <Button onClick={reset} variant="primary" className="px-6 py-3">
             Try again
-          </button>
-          <Link
-            href={routes.work}
-            className="rounded-lg border border-action-secondary-border px-6 py-3 font-medium text-content-secondary transition-colors hover:bg-action-secondary-hover"
-          >
+          </Button>
+          <Button as="link" href={routes.work} variant="secondary" className="px-6 py-3">
             Back to work
-          </Link>
+          </Button>
         </div>
       </div>
     </div>

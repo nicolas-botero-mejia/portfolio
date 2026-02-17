@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { routes } from '@/data';
+import Button from '@/components/ui/Button';
 
 export default function NotFound() {
   return (
@@ -10,12 +10,9 @@ export default function NotFound() {
         <p className="mb-8 text-content-muted">
           The page you&apos;re looking for doesn&apos;t exist or has been moved.
         </p>
-        <Link
-          href={routes.work}
-          className="inline-block rounded-lg bg-action-primary-bg px-6 py-3 font-medium text-action-primary-text transition-colors hover:bg-action-primary-hover"
-        >
+        <Button as="link" href={routes.work} variant="primary" className="px-6 py-3">
           Back to work
-        </Link>
+        </Button>
       </div>
     </div>
   );
