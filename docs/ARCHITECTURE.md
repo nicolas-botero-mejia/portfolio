@@ -66,8 +66,9 @@ const { prev, next } = getAdjacentWork('ocean');
 ### Folder Structure Over Filename Prefixes
 
 ```
-content/work/products/ocean.mdx        (folder = type)
-content/work/features/billing.mdx       (folder = type)
+content/work/products/ocean.mdx              (folder = type)
+content/work/features/billing.mdx            (folder = type)
+content/work/transformations/example.mdx     (folder = type)
 ```
 
 Not: `cs-ocean.mdx`, `ft-billing.mdx` (prefix = anti-pattern)

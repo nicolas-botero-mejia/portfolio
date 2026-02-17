@@ -27,7 +27,7 @@ export interface WorkItemFrontmatter {
   // Transversal (all work items)
   title: string;
   description: string;
-  type: string;      // Work type: product, feature, side-project
+  type: string;      // Work type: product, feature, side-project, transformation
   featured: boolean;
   tags: string[];
   date?: string;     // For sorting (YYYY-MM-DD format)
@@ -123,7 +123,29 @@ export function getAdjacentSideProjects(currentSlug: string): AdjacentContent {
 }
 
 // ============================================================================
-// WORK - All (combined products + features + side-projects)
+// WORK - Transformations
+// ============================================================================
+
+const TRANSFORMATIONS_PATH = getContentPath(CONTENT_SLUGS.WORK, CONTENT_SLUGS.WORK_TRANSFORMATIONS);
+
+export const getTransformations = cache((): WorkItemContent[] =>
+  getItemsFromPath<WorkItemFrontmatter>(TRANSFORMATIONS_PATH, sortByYearDesc)
+);
+
+export const getTransformationBySlug = cache((slug: string): WorkItemContent | null =>
+  getItemBySlugFromPath<WorkItemFrontmatter>(TRANSFORMATIONS_PATH, slug)
+);
+
+export function getFeaturedTransformations(): WorkItemContent[] {
+  return getFeaturedFromItems(getTransformations());
+}
+
+export function getAdjacentTransformations(currentSlug: string): AdjacentContent {
+  return getAdjacentFromItems(getTransformations(), currentSlug) as AdjacentContent;
+}
+
+// ============================================================================
+// WORK - All (combined products + features + side-projects + transformations)
 // ============================================================================
 
 /** Work item with subType derived from its content folder (e.g., 'products', 'features'). */
@@ -138,7 +160,8 @@ export const getAllWork = cache((): WorkItem[] => {
   const products: WorkItem[] = getProducts().map((p) => ({ ...p, subType: CONTENT_SLUGS.WORK_PRODUCTS }));
   const features: WorkItem[] = getFeatures().map((f) => ({ ...f, subType: CONTENT_SLUGS.WORK_FEATURES }));
   const sideProjects: WorkItem[] = getSideProjects().map((sp) => ({ ...sp, subType: CONTENT_SLUGS.WORK_SIDE_PROJECTS }));
-  const all = [...products, ...features, ...sideProjects];
+  const transformations: WorkItem[] = getTransformations().map((t) => ({ ...t, subType: CONTENT_SLUGS.WORK_TRANSFORMATIONS }));
+  const all = [...products, ...features, ...sideProjects, ...transformations];
 
   // Featured items first, then non-featured. Each group sorted by date/year.
   const featured = all.filter((i) => i.frontmatter.featured).sort(sortByDateOrYear);
@@ -154,6 +177,7 @@ export const getWorkItemBySlug = cache((subType: string, slug: string): WorkItem
   if (subType === CONTENT_SLUGS.WORK_PRODUCTS) return getProductBySlug(slug);
   if (subType === CONTENT_SLUGS.WORK_FEATURES) return getFeatureBySlug(slug);
   if (subType === CONTENT_SLUGS.WORK_SIDE_PROJECTS) return getSideProjectBySlug(slug);
+  if (subType === CONTENT_SLUGS.WORK_TRANSFORMATIONS) return getTransformationBySlug(slug);
   return null;
 });
 

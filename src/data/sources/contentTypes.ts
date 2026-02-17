@@ -30,6 +30,7 @@ export const contentTypes: ContentType[] = [
       { slug: 'products', label: 'Products', path: 'work/products', route: '/work/products' },
       { slug: 'features', label: 'Features', path: 'work/features', route: '/work/features' },
       { slug: 'side-projects', label: 'Side Projects', path: 'work/side-projects', route: '/work/side-projects' },
+      { slug: 'transformations', label: 'Transformations', path: 'work/transformations', route: '/work/transformations' },
     ],
   },
   {

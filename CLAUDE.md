@@ -176,7 +176,7 @@ Full architecture: [docs/CONTENT_ARCHITECTURE.md](docs/CONTENT_ARCHITECTURE.md)
 
 ```
 content/
-├── work/               # products/, features/, side-projects/
+├── work/               # products/, features/, side-projects/, transformations/
 ├── writing/            # posts/, thoughts/, quotes/
 ├── experiments/        # design/, code/, prototypes/
 ├── reading/            # books/, articles/

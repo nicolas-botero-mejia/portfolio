@@ -13,6 +13,7 @@ export const workTypes: WorkType[] = [
   { slug: 'side-project', label: 'Side Project' },
   { slug: 'platform-design', label: 'Platform Design' },
   { slug: 'design-system', label: 'Design System' },
+  { slug: 'transformation', label: 'Transformation' },
 ];
 
 export const WORK_TYPE_SLUGS = {
@@ -21,4 +22,5 @@ export const WORK_TYPE_SLUGS = {
   SIDE_PROJECT: 'side-project',
   PLATFORM_DESIGN: 'platform-design',
   DESIGN_SYSTEM: 'design-system',
+  TRANSFORMATION: 'transformation',
 } as const;

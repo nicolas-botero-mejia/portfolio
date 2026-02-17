@@ -9,7 +9,8 @@ content/
 ├── work/                      # Professional work
 │   ├── products/              # Full platform/product stories
 │   ├── features/              # Granular product features
-│   └── side-projects/         # Personal/experimental projects
+│   ├── side-projects/         # Personal/experimental projects
+│   └── transformations/       # UX company/cultural transformations
 │
 ├── writing/                   # Written content
 │   ├── posts/                 # Long-form articles
@@ -99,6 +100,28 @@ seo:
   metaTitle: "Ocean Billing System | Nicolás Botero"
   metaDescription: "Enterprise billing dashboard design"
   keywords: ["billing dashboard", "enterprise ux"]
+---
+```
+
+### Transformations (`work/transformations/`)
+
+```yaml
+---
+title: "Design Culture at Scale"
+description: "Led a company-wide UX transformation across 12 product teams"
+type: "transformation"
+subtitle: "Design Culture & Process Transformation"
+company: "routemobile"
+role: "Head of Design"
+year: "2022-2024"
+duration: "2 years"
+date: "2024-01-15"
+featured: true
+tags: ["design culture", "organizational change", "process"]
+seo:
+  metaTitle: "Design Culture at Scale | Nicolas Botero"
+  metaDescription: "How I led a UX transformation across 12 product teams"
+  keywords: ["design transformation", "ux culture", "organizational change"]
 ---
 ```
 

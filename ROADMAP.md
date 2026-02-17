@@ -272,6 +272,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [ ] **Add PayU Latam product** (create MDX, frontmatter, assets)
 - [ ] **Break Ocean into feature case studies** (list features to extract, create feature MDX entries, update Ocean to link/summarize)
 - [ ] **Break Bridge into feature case studies** (list features to extract, create feature MDX entries, update Bridge to link/summarize)
+- [ ] **Add first transformation case studies** (UX company/cultural transformations; content subtype and data layer already wired)
 
 ### Milestone 5.2 – New Content Sections
 
@@ -560,6 +561,7 @@ This is the learning and tooling project. Building tests and stories against a l
 
 ## Change log
 
+- **Feb 2026 (transformations subtype):** Added "transformations" work subtype for UX company/cultural transformation case studies. Wired content subtype (`contentTypes.ts`), work type (`workTypes.ts`), content loading functions (`mdx.ts`), content and image directories, example MDX template, and documentation updates across 5 docs.
 - **Feb 2026 (architecture review gap analysis):** Added 6 untracked tasks from post-review sweep: favicon/manifest (3.1), theme toggle UI (3.1), security headers (4.1), skip-to-content link (4.2 a11y), env variable validation (4.2), loading.tsx route files (4.3). Also flagged unused data exports (`designPrinciples`, tag utilities) under 4.2 code cleanup.
 - **Feb 2026 (architecture review):** Full codebase architecture review. Completed UI barrel export (added missing Divider, Link, Skeleton, Breadcrumb, Typography exports). Replaced hardcoded `<button>` in ServerPasswordPrompt with `<Button>` component. Added side-projects content accessor to `mdx.ts` (`getAllWork` now includes side-projects). Shortened SEO meta titles to under 60 chars and fixed double-attribution bug (titleTemplate already appends name). Disabled frontmatter passwords in production. Removed unused dependencies (next-seo, react-wrap-balancer). Fixed documentation drift in CLAUDE.md (layout components, tech stack, routes). Deduplicated analytics logging.
 - **Feb 2026 (type system & SEO):** Refactored work item types (`ProductFrontmatter` → `WorkItemFrontmatter`), removed `heroImage` from frontmatter in favor of convention-based image paths (`getWorkThumbnailPath`, `getThumbnailPath`). Added `IMAGE_VARIANTS` and `DEFAULT_IMAGE_EXT` constants, enforced constants-over-literals rule in CLAUDE.md. Hardened SEO metadata: ogImage from thumbnails for public items, canonical URLs on work items, `noIndex` with restrictive googleBot directives for locked/NDA items. Updated example MDX templates and docs.

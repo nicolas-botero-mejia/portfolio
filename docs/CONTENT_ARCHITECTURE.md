@@ -15,7 +15,8 @@ content/
 ├── work/
 │   ├── products/        # Products (sainapsis, ocean, aquads)
 │   ├── features/        # Features; frontmatter `parent` = product slug (features only)
-│   └── side-projects/   # Personal/side projects
+│   ├── side-projects/   # Personal/side projects
+│   └── transformations/ # UX company/cultural transformations
 ├── writing/
 │   ├── posts/            # Long-form blog posts
 │   ├── thoughts/         # Short-form thoughts
