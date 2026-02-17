@@ -45,10 +45,10 @@ Use this sequence so work builds on itself and nothing is blocked.
 **Task order within key milestones:**
 
 - **Project 2, 2.2:** Build remaining MDX override components → Build About page components (WorkflowGrid, ExperienceTimeline).
-- **Project 3, 3.1:** Fix hero images → Write Uses content → Add sitemap/robots → Wire About page components.
+- **Project 3, 3.1:** Fix hero images → Write Uses content → Add sitemap/robots → Wire About page → Favicon/manifest → Theme toggle.
 - **Project 3, 3.2:** Migrate Sainapsis → Bridge → Polish case studies → Optimize images → Audit SEO meta.
-- **Project 4, 4.2:** Mobile audit → a11y audit → performance audit → cross-browser → code cleanup.
-- **Project 4, 4.3:** OG images → polish → final QA → launch → post-launch monitoring.
+- **Project 4, 4.2:** Mobile audit → a11y audit (incl. skip-to-content) → performance audit → cross-browser → code cleanup + env validation.
+- **Project 4, 4.3:** OG images → loading.tsx → polish → final QA → launch → post-launch monitoring.
 
 ---
 
@@ -179,6 +179,8 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [ ] **Write Uses page content** (`content/pages/uses.mdx` — currently a TODO skeleton; add Design Tools, Development Tools, Productivity, Hardware sections)
 - [ ] **Add sitemap and robots route handlers** (`src/app/sitemap.ts` and `src/app/robots.ts`; next-sitemap installed but not configured)
 - [ ] **Wire About page** to WorkflowGrid and ExperienceTimeline components (built in 2.2; remove TODO comments from `content/pages/about.mdx`)
+- [ ] **Add favicon and web manifest** (`favicon.ico`, `apple-touch-icon.png`, `site.webmanifest` in `public/`; currently no favicon — browser tabs show generic icon)
+- [ ] **Add theme toggle UI** (ThemeProvider infrastructure exists with light/dark/system modes, but no toggle button is exposed to users; add to sidebar or header)
 
 ### Milestone 3.2 – Content Polish
 
@@ -210,6 +212,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 - [ ] **Create and configure Vercel project** (import Git repo, link to GitHub)
 - [ ] **Configure build settings** (framework: Next.js, root directory, build command, output)
+- [ ] **Add security headers** (CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy via `headers()` in `next.config.ts`; currently relying on Vercel defaults only)
 - [ ] **Add environment variables** (match `.env.local`: `NEXT_PUBLIC_*`, `WORK_*_PASSWORD` if used, GA/Amplitude keys)
 - [ ] **Trigger first production deploy** (push to main or "Deploy" in dashboard)
 - [ ] **Verify deployment** (production URL loads, key routes work: `/`, `/work`, `/about`, product slugs)
@@ -228,6 +231,7 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [ ] Check landscape orientation (layout and overflow at key widths)
   - [ ] Document breakpoints and responsive patterns
 - [ ] **Audit accessibility** (axe, Lighthouse, keyboard navigation, screen reader)
+  - [ ] Add skip-to-content link (WCAG 2.1 AA requirement; currently missing)
   - [ ] Fix critical and serious issues
   - [ ] Document a11y patterns and add to launch checklist
 - [ ] **Audit performance** (Lighthouse 95+ target, LCP < 2.5s, FCP < 1s, CLS < 0.1)
@@ -236,6 +240,8 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [ ] Run bundle and code analysis
   - [ ] Remove or replace unused dependencies (next-seo and react-wrap-balancer already removed in architecture review; check framer-motion, next-sitemap usage)
   - [ ] Remove dead code and unused components
+  - [ ] Review unused data layer exports (`designPrinciples`, `allTags`, `isValidTag`, `tagGroups` — exported from `src/data/index.ts` but no consumer in app)
+- [ ] **Add environment variable validation** (centralized Zod schema for `process.env.*`; currently read inline across 5+ files with no build-time or runtime validation)
 
 ### Milestone 4.3 – Launch
 
@@ -244,6 +250,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [ ] **Create OG images** (1200x630px PNG)
   - [ ] Create general fallback `public/og-image.png` (name, title, brand — used as default when sharing any page)
   - [ ] Create per-work-item OG images for each product (Ocean, AquaDS, Bridge — `{slug}-og.png` via `getWorkOgImagePath`, passed as `ogImage` in `generatePageMetadata`)
+- [ ] **Add loading.tsx route files** (no loading states exist for any route; add root and/or per-route `loading.tsx` using Skeleton components for visual feedback during navigation)
 - [ ] **Add polish and animations** (transitions, scroll, hover, loading, 404)
 - [ ] **Add privacy policy** if analytics use cookies
 - [ ] **Run final QA pass** (AI agents, proofread, links, images, a11y, performance)
@@ -553,6 +560,7 @@ This is the learning and tooling project. Building tests and stories against a l
 
 ## Change log
 
+- **Feb 2026 (architecture review gap analysis):** Added 6 untracked tasks from post-review sweep: favicon/manifest (3.1), theme toggle UI (3.1), security headers (4.1), skip-to-content link (4.2 a11y), env variable validation (4.2), loading.tsx route files (4.3). Also flagged unused data exports (`designPrinciples`, tag utilities) under 4.2 code cleanup.
 - **Feb 2026 (architecture review):** Full codebase architecture review. Completed UI barrel export (added missing Divider, Link, Skeleton, Breadcrumb, Typography exports). Replaced hardcoded `<button>` in ServerPasswordPrompt with `<Button>` component. Added side-projects content accessor to `mdx.ts` (`getAllWork` now includes side-projects). Shortened SEO meta titles to under 60 chars and fixed double-attribution bug (titleTemplate already appends name). Disabled frontmatter passwords in production. Removed unused dependencies (next-seo, react-wrap-balancer). Fixed documentation drift in CLAUDE.md (layout components, tech stack, routes). Deduplicated analytics logging.
 - **Feb 2026 (type system & SEO):** Refactored work item types (`ProductFrontmatter` → `WorkItemFrontmatter`), removed `heroImage` from frontmatter in favor of convention-based image paths (`getWorkThumbnailPath`, `getThumbnailPath`). Added `IMAGE_VARIANTS` and `DEFAULT_IMAGE_EXT` constants, enforced constants-over-literals rule in CLAUDE.md. Hardened SEO metadata: ogImage from thumbnails for public items, canonical URLs on work items, `noIndex` with restrictive googleBot directives for locked/NDA items. Updated example MDX templates and docs.
 - **Feb 2026 (restructure):** Reorganized from 7 to 8 projects with ship-first sequencing. Added missing Project 3 (Content & Launch Readiness). Moved Storybook/testing/CI from pre-launch (old 2.2/4.2) to post-launch (new Project 6). Moved Figma sync and DS docs to Project 7. Moved mobile/a11y audits to Project 4.2 pre-launch QA. Merged old Projects 4+5 into new Project 4 (Deploy & Launch). Renamed old Project 7 milestones from time-based to theme-based (new Project 8). Planned Sainapsis → Bridge migration (Project 3.2). All completed tasks preserved.
