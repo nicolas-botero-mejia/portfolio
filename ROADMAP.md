@@ -480,6 +480,7 @@ This is the learning and tooling project. Building tests and stories against a l
   - [ ] Document accessibility patterns per component (keyboard nav, ARIA, focus management)
   - [ ] Add design system README or wiki (how to add components, testing requirements)
 - [ ] **Document Figma sync workflow** (when to push, how to resolve conflicts, see `docs/FIGMA_LEARNINGS.md`)
+- [ ] **Implement Figma lint** (define lint rules from design tokens — colors, spacing, typography, radii; flag detached styles, off-scale values, and naming violations in Figma files)
 - [ ] **Verify Storybook a11y addon reports** (fix critical/serious issues, document known minor issues)
 
 ---
