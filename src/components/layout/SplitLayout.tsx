@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { trackEvent } from '@/lib/analytics';
+import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { navigation, profile, routes, getCompany } from '@/data';
 
 interface SplitLayoutProps {
@@ -17,7 +17,7 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, section: string) => {
     // Track navigation click
     trackEvent({
-      name: 'navigation_click',
+      name: ANALYTICS_EVENTS.NAVIGATION_CLICK,
       properties: { section, from: pathname },
     });
 
@@ -27,14 +27,14 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
 
   const handleExternalLinkClick = (url: string, label: string) => {
     trackEvent({
-      name: 'external_link_click',
+      name: ANALYTICS_EVENTS.EXTERNAL_LINK_CLICK,
       properties: { url, label, section: 'sidebar' },
     });
   };
 
   const handleContactClick = (method: 'email' | 'linkedin') => {
     trackEvent({
-      name: 'contact_click',
+      name: ANALYTICS_EVENTS.CONTACT_CLICK,
       properties: { method, section: 'sidebar' },
     });
   };

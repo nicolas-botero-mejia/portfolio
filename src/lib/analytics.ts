@@ -39,15 +39,26 @@ export const initAmplitude = () => {
   }
 };
 
+// Event name constants
+export const ANALYTICS_EVENTS = {
+  PAGE_VIEW: 'page_view',
+  WORK_ITEM_VIEW: 'work_item_view',
+  WORK_ITEM_PASSWORD_ATTEMPT: 'work_item_password_attempt',
+  EXTERNAL_LINK_CLICK: 'external_link_click',
+  CONTACT_CLICK: 'contact_click',
+  WORK_CARD_CLICK: 'work_card_click',
+  NAVIGATION_CLICK: 'navigation_click',
+} as const;
+
 // Event types for type safety
 export type AnalyticsEvent =
-  | { name: 'page_view'; properties: { path: string; title: string } }
-  | { name: 'work_item_view'; properties: { slug: string; title: string; company?: string } }
-  | { name: 'work_item_password_attempt'; properties: { slug: string; success: boolean } }
-  | { name: 'external_link_click'; properties: { url: string; label: string; section: string } }
-  | { name: 'contact_click'; properties: { method: 'email' | 'linkedin'; section: string } }
-  | { name: 'work_card_click'; properties: { slug: string; title: string; position: number } }
-  | { name: 'navigation_click'; properties: { section: string; from: string } };
+  | { name: typeof ANALYTICS_EVENTS.PAGE_VIEW; properties: { path: string; title: string } }
+  | { name: typeof ANALYTICS_EVENTS.WORK_ITEM_VIEW; properties: { slug: string; title: string; company?: string } }
+  | { name: typeof ANALYTICS_EVENTS.WORK_ITEM_PASSWORD_ATTEMPT; properties: { slug: string; success: boolean } }
+  | { name: typeof ANALYTICS_EVENTS.EXTERNAL_LINK_CLICK; properties: { url: string; label: string; section: string } }
+  | { name: typeof ANALYTICS_EVENTS.CONTACT_CLICK; properties: { method: 'email' | 'linkedin'; section: string } }
+  | { name: typeof ANALYTICS_EVENTS.WORK_CARD_CLICK; properties: { slug: string; title: string; position: number } }
+  | { name: typeof ANALYTICS_EVENTS.NAVIGATION_CLICK; properties: { section: string; from: string } };
 
 // Track event with Amplitude
 export const trackEvent = (event: AnalyticsEvent) => {
@@ -81,7 +92,7 @@ export const trackPageView = (path: string, title: string) => {
 
     // Amplitude
     trackEvent({
-      name: 'page_view',
+      name: ANALYTICS_EVENTS.PAGE_VIEW,
       properties: { path, title },
     });
   } catch (error) {

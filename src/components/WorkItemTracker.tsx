@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { trackEvent } from '@/lib/analytics';
+import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { getCompanyName } from '@/data';
 
 interface WorkItemTrackerProps {
@@ -13,7 +13,7 @@ interface WorkItemTrackerProps {
 export default function WorkItemTracker({ slug, title, company }: WorkItemTrackerProps) {
   useEffect(() => {
     trackEvent({
-      name: 'work_item_view',
+      name: ANALYTICS_EVENTS.WORK_ITEM_VIEW,
       properties: { slug, title, ...(company && { company: getCompanyName(company) }) },
     });
   }, [slug, title, company]);

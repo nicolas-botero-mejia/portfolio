@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { authenticateWorkItem } from '@/actions/authActions';
 import { routes } from '@/data';
 import { useRouter } from 'next/navigation';
-import { trackEvent } from '@/lib/analytics';
+import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 interface ServerPasswordPromptProps {
   subType: string;
@@ -36,7 +36,7 @@ export default function ServerPasswordPrompt({
 
       // Track password attempt
       trackEvent({
-        name: 'work_item_password_attempt',
+        name: ANALYTICS_EVENTS.WORK_ITEM_PASSWORD_ATTEMPT,
         properties: { slug, success: result.success },
       });
 

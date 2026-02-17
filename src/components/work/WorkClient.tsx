@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { trackEvent } from '@/lib/analytics';
+import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { getRoute, getCompanyName, getWorkTypeLabel, CONTENT_SLUGS } from '@/data';
 import type { WorkItem } from '@/lib/mdx';
 import { getWorkThumbnailPath, type WorkSubType } from '@/lib/contentPaths';
@@ -48,7 +48,7 @@ export default function WorkClient({ allWork, title, description }: WorkClientPr
 
   const handleWorkCardClick = (slug: string, title: string, position: number) => {
     trackEvent({
-      name: 'work_card_click',
+      name: ANALYTICS_EVENTS.WORK_CARD_CLICK,
       properties: { slug, title, position },
     });
   };
