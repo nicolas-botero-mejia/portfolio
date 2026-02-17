@@ -16,6 +16,7 @@ export const DEFAULT_IMAGE_EXT = 'png';
 export const IMAGE_LEVELS = {
   HERO: 'hero',
   THUMBNAIL: 'thumbnail',
+  OG: 'og',
 } as const;
 
 /**
@@ -72,6 +73,25 @@ export function getThumbnailPath(
  */
 export function getWorkThumbnailPath(subType: WorkSubType, slug: string, ext = DEFAULT_IMAGE_EXT): string {
   return getThumbnailPath(CONTENT_SLUGS.WORK, subType, slug, ext);
+}
+
+/**
+ * OG image path. Convenience for getImagePath(..., 'og', ext).
+ */
+export function getOgImagePath(
+  contentType: string,
+  subType: string | null,
+  slug: string,
+  ext = DEFAULT_IMAGE_EXT
+): string {
+  return getImagePath(contentType, subType, slug, IMAGE_LEVELS.OG, ext);
+}
+
+/**
+ * Work-specific OG image path for social sharing previews.
+ */
+export function getWorkOgImagePath(subType: WorkSubType, slug: string, ext = DEFAULT_IMAGE_EXT): string {
+  return getOgImagePath(CONTENT_SLUGS.WORK, subType, slug, ext);
 }
 
 /**

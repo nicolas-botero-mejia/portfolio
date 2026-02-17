@@ -1,6 +1,13 @@
 import { Metadata } from 'next';
-import { site } from '@/data';
+import { site, routes } from '@/data';
 import { getPageBySlug } from './mdx';
+
+const defaultOgImage = {
+  url: `${site.url}/og-image.png`,
+  width: 1200,
+  height: 630,
+  alt: site.title,
+};
 
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -19,20 +26,13 @@ export const defaultMetadata: Metadata = {
     siteName: site.title,
     title: site.title,
     description: site.description,
-    images: [
-      {
-        url: `${site.url}/og-image.png`,
-        width: 1200,
-        height: 630,
-        alt: site.title,
-      },
-    ],
+    images: [defaultOgImage],
   },
   twitter: {
     card: 'summary_large_image',
     title: site.title,
     description: site.description,
-    images: [`${site.url}/og-image.png`],
+    images: [defaultOgImage.url],
     creator: site.twitterHandle,
   },
   robots: {
@@ -59,10 +59,12 @@ export function generateMetadataForPage(slug: string): () => Promise<Metadata> {
       if (!page) return {};
 
       const { frontmatter } = page;
+      const route = routes[slug as keyof typeof routes];
       return generatePageMetadata({
         title: frontmatter.seo.metaTitle,
         description: frontmatter.seo.metaDescription,
         keywords: frontmatter.seo.keywords,
+        canonical: route ? `${site.url}${route}` : undefined,
       });
     } catch {
       return {};
@@ -70,19 +72,23 @@ export function generateMetadataForPage(slug: string): () => Promise<Metadata> {
   };
 }
 
+export type GeneratePageMetadataOptions = {
+  title: string;
+  description: string;
+  keywords?: string[];
+  ogImage?: string;
+  canonical?: string;
+  noIndex?: boolean;
+};
+
 export function generatePageMetadata({
   title,
   description,
   keywords,
   ogImage,
+  canonical,
   noIndex = false,
-}: {
-  title: string;
-  description: string;
-  keywords?: string[];
-  ogImage?: string;
-  noIndex?: boolean;
-}): Metadata {
+}: GeneratePageMetadataOptions): Metadata {
   return {
     title,
     description,
@@ -90,19 +96,28 @@ export function generatePageMetadata({
     openGraph: {
       title,
       description,
-      images: ogImage ? [{ url: ogImage }] : defaultMetadata.openGraph?.images,
+      images: ogImage ? [{ url: ogImage }] : [defaultOgImage],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: ogImage ? [ogImage] : (defaultMetadata.twitter?.images as string[]),
+      images: ogImage ? [ogImage] : [defaultOgImage.url],
     },
     robots: noIndex
       ? {
           index: false,
           follow: false,
+          googleBot: {
+            index: false,
+            follow: false,
+            'max-image-preview': 'none' as const,
+            'max-snippet': 0,
+          },
         }
       : defaultMetadata.robots,
+    ...(canonical && {
+      alternates: { canonical },
+    }),
   };
 }

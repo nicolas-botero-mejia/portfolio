@@ -2,10 +2,11 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getAllWork, getWorkItemBySlug, getAdjacentWork } from '@/lib/mdx';
 import MDXRenderer from '@/components/MDXRenderer';
-import { routes, getRoute, getWorkTypeLabel, CONTENT_SLUGS } from '@/data';
+import { routes, getRoute, getWorkTypeLabel, CONTENT_SLUGS, site } from '@/data';
 import { generatePageMetadata } from '@/lib/seo';
 import { Metadata } from 'next';
 import { requiresPassword, isAuthenticated } from '@/lib/serverPasswordAuth';
+import { getWorkThumbnailPath, type WorkSubType } from '@/lib/contentPaths';
 import ServerPasswordPrompt from '@/components/ServerPasswordPrompt';
 import WorkItemTracker from '@/components/WorkItemTracker';
 import ContentNavigation from '@/components/ui/ContentNavigation';
@@ -32,10 +33,16 @@ export async function generateMetadata({ params }: WorkItemPageProps): Promise<M
     if (!workItem) return {};
 
     const { frontmatter } = workItem;
+    const isLocked = requiresPassword(workItem);
+    const canonical = `${site.url}${getRoute(CONTENT_SLUGS.WORK, subType, slug)}`;
+
     return generatePageMetadata({
       title: frontmatter.seo.metaTitle,
       description: frontmatter.seo.metaDescription,
       keywords: frontmatter.seo.keywords,
+      ogImage: isLocked ? undefined : `${site.url}${getWorkThumbnailPath(subType as WorkSubType, slug)}`,
+      canonical,
+      noIndex: isLocked,
     });
   } catch {
     return {};
