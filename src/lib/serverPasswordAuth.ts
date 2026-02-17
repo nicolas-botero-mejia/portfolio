@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import crypto from 'crypto';
 import { AUTH_COOKIE_PREFIX, AUTH_COOKIE_MAX_AGE } from '@/config/passwords';
+import { features } from '@/config/features';
 import type { WorkItemContent } from './mdx';
 import { logError } from './errors';
 
@@ -24,6 +25,7 @@ function getPasswordEnvKey(slug: string): string {
  * Check if a work item requires password protection.
  */
 export function requiresPassword(product: WorkItemContent): boolean {
+  if (!features.passwordProtection) return false;
   return product.frontmatter.locked === true;
 }
 

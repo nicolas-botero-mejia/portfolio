@@ -5,18 +5,14 @@ import AnalyticsProvider from "@/components/AnalyticsProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { defaultMetadata } from "@/lib/seo";
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { features } from '@/config/features';
 
 export const metadata: Metadata = defaultMetadata;
 
-/** Runs before React hydration to prevent theme flash. */
-const themeInitScript = `
-(function(){
-  var t=localStorage.getItem('theme');
-  var d=window.matchMedia('(prefers-color-scheme: dark)').matches;
-  var dark=t==='dark'?true:t==='light'?false:d;
-  document.documentElement.classList[dark?'add':'remove']('dark');
-})();
-`;
+/** Runs before React hydration to prevent theme flash (or force light when dark mode is off). */
+const themeInitScript = features.darkMode
+  ? `(function(){var t=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;var dark=t==='dark'?true:t==='light'?false:d;document.documentElement.classList[dark?'add':'remove']('dark');})()`
+  : `document.documentElement.classList.remove('dark')`;
 
 export default function RootLayout({
   children,
@@ -36,7 +32,7 @@ export default function RootLayout({
             <SplitLayout>{children}</SplitLayout>
           </AnalyticsProvider>
         </ThemeProvider>
-        {gaId && <GoogleAnalytics gaId={gaId} />}
+        {features.analytics.googleAnalytics && gaId && <GoogleAnalytics gaId={gaId} />}
       </body>
     </html>
   );

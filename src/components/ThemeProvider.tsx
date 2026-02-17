@@ -7,6 +7,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { features } from '@/config/features';
 
 export type Theme = 'light' | 'dark' | 'system';
 
@@ -25,6 +26,7 @@ function getStoredTheme(): Theme {
 }
 
 function getResolvedTheme(theme: Theme): 'light' | 'dark' {
+  if (!features.darkMode) return 'light';
   if (theme === 'dark') return 'dark';
   if (theme === 'light') return 'light';
   return getSystemTheme();

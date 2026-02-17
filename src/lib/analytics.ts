@@ -1,5 +1,6 @@
 import * as amplitude from '@amplitude/analytics-browser';
 import { logError } from './errors';
+import { features } from '@/config/features';
 
 const DEBUG = process.env.NODE_ENV === 'development';
 
@@ -12,6 +13,8 @@ function logDebug(message: string, data?: unknown): void {
 // Initialize Amplitude
 export const initAmplitude = () => {
   try {
+    if (!features.analytics.amplitude) return;
+
     const apiKey = process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY;
 
     if (!apiKey) {
@@ -57,6 +60,8 @@ export type AnalyticsEvent =
 // Track event with Amplitude
 export const trackEvent = (event: AnalyticsEvent) => {
   try {
+    if (!features.analytics.amplitude) return;
+
     const apiKey = process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY;
 
     if (!apiKey) {
@@ -75,7 +80,7 @@ export const trackEvent = (event: AnalyticsEvent) => {
 export const trackPageView = (path: string, title: string) => {
   try {
     // Google Analytics (handled by @next/third-parties)
-    if (typeof window !== 'undefined' && 'gtag' in window && process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) {
+    if (features.analytics.googleAnalytics && typeof window !== 'undefined' && 'gtag' in window && process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) {
       const windowWithGtag = window as typeof window & { gtag: (...args: unknown[]) => void };
       windowWithGtag.gtag('config', process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID, {
         page_path: path,
@@ -84,7 +89,7 @@ export const trackPageView = (path: string, title: string) => {
       logDebug('GA page_view', { path, title });
     }
 
-    // Amplitude
+    // Amplitude (trackEvent already checks the flag)
     trackEvent({
       name: ANALYTICS_EVENTS.PAGE_VIEW,
       properties: { path, title },
@@ -97,6 +102,8 @@ export const trackPageView = (path: string, title: string) => {
 // Identify user (optional - for authenticated users)
 export const identifyUser = (userId: string, properties?: Record<string, string | number | boolean>) => {
   try {
+    if (!features.analytics.amplitude) return;
+
     const apiKey = process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY;
 
     if (!apiKey) return;
@@ -120,6 +127,8 @@ export const identifyUser = (userId: string, properties?: Record<string, string 
 // Reset user (for logout or session end)
 export const resetUser = () => {
   try {
+    if (!features.analytics.amplitude) return;
+
     const apiKey = process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY;
 
     if (!apiKey) return;

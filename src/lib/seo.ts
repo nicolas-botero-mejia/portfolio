@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { site, routes } from '@/data';
 import { getPageBySlug } from './mdx';
+import { features } from '@/config/features';
 
 const defaultOgImage = {
   url: `${site.url}/og-image.png`,
@@ -19,22 +20,26 @@ export const defaultMetadata: Metadata = {
   keywords: [...site.defaultKeywords],
   authors: [{ name: site.name }],
   creator: site.name,
-  openGraph: {
-    type: 'website',
-    locale: site.locale,
-    url: site.url,
-    siteName: site.title,
-    title: site.title,
-    description: site.description,
-    images: [defaultOgImage],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: site.title,
-    description: site.description,
-    images: [defaultOgImage.url],
-    creator: site.twitterHandle,
-  },
+  ...(features.seo.openGraph && {
+    openGraph: {
+      type: 'website' as const,
+      locale: site.locale,
+      url: site.url,
+      siteName: site.title,
+      title: site.title,
+      description: site.description,
+      images: [defaultOgImage],
+    },
+  }),
+  ...(features.seo.twitterCards && {
+    twitter: {
+      card: 'summary_large_image' as const,
+      title: site.title,
+      description: site.description,
+      images: [defaultOgImage.url],
+      creator: site.twitterHandle,
+    },
+  }),
   robots: {
     index: true,
     follow: true,
@@ -93,17 +98,21 @@ export function generatePageMetadata({
     title,
     description,
     keywords: keywords || [...site.defaultKeywords],
-    openGraph: {
-      title,
-      description,
-      images: ogImage ? [{ url: ogImage }] : [defaultOgImage],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: ogImage ? [ogImage] : [defaultOgImage.url],
-    },
+    ...(features.seo.openGraph && {
+      openGraph: {
+        title,
+        description,
+        images: ogImage ? [{ url: ogImage }] : [defaultOgImage],
+      },
+    }),
+    ...(features.seo.twitterCards && {
+      twitter: {
+        card: 'summary_large_image' as const,
+        title,
+        description,
+        images: ogImage ? [ogImage] : [defaultOgImage.url],
+      },
+    }),
     robots: noIndex
       ? {
           index: false,

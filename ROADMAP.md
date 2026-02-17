@@ -129,6 +129,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [x] Harden SEO metadata for work items (ogImage from thumbnail, canonical URLs, `noIndex` + restrictive googleBot directives for locked/NDA items)
 - [x] Implement side-projects content accessor in `mdx.ts` (`getSideProjects`, `getSideProjectBySlug`; `getAllWork` now includes side-projects)
 - [x] Disable frontmatter passwords in production (dev-only guard in `getExpectedPasswordHash`)
+- [x] Implement centralized feature flags system (`src/config/features.ts` — sections, subtypes, analytics, password protection, dark mode, contact, SEO)
 
 *Design-to-code Figma integration → moved to Project 7.1*
 *Mobile responsiveness → moved to Project 4.2 (audit with real content in place)*
@@ -561,6 +562,7 @@ This is the learning and tooling project. Building tests and stories against a l
 
 ## Change log
 
+- **Feb 2026 (feature flags):** Added centralized feature flags system (`src/config/features.ts`). Controls: content sections and subtypes (navigation visibility, route access via `notFound()`, SEO metadata), analytics providers (GA4, Amplitude), password protection, dark mode, sidebar contact elements, and SEO features (OpenGraph, Twitter Cards). Section slugs match `contentTypes.ts`. Helpers: `isSectionEnabled()`, `isSubTypeEnabled()`. Wired into navigation, analytics, layout, ThemeProvider, serverPasswordAuth, seo, all section pages, work item pages, SplitLayout. Re-exported via `src/data/index.ts`. Documented in CLAUDE.md.
 - **Feb 2026 (transformations subtype):** Added "transformations" work subtype for UX company/cultural transformation case studies. Wired content subtype (`contentTypes.ts`), work type (`workTypes.ts`), content loading functions (`mdx.ts`), content and image directories, example MDX template, and documentation updates across 5 docs.
 - **Feb 2026 (architecture review gap analysis):** Added 6 untracked tasks from post-review sweep: favicon/manifest (3.1), theme toggle UI (3.1), security headers (4.1), skip-to-content link (4.2 a11y), env variable validation (4.2), loading.tsx route files (4.3). Also flagged unused data exports (`designPrinciples`, tag utilities) under 4.2 code cleanup.
 - **Feb 2026 (architecture review):** Full codebase architecture review. Completed UI barrel export (added missing Divider, Link, Skeleton, Breadcrumb, Typography exports). Replaced hardcoded `<button>` in ServerPasswordPrompt with `<Button>` component. Added side-projects content accessor to `mdx.ts` (`getAllWork` now includes side-projects). Shortened SEO meta titles to under 60 chars and fixed double-attribution bug (titleTemplate already appends name). Disabled frontmatter passwords in production. Removed unused dependencies (next-seo, react-wrap-balancer). Fixed documentation drift in CLAUDE.md (layout components, tech stack, routes). Deduplicated analytics logging.

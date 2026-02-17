@@ -5,6 +5,7 @@
 
 import { contentTypes } from '../sources/contentTypes';
 import { CONTENT_SLUGS } from '../resolvers/contentTypes';
+import { isSectionEnabled } from '@/config/features';
 
 export interface NavItem {
   name: string;
@@ -12,19 +13,26 @@ export interface NavItem {
   visible: boolean;
 }
 
-const navConfig: { slug: string; visible: boolean }[] = [
-  { slug: CONTENT_SLUGS.WORK, visible: true },
-  { slug: CONTENT_SLUGS.EXPERIMENTS, visible: true },
-  { slug: CONTENT_SLUGS.READING, visible: true },
-  { slug: CONTENT_SLUGS.WRITING, visible: true },
-  { slug: CONTENT_SLUGS.PAGES_ABOUT, visible: true },
-  { slug: CONTENT_SLUGS.NOW, visible: true },
-  { slug: CONTENT_SLUGS.PAGES_USES, visible: true },
-  { slug: CONTENT_SLUGS.PAGES_COLOPHON, visible: true },
+/** Resolve a nav slug (e.g. 'pages.about') to its features.sections key ('about'). */
+function sectionKey(slug: string): string {
+  const [parentSlug, subSlug] = slug.split('.');
+  return subSlug || parentSlug;
+}
+
+const navSlugs: string[] = [
+  CONTENT_SLUGS.WORK,
+  CONTENT_SLUGS.EXPERIMENTS,
+  CONTENT_SLUGS.READING,
+  CONTENT_SLUGS.WRITING,
+  CONTENT_SLUGS.PAGES_ABOUT,
+  CONTENT_SLUGS.NOW,
+  CONTENT_SLUGS.PAGES_USES,
+  CONTENT_SLUGS.PAGES_COLOPHON,
 ];
 
-export const navigation: NavItem[] = navConfig.map(({ slug, visible }) => {
+export const navigation: NavItem[] = navSlugs.map((slug) => {
   const [parentSlug, subSlug] = slug.split('.');
+  const visible = isSectionEnabled(sectionKey(slug));
   const ct = contentTypes.find((c) => c.slug === parentSlug);
   if (!ct) return { name: slug, href: '/', visible };
 

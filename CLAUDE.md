@@ -197,6 +197,7 @@ All public exports via `src/data/index.ts`. Import with `import { x } from '@/da
 | **content/** | Editorial data | `profile`, `experience`, `workflowPhases`, `designPrinciples` |
 | **resolvers/** | Lookup logic | `getCompany`, `getContentType`, `getWorkTypeLabel`, `getTokensForFigma`, `getTokensForCSS`, `CONTENT_SLUGS` |
 | **derived/** | Computed | `navigation`, `routes`, `getRoute` |
+| **config/** | Feature flags | `features`, `isSectionEnabled`, `isSubTypeEnabled` (re-exported from `@/config/features`) |
 
 Full details: [src/data/README.md](src/data/README.md)
 
@@ -207,6 +208,24 @@ Priority: per-slug env var → global env var.
 Setup and details: [README_PASSWORD_PROTECTION.md](README_PASSWORD_PROTECTION.md) | [docs/PASSWORD_PROTECTION.md](docs/PASSWORD_PROTECTION.md)
 
 Key files: `src/lib/serverPasswordAuth.ts`, `src/actions/authActions.ts`, `src/components/ServerPasswordPrompt.tsx`
+
+### Feature Flags
+
+Centralized in `src/config/features.ts`. Controls what's on/off across the project.
+
+| Group | Controls | Keys |
+|-------|----------|------|
+| `sections` | Navigation visibility, route access (404), SEO metadata | `work`, `experiments`, `reading`, `writing`, `about`, `now`, `uses`, `colophon` |
+| `sections.*.subTypes` | Content subtype visibility in listings and route access | e.g. `work.subTypes.products`, `reading.subTypes.books` |
+| `analytics` | Provider initialization and event tracking | `googleAnalytics`, `amplitude` |
+| `passwordProtection` | Password gating for locked work items | boolean |
+| `darkMode` | Theme switching (forces light when off) | boolean |
+| `contact` | Sidebar contact section elements | `email`, `linkedin`, `location`, `availability` |
+| `seo` | SEO metadata features | `sitemap`, `openGraph`, `twitterCards`, `schemaOrg` |
+
+Section slugs match `contentTypes.ts` exactly (kebab-case). Helpers: `isSectionEnabled(slug)`, `isSubTypeEnabled(section, subType)`.
+
+Key file: `src/config/features.ts`
 
 ### Project Structure
 
@@ -222,7 +241,7 @@ portfolio/
 │   │   └── ServerPasswordPrompt.tsx # Password protection UI
 │   ├── data/                        # Structured data layer (see above)
 │   ├── lib/                         # Utilities (contentLoader, seo, mdx, serverPasswordAuth)
-│   ├── config/                      # Auth cookie config
+│   ├── config/                      # Feature flags, auth cookie config
 │   └── actions/                     # Server actions
 ├── content/                         # MDX content files
 ├── public/images/                   # Static assets (work/, experiments/, writing/, now/, etc.)

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { navigation, profile, routes, getCompany } from '@/data';
+import { features } from '@/config/features';
 
 interface SplitLayoutProps {
   children: React.ReactNode;
@@ -107,6 +108,7 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
           {/* Bottom Section - Contact */}
           <div className="border-t border-border-default pt-8 mt-8">
             <div className="space-y-3 text-sm">
+              {features.contact.email && (
               <div>
                 <a
                   href={`mailto:${profile.contact.email}`}
@@ -116,6 +118,8 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                   {profile.contact.email}
                 </a>
               </div>
+              )}
+              {features.contact.linkedin && (
               <div>
                 <a
                   href={`https://linkedin.com/in/${profile.contact.linkedin}`}
@@ -127,14 +131,19 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                   LinkedIn ↗
                 </a>
               </div>
+              )}
+              {features.contact.location && (
               <div className="text-content-muted pt-2">
                 <div>{profile.contact.location}</div>
                 <div className="text-xs mt-1">{profile.contact.locationSubtext}</div>
               </div>
+              )}
+              {features.contact.availability && (
               <div className="text-content-muted border-t border-border-subtle mt-3 pt-3">
                 <div className="text-content-secondary font-medium">{profile.contact.availability}</div>
                 <div className="text-xs mt-1">{profile.contact.availabilityTypes}</div>
               </div>
+              )}
             </div>
           </div>
         </div>

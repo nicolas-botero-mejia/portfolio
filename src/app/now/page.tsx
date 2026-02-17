@@ -1,7 +1,9 @@
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getPageOrNotFound, getNowEntries } from '@/lib/mdx';
 import { generateMetadataForPage } from '@/lib/seo';
 import { CONTENT_SLUGS, routes } from '@/data';
+import { features } from '@/config/features';
 import MDXRenderer from '@/components/MDXRenderer';
 import PageLayout from '@/components/ui/PageLayout';
 import PageHeader from '@/components/ui/PageHeader';
@@ -18,13 +20,16 @@ function formatDate(dateStr: string): string {
   });
 }
 
-export const generateMetadata = generateMetadataForPage(CONTENT_SLUGS.NOW);
+export const generateMetadata = features.sections.now.enabled
+  ? generateMetadataForPage(CONTENT_SLUGS.NOW)
+  : () => Promise.resolve({});
 
 interface NowPageProps {
   searchParams: Promise<{ page?: string }>;
 }
 
 export default async function NowPage({ searchParams }: NowPageProps) {
+  if (!features.sections.now.enabled) notFound();
   const pageMeta = getPageOrNotFound(CONTENT_SLUGS.NOW);
   const { page } = await searchParams;
   const pageNum = Math.max(1, parseInt(page ?? '1', 10) || 1);

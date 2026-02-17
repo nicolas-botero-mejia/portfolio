@@ -41,6 +41,9 @@ export type { NavItem } from './derived/navigation';
 export { routes, getRoute } from './derived/routes';
 export type { RouteKey } from './derived/routes';
 
+// Config - feature flags
+export { features, isSectionEnabled, isSubTypeEnabled } from '@/config/features';
+
 // Content - editorial content (unchanged)
 export { profile } from './content/profile';
 export type { ProfileData } from './content/profile';
