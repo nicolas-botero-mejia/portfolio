@@ -2,7 +2,7 @@
 
 import * as Popover from '@radix-ui/react-popover';
 import { useFeatureFlagsContext } from '@/components/FeatureFlagsProvider';
-import { features, featureGroups, type AppearanceMode } from '@/config/features';
+import { features, featureGroups, APPEARANCE_OPTIONS } from '@/config/features';
 import Button from '@/components/ui/Button';
 import { H2, H3 } from '@/components/ui/Typography';
 
@@ -19,12 +19,6 @@ const TOGGLE_ROW = 'flex items-center justify-between py-1';
 const TOGGLE_LABEL = 'text-sm text-content-secondary';
 
 const TOGGLE_LABEL_OVERRIDDEN = 'text-sm text-content-primary font-medium';
-
-const APPEARANCE_OPTIONS: { value: AppearanceMode; label: string }[] = [
-  { value: 'auto', label: 'Auto' },
-  { value: 'light', label: 'Light' },
-  { value: 'dark', label: 'Dark' },
-];
 
 function GearIcon() {
   return (
@@ -149,7 +143,7 @@ export default function DevToolsPanel() {
       <Popover.Portal>
         <Popover.Content side="top" align="end" sideOffset={8} className={CONTENT_STYLES}>
           <div className="mb-3 flex items-center justify-between">
-            <H2 className="text-sm font-semibold text-content-primary">Feature Flags</H2>
+            <H3 className="text-sm font-semibold text-content-primary">Feature Flags</H3>
             {hasOverrides && (
               <Button variant="ghost" onClick={resetAll} className="px-0! py-0! text-xs">
                 Reset all

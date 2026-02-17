@@ -481,6 +481,18 @@ This is the learning and tooling project. Building tests and stories against a l
   - [ ] Add design system README or wiki (how to add components, testing requirements)
 - [ ] **Document Figma sync workflow** (when to push, how to resolve conflicts, see `docs/FIGMA_LEARNINGS.md`)
 - [ ] **Implement Figma lint** (define lint rules from design tokens — colors, spacing, typography, radii; flag detached styles, off-scale values, and naming violations in Figma files)
+- [ ] **Add Figma design system analytics** (code→design health tracking)
+  - [ ] Track component usage in Figma files (which DS components are used, frequency, coverage across pages/flows)
+  - [ ] Track implementation parity (which Figma components have code counterparts, which code components lack Figma equivalents — surface gaps in both directions)
+  - [ ] Track detached instances and style overrides (flag components detached from library, frequent overrides that suggest missing variants)
+  - [ ] Track unused and deprecated components (DS components with zero usage in Figma files — candidates for removal or promotion)
+  - [ ] Generate optimization report (token adoption rate, top override patterns, component-to-primitive ratio — actionable insights for DS iteration)
+- [ ] **Add codebase design system analytics** (measure DS adoption and impact in code)
+  - [ ] Track DS component usage across pages (which UI components are used where, frequency, pages still using raw HTML elements)
+  - [ ] Track semantic token adoption (percentage of color values using semantic tokens vs raw/primitive values, flag hardcoded colors and off-token values)
+  - [ ] Track component-to-primitive ratio per page (DS components vs raw HTML elements — higher ratio = better adoption)
+  - [ ] Surface raw HTML candidates for DS migration (scan for `<button>`, `<a>`, `<span>` tags that should be `Button`, `Link`, `Badge`, etc.)
+  - [ ] Generate DS coverage dashboard (per-page and aggregate adoption scores, trend over time as components are built and integrated)
 - [ ] **Verify Storybook a11y addon reports** (fix critical/serious issues, document known minor issues)
 
 ---
@@ -569,6 +581,7 @@ This is the learning and tooling project. Building tests and stories against a l
 
 ## Change log
 
+- **Feb 2026 (appearance type refactor):** Made `APPEARANCE_OPTIONS` the single source of truth for appearance mode. Added `as const` to the options array and derived `AppearanceMode` type from it (`(typeof APPEARANCE_OPTIONS)[number]['value']`). Default value in `features.appearance` now references `APPEARANCE_OPTIONS[0].value` instead of a disconnected string literal. Eliminates manual type/value synchronization.
 - **Feb 2026 (SectionGate):** Added client-side `SectionGate` component (`src/components/SectionGate.tsx`) so DevToolsPanel feature flag overrides work for section routing. Server-side `notFound()` guards on listing pages (work, experiments, reading, writing) now bypass in development mode, letting the client-side gate check runtime flags from `FeatureFlagsProvider`. Production behavior unchanged (server gates access). Keeps access control on the server for prod while enabling dev-time toggling via localStorage overrides.
 - **Feb 2026 (design system component audit):** Replaced raw HTML with design system components across the app. **Links:** Extended `Link` with optional `onClick` and `block` props; replaced all raw `<a>` with `Link` in SplitLayout (company, email, LinkedIn), now/page, ServerPasswordPrompt, work slug page; WorkClient uses `block` for card wrapper links. **Headings:** Replaced raw `<h1>`/`<h2>`/`<h3>` with Typography `H1`/`H2`/`H3` in SplitLayout, DevToolsPanel, WorkClient, work slug page, not-found, error, global-error, ServerPasswordPrompt, PageHeader. **Buttons:** Replaced raw `<button>` in global-error with `Button`. **Tags:** Replaced work card tag `<span>`s with `Badge` in WorkClient. Updated README (design system bullet under Styling & UI, link to docs/COMPONENTS.md). Radix primitives (Dialog close, DevToolsPanel trigger) remain raw `<button>` per project rules.
 - **Feb 2026 (MDX HMR):** Added dev-time HMR for MDX content changes. File watcher (`scripts/watchContent.js`) uses Node's built-in `fs.watch({ recursive: true })` to detect MDX changes in `content/`, debounces rapid writes (100ms), and bumps a timestamp in `src/lib/contentManifest.ts` to keep `fs`-based content loading in the bundler's module graph. Manifest is gitignored and auto-generated on `predev`/`prebuild` via `--init` flag. Removed chokidar in favor of native `fs.watch`. Added `concurrently` to run watcher alongside `next dev`.
