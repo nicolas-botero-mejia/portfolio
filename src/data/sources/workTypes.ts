@@ -11,8 +11,6 @@ export const WORK_TYPE_SLUGS = {
   PRODUCT: 'product',
   FEATURE: 'feature',
   SIDE_PROJECT: 'side-project',
-  PLATFORM_DESIGN: 'platform-design',
-  DESIGN_SYSTEM: 'design-system',
   TRANSFORMATION: 'transformation',
 } as const;
 
@@ -20,7 +18,5 @@ export const workTypes: WorkType[] = [
   { slug: WORK_TYPE_SLUGS.PRODUCT, label: 'Product' },
   { slug: WORK_TYPE_SLUGS.FEATURE, label: 'Feature' },
   { slug: WORK_TYPE_SLUGS.SIDE_PROJECT, label: 'Side Project' },
-  { slug: WORK_TYPE_SLUGS.PLATFORM_DESIGN, label: 'Platform Design' },
-  { slug: WORK_TYPE_SLUGS.DESIGN_SYSTEM, label: 'Design System' },
   { slug: WORK_TYPE_SLUGS.TRANSFORMATION, label: 'Transformation' },
 ];
