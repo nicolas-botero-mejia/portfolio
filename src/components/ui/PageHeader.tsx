@@ -1,3 +1,5 @@
+import { H1 } from './Typography';
+
 interface PageHeaderProps {
   title: string;
   description?: React.ReactNode;
@@ -21,7 +23,7 @@ export default function PageHeader({
 }: PageHeaderProps) {
   return (
     <header className={`${WRAPPER} ${className}`}>
-      <h1
+      <H1
         className={
           variant === 'serif'
             ? `${TITLE_SERIF} ${SERIF_FONT}`
@@ -29,7 +31,7 @@ export default function PageHeader({
         }
       >
         {title}
-      </h1>
+      </H1>
       {description && <p className={DESCRIPTION}>{description}</p>}
     </header>
   );

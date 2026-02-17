@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
+import Link from '@/components/ui/Link';
 import { getAllWork, getWorkItemBySlug, getAdjacentWork } from '@/lib/mdx';
 import MDXRenderer from '@/components/MDXRenderer';
 import { routes, getRoute, getWorkTypeLabel, CONTENT_SLUGS, site } from '@/data';
@@ -11,6 +11,7 @@ import { isSubTypeEnabled } from '@/config/features';
 import ServerPasswordPrompt from '@/components/auth/ServerPasswordPrompt';
 import WorkItemTracker from '@/components/WorkItemTracker';
 import ContentNavigation from '@/components/ui/ContentNavigation';
+import { H1 } from '@/components/ui/Typography';
 
 interface WorkItemPageProps {
   params: Promise<{
@@ -103,9 +104,7 @@ export default async function WorkItemPage({ params }: WorkItemPageProps) {
 
         {/* Header */}
         <header className="mb-12">
-          <h1 className="mb-4 text-4xl font-bold tracking-tight text-content-primary">
-            {frontmatter.title}
-          </h1>
+          <H1 className="mb-4">{frontmatter.title}</H1>
 
           <p className="mb-6 text-lg text-content-muted leading-relaxed">
             {frontmatter.description}

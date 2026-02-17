@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import Link from 'next/link';
+import Link from '@/components/ui/Link';
 import { authenticateWorkItem } from '@/actions/authActions';
 import { routes } from '@/data';
 import { useRouter } from 'next/navigation';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 import Button from '@/components/ui/Button';
+import { H2 } from '@/components/ui/Typography';
 
 interface ServerPasswordPromptProps {
   subType: string;
@@ -76,9 +77,7 @@ export default function ServerPasswordPrompt({
           </div>
 
           {/* Title */}
-          <h2 className="mb-2 text-center text-2xl font-bold text-content-primary">
-            Password Protected
-          </h2>
+          <H2 className="mb-2 text-center">Password Protected</H2>
           <p className="mb-6 text-center text-content-muted">
             This work sample requires a password to view
           </p>

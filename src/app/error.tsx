@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { routes } from '@/data';
 import { logError } from '@/lib/errors';
 import Button from '@/components/ui/Button';
+import { H1 } from '@/components/ui/Typography';
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -18,7 +19,7 @@ export default function Error({ error, reset }: ErrorProps) {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-4 lg:ml-[400px]">
       <div className="max-w-md text-center">
-        <h1 className="mb-4 text-2xl font-bold text-content-primary">Something went wrong</h1>
+        <H1 className="mb-4">Something went wrong</H1>
         <p className="mb-8 text-content-muted">
           An unexpected error occurred. Please try again.
         </p>

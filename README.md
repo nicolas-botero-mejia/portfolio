@@ -111,6 +111,7 @@ portfolio/
 
 ### Styling & UI
 - **Tailwind CSS 4** - Utility-first CSS framework
+- **Design system** - Use UI components instead of raw HTML: `Link` (not `<a>`), `Typography` / `H1`–`H4` (not raw `<h1>`–`<h4>`), `Button` (not `<button>`), `Badge` (not `<span>` for labels/tags). See [docs/COMPONENTS.md](docs/COMPONENTS.md) and [CLAUDE.md](CLAUDE.md) for the full component inventory and token pipeline.
 - **Framer Motion** - Animation library
 - **React Wrap Balancer** - Typography
 
@@ -131,6 +132,7 @@ portfolio/
 ## 📚 Documentation
 
 - [ROADMAP.md](ROADMAP.md) - Development timeline
+- [docs/COMPONENTS.md](docs/COMPONENTS.md) - Design system component inventory and usage
 - [src/data/README.md](src/data/README.md) - Data layer (sources, resolvers, derived)
 - [content/README.md](content/README.md) - Content structure and frontmatter
 - [docs/CONTENT_ARCHITECTURE.md](docs/CONTENT_ARCHITECTURE.md) - Content architecture

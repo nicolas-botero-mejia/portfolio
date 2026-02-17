@@ -9,11 +9,17 @@ interface LinkBaseProps {
   external?: boolean;
   variant?: LinkVariant;
   className?: string;
+  /** Optional click handler (e.g. for analytics). */
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+  /** Use block layout (e.g. when wrapping cards). Default inline-flex is for text links. */
+  block?: boolean;
 }
 
 // 1. Layout & typography — primitive scale
-const LAYOUT =
+const LAYOUT_INLINE =
   'inline-flex items-center rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-background-primary focus-visible:ring-offset-2 transition-colors';
+const LAYOUT_BLOCK =
+  'block rounded no-underline focus:outline-none focus-visible:ring-2 focus-visible:ring-background-primary focus-visible:ring-offset-2 transition-colors';
 
 // 2. Semantic colors — role-based (variants)
 const variantStyles: Record<LinkVariant, string> = {
@@ -31,8 +37,11 @@ export default function Link({
   external = false,
   variant = 'default',
   className = '',
+  onClick,
+  block = false,
 }: LinkBaseProps) {
-  const styles = `${LAYOUT} ${variantStyles[variant]} ${className}`;
+  const layout = block ? LAYOUT_BLOCK : LAYOUT_INLINE;
+  const styles = `${layout} ${variantStyles[variant]} ${className}`;
 
   return (
     <NextLink
@@ -40,6 +49,7 @@ export default function Link({
       target={external ? '_blank' : undefined}
       rel={external ? 'noopener noreferrer' : undefined}
       className={styles}
+      onClick={onClick}
     >
       {children}
     </NextLink>

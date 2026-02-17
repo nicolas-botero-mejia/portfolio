@@ -2,6 +2,8 @@
 
 import { useEffect } from 'react';
 import { logError } from '@/lib/errors';
+import Button from '@/components/ui/Button';
+import { H1 } from '@/components/ui/Typography';
 
 interface GlobalErrorProps {
   error: Error & { digest?: string };
@@ -18,16 +20,13 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
       <body className="bg-background-surface font-sans antialiased">
         <div className="flex min-h-screen flex-col items-center justify-center px-4">
           <div className="max-w-md text-center">
-            <h1 className="mb-4 text-2xl font-bold text-content-primary">Something went wrong</h1>
+            <H1 className="mb-4">Something went wrong</H1>
             <p className="mb-8 text-content-muted">
               A critical error occurred. Please refresh the page or try again later.
             </p>
-            <button
-              onClick={reset}
-              className="rounded-lg bg-action-primary-bg px-6 py-3 font-medium text-action-primary-text transition-colors hover:bg-action-primary-hover"
-            >
+            <Button as="button" onClick={reset} variant="primary" className="px-6 py-3">
               Try again
-            </button>
+            </Button>
           </div>
         </div>
       </body>

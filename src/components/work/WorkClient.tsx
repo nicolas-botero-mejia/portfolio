@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import Link from '@/components/ui/Link';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { getRoute, getCompanyName, getWorkTypeLabel, CONTENT_SLUGS } from '@/data';
 import { useFilteredContent } from '@/lib/useFilteredContent';
@@ -15,6 +15,7 @@ import {
   PageHeader,
   ScrollPrompt,
 } from '@/components/ui';
+import { H2 } from '@/components/ui/Typography';
 
 // How many cards show before scrolling; how many we add when the scroll prompt is triggered. Tune here or expose as props for per-page control.
 const INITIAL_VISIBLE = 4;
@@ -79,7 +80,7 @@ export default function WorkClient({ allWork, title, description }: WorkClientPr
               <Link
                 key={item.slug}
                 href={getRoute(CONTENT_SLUGS.WORK, item.subType, item.slug)}
-                className="block"
+                block
                 onClick={() =>
                   handleWorkCardClick(item.slug, item.frontmatter.title, index)
                 }
@@ -126,9 +127,9 @@ export default function WorkClient({ allWork, title, description }: WorkClientPr
                         {item.frontmatter.subtitle ??
                           getWorkTypeLabel(item.frontmatter.type)}
                       </Badge>
-                      <h2 className={`${CARD_TITLE_OVERLAY} leading-tight`}>
+                      <H2 className={`${CARD_TITLE_OVERLAY} leading-tight mt-0 mb-0`}>
                         {item.frontmatter.title}
-                      </h2>
+                      </H2>
                       <p className={CARD_META_OVERLAY}>
                         {[
                           item.frontmatter.company && getCompanyName(item.frontmatter.company),
@@ -140,9 +141,13 @@ export default function WorkClient({ allWork, title, description }: WorkClientPr
                         item.frontmatter.tags.length > 0 && (
                           <div className="flex flex-wrap gap-2 pt-1">
                             {item.frontmatter.tags.map((tag) => (
-                              <span key={tag} className={TAG_OVERLAY}>
+                              <Badge
+                                key={tag}
+                                variant="neutral"
+                                className={`${TAG_OVERLAY} border-0 bg-transparent`}
+                              >
                                 #{tag}
-                              </span>
+                              </Badge>
                             ))}
                           </div>
                         )}

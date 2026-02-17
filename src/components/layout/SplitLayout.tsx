@@ -1,6 +1,7 @@
 'use client';
 
-import Link from 'next/link';
+import Link from '@/components/ui/Link';
+import { H1 } from '@/components/ui/Typography';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { profile, routes, getCompany } from '@/data';
 import { useFeatureFlags } from '@/components/FeatureFlagsProvider';
@@ -38,9 +39,7 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
           <div>
             {/* Name/Logo */}
             <Link href={routes.work} className="block mb-8">
-              <h1 className="text-2xl font-bold text-content-primary">
-                {profile.name}
-              </h1>
+              <H1 className="text-2xl">{profile.name}</H1>
               <p className="text-sm text-content-muted mt-1">{profile.title}</p>
             </Link>
 
@@ -56,15 +55,14 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                   if (!company) return null;
                   return (
                     <span key={company.slug}>
-                      <a
+                      <Link
                         href={company.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        external
                         className="hover:text-content-primary transition-colors"
                         onClick={() => handleExternalLinkClick(company.url, company.name)}
                       >
                         {company.name}
-                      </a>
+                      </Link>
                       {index < profile.companySlugs.length - 1 && ', '}
                     </span>
                   );
@@ -82,26 +80,27 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
             <div className="space-y-3 text-sm">
               {flags.contact.email.enabled && (
               <div>
-                <a
+                <Link
                   href={`mailto:${profile.contact.email}`}
-                  className="text-content-muted hover:text-content-primary transition-colors"
+                  variant="muted"
+                  className="hover:text-content-primary transition-colors"
                   onClick={() => handleContactClick('email')}
                 >
                   {profile.contact.email}
-                </a>
+                </Link>
               </div>
               )}
               {flags.contact.linkedin.enabled && (
               <div>
-                <a
+                <Link
                   href={`https://linkedin.com/in/${profile.contact.linkedin}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-content-muted hover:text-content-primary transition-colors"
+                  external
+                  variant="muted"
+                  className="hover:text-content-primary transition-colors"
                   onClick={() => handleContactClick('linkedin')}
                 >
                   LinkedIn ↗
-                </a>
+                </Link>
               </div>
               )}
               {flags.contact.location.enabled && (

@@ -4,6 +4,7 @@ import * as Popover from '@radix-ui/react-popover';
 import { useFeatureFlagsContext } from '@/components/FeatureFlagsProvider';
 import { features, featureGroups, type AppearanceMode } from '@/config/features';
 import Button from '@/components/ui/Button';
+import { H2, H3 } from '@/components/ui/Typography';
 
 const TRIGGER_STYLES =
   'fixed bottom-4 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-background-surface border border-border-default shadow-lg transition-colors hover:bg-background-subtle focus:outline-none focus-visible:ring-2 focus-visible:ring-background-primary';
@@ -122,7 +123,7 @@ function AppearanceSelector() {
 function FlagSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="mb-4 last:mb-0">
-      <h3 className={SECTION_TITLE}>{title}</h3>
+      <H3 className={SECTION_TITLE}>{title}</H3>
       {children}
     </div>
   );
@@ -148,7 +149,7 @@ export default function DevToolsPanel() {
       <Popover.Portal>
         <Popover.Content side="top" align="end" sideOffset={8} className={CONTENT_STYLES}>
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-content-primary">Feature Flags</h2>
+            <H2 className="text-sm font-semibold text-content-primary">Feature Flags</H2>
             {hasOverrides && (
               <Button variant="ghost" onClick={resetAll} className="px-0! py-0! text-xs">
                 Reset all

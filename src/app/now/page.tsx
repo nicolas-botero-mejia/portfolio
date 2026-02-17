@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
+import Link from '@/components/ui/Link';
 import { getPageOrNotFound, getNowEntries } from '@/lib/mdx';
 import { generateMetadataForPage } from '@/lib/seo';
 import { CONTENT_SLUGS, routes } from '@/data';
@@ -47,14 +47,14 @@ export default async function NowPage({ searchParams }: NowPageProps) {
           <>
             {pageMeta.frontmatter.description}
             <br />
-            <a
+            <Link
               href="https://nownownow.com/about"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-content-muted hover:text-content-secondary underline text-sm"
+              external
+              variant="muted"
+              className="text-content-secondary underline text-sm"
             >
               What is a /now page?
-            </a>
+            </Link>
           </>
         }
         variant="serif"
