@@ -24,7 +24,7 @@ export const features = {
       },
     },
     experiments: {
-      enabled: true,
+      enabled: false,
       subTypes: {
         design: true,
         code: true,
@@ -32,7 +32,7 @@ export const features = {
       },
     },
     reading: {
-      enabled: true,
+      enabled: false,
       subTypes: {
         books: true,
         articles: true,

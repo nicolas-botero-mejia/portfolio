@@ -147,6 +147,10 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [x] Complete UI barrel export (`src/components/ui/index.ts` — add missing Divider, Link, Skeleton, Breadcrumb, Typography exports)
 - [x] Use `<Button>` component in ServerPasswordPrompt (replace hardcoded `<button>` for design system consistency)
 - [x] Deduplicate analytics logging (import `logError` from `errors.ts` in `analytics.ts`)
+- [x] Move navigation from sidebar to top-right content area (show on scroll up, hide on scroll down)
+  - [x] Extract TopNav layout component (`src/components/layout/TopNav.tsx` — scroll-direction tracking, analytics)
+  - [x] Create NavLink UI component (`src/components/ui/NavLink.tsx` — active/inactive states, DS token pattern)
+  - [x] Remove nav from sidebar, render TopNav in main content panel
 - **Build MDX element override components** (markdown-first rendering; see `src/lib/mdxComponents.tsx`)
   - [x] Typography components (H1-H4, Lead, Body, Caption, Strong, Em → DS styled headings and text)
   - [x] List components (ul/ol/li → DS styled lists with proper spacing)
@@ -563,6 +567,7 @@ This is the learning and tooling project. Building tests and stories against a l
 
 ## Change log
 
+- **Feb 2026 (top nav):** Moved navigation from left sidebar to top-right of main content area. Sticky bar with scroll-direction detection (shows on scroll up, hides on scroll down). Extracted into two components: TopNav (layout, `src/components/layout/TopNav.tsx` — scroll state, analytics tracking) and NavLink (UI, `src/components/ui/NavLink.tsx` — active/inactive styling, DS token pattern). SplitLayout now renders TopNav via prop-based scroll container ID; sidebar retains name, bio, and contact only.
 - **Feb 2026 (feature flags):** Added centralized feature flags system (`src/config/features.ts`). Controls: content sections and subtypes (navigation visibility, route access via `notFound()`, SEO metadata), analytics providers (GA4, Amplitude), password protection, dark mode, sidebar contact elements, and SEO features (OpenGraph, Twitter Cards). Section slugs match `contentTypes.ts`. Helpers: `isSectionEnabled()`, `isSubTypeEnabled()`. Wired into navigation, analytics, layout, ThemeProvider, serverPasswordAuth, seo, all section pages, work item pages, SplitLayout. Re-exported via `src/data/index.ts`. Documented in CLAUDE.md.
 - **Feb 2026 (transformations subtype):** Added "transformations" work subtype for UX company/cultural transformation case studies. Wired content subtype (`contentTypes.ts`), work type (`workTypes.ts`), content loading functions (`mdx.ts`), content and image directories, example MDX template, and documentation updates across 5 docs.
 - **Feb 2026 (architecture review gap analysis):** Added 6 untracked tasks from post-review sweep: favicon/manifest (3.1), theme toggle UI (3.1), security headers (4.1), skip-to-content link (4.2 a11y), env variable validation (4.2), loading.tsx route files (4.3). Also flagged unused data exports (`designPrinciples`, tag utilities) under 4.2 code cleanup.

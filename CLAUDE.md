@@ -116,6 +116,7 @@ All in `src/components/ui/`. Full details, token wiring, and expansion rules: [d
 | ScrollPrompt | Scroll-for-more affordance |
 | ContentNavigation | Prev/next links |
 | Typography | H1-H4, Lead, Body, Caption for MDX |
+| NavLink | Navigation link with active/inactive states |
 | Skeleton | Loading placeholders (text, image variants) |
 | MDXRenderer | Renders MDX content with prose styling |
 | Dialog | Modal (Radix) |
@@ -123,7 +124,7 @@ All in `src/components/ui/`. Full details, token wiring, and expansion rules: [d
 | Tooltip | Hover tooltips (Radix) |
 | ScrollArea | Scrollable regions (Radix) |
 
-Layout components in `src/components/layout/`: SplitLayout (sidebar + main content area with inline header, nav, and contact).
+Layout components in `src/components/layout/`: SplitLayout (sidebar + main content area), TopNav (sticky top-right navigation with scroll-direction show/hide).
 MDX renderer: `src/components/MDXRenderer.tsx` (not in `ui/` — standalone component)
 
 ---

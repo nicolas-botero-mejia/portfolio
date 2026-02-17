@@ -1,31 +1,18 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
-import { navigation, profile, routes, getCompany } from '@/data';
+import { profile, routes, getCompany } from '@/data';
 import { features } from '@/config/features';
+import TopNav from '@/components/layout/TopNav';
 
 interface SplitLayoutProps {
   children: React.ReactNode;
 }
 
+const MAIN_CONTENT_ID = 'main-content';
+
 export default function SplitLayout({ children }: SplitLayoutProps) {
-  const pathname = usePathname();
-  const visibleNav = navigation.filter(item => item.visible);
-
-
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, section: string) => {
-    // Track navigation click
-    trackEvent({
-      name: ANALYTICS_EVENTS.NAVIGATION_CLICK,
-      properties: { section, from: pathname },
-    });
-
-    // No need for hash scrolling anymore - all are full pages
-    // Just let Next.js handle navigation
-  };
-
   const handleExternalLinkClick = (url: string, label: string) => {
     trackEvent({
       name: ANALYTICS_EVENTS.EXTERNAL_LINK_CLICK,
@@ -67,10 +54,10 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                   if (!company) return null;
                   return (
                     <span key={company.slug}>
-                      <a 
+                      <a
                         href={company.url}
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="hover:text-content-primary transition-colors"
                         onClick={() => handleExternalLinkClick(company.url, company.name)}
                       >
@@ -86,23 +73,6 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                 If you&apos;d like to learn more about me or my work, feel free to reach out!
               </p>
             </div>
-
-            {/* Navigation */}
-            <nav className="mb-8">
-              <ul className="space-y-2">
-                {visibleNav.map((item) => (
-                  <li key={item.name}>
-                    <a
-                      href={item.href}
-                      onClick={(e) => handleNavClick(e, item.href, item.name)}
-                      className="block py-2 text-sm font-medium text-content-muted hover:text-content-primary transition-colors"
-                    >
-                      {item.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
           </div>
 
           {/* Bottom Section - Contact */}
@@ -150,7 +120,9 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
       </aside>
 
       {/* Right Panel - Scrollable Content Area */}
-      <main className="flex-1 lg:ml-[400px]">
+      <main id={MAIN_CONTENT_ID} className="flex-1 lg:ml-[400px] lg:h-screen lg:overflow-y-auto">
+        <TopNav scrollContainerId={MAIN_CONTENT_ID} />
+
         <div className="min-h-screen">
           {children}
         </div>
