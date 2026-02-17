@@ -11,6 +11,8 @@ export interface NavItem {
   name: string;
   href: string;
   visible: boolean;
+  /** The key in features.sections used to check visibility at runtime. */
+  sectionKey: string;
 }
 
 /** Resolve a nav slug (e.g. 'pages.about') to its features.sections key ('about'). */
@@ -32,9 +34,10 @@ const navSlugs: string[] = [
 
 export const navigation: NavItem[] = navSlugs.map((slug) => {
   const [parentSlug, subSlug] = slug.split('.');
-  const visible = isSectionEnabled(sectionKey(slug));
+  const key = sectionKey(slug);
+  const visible = isSectionEnabled(key);
   const ct = contentTypes.find((c) => c.slug === parentSlug);
-  if (!ct) return { name: slug, href: '/', visible };
+  if (!ct) return { name: slug, href: '/', visible, sectionKey: key };
 
   if (subSlug) {
     const sub = ct.subTypes.find((s) => s.slug === subSlug);
@@ -42,11 +45,13 @@ export const navigation: NavItem[] = navSlugs.map((slug) => {
       name: sub?.label ?? subSlug,
       href: sub?.route ?? '/',
       visible,
+      sectionKey: key,
     };
   }
   return {
     name: ct.label,
     href: ct.route,
     visible,
+    sectionKey: key,
   };
 });

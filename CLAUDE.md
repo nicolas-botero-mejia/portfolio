@@ -33,6 +33,12 @@
 - If similar components exist, refactor to use shared design system components
 - MDX components should use the SAME UI components as JSX pages
 
+**Component Usage:**
+- Always use existing UI components (`src/components/ui/`) over raw HTML elements
+- Use `<Button>` instead of `<button>`, `<Link>` instead of `<a>`, `<Badge>` instead of `<span>` for labels, etc.
+- Raw HTML is only acceptable when an existing component genuinely doesn't fit (e.g., Radix `asChild` primitives, custom form controls like toggle switches)
+- When a raw element is needed, leave a brief comment explaining why
+
 ---
 
 ## Design System
@@ -212,15 +218,15 @@ Key files: `src/lib/serverPasswordAuth.ts`, `src/actions/authActions.ts`, `src/c
 
 ### Feature Flags
 
-Centralized in `src/config/features.ts`. Controls what's on/off across the project.
+Centralized in `src/config/features.ts`. Controls what's on/off across the project. Every toggleable item has `{ label, enabled }` so display text lives in one place (used by DevToolsPanel). Group labels are in `featureGroups`.
 
 | Group | Controls | Keys |
 |-------|----------|------|
 | `sections` | Navigation visibility, route access (404), SEO metadata | `work`, `experiments`, `reading`, `writing`, `about`, `now`, `uses`, `colophon` |
 | `sections.*.subTypes` | Content subtype visibility in listings and route access | e.g. `work.subTypes.products`, `reading.subTypes.books` |
 | `analytics` | Provider initialization and event tracking | `googleAnalytics`, `amplitude` |
-| `passwordProtection` | Password gating for locked work items | boolean |
-| `darkMode` | Theme switching (forces light when off) | boolean |
+| `appearance` | Theme mode — `'auto'` / `'light'` / `'dark'` | string (not boolean) |
+| `passwordProtection` | Password gating for locked work items | `{ label, enabled }` |
 | `contact` | Sidebar contact section elements | `email`, `linkedin`, `location`, `availability` |
 | `seo` | SEO metadata features | `sitemap`, `openGraph`, `twitterCards`, `schemaOrg` |
 

@@ -2,84 +2,112 @@
  * Feature flags — single source of truth for toggling features on/off.
  * Edit this file to enable/disable features across the project.
  *
+ * Every toggleable item carries a `label` used by the DevToolsPanel
+ * so that display text is defined here, not scattered in UI code.
+ *
  * Section and subType slugs match contentTypes.ts exactly (kebab-case).
  * See CLAUDE.md "Feature Flags" section for usage guide.
  */
 
-interface SectionFlag {
+/** Individual toggle flag with a human-readable label. */
+export interface FlagItem {
+  label: string;
   enabled: boolean;
-  subTypes?: Record<string, boolean>;
 }
+
+/** Section flag with optional sub-types. */
+export interface SectionFlag {
+  label: string;
+  enabled: boolean;
+  subTypes?: Record<string, FlagItem>;
+}
+
+/** Appearance mode — controls theme behavior. */
+export type AppearanceMode = 'auto' | 'light' | 'dark';
+
+/** Display group labels for the dev tools panel. */
+export const featureGroups = {
+  sections: 'Sections',
+  analytics: 'Analytics',
+  appearance: 'Appearance',
+  other: 'Other',
+  contact: 'Contact',
+  seo: 'SEO',
+} as const;
 
 export const features = {
   /** Content sections — controls navigation visibility, route access, and SEO indexing. */
   sections: {
     work: {
+      label: 'Work',
       enabled: true,
       subTypes: {
-        products: true,
-        features: true,
-        'side-projects': true,
-        transformations: true,
+        products: { label: 'Products', enabled: true },
+        features: { label: 'Features', enabled: true },
+        'side-projects': { label: 'Side Projects', enabled: true },
+        transformations: { label: 'Transformations', enabled: true },
       },
     },
     experiments: {
+      label: 'Experiments',
       enabled: false,
       subTypes: {
-        design: true,
-        code: true,
-        prototypes: true,
+        design: { label: 'Design', enabled: true },
+        code: { label: 'Code', enabled: true },
+        prototypes: { label: 'Prototypes', enabled: true },
       },
     },
     reading: {
+      label: 'Reading',
       enabled: false,
       subTypes: {
-        books: true,
-        articles: true,
+        books: { label: 'Books', enabled: true },
+        articles: { label: 'Articles', enabled: true },
       },
     },
     writing: {
+      label: 'Writing',
       enabled: true,
       subTypes: {
-        posts: true,
-        thoughts: true,
-        quotes: true,
+        posts: { label: 'Posts', enabled: true },
+        thoughts: { label: 'Thoughts', enabled: true },
+        quotes: { label: 'Quotes', enabled: true },
       },
     },
-    about: { enabled: true },
-    now: { enabled: true },
-    uses: { enabled: true },
-    colophon: { enabled: true },
+    about: { label: 'About', enabled: true },
+    now: { label: 'Now', enabled: true },
+    uses: { label: 'Uses', enabled: true },
+    colophon: { label: 'Colophon', enabled: true },
   } satisfies Record<string, SectionFlag>,
 
   /** Analytics providers */
   analytics: {
-    googleAnalytics: true,
-    amplitude: true,
+    googleAnalytics: { label: 'Google Analytics', enabled: true },
+    amplitude: { label: 'Amplitude', enabled: true },
   },
 
-  /** Password protection for locked work items */
-  passwordProtection: true,
+  /** Appearance mode — 'auto' follows system, 'light'/'dark' force the theme. */
+  appearance: 'auto' as AppearanceMode,
 
-  /** Dark mode / theme switching */
-  darkMode: true,
+  /** Password protection for locked work items */
+  passwordProtection: { label: 'Password Protection', enabled: true },
 
   /** Sidebar contact section elements */
   contact: {
-    email: true,
-    linkedin: true,
-    location: true,
-    availability: true,
+    email: { label: 'Email', enabled: true },
+    linkedin: { label: 'LinkedIn', enabled: true },
+    location: { label: 'Location', enabled: true },
+    availability: { label: 'Availability', enabled: true },
   },
 
   /** SEO features */
   seo: {
-    sitemap: true,
-    openGraph: true,
-    twitterCards: true,
-    schemaOrg: true,
+    sitemap: { label: 'Sitemap', enabled: true },
+    openGraph: { label: 'Open Graph', enabled: true },
+    twitterCards: { label: 'Twitter Cards', enabled: true },
+    schemaOrg: { label: 'Schema.org', enabled: true },
   },
-} as const;
+};
 
 /** Check if a section is enabled. */
 export function isSectionEnabled(sectionSlug: string): boolean {
@@ -93,5 +121,5 @@ export function isSectionEnabled(sectionSlug: string): boolean {
 export function isSubTypeEnabled(sectionSlug: string, subTypeSlug: string): boolean {
   if (!isSectionEnabled(sectionSlug)) return false;
   const section = features.sections[sectionSlug as keyof typeof features.sections] as SectionFlag | undefined;
-  return section?.subTypes?.[subTypeSlug] ?? true;
+  return section?.subTypes?.[subTypeSlug]?.enabled ?? true;
 }

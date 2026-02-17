@@ -13,7 +13,7 @@ function logDebug(message: string, data?: unknown): void {
 // Initialize Amplitude
 export const initAmplitude = () => {
   try {
-    if (!features.analytics.amplitude) return;
+    if (!features.analytics.amplitude.enabled) return;
 
     const apiKey = process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY;
 
@@ -60,7 +60,7 @@ export type AnalyticsEvent =
 // Track event with Amplitude
 export const trackEvent = (event: AnalyticsEvent) => {
   try {
-    if (!features.analytics.amplitude) return;
+    if (!features.analytics.amplitude.enabled) return;
 
     const apiKey = process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY;
 
@@ -80,7 +80,7 @@ export const trackEvent = (event: AnalyticsEvent) => {
 export const trackPageView = (path: string, title: string) => {
   try {
     // Google Analytics (handled by @next/third-parties)
-    if (features.analytics.googleAnalytics && typeof window !== 'undefined' && 'gtag' in window && process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) {
+    if (features.analytics.googleAnalytics.enabled && typeof window !== 'undefined' && 'gtag' in window && process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) {
       const windowWithGtag = window as typeof window & { gtag: (...args: unknown[]) => void };
       windowWithGtag.gtag('config', process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID, {
         page_path: path,
@@ -102,7 +102,7 @@ export const trackPageView = (path: string, title: string) => {
 // Identify user (optional - for authenticated users)
 export const identifyUser = (userId: string, properties?: Record<string, string | number | boolean>) => {
   try {
-    if (!features.analytics.amplitude) return;
+    if (!features.analytics.amplitude.enabled) return;
 
     const apiKey = process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY;
 
@@ -127,7 +127,7 @@ export const identifyUser = (userId: string, properties?: Record<string, string 
 // Reset user (for logout or session end)
 export const resetUser = () => {
   try {
-    if (!features.analytics.amplitude) return;
+    if (!features.analytics.amplitude.enabled) return;
 
     const apiKey = process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY;
 

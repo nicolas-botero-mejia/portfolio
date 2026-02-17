@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { profile, routes, getCompany } from '@/data';
-import { features } from '@/config/features';
+import { useFeatureFlags } from '@/components/FeatureFlagsProvider';
 import TopNav from '@/components/layout/TopNav';
 
 interface SplitLayoutProps {
@@ -13,6 +13,8 @@ interface SplitLayoutProps {
 const MAIN_CONTENT_ID = 'main-content';
 
 export default function SplitLayout({ children }: SplitLayoutProps) {
+  const flags = useFeatureFlags();
+
   const handleExternalLinkClick = (url: string, label: string) => {
     trackEvent({
       name: ANALYTICS_EVENTS.EXTERNAL_LINK_CLICK,
@@ -78,7 +80,7 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
           {/* Bottom Section - Contact */}
           <div className="border-t border-border-default pt-8 mt-8">
             <div className="space-y-3 text-sm">
-              {features.contact.email && (
+              {flags.contact.email.enabled && (
               <div>
                 <a
                   href={`mailto:${profile.contact.email}`}
@@ -89,7 +91,7 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                 </a>
               </div>
               )}
-              {features.contact.linkedin && (
+              {flags.contact.linkedin.enabled && (
               <div>
                 <a
                   href={`https://linkedin.com/in/${profile.contact.linkedin}`}
@@ -102,13 +104,13 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                 </a>
               </div>
               )}
-              {features.contact.location && (
+              {flags.contact.location.enabled && (
               <div className="text-content-muted pt-2">
                 <div>{profile.contact.location}</div>
                 <div className="text-xs mt-1">{profile.contact.locationSubtext}</div>
               </div>
               )}
-              {features.contact.availability && (
+              {flags.contact.availability.enabled && (
               <div className="text-content-muted border-t border-border-subtle mt-3 pt-3">
                 <div className="text-content-secondary font-medium">{profile.contact.availability}</div>
                 <div className="text-xs mt-1">{profile.contact.availabilityTypes}</div>

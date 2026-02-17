@@ -4,13 +4,18 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { navigation } from '@/data';
+import { useFeatureFlags } from '@/components/FeatureFlagsProvider';
 import NavLink from '@/components/ui/NavLink';
 
 const SCROLL_THRESHOLD = 10;
 
 export default function TopNav({ scrollContainerId }: { scrollContainerId: string }) {
   const pathname = usePathname();
-  const visibleNav = navigation.filter(item => item.visible);
+  const flags = useFeatureFlags();
+  const visibleNav = navigation.filter(item => {
+    const section = flags.sections[item.sectionKey as keyof typeof flags.sections];
+    return section?.enabled ?? item.visible;
+  });
 
   const [visible, setVisible] = useState(true);
   const lastScrollY = useRef(0);

@@ -25,7 +25,7 @@ function getPasswordEnvKey(slug: string): string {
  * Check if a work item requires password protection.
  */
 export function requiresPassword(product: WorkItemContent): boolean {
-  if (!features.passwordProtection) return false;
+  if (!features.passwordProtection.enabled) return false;
   return product.frontmatter.locked === true;
 }
 

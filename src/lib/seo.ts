@@ -20,7 +20,7 @@ export const defaultMetadata: Metadata = {
   keywords: [...site.defaultKeywords],
   authors: [{ name: site.name }],
   creator: site.name,
-  ...(features.seo.openGraph && {
+  ...(features.seo.openGraph.enabled && {
     openGraph: {
       type: 'website' as const,
       locale: site.locale,
@@ -31,7 +31,7 @@ export const defaultMetadata: Metadata = {
       images: [defaultOgImage],
     },
   }),
-  ...(features.seo.twitterCards && {
+  ...(features.seo.twitterCards.enabled && {
     twitter: {
       card: 'summary_large_image' as const,
       title: site.title,
@@ -98,14 +98,14 @@ export function generatePageMetadata({
     title,
     description,
     keywords: keywords || [...site.defaultKeywords],
-    ...(features.seo.openGraph && {
+    ...(features.seo.openGraph.enabled && {
       openGraph: {
         title,
         description,
         images: ogImage ? [{ url: ogImage }] : [defaultOgImage],
       },
     }),
-    ...(features.seo.twitterCards && {
+    ...(features.seo.twitterCards.enabled && {
       twitter: {
         card: 'summary_large_image' as const,
         title,

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { getRoute, getCompanyName, getWorkTypeLabel, CONTENT_SLUGS } from '@/data';
+import { useFilteredContent } from '@/lib/useFilteredContent';
 import type { WorkItem } from '@/lib/mdx';
 import { getWorkThumbnailPath, type WorkSubType } from '@/lib/contentPaths';
 import {
@@ -42,9 +43,10 @@ const CARD_META_OVERLAY = 'text-xs text-white/80';
 const TAG_OVERLAY = 'text-xs text-white/70';
 
 export default function WorkClient({ allWork, title, description }: WorkClientProps) {
+  const filteredWork = useFilteredContent(CONTENT_SLUGS.WORK, allWork);
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
-  const visibleWork = allWork.slice(0, visibleCount);
-  const hasMore = visibleCount < allWork.length;
+  const visibleWork = filteredWork.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredWork.length;
 
   const handleWorkCardClick = (slug: string, title: string, position: number) => {
     trackEvent({
@@ -54,7 +56,7 @@ export default function WorkClient({ allWork, title, description }: WorkClientPr
   };
 
   const loadMore = () => {
-    setVisibleCount((prev) => Math.min(prev + LOAD_MORE_STEP, allWork.length));
+    setVisibleCount((prev) => Math.min(prev + LOAD_MORE_STEP, filteredWork.length));
   };
 
   return (
@@ -65,7 +67,7 @@ export default function WorkClient({ allWork, title, description }: WorkClientPr
         variant="serif"
       />
 
-      {allWork.length === 0 ? (
+      {filteredWork.length === 0 ? (
         <EmptyState
           title="No work samples yet"
           description="Work samples will appear here when added"
