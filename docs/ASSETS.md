@@ -67,8 +67,8 @@ public/images/
 
 | Level | Use | Example |
 |-------|-----|---------|
-| `hero` | Hero image; frontmatter `heroImage`, detail pages | `ocean-hero.png` |
-| `thumbnail` | Listing cards (when supported) | `ocean-thumbnail.png` |
+| `hero` | Hero image; used in MDX content | `ocean-hero.png` |
+| `thumbnail` | Listing cards via `getWorkThumbnailPath()` | `ocean-thumbnail.png` |
 | `1`, `2`, `3`, … | In-body images in order | `ocean-1.png`, `ocean-2.png` |
 | Descriptive | Optional; short kebab-case | `ocean-dashboard.png`, `project-slug-concept.png` |
 
@@ -79,9 +79,9 @@ Use the same extension consistently (e.g. `.png` or `.jpg`) if you like; the app
 - **Generic:** `src/lib/contentPaths.ts`
   - `getHeroImagePath(contentType, subType, slug, ext?)` → `/images/{contentType}/{subType}/{slug}-hero.{ext}` (or without subType when null)
   - `getImagePath(contentType, subType, slug, level, ext?)` → same with any level
-- **Work-only convenience:** `getWorkHeroImagePath(subType, slug)`, `getWorkImagePath(subType, slug, level)`
+- **Work-only convenience:** `getWorkHeroImagePath(subType, slug)`, `getWorkThumbnailPath(subType, slug)`, `getWorkImagePath(subType, slug, level)`
 
-**Use in code (not in MDX):** The helpers are used when **loading** content. For work items, `heroImage` in frontmatter is optional: if omitted, the app derives it via `getWorkHeroImagePath(subType, slug)` in `src/lib/mdx.ts`. Set `heroImage` in frontmatter only when you need to override (e.g. different file name or extension). **In-body images** in MDX (e.g. `![Alt](/images/work/products/ocean-1.png)`) use the full path; there is no MDX-level helper, so authors follow the same convention.
+**Use in code (not in MDX):** The helpers are used for derived image paths. Listing cards use `getWorkThumbnailPath()` for thumbnails. Hero images and in-body images are authored directly in MDX (e.g. `![Alt](/images/work/products/ocean-hero.png)`) using the full path — there is no frontmatter field or MDX-level helper, so authors follow the naming convention.
 
 ## Migration from old layout
 

@@ -47,6 +47,13 @@ export function getWorkHeroImagePath(subType: WorkSubType, slug: string, ext = '
 }
 
 /**
+ * Work-specific thumbnail path for listing cards.
+ */
+export function getWorkThumbnailPath(subType: WorkSubType, slug: string, ext = 'png'): string {
+  return getImagePath('work', subType, slug, 'thumbnail', ext);
+}
+
+/**
  * Work-specific image path (convenience for getImagePath('work', subType, slug, level)).
  */
 export function getWorkImagePath(

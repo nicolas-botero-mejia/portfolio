@@ -25,7 +25,6 @@ year: "YYYY" or "YYYY-YY"
 duration: "X months" or "X years"
 type: "product"
 featured: true/false
-heroImage: "/images/work/products/slug-hero.png"
 tags: ["tag1", "tag2", "tag3", "tag4"]
 seo:
   metaTitle: "Company - Key Impact | Nicolás Botero"

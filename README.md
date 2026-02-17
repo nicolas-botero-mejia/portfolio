@@ -220,7 +220,6 @@ year: "2024-25"
 duration: "10 months"
 type: "Design System & Process Transformation"
 featured: true
-heroImage: "/images/work/products/sainapsis-hero.png"
 tags: ["design systems", "process transformation", "mentorship", "productivity"]
 seo:
   metaTitle: "Sainapsis - 16x Productivity with Design Systems | Nicolás Botero"

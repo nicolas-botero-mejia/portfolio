@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { trackEvent } from '@/lib/analytics';
 import { getRoute, getCompanyName, getWorkTypeLabel, CONTENT_SLUGS } from '@/data';
 import type { WorkItem } from '@/lib/mdx';
+import { getWorkThumbnailPath, type WorkSubType } from '@/lib/contentPaths';
 import {
   Badge,
   Card,
@@ -86,17 +87,13 @@ export default function WorkClient({ allWork, title, description }: WorkClientPr
                   className={`group relative overflow-hidden rounded-lg ${CARD_ASPECT}`}
                 >
                   <div className="absolute inset-0">
-                    {item.frontmatter.heroImage ? (
-                      <Image
-                        src={item.frontmatter.heroImage}
-                        alt=""
-                        fill
-                        sizes="(max-width: 640px) 100vw, 50vw"
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="absolute inset-0 bg-background-subtle" aria-hidden />
-                    )}
+                    <Image
+                      src={getWorkThumbnailPath(item.subType as WorkSubType, item.slug)}
+                      alt=""
+                      fill
+                      sizes="(max-width: 640px) 100vw, 50vw"
+                      className="object-cover"
+                    />
                   </div>
                   <div className={CARD_GRADIENT} />
                   <div className="absolute inset-0 flex flex-col justify-between p-4 md:p-5">
@@ -131,13 +128,11 @@ export default function WorkClient({ allWork, title, description }: WorkClientPr
                         {item.frontmatter.title}
                       </h2>
                       <p className={CARD_META_OVERLAY}>
-                        <span className="font-medium">
-                          {getCompanyName(item.frontmatter.company)}
-                        </span>
-                        <span aria-hidden> · </span>
-                        <span>{item.frontmatter.role}</span>
-                        <span aria-hidden> · </span>
-                        <span>{item.frontmatter.year}</span>
+                        {[
+                          item.frontmatter.company && getCompanyName(item.frontmatter.company),
+                          item.frontmatter.role,
+                          item.frontmatter.year,
+                        ].filter(Boolean).join(' · ')}
                       </p>
                       {item.frontmatter.tags &&
                         item.frontmatter.tags.length > 0 && (

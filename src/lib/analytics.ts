@@ -42,7 +42,7 @@ export const initAmplitude = () => {
 // Event types for type safety
 export type AnalyticsEvent =
   | { name: 'page_view'; properties: { path: string; title: string } }
-  | { name: 'work_item_view'; properties: { slug: string; title: string; company: string } }
+  | { name: 'work_item_view'; properties: { slug: string; title: string; company?: string } }
   | { name: 'work_item_password_attempt'; properties: { slug: string; success: boolean } }
   | { name: 'external_link_click'; properties: { url: string; label: string; section: string } }
   | { name: 'contact_click'; properties: { method: 'email' | 'linkedin'; section: string } }

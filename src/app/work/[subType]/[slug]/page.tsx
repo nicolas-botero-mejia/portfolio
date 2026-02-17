@@ -36,7 +36,6 @@ export async function generateMetadata({ params }: WorkItemPageProps): Promise<M
       title: frontmatter.seo.metaTitle,
       description: frontmatter.seo.metaDescription,
       keywords: frontmatter.seo.keywords,
-      ogImage: frontmatter.heroImage,
     });
   } catch {
     return {};
@@ -100,25 +99,26 @@ export default async function WorkItemPage({ params }: WorkItemPageProps) {
             {frontmatter.description}
           </p>
 
+          {(frontmatter.role || frontmatter.duration || frontmatter.year) && (
           <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-content-muted border-t border-b border-border-default py-4">
+            {frontmatter.role && (
             <div>
               <span className="font-medium text-content-primary">Role:</span> {frontmatter.role}
             </div>
+            )}
+            {frontmatter.duration && (
             <div>
               <span className="font-medium text-content-primary">Duration:</span> {frontmatter.duration}
             </div>
+            )}
+            {frontmatter.year && (
             <div>
               <span className="font-medium text-content-primary">Year:</span> {frontmatter.year}
             </div>
+            )}
           </div>
+          )}
         </header>
-
-        {/* Hero Image Placeholder */}
-        <div className="mb-12 aspect-video w-full rounded-lg bg-background-subtle">
-          <div className="flex h-full items-center justify-center text-content-muted">
-            Hero Image: {frontmatter.heroImage}
-          </div>
-        </div>
 
         {/* Content */}
         <MDXRenderer

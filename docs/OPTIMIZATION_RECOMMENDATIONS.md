@@ -585,7 +585,6 @@ export async function generateMetadata({ params }: ProductPageProps) {
     title: frontmatter.seo.metaTitle,
     description: frontmatter.seo.metaDescription,
     keywords: frontmatter.seo.keywords,
-    ogImage: frontmatter.heroImage,
   });
 }
 ```
@@ -623,7 +622,6 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     title: frontmatter.seo.metaTitle,
     description: frontmatter.seo.metaDescription,
     keywords: frontmatter.seo.keywords,
-    ogImage: frontmatter.heroImage,
   });
 }
 ```

@@ -51,7 +51,7 @@ All MDX files require frontmatter with specific fields depending on content type
 2. Classification: type, subtitle
 3. Context: company, role, parent (features only)
 4. Timeline: year, duration, date
-5. Display: featured, heroImage (optional for work: derived from slug when missing), tags
+5. Display: featured, tags
 6. Security: locked (products, optional)
 7. SEO: seo block (always last)
 
@@ -69,7 +69,6 @@ year: "2021-2024"
 duration: "3 years"
 date: "2024-06-15"            # For sorting (YYYY-MM-DD format)
 featured: true
-heroImage: "/images/work/products/ocean-hero.png"
 tags: ["design systems", "platform", "global"]
 locked: false                  # Password protection (optional)
 seo:
@@ -95,7 +94,6 @@ parent: "ocean"                # Slug of parent product (work/products/ocean.mdx
 year: "2023"
 duration: "3 months"
 featured: false
-heroImage: "/images/work/features/ocean-billing-hero.png"
 tags: ["enterprise", "billing", "dashboard"]
 seo:
   metaTitle: "Ocean Billing System | Nicolás Botero"

@@ -17,29 +17,21 @@ import {
   sortByDateDesc,
   sortByDateOrYear,
 } from './contentLoader';
-import { getHeroImagePath, type WorkSubType } from '@/lib/contentPaths';
-
 export type { ContentItem };
 
 // ============================================================================
-// WORK - Products
+// WORK
 // ============================================================================
 
-export interface ProductFrontmatter {
+export interface WorkItemFrontmatter {
+  // Transversal (all work items)
   title: string;
   description: string;
-  company: string;   // Company slug - resolve with getCompany()
-  role: string;
-  year: string;
-  duration: string;
   type: string;      // Work type: product, feature, side-project
-  subtitle?: string; // Descriptive label e.g. "Design System & Process Transformation"
   featured: boolean;
-  heroImage?: string; // Optional: derived from getWorkHeroImagePath(subType, slug) when missing
   tags: string[];
   date?: string;     // For sorting (YYYY-MM-DD format)
   order?: number;    // For manual ordering
-  parent?: string;   // Features only: slug of parent product (work/products/). See content/README.md.
   seo: {
     metaTitle: string;
     metaDescription: string;
@@ -47,54 +39,39 @@ export interface ProductFrontmatter {
   };
   password?: string; // Optional: Dedicated password for this work item
   locked?: boolean;  // Optional: Whether this work item requires password
+
+  // Subtype-specific (not all subtypes use these)
+  company?: string;   // Company slug - resolve with getCompany()
+  role?: string;
+  year?: string;
+  duration?: string;
+  subtitle?: string;  // Descriptive label e.g. "Design System & Process Transformation"
+  parent?: string;    // Features only: slug of parent product (work/products/). See content/README.md.
 }
 
-export type Product = ContentItem<ProductFrontmatter>;
+export type WorkItemContent = ContentItem<WorkItemFrontmatter>;
+
+// ============================================================================
+// WORK - Products
+// ============================================================================
 
 const PRODUCTS_PATH = getContentPath(CONTENT_SLUGS.WORK, CONTENT_SLUGS.WORK_PRODUCTS);
 
-/** Auto-derive heroImage from content path convention when not explicitly set. */
-function withHeroImage<T extends { slug: string; frontmatter: { heroImage?: string } }>(
-  item: T,
-  contentType: string,
-  subType: string | null
-): T {
-  const hero = item.frontmatter.heroImage?.trim();
-  return {
-    ...item,
-    frontmatter: {
-      ...item.frontmatter,
-      heroImage: hero || getHeroImagePath(contentType, subType, item.slug),
-    },
-  } as T;
-}
-
-/** Work-specific convenience wrapper. */
-function withWorkHeroImage<T extends { slug: string; frontmatter: { heroImage?: string } }>(
-  item: T,
-  subType: WorkSubType
-): T {
-  return withHeroImage(item, CONTENT_SLUGS.WORK, subType);
-}
-
-export const getProducts = cache((): Product[] =>
-  getItemsFromPath<ProductFrontmatter>(PRODUCTS_PATH, sortByYearDesc).map((p) =>
-    withWorkHeroImage(p, CONTENT_SLUGS.WORK_PRODUCTS as WorkSubType)
-  )
+export const getProducts = cache((): WorkItemContent[] =>
+  getItemsFromPath<WorkItemFrontmatter>(PRODUCTS_PATH, sortByYearDesc)
 );
 
-export const getProductBySlug = cache((slug: string): Product | null => {
-  const item = getItemBySlugFromPath<ProductFrontmatter>(PRODUCTS_PATH, slug);
-  return item ? withWorkHeroImage(item, CONTENT_SLUGS.WORK_PRODUCTS as WorkSubType) : null;
-});
+export const getProductBySlug = cache((slug: string): WorkItemContent | null =>
+  getItemBySlugFromPath<WorkItemFrontmatter>(PRODUCTS_PATH, slug)
+);
 
-export function getFeaturedProducts(): Product[] {
+export function getFeaturedProducts(): WorkItemContent[] {
   return getFeaturedFromItems(getProducts());
 }
 
 export interface AdjacentContent {
-  prev: Product | null;
-  next: Product | null;
+  prev: WorkItemContent | null;
+  next: WorkItemContent | null;
 }
 
 export function getAdjacentProducts(currentSlug: string): AdjacentContent {
@@ -107,22 +84,19 @@ export function getAdjacentProducts(currentSlug: string): AdjacentContent {
 
 const FEATURES_PATH = getContentPath(CONTENT_SLUGS.WORK, CONTENT_SLUGS.WORK_FEATURES);
 
-export const getFeatures = cache((): Product[] =>
-  getItemsFromPath<ProductFrontmatter>(FEATURES_PATH, sortByDateOrYear).map((f) =>
-    withWorkHeroImage(f, CONTENT_SLUGS.WORK_FEATURES as WorkSubType)
-  )
+export const getFeatures = cache((): WorkItemContent[] =>
+  getItemsFromPath<WorkItemFrontmatter>(FEATURES_PATH, sortByDateOrYear)
 );
 
-export const getFeatureBySlug = cache((slug: string): Product | null => {
-  const item = getItemBySlugFromPath<ProductFrontmatter>(FEATURES_PATH, slug);
-  return item ? withWorkHeroImage(item, CONTENT_SLUGS.WORK_FEATURES as WorkSubType) : null;
-});
+export const getFeatureBySlug = cache((slug: string): WorkItemContent | null =>
+  getItemBySlugFromPath<WorkItemFrontmatter>(FEATURES_PATH, slug)
+);
 
 export function getAdjacentFeatures(currentSlug: string): AdjacentContent {
   return getAdjacentFromItems(getFeatures(), currentSlug) as AdjacentContent;
 }
 
-export function getFeaturedFeatures(): Product[] {
+export function getFeaturedFeatures(): WorkItemContent[] {
   return getFeaturedFromItems(getFeatures());
 }
 
@@ -131,7 +105,7 @@ export function getFeaturedFeatures(): Product[] {
 // ============================================================================
 
 /** Work item with subType derived from its content folder (e.g., 'products', 'features'). */
-export type WorkItem = Product & { subType: string };
+export type WorkItem = WorkItemContent & { subType: string };
 
 export interface AdjacentWorkItem {
   prev: WorkItem | null;
@@ -153,7 +127,7 @@ export const getAllWork = cache((): WorkItem[] => {
  * Lookup a work item by its content subType and slug.
  * SubType is the content folder slug: 'products', 'features', 'side-projects'.
  */
-export const getWorkItemBySlug = cache((subType: string, slug: string): Product | null => {
+export const getWorkItemBySlug = cache((subType: string, slug: string): WorkItemContent | null => {
   if (subType === CONTENT_SLUGS.WORK_PRODUCTS) return getProductBySlug(slug);
   if (subType === CONTENT_SLUGS.WORK_FEATURES) return getFeatureBySlug(slug);
   return null;
@@ -239,10 +213,10 @@ export const getNowBySlug = cache((slug: string): NowEntry | null =>
 //
 //   const SIDE_PROJECTS_PATH = getContentPath(CONTENT_SLUGS.WORK, CONTENT_SLUGS.WORK_SIDE_PROJECTS);
 //   export function getSideProjects() {
-//     return getItemsFromPath<ProductFrontmatter>(SIDE_PROJECTS_PATH, sortByDateOrYear);
+//     return getItemsFromPath<WorkItemFrontmatter>(SIDE_PROJECTS_PATH, sortByDateOrYear);
 //   }
 //   export function getSideProjectBySlug(slug: string) {
-//     return getItemBySlugFromPath<ProductFrontmatter>(SIDE_PROJECTS_PATH, slug);
+//     return getItemBySlugFromPath<WorkItemFrontmatter>(SIDE_PROJECTS_PATH, slug);
 //   }
 //   export function getFeaturedSideProjects() {
 //     return getFeaturedFromItems(getSideProjects());

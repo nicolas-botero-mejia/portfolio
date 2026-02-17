@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import crypto from 'crypto';
 import { AUTH_COOKIE_PREFIX, AUTH_COOKIE_MAX_AGE } from '@/config/passwords';
-import type { Product } from './mdx';
+import type { WorkItemContent } from './mdx';
 import { logError } from './errors';
 
 /**
@@ -23,7 +23,7 @@ function getPasswordEnvKey(slug: string): string {
 /**
  * Check if a work item requires password protection.
  */
-export function requiresPassword(product: Product): boolean {
+export function requiresPassword(product: WorkItemContent): boolean {
   return product.frontmatter.locked === true;
 }
 
@@ -34,7 +34,7 @@ export function requiresPassword(product: Product): boolean {
  * 2. Environment variable for that slug (WORK_[SLUG]_PASSWORD)
  * 3. Global work password (WORK_GLOBAL_PASSWORD)
  */
-function getExpectedPasswordHash(product: Product): string | null {
+function getExpectedPasswordHash(product: WorkItemContent): string | null {
   if (product.frontmatter.password) {
     return hashPassword(product.frontmatter.password);
   }
@@ -57,7 +57,7 @@ function getExpectedPasswordHash(product: Product): string | null {
  * Validate a password for a work item.
  * Server-side only - never exposes actual passwords to client.
  */
-export function validatePassword(product: Product, password: string): boolean {
+export function validatePassword(product: WorkItemContent, password: string): boolean {
   if (!requiresPassword(product)) {
     return true; // Not protected
   }
