@@ -3,6 +3,7 @@
  * Generic helpers used by mdx.ts for all content types.
  */
 
+import './contentManifest'; // Side-effect: keeps content/ in the bundler's HMR graph
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';

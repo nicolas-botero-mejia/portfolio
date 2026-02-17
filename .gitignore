@@ -45,6 +45,9 @@ next-env.d.ts
 # generated (from sources/tokens.ts)
 src/app/tokens.generated.css
 
+# generated (dev-only HMR trigger for content/ changes)
+src/lib/contentManifest.ts
+
 # PR drafts (local only, never committed)
 PR_INFO.md
 PR_*.md

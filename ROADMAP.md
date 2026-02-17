@@ -130,6 +130,7 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [x] Implement side-projects content accessor in `mdx.ts` (`getSideProjects`, `getSideProjectBySlug`; `getAllWork` now includes side-projects)
 - [x] Disable frontmatter passwords in production (dev-only guard in `getExpectedPasswordHash`)
 - [x] Implement centralized feature flags system (`src/config/features.ts` — sections, subtypes, analytics, password protection, dark mode, contact, SEO)
+- [x] Add MDX content HMR support (file watcher bumps manifest to keep `fs`-based content in bundler graph; debounced, zero external deps via `fs.watch` recursive)
 
 *Design-to-code Figma integration → moved to Project 7.1*
 *Mobile responsiveness → moved to Project 4.2 (audit with real content in place)*
@@ -567,6 +568,7 @@ This is the learning and tooling project. Building tests and stories against a l
 
 ## Change log
 
+- **Feb 2026 (MDX HMR):** Added dev-time HMR for MDX content changes. File watcher (`scripts/watchContent.js`) uses Node's built-in `fs.watch({ recursive: true })` to detect MDX changes in `content/`, debounces rapid writes (100ms), and bumps a timestamp in `src/lib/contentManifest.ts` to keep `fs`-based content loading in the bundler's module graph. Manifest is gitignored and auto-generated on `predev`/`prebuild` via `--init` flag. Removed chokidar in favor of native `fs.watch`. Added `concurrently` to run watcher alongside `next dev`.
 - **Feb 2026 (top nav):** Moved navigation from left sidebar to top-right of main content area. Sticky bar with scroll-direction detection (shows on scroll up, hides on scroll down). Extracted into two components: TopNav (layout, `src/components/layout/TopNav.tsx` — scroll state, analytics tracking) and NavLink (UI, `src/components/ui/NavLink.tsx` — active/inactive styling, DS token pattern). SplitLayout now renders TopNav via prop-based scroll container ID; sidebar retains name, bio, and contact only.
 - **Feb 2026 (feature flags):** Added centralized feature flags system (`src/config/features.ts`). Controls: content sections and subtypes (navigation visibility, route access via `notFound()`, SEO metadata), analytics providers (GA4, Amplitude), password protection, dark mode, sidebar contact elements, and SEO features (OpenGraph, Twitter Cards). Section slugs match `contentTypes.ts`. Helpers: `isSectionEnabled()`, `isSubTypeEnabled()`. Wired into navigation, analytics, layout, ThemeProvider, serverPasswordAuth, seo, all section pages, work item pages, SplitLayout. Re-exported via `src/data/index.ts`. Documented in CLAUDE.md.
 - **Feb 2026 (transformations subtype):** Added "transformations" work subtype for UX company/cultural transformation case studies. Wired content subtype (`contentTypes.ts`), work type (`workTypes.ts`), content loading functions (`mdx.ts`), content and image directories, example MDX template, and documentation updates across 5 docs.
