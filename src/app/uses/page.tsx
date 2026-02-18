@@ -17,11 +17,10 @@ export default function UsesPage() {
 
   return (
     <PageLayout maxWidth="prose">
-      <PageHeader
-        title={page.frontmatter.title}
-        description={page.frontmatter.description}
-        variant="serif"
-      />
+        <PageHeader
+          title={page.frontmatter.title}
+          description={page.frontmatter.description}
+        />
 
       <MDXRenderer
         content={page.content}

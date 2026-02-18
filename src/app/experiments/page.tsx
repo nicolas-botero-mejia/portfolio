@@ -22,7 +22,6 @@ export default function ExperimentsPage() {
         <PageHeader
           title={page.frontmatter.title}
           description={page.frontmatter.description}
-          variant="serif"
         />
 
         <EmptyState

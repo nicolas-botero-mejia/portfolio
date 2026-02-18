@@ -65,7 +65,6 @@ export default function WorkClient({ allWork, title, description }: WorkClientPr
       <PageHeader
         title={title}
         description={description}
-        variant="serif"
       />
 
       {filteredWork.length === 0 ? (
