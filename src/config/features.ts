@@ -22,15 +22,15 @@ export interface SectionFlag {
   subTypes?: Record<string, FlagItem>;
 }
 
-/** Appearance options for dev tools and theme UI. Single source of truth for labels and type. */
-export const APPEARANCE_OPTIONS = [
-  { value: 'auto', label: 'Auto' },
-  { value: 'light', label: 'Light' },
-  { value: 'dark', label: 'Dark' },
-] as const;
+/** Appearance options — key is the mode value, value is the display label. Single source of truth. */
+export const APPEARANCE_OPTIONS = {
+  auto: 'Auto',
+  light: 'Light',
+  dark: 'Dark',
+} as const;
 
-/** Appearance mode — derived from APPEARANCE_OPTIONS. */
-export type AppearanceMode = (typeof APPEARANCE_OPTIONS)[number]['value'];
+/** Appearance mode — derived from APPEARANCE_OPTIONS keys. */
+export type AppearanceMode = keyof typeof APPEARANCE_OPTIONS;
 
 /** Display group labels for the dev tools panel. */
 export const featureGroups = {
@@ -94,7 +94,7 @@ export const features = {
   },
 
   /** Appearance mode — 'auto' follows system, 'light'/'dark' force the theme. */
-  appearance: APPEARANCE_OPTIONS[0].value as AppearanceMode,
+  appearance: 'auto' satisfies AppearanceMode,
 
   /** Password protection for locked work items */
   passwordProtection: { label: 'Password Protection', enabled: true },

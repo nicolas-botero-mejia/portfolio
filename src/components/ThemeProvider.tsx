@@ -8,8 +8,12 @@ import {
   useSyncExternalStore,
 } from 'react';
 import { useFeatureFlags } from '@/components/FeatureFlagsProvider';
+import { type AppearanceMode } from '@/config/features';
 
-function getSystemTheme(): 'light' | 'dark' {
+/** Resolved theme — any explicit appearance mode (excludes 'auto', which delegates to the system). */
+type ResolvedTheme = Exclude<AppearanceMode, 'auto'>;
+
+function getSystemTheme(): ResolvedTheme {
   if (typeof window === 'undefined') return 'light';
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
@@ -21,14 +25,14 @@ function subscribeSystemTheme(callback: () => void): () => void {
   return () => mq.removeEventListener('change', callback);
 }
 
-function applyTheme(resolved: 'light' | 'dark'): void {
+function applyTheme(resolved: ResolvedTheme): void {
   const root = document.documentElement;
   if (resolved === 'dark') root.classList.add('dark');
   else root.classList.remove('dark');
 }
 
 const ThemeContext = createContext<{
-  resolvedTheme: 'light' | 'dark';
+  resolvedTheme: ResolvedTheme;
 } | null>(null);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
@@ -38,12 +42,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const systemTheme = useSyncExternalStore(
     subscribeSystemTheme,
     getSystemTheme,
-    () => 'light' as const,
+    () => 'light' as ResolvedTheme,
   );
 
-  const resolvedTheme = useMemo<'light' | 'dark'>(() => {
-    if (flags.appearance === 'dark') return 'dark';
-    if (flags.appearance === 'light') return 'light';
+  const resolvedTheme = useMemo<ResolvedTheme>(() => {
+    if (flags.appearance !== 'auto') return flags.appearance;
     return systemTheme;
   }, [flags.appearance, systemTheme]);
 

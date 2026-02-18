@@ -2,7 +2,7 @@
 
 import * as Popover from '@radix-ui/react-popover';
 import { useFeatureFlagsContext } from '@/components/FeatureFlagsProvider';
-import { features, featureGroups, APPEARANCE_OPTIONS } from '@/config/features';
+import { features, featureGroups, APPEARANCE_OPTIONS, type AppearanceMode } from '@/config/features';
 import Button from '@/components/ui/Button';
 import { H2, H3 } from '@/components/ui/Typography';
 
@@ -90,7 +90,7 @@ function AppearanceSelector() {
       </div>
       {/* Raw buttons — segmented control has no existing UI component */}
       <div className="flex rounded-md border border-border-default overflow-hidden" role="radiogroup" aria-label="Appearance mode">
-        {APPEARANCE_OPTIONS.map(({ value, label }) => {
+        {(Object.entries(APPEARANCE_OPTIONS) as [AppearanceMode, string][]).map(([value, label]) => {
           const isActive = flags.appearance === value;
           return (
             <button
