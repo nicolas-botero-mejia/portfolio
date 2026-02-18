@@ -4,6 +4,13 @@
  * Prose handles general MDX body; use these when you need explicit variants.
  */
 
+import { twMerge } from 'tailwind-merge';
+
+// Note: twMerge resolves conflicts for standard Tailwind utilities (mt-*, mb-*, text-size, etc.).
+// Custom semantic tokens (e.g. text-content-primary, bg-background-surface) are not in its
+// utility group registry, so it won't deduplicate them — but in practice this isn't an issue
+// since those tokens aren't overridden within the same component call.
+
 type TypographyVariant = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'lead' | 'body' | 'caption';
 
 interface TypographyBaseProps {
@@ -64,7 +71,7 @@ export function Typography({
   className = '',
 }: TypographyProps) {
   const Tag = as ?? defaultTag[variant];
-  const styles = `${LAYOUT[variant]} ${variantColor[variant]} ${className}`;
+  const styles = twMerge(`${LAYOUT[variant]} ${variantColor[variant]}`, className);
   return <Tag className={styles}>{children}</Tag>;
 }
 
