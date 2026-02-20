@@ -52,6 +52,11 @@ const baseComponents = {
   h5: (props: ComponentPropsWithoutRef<'h5'>) => <H5>{props.children}</H5>,
   h6: (props: ComponentPropsWithoutRef<'h6'>) => <H6>{props.children}</H6>,
 
+  // Paragraphs → spacing and semantic color
+  p: (props: ComponentPropsWithoutRef<'p'>) => (
+    <p className="mb-4 text-base leading-relaxed text-content-primary">{props.children}</p>
+  ),
+
   // Inline text → Typography
   strong: (props: ComponentPropsWithoutRef<'strong'>) => <Strong>{props.children}</Strong>,
   em: (props: ComponentPropsWithoutRef<'em'>) => <Em>{props.children}</Em>,
