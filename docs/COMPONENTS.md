@@ -7,7 +7,9 @@ Design system components for the portfolio. Token-driven; Tailwind utilities map
 | Component | Purpose | Variants | Token Usage |
 |-----------|---------|----------|-------------|
 | **Badge** | Labels, tags, status pills | default, success, warning, neutral | background, content, border, status roles |
-| **Button** | Primary actions, CTAs | primary, secondary, ghost | action/\* roles |
+| **Button** | Primary actions, CTAs | primary, secondary, ghost; sizes sm, md (default), lg | action/\* roles |
+| **IconButton** | Icon-only actions (e.g. Radix triggers) | same variants + sizes; `aria-label` required; `as="button"\|"link"` | imports VARIANT_STYLES from Button |
+| **Toggle** | On/off switch (role="switch") | — | action-primary-bg, background-muted, content-inverted |
 | **Card** | Content containers, work items | — | background-surface, border-subtle |
 | **CardHeader** | Card section header with CTA | — | gray scale |
 | **CardContent** | Card body | — | — |
@@ -83,7 +85,7 @@ If it's one-off or experimental, keep it in the feature folder.
 | background | primary, subtle, surface, muted | Badge default, Card, body |
 | content | primary, secondary, muted, inverted | Badge, body text |
 | border | subtle, default, strong | Badge, Card, Button secondary |
-| action | primary, secondary, ghost | Button |
+| action | primary, secondary, ghost | Button, IconButton |
 | status | success, warning, neutral | Badge variants |
 
 Examples:
@@ -154,7 +156,9 @@ className={`${LAYOUT} ${variantStyles[variant]} ${className}`}
 | Component | Layout constant | Semantic usage |
 |-----------|-----------------|----------------|
 | Badge | `LAYOUT` | `variantStyles` (status, background, content, border) |
-| Button | `LAYOUT` | `variantStyles` (action roles), focus ring `background-primary` |
+| Button | `BASE`, `SIZE_STYLES`, `VARIANT_STYLES` | action roles, focus ring `background-primary`; exports VARIANT_STYLES for IconButton |
+| IconButton | `BASE`, `SIZE_STYLES`, imports `VARIANT_STYLES` | same action roles; square, rounded-full; forwardRef for Radix asChild |
+| Toggle | `TRACK`, `THUMB` | action-primary-bg (on), background-muted (off), content-inverted (thumb) |
 | Card | `LAYOUT` | `background-surface`, `border-subtle` |
 | CardHeader | `LAYOUT` | `border-subtle`, `content-muted` |
 | CardTitle | `LAYOUT` | `content-primary` |
@@ -211,8 +215,8 @@ Apply when touching the component; no big-bang refactor.
 
 | Component | Improvement | MCP / spec reference |
 |-----------|-------------|------------------------|
-| **Button** | Add **loading** state (spinner or disabled + “Loading…”) for async actions. | Design system chunks: “Provide loading states for async actions”; 44×44px min touch target on mobile where relevant. |
-| **Button** | If we add **icon-only** buttons: `aria-label` (or visible text for a11y). | “Descriptive labels or ARIA labels for icon buttons.” |
+| **Button** | Add **loading** state (spinner or disabled + “Loading…”) for async actions. | Design system chunks: “Provide loading states for async actions”; 44×44px min touch target on mobile where relevant. Size variants done. |
+| **IconButton** | Icon-only buttons use **IconButton** with required `aria-label` . | “Descriptive labels or ARIA labels for icon buttons.” |
 | **Dialog** | Already uses Radix (focus trap, focus return). Ensure **close button** has visible focus ring (we use semantic ring). | ARIA: Dialog (Modal); USWDS-style focus and keyboard. |
 | **Badge** | Optional **removable** variant (e.g. filter chips) only if we need chip-style “dismiss” behavior. | Chip blueprint: trailing icon for remove; multi-select/filter. |
 | **Card** | Optional **highlight** or **selected** variant only if a design need appears (e.g. featured item). | Many systems have subtle “selected” or “elevated” card. |
