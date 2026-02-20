@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from '@/components/ui/Link';
-import { getAllWork, getWorkItemBySlug, getAdjacentWork } from '@/lib/mdx';
+import { getAllWork, getWorkItemBySlug, getAdjacentWork, type WorkItem } from '@/lib/mdx';
 import MDXRenderer from '@/components/MDXRenderer';
 import { routes, getRoute, getWorkTypeLabel, CONTENT_SLUGS, site } from '@/data';
 import { generatePageMetadata } from '@/lib/seo';
@@ -85,6 +85,12 @@ export default async function WorkItemPage({ params }: WorkItemPageProps) {
   // Get adjacent work items for next/prev navigation
   const { prev, next } = getAdjacentWork(slug);
 
+  // Resolve related work slugs to full items (first match per slug across all work)
+  const allWork = getAllWork();
+  const slugToItem = new Map(allWork.map((item) => [item.slug, item]));
+  const relatedItems: WorkItem[] =
+    frontmatter.relatedWork?.map((s) => slugToItem.get(s)).filter((item): item is WorkItem => item != null) ?? [];
+
   return (
     <>
       <WorkItemTracker
@@ -110,24 +116,63 @@ export default async function WorkItemPage({ params }: WorkItemPageProps) {
             {frontmatter.description}
           </p>
 
-          {(frontmatter.role || frontmatter.duration || frontmatter.year) && (
-          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-content-muted border-t border-b border-border-default py-4">
-            {frontmatter.role && (
-            <div>
-              <span className="font-medium text-content-primary">Role:</span> {frontmatter.role}
+          {(frontmatter.role ||
+            frontmatter.duration ||
+            frontmatter.year ||
+            frontmatter.location ||
+            frontmatter.teamLocation ||
+            frontmatter.teamSize ||
+            frontmatter.devices?.length ||
+            frontmatter.websiteUrl) && (
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-content-muted border-t border-b border-border-default py-4">
+              {frontmatter.role && (
+                <div>
+                  <span className="font-medium text-content-primary">Role:</span> {frontmatter.role}
+                </div>
+              )}
+              {frontmatter.duration && (
+                <div>
+                  <span className="font-medium text-content-primary">Duration:</span> {frontmatter.duration}
+                </div>
+              )}
+              {frontmatter.year && (
+                <div>
+                  <span className="font-medium text-content-primary">Year:</span> {frontmatter.year}
+                </div>
+              )}
+              {frontmatter.location && (
+                <div>
+                  <span className="font-medium text-content-primary">Location:</span> {frontmatter.location}
+                </div>
+              )}
+              {frontmatter.teamLocation && (
+                <div>
+                  <span className="font-medium text-content-primary">Team location:</span> {frontmatter.teamLocation}
+                </div>
+              )}
+              {frontmatter.teamSize && (
+                <div>
+                  <span className="font-medium text-content-primary">Team size:</span> {frontmatter.teamSize}
+                </div>
+              )}
+              {frontmatter.devices && frontmatter.devices.length > 0 && (
+                <div>
+                  <span className="font-medium text-content-primary">Devices:</span> {frontmatter.devices.join(', ')}
+                </div>
+              )}
+              {frontmatter.websiteUrl && (
+                <div>
+                  <span className="font-medium text-content-primary">Website:</span>{' '}
+                  <Link
+                    href={frontmatter.websiteUrl}
+                    external
+                    className="text-content-muted hover:text-content-primary transition-colors underline underline-offset-2"
+                  >
+                    {frontmatter.websiteDomain ?? frontmatter.websiteUrl}
+                  </Link>
+                </div>
+              )}
             </div>
-            )}
-            {frontmatter.duration && (
-            <div>
-              <span className="font-medium text-content-primary">Duration:</span> {frontmatter.duration}
-            </div>
-            )}
-            {frontmatter.year && (
-            <div>
-              <span className="font-medium text-content-primary">Year:</span> {frontmatter.year}
-            </div>
-            )}
-          </div>
           )}
         </header>
 
@@ -136,6 +181,25 @@ export default async function WorkItemPage({ params }: WorkItemPageProps) {
           content={content}
           contentContext={{ contentType: CONTENT_SLUGS.WORK, subType, slug }}
         />
+
+        {/* Related Work */}
+        {relatedItems.length > 0 && (
+          <div className="mt-12 pt-8 border-t border-border-default">
+            <h2 className="text-sm font-medium text-content-primary mb-3">Related work</h2>
+            <ul className="list-none p-0 m-0 flex flex-col gap-2">
+              {relatedItems.map((item) => (
+                <li key={`${item.subType}-${item.slug}`}>
+                  <Link
+                    href={getRoute(CONTENT_SLUGS.WORK, item.subType, item.slug)}
+                    className="text-content-muted hover:text-content-primary transition-colors"
+                  >
+                    {item.frontmatter.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/* Next/Previous Navigation */}
         <ContentNavigation

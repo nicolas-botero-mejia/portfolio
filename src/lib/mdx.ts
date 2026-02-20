@@ -30,7 +30,7 @@ export interface WorkItemFrontmatter {
   type: string;      // Work type: product, feature, side-project, transformation
   featured: boolean;
   tags: string[];
-  date?: string;     // For sorting (YYYY-MM-DD format)
+  date?: string;     // When the work ended / representative date (YYYY-MM-DD). Used for sorting only.
   order?: number;    // For manual ordering
   seo: {
     metaTitle: string;
@@ -47,6 +47,15 @@ export interface WorkItemFrontmatter {
   duration?: string;
   subtitle?: string;  // Descriptive label e.g. "Design System & Process Transformation"
   parent?: string;    // Features only: slug of parent product (work/products/). See content/README.md.
+
+  // Context metadata (optional)
+  location?: string;    // Work arrangement (e.g. "Remote", "Hybrid", "On-site")
+  teamLocation?: string; // Where the team is based (e.g. "Bogotá, Colombia")
+  teamSize?: string;    // e.g. "5", "5–8", "10+"
+  devices?: string[];    // Platforms: web, mobile, tablet, etc.
+  websiteDomain?: string; // Display label for website link
+  websiteUrl?: string;    // Full URL for website link
+  relatedWork?: string[]; // Slugs of related work items (resolved at render)
 }
 
 export type WorkItemContent = ContentItem<WorkItemFrontmatter>;

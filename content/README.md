@@ -50,13 +50,17 @@ All MDX files require frontmatter with specific fields depending on content type
 
 1. Identity: title, description
 2. Classification: type, subtitle
-3. Context: company, role, parent (features only)
-4. Timeline: year, duration, date
-5. Display: featured, tags
+3. Context: company, role, location, teamLocation, teamSize, devices, websiteDomain, websiteUrl, parent (features only)
+4. Timeline: year, duration, date (`date` = when the work ended or a representative project date; used for sorting only, not displayed. Prefer project end over "when I added this to the portfolio.")
+5. Display: featured, tags, relatedWork
 6. Security: locked (products, optional)
 7. SEO: seo block (always last)
 
+**Tags vs keywords:** `tags` are for in-app use (filtering, categories, display). `seo.keywords` are for search metadata only (meta keywords, JSON-LD); they do not appear in the UI.
+
 ### Products (`work/products/`)
+
+Optional context fields: `location` (work arrangement: "Remote", "Hybrid", "On-site"), `teamLocation` (where the team is based, e.g. "Bogotá, Colombia"), `teamSize`, `devices` (array, e.g. `["web", "mobile"]`), `websiteDomain` (display label), `websiteUrl` (full URL). Optional `relatedWork` is an array of work item slugs; resolved at render and shown as links on the detail page.
 
 ```yaml
 ---
@@ -64,13 +68,20 @@ title: "Ocean — Global CPaaS Platform"
 description: "Short description for listings (150-160 chars)"
 type: "product"
 subtitle: "SaaS Product Design & Scaling"
-company: "routemobile"         # Company slug (see src/data/ — COMPANY_SLUGS in sources/companies)
+company: "RouteMobile"         # Company name or slug (resolved from src/data/sources/companies)
 role: "Lead Product Designer"
+location: "Remote"             # Optional: work arrangement (Remote, Hybrid, On-site)
+teamLocation: "Bogotá, Colombia"  # Optional: where the team is based
+teamSize: "5–8"               # Optional: team size
+devices: ["web", "mobile"]    # Optional: platforms targeted
+websiteDomain: "ocean.example.com"  # Optional: display label for website link
+websiteUrl: "https://ocean.example.com"  # Optional: full URL
 year: "2021-2024"
 duration: "3 years"
-date: "2024-06-15"            # For sorting (YYYY-MM-DD format)
+date: "2024-06-15"            # When the work ended / representative date (YYYY-MM-DD). Used for sorting only.
 featured: true
 tags: ["design systems", "platform", "global"]
+relatedWork: ["aquads"]       # Optional: slugs of related work items
 locked: false                  # Password protection (optional)
 seo:
   metaTitle: "Ocean CPaaS Platform | Nicolás Botero"
@@ -94,6 +105,7 @@ role: "Lead Product Designer"
 parent: "ocean"                # Slug of parent product (work/products/ocean.mdx)
 year: "2023"
 duration: "3 months"
+date: "2024-06-15"
 featured: false
 tags: ["enterprise", "billing", "dashboard"]
 seo:
