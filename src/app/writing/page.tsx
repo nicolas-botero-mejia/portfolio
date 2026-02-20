@@ -18,7 +18,7 @@ export default function WritingPage() {
 
   return (
     <SectionGate section={CONTENT_SLUGS.WRITING}>
-      <PageLayout maxWidth="md">
+      <PageLayout maxWidth="lg">
         <PageHeader
           title={page.frontmatter.title}
           description={page.frontmatter.description}

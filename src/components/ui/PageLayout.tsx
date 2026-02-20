@@ -19,8 +19,8 @@ export default function PageLayout({
 }: PageLayoutProps) {
   return (
     <div className={background}>
-      <section className="px-8 py-16 lg:px-16 lg:py-24">
-        <div className={`${MAX_WIDTH[maxWidth]} ${className}`}>{children}</div>
+      <section className="px-8 py-16 lg:px-6 lg:py-12">
+        <div className={`mx-auto ${MAX_WIDTH[maxWidth]} ${className}`}>{children}</div>
       </section>
     </div>
   );

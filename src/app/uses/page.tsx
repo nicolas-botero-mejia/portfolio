@@ -16,7 +16,7 @@ export default function UsesPage() {
   const page = getPageOrNotFound(CONTENT_SLUGS.USES);
 
   return (
-    <PageLayout maxWidth="prose">
+    <PageLayout maxWidth="lg">
         <PageHeader
           title={page.frontmatter.title}
           description={page.frontmatter.description}

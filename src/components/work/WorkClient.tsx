@@ -28,7 +28,7 @@ interface WorkClientProps {
 }
 
 // 2-col grid for landscape cards (reference: 2x2)
-const GRID_LAYOUT = 'grid grid-cols-1 sm:grid-cols-2 gap-6';
+const GRID_LAYOUT = 'grid grid-cols-1 sm:grid-cols-2 gap-2';
 
 // Overlay card: 16:9, image at back + gradient, text overlaid; text gains opacity on hover
 const CARD_ASPECT = 'aspect-video';

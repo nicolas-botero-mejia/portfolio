@@ -18,7 +18,7 @@ export default function ExperimentsPage() {
 
   return (
     <SectionGate section={CONTENT_SLUGS.EXPERIMENTS}>
-      <PageLayout maxWidth="md">
+      <PageLayout maxWidth="lg">
         <PageHeader
           title={page.frontmatter.title}
           description={page.frontmatter.description}

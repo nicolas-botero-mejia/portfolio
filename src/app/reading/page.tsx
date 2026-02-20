@@ -18,7 +18,7 @@ export default function ReadingPage() {
 
   return (
     <SectionGate section={CONTENT_SLUGS.READING}>
-      <PageLayout maxWidth="md">
+      <PageLayout maxWidth="lg">
         <PageHeader
           title={page.frontmatter.title}
           description={page.frontmatter.description}
