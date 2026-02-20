@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { ArrowUpRight } from 'lucide-react';
 import Link from '@/components/ui/Link';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { getRoute, getCompanyName, getWorkTypeLabel, CONTENT_SLUGS } from '@/data';
@@ -103,20 +104,7 @@ export default function WorkClient({ allWork, title, description }: WorkClientPr
                         {getWorkTypeLabel(item.frontmatter.type)} · {item.frontmatter.subtitle}
                       </span>
                       <div className={CARD_LINK_HINT}>
-                        <svg
-                          className="h-3.5 w-3.5 shrink-0"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          aria-hidden
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M7 17L17 7M17 7H7M17 7v10"
-                          />
-                        </svg>
+                        <ArrowUpRight className="h-3.5 w-3.5 shrink-0" aria-hidden />
                       </div>
                     </div>
 

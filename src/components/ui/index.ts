@@ -8,7 +8,7 @@ export { default as CardImage } from './CardImage';
 export { default as CardListItem } from './CardListItem';
 export { default as CardMeta } from './CardMeta';
 export { default as CardTitle } from './CardTitle';
-export { default as CheckIcon } from './CheckIcon';
+export { CheckIcon, LinkedInIcon, ScrollIcon } from './icons';
 export { default as ContentNavigation } from './ContentNavigation';
 export { default as Dialog } from './Dialog';
 export { default as EmptyState } from './EmptyState';

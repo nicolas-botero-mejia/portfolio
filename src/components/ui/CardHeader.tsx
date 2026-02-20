@@ -1,3 +1,4 @@
+import { ExternalLink } from 'lucide-react';
 import Button from './Button';
 
 interface CardHeaderProps {
@@ -37,19 +38,7 @@ export default function CardHeader({
             className="!p-2"
           >
             <span className="sr-only">Open in new tab</span>
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-              />
-            </svg>
+            <ExternalLink className="h-4 w-4" aria-hidden />
           </Button>
         )}
       </div>

@@ -2,6 +2,7 @@
 
 import { Mail } from 'lucide-react';
 import Link from '@/components/ui/Link';
+import { LinkedInIcon } from '@/components/ui';
 import { Body, Caption } from '@/components/ui/Typography';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { profile, getCompany } from '@/data';
@@ -88,7 +89,8 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                     className="inline-flex items-center gap-1.5 hover:text-content-primary transition-colors"
                     onClick={() => handleContactClick('linkedin')}
                   >
-                    LinkedIn ↗
+                    <LinkedInIcon size={16} />
+                    LinkedIn
                   </Link>
                 )}
               </div>
