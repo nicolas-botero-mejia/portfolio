@@ -1,5 +1,6 @@
 'use client';
 
+import { Mail } from 'lucide-react';
 import Link from '@/components/ui/Link';
 import { Body, Caption } from '@/components/ui/Typography';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
@@ -75,7 +76,8 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                     className="hover:text-content-primary transition-colors"
                     onClick={() => handleContactClick('email')}
                   >
-                    Email me!
+                    <Mail size={16} aria-hidden />
+                    Email me
                   </Link>
                 )}
                 {flags.contact.linkedin.enabled && (
