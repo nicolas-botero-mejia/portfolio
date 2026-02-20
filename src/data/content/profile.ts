@@ -1,11 +1,11 @@
-import { COMPANY_SLUGS } from '../sources/companies';
+import { COMPANY_SLUGS } from '@/data/sources/companies';
+
+const { SAINAPSIS, MASIV, PAYU_LATAM } = COMPANY_SLUGS;
 
 export interface ProfileData {
   name: string;
   title: string;
   bio: string[];
-  outro: string;
-  companySlugs: string[]; // Resolve via getCompany() from companies.ts
   contact: {
     email: string;
     linkedin: string;
@@ -18,13 +18,13 @@ export interface ProfileData {
 
 export const profile: ProfileData = {
   name: 'Nicolás Botero',
-  title: 'Product Designer',
+  title: 'Product Design Leader',
   bio: [
-    'Hi, I\'m Nico → a Product Design Leader with 10+ years of experience unifying fragmented SaaS platforms, scaling products through strong UX architecture, building token-first design systems, and driving AI-integrated workflows that balance operational efficiency with clarity and control.',
-    'I brew coffee with unnecessary precision, cook without recipes, ride long distances on my bike, and climb rocks whenever I can. I read fantasy light novels and recently started writing, exploring structure and world-building from the other side of the page.'
+    "I'm Nico, a Product Design Leader with 10+ years of experience turning fragmented SaaS platforms into coherent, scalable products. I work where UX architecture, design systems, and AI-integrated workflows meet, trying to balance efficiency with clarity (harder than it sounds).",
+    `I've worked across fintech, SaaS, and B2B, most recently at {{${SAINAPSIS}}}, {{${MASIV}}}, and {{${PAYU_LATAM}}}.`,
+    "Outside of work, I brew coffee with unnecessary precision and cook without recipes. I ride long distances on my bike and climb rocks whenever I can. I read fantasy light novels and recently started writing. Turns out exploring structure and world-building from the other side of the page is more fun than I expected.",
+    "If any of that clicks, I'd love to connect.",
   ],
-  outro: 'If you\'d like to learn more about me or my work, feel free to reach out!',
-  companySlugs: [COMPANY_SLUGS.SAINAPSIS, COMPANY_SLUGS.MASIV, COMPANY_SLUGS.PAYU_LATAM],
   contact: {
     email: 'n.boterom@gmail.com',
     linkedin: 'https://linkedin.com/in/nicolas-botero',
