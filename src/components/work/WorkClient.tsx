@@ -30,18 +30,12 @@ interface WorkClientProps {
 // 2-col grid for landscape cards (reference: 2x2)
 const GRID_LAYOUT = 'grid grid-cols-1 sm:grid-cols-2 gap-2';
 
-// Overlay card: 16:9, image at back + gradient, text overlaid; text gains opacity on hover
+// Card: light gray bg with image bottom-center at 80% width; text on top
 const CARD_ASPECT = 'aspect-video';
-const CARD_GRADIENT =
-  'absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent pointer-events-none';
-const CARD_CATEGORY = 'text-xs text-white/80';
+const CARD_CATEGORY = 'text-sm text-content-muted/60';
 const CARD_LINK_HINT =
-  'flex items-center gap-1.5 text-xs text-white/80 group-hover:text-white transition-colors';
-const BADGE_OVERLAY = 'rounded-full border-0 px-3 py-1 bg-white/20 text-white';
-const CARD_TITLE_OVERLAY =
-  'font-[Georgia,"Times New Roman",serif] text-2xl md:text-3xl text-white opacity-90 group-hover:opacity-100 transition-opacity';
-const CARD_META_OVERLAY = 'text-xs text-white/80';
-const TAG_OVERLAY = 'text-xs text-white/70';
+  'flex items-center gap-1.5 text-xs text-content-muted group-hover:text-content-primary transition-colors';
+const CARD_META_OVERLAY = 'opacity-75';
 
 export default function WorkClient({ allWork, title, description }: WorkClientProps) {
   const filteredWork = useFilteredContent(CONTENT_SLUGS.WORK, allWork);
@@ -80,31 +74,35 @@ export default function WorkClient({ allWork, title, description }: WorkClientPr
                 key={item.slug}
                 href={getRoute(CONTENT_SLUGS.WORK, item.subType, item.slug)}
                 block
+                className="group no-underline"
                 onClick={() =>
                   handleWorkCardClick(item.slug, item.frontmatter.title, index)
                 }
               >
                 <Card
                   as="div"
-                  className={`group relative overflow-hidden rounded-lg ${CARD_ASPECT}`}
+                  className={`relative isolate overflow-hidden shadow-none rounded-lg border-none bg-background-muted hover:bg-background-subtle transition-colors ${CARD_ASPECT}`}
                 >
-                  <div className="absolute inset-0">
-                    <Image
-                      src={getWorkThumbnailPath(item.subType as WorkSubType, item.slug)}
-                      alt=""
-                      fill
-                      sizes="(max-width: 640px) 100vw, 50vw"
-                      className="object-cover"
-                    />
+                  {/* Image: only absolute element; -z-10 keeps it behind content, z-10 on hover surfaces it */}
+                  <div className="absolute bottom-0 left-[10%] right-[10%] top-0 -z-10 group-hover:z-10">
+                    <div className="h-full w-full transition-transform duration-200 group-hover:scale-105">
+                      <Image
+                        src={getWorkThumbnailPath(item.subType as WorkSubType, item.slug)}
+                        alt=""
+                        fill
+                        sizes="(max-width: 640px) 80vw, 40vw"
+                        className="object-contain object-bottom drop-shadow-sm transition-[filter] duration-200 group-hover:drop-shadow-lg"
+                      />
+                    </div>
                   </div>
-                  <div className={CARD_GRADIENT} />
-                  <div className="absolute inset-0 flex flex-col justify-between p-4 md:p-5">
-                    <div className="flex items-start justify-between gap-3">
+
+                  {/* Content: normal flow column fills card height; naturally above -z-10 image */}
+                  <div className="flex h-full flex-col justify-between bg-linear-to-t from-background-muted/90 to-transparent">
+                    <div className="flex items-center justify-between px-4 py-3">
                       <span className={CARD_CATEGORY}>
-                        Work · {getWorkTypeLabel(item.frontmatter.type)}
+                        {getWorkTypeLabel(item.frontmatter.type)} · {item.frontmatter.subtitle}
                       </span>
                       <div className={CARD_LINK_HINT}>
-                        <span>Work — {item.frontmatter.title}</span>
                         <svg
                           className="h-3.5 w-3.5 shrink-0"
                           fill="none"
@@ -121,35 +119,19 @@ export default function WorkClient({ allWork, title, description }: WorkClientPr
                         </svg>
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <Badge variant="neutral" className={BADGE_OVERLAY}>
-                        {item.frontmatter.subtitle ??
-                          getWorkTypeLabel(item.frontmatter.type)}
-                      </Badge>
-                      <H2 className={`${CARD_TITLE_OVERLAY} leading-tight mt-0 mb-0`}>
-                        {item.frontmatter.title}
-                      </H2>
-                      <p className={CARD_META_OVERLAY}>
+
+                    {/* Bottom text: gradient baked in; fades on hover/focus so image takes over */}
+                    <div className="flex flex-col items-start gap-1 px-4 py-3 transition-opacity duration-200 group-hover:opacity-10 group-focus-within:opacity-0">
+                      <Badge variant="success" className={CARD_META_OVERLAY}>
                         {[
                           item.frontmatter.company && getCompanyName(item.frontmatter.company),
-                          item.frontmatter.role,
+                          // item.frontmatter.role,
                           item.frontmatter.year,
                         ].filter(Boolean).join(' · ')}
-                      </p>
-                      {item.frontmatter.tags &&
-                        item.frontmatter.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-2 pt-1">
-                            {item.frontmatter.tags.map((tag) => (
-                              <Badge
-                                key={tag}
-                                variant="neutral"
-                                className={`${TAG_OVERLAY} border-0 bg-transparent`}
-                              >
-                                #{tag}
-                              </Badge>
-                            ))}
-                          </div>
-                        )}
+                      </Badge>
+                      <H2 className="mt-0 mb-0">
+                        {item.frontmatter.title}
+                      </H2>
                     </div>
                   </div>
                 </Card>

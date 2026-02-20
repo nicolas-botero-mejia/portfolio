@@ -34,7 +34,7 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col lg:flex-row">
       {/* Left Panel - Fixed on Desktop */}
-      <aside className="border-b border-border-default bg-background-surface lg:fixed lg:left-0 lg:top-0 lg:h-screen lg:w-[400px] lg:overflow-y-auto lg:border-b-0 lg:border-r">
+      <aside className="border-b border-border-default bg-background-muted lg:fixed lg:left-0 lg:top-0 lg:h-screen lg:w-[400px] lg:overflow-y-auto">
         <div className="flex flex-col justify-between p-8 lg:h-full">
           {/* Bio */}
           <div className="flex flex-col flex-1 justify-between space-y-3">
@@ -68,12 +68,12 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
             </div>
             <div>
               <Body>{profile.outro}</Body>
-              <div className="flex gap-2 mt-2">
+              <div className="flex gap-4 mt-2">
                 {flags.contact.email.enabled && (
                   <Link
                     href={`mailto:${profile.contact.email}`}
                     variant="muted"
-                    className="hover:text-content-primary transition-colors"
+                    className="inline-flex items-center gap-1.5 hover:text-content-primary transition-colors"
                     onClick={() => handleContactClick('email')}
                   >
                     <Mail size={16} aria-hidden />
@@ -85,7 +85,7 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                     href={profile.contact.linkedin}
                     external
                     variant="muted"
-                    className="hover:text-content-primary transition-colors"
+                    className="inline-flex items-center gap-1.5 hover:text-content-primary transition-colors"
                     onClick={() => handleContactClick('linkedin')}
                   >
                     LinkedIn ↗
