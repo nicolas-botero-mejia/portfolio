@@ -1,5 +1,6 @@
 'use client';
 
+import { useId } from 'react';
 import * as Popover from '@radix-ui/react-popover';
 import { Settings } from 'lucide-react';
 import { useFeatureFlagsContext } from '@/components/FeatureFlagsProvider';
@@ -111,6 +112,7 @@ function FlagSection({ title, children }: { title: string; children: React.React
 }
 
 export default function DevToolsPanel() {
+  const contentId = useId();
   const { overrides, resetAll, hasOverrides } = useFeatureFlagsContext();
 
   const sectionKeys = Object.keys(features.sections) as (keyof typeof features.sections)[];
@@ -128,7 +130,7 @@ export default function DevToolsPanel() {
       </Popover.Trigger>
 
       <Popover.Portal>
-        <Popover.Content side="top" align="end" sideOffset={8} className={CONTENT_STYLES}>
+        <Popover.Content id={contentId} side="top" align="end" sideOffset={8} className={CONTENT_STYLES}>
           <div className="flex items-baseline justify-between my-0">
             <H2 className="md:text-sm mt-0 mb-0 font-semibold text-content-primary">Feature Flags</H2>
             {hasOverrides && (
