@@ -25,8 +25,8 @@ interface TypographyProps extends TypographyBaseProps {
 
 // 1. Layout & typography — primitive scale
 const LAYOUT: Record<TypographyVariant, string> = {
-  h1: 'text-5xl md:text-6xl tracking-tight',
-  h2: 'text-2xl md:text-3xl font-medium tracking-tight mt-10 mb-4',
+  h1: 'text-5xl md:text-6xl',
+  h2: 'text-3xl md:text-4xl mt-10 mb-4',
   h3: 'text-xl font-semibold mt-8 mb-3',
   h4: 'text-lg font-semibold mt-6 mb-2',
   h5: 'text-base font-semibold mt-4 mb-1',

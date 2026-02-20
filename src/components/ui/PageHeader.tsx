@@ -6,8 +6,8 @@ interface PageHeaderProps {
   className?: string;
 }
 
-const WRAPPER = 'mb-12';
-const DESCRIPTION = 'text-lg text-content-muted';
+const WRAPPER = 'mb-6';
+const DESCRIPTION = 'text-lg text-content-muted/60';
 const TITLE = 'mb-2';
 
 export default function PageHeader({

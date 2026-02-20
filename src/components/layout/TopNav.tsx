@@ -45,7 +45,7 @@ export default function TopNav({ scrollContainerId }: { scrollContainerId: strin
 
   return (
     <nav
-      className={`sticky top-0 z-10 flex items-center justify-end gap-6 px-8 py-4 bg-background-surface/80 backdrop-blur-sm transition-transform duration-300 ${
+      className={`sticky top-0 z-10 flex items-center justify-end gap-6 px-8 py-4 bg-background-surface/20 backdrop-blur-sm transition-transform duration-200 ${
         visible ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
