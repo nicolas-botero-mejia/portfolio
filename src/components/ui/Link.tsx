@@ -1,4 +1,5 @@
 import NextLink from 'next/link';
+import { twMerge } from 'tailwind-merge';
 
 type LinkVariant = 'default' | 'muted' | 'ghost';
 
@@ -41,7 +42,7 @@ export default function Link({
   block = false,
 }: LinkBaseProps) {
   const layout = block ? LAYOUT_BLOCK : LAYOUT_INLINE;
-  const styles = `${layout} ${variantStyles[variant]} ${className}`;
+  const styles = twMerge(layout, variantStyles[variant], className);
 
   return (
     <NextLink

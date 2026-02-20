@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { twMerge } from 'tailwind-merge';
 
 interface CardProps {
   children: React.ReactNode;
@@ -16,9 +17,8 @@ export default function Card({
 }: CardProps) {
   // 1. Layout & typography — primitive scale; 2. Semantic colors — role-based
   const LAYOUT =
-    'rounded-lg bg-background-surface shadow-sm border border-border-subtle transition-shadow' +
-    ' hover:shadow-md focus-visible:ring-2 focus-visible:ring-background-primary focus-visible:ring-offset-2' +
-    ' active:shadow-sm';
+    'rounded-lg bg-background-surface shadow-sm border border-border-subtle' +
+    ' focus-visible:ring-2 focus-visible:ring-background-primary focus-visible:ring-offset-2';
 
   const linkStyles = as === 'link' ? 'block cursor-pointer' : '';
 
@@ -26,12 +26,12 @@ export default function Card({
     return (
       <Link
         href={href}
-        className={`${LAYOUT} ${linkStyles} ${className}`}
+        className={twMerge(LAYOUT, linkStyles, className)}
       >
         {children}
       </Link>
     );
   }
 
-  return <div className={`${LAYOUT} ${className}`}>{children}</div>;
+  return <div className={twMerge(LAYOUT, className)}>{children}</div>;
 }
