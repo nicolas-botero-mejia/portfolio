@@ -31,6 +31,6 @@ export const profile: ProfileData = {
     location: 'Bogotá, Colombia',
     locationSubtext: 'Remote-ready worldwide',
     availability: 'Open to opportunities',
-    availabilityTypes: 'Freelance • Consulting • Full-time',
+    availabilityTypes: 'Full-time • Freelance • Consulting',
   },
 };
