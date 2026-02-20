@@ -1,4 +1,4 @@
-type BadgeVariant = 'default' | 'success' | 'warning' | 'neutral';
+type BadgeVariant = 'default' | 'success' | 'warning' | 'neutral' | 'info';
 
 interface BadgeProps {
   children: React.ReactNode;
@@ -8,7 +8,7 @@ interface BadgeProps {
 
 // 1. Layout & typography — primitive scale (tokens.ts → Tailwind theme)
 const LAYOUT =
-  'inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-medium';
+  'inline-flex items-center rounded-md border px-1 py-0.5 text-xs font-mono uppercase';
 
 // 2. Semantic colors — role-based (variants)
 const variantStyles: Record<BadgeVariant, string> = {
@@ -20,6 +20,7 @@ const variantStyles: Record<BadgeVariant, string> = {
     'bg-status-warning-bg text-status-warning-text border-status-warning-border',
   neutral:
     'bg-status-neutral-bg text-status-neutral-text border-status-neutral-border',
+  info: 'bg-status-info-bg text-status-info-text border-status-info-border',
 };
 
 export default function Badge({ children, variant = 'default', className = '' }: BadgeProps) {

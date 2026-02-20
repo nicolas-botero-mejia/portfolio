@@ -54,6 +54,7 @@ export type SemanticTheme = {
     success: { bg: string; text: string; border: string };
     warning: { bg: string; text: string; border: string };
     neutral: { bg: string; text: string; border: string };
+    info: { bg: string; text: string; border: string };
   };
 };
 
@@ -107,6 +108,7 @@ export const themes = {
       success: { bg: colors.green[50], text: colors.green[800], border: colors.green[200] },
       warning: { bg: colors.amber[50], text: colors.amber[800], border: colors.amber[200] },
       neutral: { bg: colors.gray[50], text: colors.gray[600], border: colors.gray[100] },
+      info: { bg: colors.blue[50], text: colors.blue[800], border: colors.blue[200] },
     },
   } satisfies SemanticTheme,
   dark: {
@@ -154,6 +156,7 @@ export const themes = {
       success: { bg: colors.green[950], text: colors.green[300], border: colors.green[800] },
       warning: { bg: colors.amber[950], text: colors.amber[300], border: colors.amber[800] },
       neutral: { bg: colors.gray[800], text: colors.gray[400], border: colors.gray[700] },
+      info: { bg: colors.blue[950], text: colors.blue[300], border: colors.blue[800] },
     },
   } satisfies SemanticTheme,
 } as const;
