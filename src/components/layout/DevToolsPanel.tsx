@@ -8,16 +8,11 @@ import { H2, H3 } from '@/components/ui/Typography';
 
 const TRIGGER_STYLES =
   'fixed bottom-4 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-background-surface border border-border-default shadow-lg transition-colors hover:bg-background-subtle focus:outline-none focus-visible:ring-2 focus-visible:ring-background-primary';
-
 const CONTENT_STYLES =
   'z-50 w-72 max-h-[70vh] overflow-y-auto rounded-lg border border-border-default bg-background-surface p-4 shadow-xl';
-
 const SECTION_TITLE = 'text-xs font-semibold uppercase tracking-wider text-content-muted mb-2';
-
 const TOGGLE_ROW = 'flex items-center justify-between py-1';
-
 const TOGGLE_LABEL = 'text-sm text-content-secondary';
-
 const TOGGLE_LABEL_OVERRIDDEN = 'text-sm text-content-primary font-medium';
 
 function GearIcon() {
@@ -142,8 +137,8 @@ export default function DevToolsPanel() {
 
       <Popover.Portal>
         <Popover.Content side="top" align="end" sideOffset={8} className={CONTENT_STYLES}>
-          <div className="mb-3 flex items-center justify-between">
-            <H3 className="text-sm font-semibold text-content-primary">Feature Flags</H3>
+          <div className="flex items-baseline justify-between my-0">
+            <H2 className="md:text-sm mt-0 mb-0 font-semibold text-content-primary">Feature Flags</H2>
             {hasOverrides && (
               <Button variant="ghost" onClick={resetAll} className="px-0! py-0! text-xs">
                 Reset all

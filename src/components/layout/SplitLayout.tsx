@@ -1,9 +1,9 @@
 'use client';
 
 import Link from '@/components/ui/Link';
-import { H1 } from '@/components/ui/Typography';
+import { Body, Caption } from '@/components/ui/Typography';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
-import { profile, routes, getCompany } from '@/data';
+import { profile, getCompany } from '@/data';
 import { useFeatureFlags } from '@/components/FeatureFlagsProvider';
 import TopNav from '@/components/layout/TopNav';
 
@@ -33,22 +33,17 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col lg:flex-row">
       {/* Left Panel - Fixed on Desktop */}
-      <aside className="lg:fixed lg:left-0 lg:top-0 lg:h-screen lg:w-[400px] lg:overflow-y-auto border-b lg:border-b-0 lg:border-r border-border-default bg-background-surface">
-        <div className="flex flex-col justify-between p-8 lg:p-12 lg:h-full">
-          {/* Top Section */}
-          <div>
-            {/* Name/Logo */}
-            <Link href={routes.work} className="block mb-8">
-              <H1 className="text-2xl">{profile.name}</H1>
-              <p className="text-sm text-content-muted mt-1">{profile.title}</p>
-            </Link>
-
-            {/* Short Bio */}
-            <div className="mb-8 text-sm text-content-muted leading-relaxed space-y-3">
+      <aside className="border-b border-border-default bg-background-surface lg:fixed lg:left-0 lg:top-0 lg:h-screen lg:w-[400px] lg:overflow-y-auto lg:border-b-0 lg:border-r">
+        <div className="flex flex-col justify-between p-8 lg:h-full">
+          {/* Bio */}
+          <div className="flex flex-col flex-1 justify-between space-y-3">
+            <div className="flex flex-col flex-1 gap-2">
               {profile.bio.map((paragraph, index) => (
-                <p key={index}>{paragraph}</p>
+                <Body key={index} className="text-lg">
+                  {paragraph}
+                </Body>
               ))}
-              <p className="text-content-secondary">
+              <Body className="text-content-secondary mt-2">
                 Previously at{' '}
                 {profile.companySlugs.map((slug, index) => {
                   const company = getCompany(slug);
@@ -68,54 +63,50 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
                   );
                 })}
                 .
-              </p>
-              <p>
-                If you&apos;d like to learn more about me or my work, feel free to reach out!
-              </p>
+              </Body>
+            </div>
+            <div>
+              <Body>{profile.outro}</Body>
+              <div className="flex gap-2 mt-2">
+                {flags.contact.email.enabled && (
+                  <Link
+                    href={`mailto:${profile.contact.email}`}
+                    variant="muted"
+                    className="hover:text-content-primary transition-colors"
+                    onClick={() => handleContactClick('email')}
+                  >
+                    Email me!
+                  </Link>
+                )}
+                {flags.contact.linkedin.enabled && (
+                  <Link
+                    href={profile.contact.linkedin}
+                    external
+                    variant="muted"
+                    className="hover:text-content-primary transition-colors"
+                    onClick={() => handleContactClick('linkedin')}
+                  >
+                    LinkedIn ↗
+                  </Link>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* Bottom Section - Contact */}
-          <div className="border-t border-border-default pt-8 mt-8">
-            <div className="space-y-3 text-sm">
-              {flags.contact.email.enabled && (
+          {/* Bottom Section - Location & Availability */}
+          <div className="border-t border-border-default pt-8 mt-8 space-y-3">
+            {flags.contact.location.enabled && (
               <div>
-                <Link
-                  href={`mailto:${profile.contact.email}`}
-                  variant="muted"
-                  className="hover:text-content-primary transition-colors"
-                  onClick={() => handleContactClick('email')}
-                >
-                  {profile.contact.email}
-                </Link>
+                <Body className="text-content-muted font-medium">{profile.contact.location}</Body>
+                <Caption>{profile.contact.locationSubtext}</Caption>
               </div>
-              )}
-              {flags.contact.linkedin.enabled && (
+            )}
+            {flags.contact.availability.enabled && (
               <div>
-                <Link
-                  href={`https://linkedin.com/in/${profile.contact.linkedin}`}
-                  external
-                  variant="muted"
-                  className="hover:text-content-primary transition-colors"
-                  onClick={() => handleContactClick('linkedin')}
-                >
-                  LinkedIn ↗
-                </Link>
+                <Body className="text-content-muted font-medium">{profile.contact.availability}</Body>
+                <Caption>{profile.contact.availabilityTypes}</Caption>
               </div>
-              )}
-              {flags.contact.location.enabled && (
-              <div className="text-content-muted pt-2">
-                <div>{profile.contact.location}</div>
-                <div className="text-xs mt-1">{profile.contact.locationSubtext}</div>
-              </div>
-              )}
-              {flags.contact.availability.enabled && (
-              <div className="text-content-muted border-t border-border-subtle mt-3 pt-3">
-                <div className="text-content-secondary font-medium">{profile.contact.availability}</div>
-                <div className="text-xs mt-1">{profile.contact.availabilityTypes}</div>
-              </div>
-              )}
-            </div>
+            )}
           </div>
         </div>
       </aside>
@@ -123,10 +114,7 @@ export default function SplitLayout({ children }: SplitLayoutProps) {
       {/* Right Panel - Scrollable Content Area */}
       <main id={MAIN_CONTENT_ID} className="flex-1 lg:ml-[400px] lg:h-screen lg:overflow-y-auto">
         <TopNav scrollContainerId={MAIN_CONTENT_ID} />
-
-        <div className="min-h-screen">
-          {children}
-        </div>
+        <div className="min-h-screen">{children}</div>
       </main>
     </div>
   );
