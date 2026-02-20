@@ -10,6 +10,7 @@ Design system components for the portfolio. Token-driven; Tailwind utilities map
 | **Button** | Primary actions, CTAs | primary, secondary, ghost; sizes sm, md (default), lg | action/\* roles |
 | **IconButton** | Icon-only actions (e.g. Radix triggers) | same variants + sizes; `aria-label` required; `as="button"\|"link"` | imports VARIANT_STYLES from Button |
 | **Toggle** | On/off switch (role="switch") | — | action-primary-bg, background-muted, content-inverted |
+| **SegmentedControl** | Single-choice from options (role="radiogroup") | — | action-primary-bg, content-inverted, background-surface/subtle, border-default |
 | **Card** | Content containers, work items | — | background-surface, border-subtle |
 | **CardHeader** | Card section header with CTA | — | gray scale |
 | **CardContent** | Card body | — | — |
@@ -159,6 +160,7 @@ className={`${LAYOUT} ${variantStyles[variant]} ${className}`}
 | Button | `BASE`, `SIZE_STYLES`, `VARIANT_STYLES` | action roles, focus ring `background-primary`; exports VARIANT_STYLES for IconButton |
 | IconButton | `BASE`, `SIZE_STYLES`, imports `VARIANT_STYLES` | same action roles; square, rounded-full; forwardRef for Radix asChild |
 | Toggle | `TRACK`, `THUMB` | action-primary-bg (on), background-muted (off), content-inverted (thumb) |
+| SegmentedControl | `CONTAINER`, `SEGMENT_BASE`, `SEGMENT_ACTIVE`, `SEGMENT_INACTIVE` | action-primary-bg, content-inverted (active); background-surface, content-secondary (inactive); border-default |
 | Card | `LAYOUT` | `background-surface`, `border-subtle` |
 | CardHeader | `LAYOUT` | `border-subtle`, `content-muted` |
 | CardTitle | `LAYOUT` | `content-primary` |

@@ -7,6 +7,7 @@ import { useFeatureFlagsContext } from '@/components/FeatureFlagsProvider';
 import { features, featureGroups, APPEARANCE_OPTIONS, type AppearanceMode } from '@/config/features';
 import Button from '@/components/ui/Button';
 import IconButton from '@/components/ui/IconButton';
+import SegmentedControl from '@/components/ui/SegmentedControl';
 import Toggle from '@/components/ui/Toggle';
 import { H2, H3 } from '@/components/ui/Typography';
 
@@ -55,28 +56,14 @@ function AppearanceSelector() {
       <div className="flex items-center justify-between mb-1.5">
         <span className={isOverridden ? TOGGLE_LABEL_OVERRIDDEN : TOGGLE_LABEL}>Mode</span>
       </div>
-      {/* Raw buttons — segmented control has no existing UI component */}
-      <div className="flex rounded-md border border-border-default overflow-hidden" role="radiogroup" aria-label="Appearance mode">
-        {(Object.entries(APPEARANCE_OPTIONS) as [AppearanceMode, string][]).map(([value, label]) => {
-          const isActive = flags.appearance === value;
-          return (
-            <button
-              key={value}
-              type="button"
-              role="radio"
-              aria-checked={isActive}
-              onClick={() => setFlag('appearance', value)}
-              className={`flex-1 px-2 py-1 text-xs font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-background-primary ${
-                isActive
-                  ? 'bg-action-primary-bg text-content-inverted'
-                  : 'bg-background-surface text-content-secondary hover:bg-background-subtle'
-              }`}
-            >
-              {label}
-            </button>
-          );
-        })}
-      </div>
+      <SegmentedControl<AppearanceMode>
+        options={(Object.entries(APPEARANCE_OPTIONS) as [AppearanceMode, string][]).map(
+          ([value, label]) => ({ value, label })
+        )}
+        value={flags.appearance}
+        onChange={(v) => setFlag('appearance', v)}
+        aria-label="Appearance mode"
+      />
     </div>
   );
 }
