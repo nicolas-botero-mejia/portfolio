@@ -11,7 +11,7 @@ export default function SplitLayout({ children }: SplitLayoutProps): React.React
   return (
     <div className="flex min-h-screen flex-col lg:flex-row">
       {/* Left Panel - Fixed on Desktop */}
-      <aside className="lg:fixed lg:left-0 lg:top-0 lg:h-screen lg:w-[400px] lg:overflow-y-auto">
+      <aside className="lg:fixed lg:left-0 lg:top-0 lg:h-screen lg:w-[400px] lg:overflow-y-auto bg-background-muted border-b border-border-default">
         <Sidebar />
       </aside>
 

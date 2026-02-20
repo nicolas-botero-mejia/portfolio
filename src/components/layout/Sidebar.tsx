@@ -27,14 +27,14 @@ export default function Sidebar(): React.ReactElement {
   };
 
   return (
-    <div className="flex flex-col justify-between p-8 lg:h-full border-b border-border-default bg-background-muted ">
+    <div className="flex flex-col justify-between p-8 lg:h-full">
       {/* Bio */}
       <div className="flex flex-col flex-1 justify-between space-y-3">
-        <div className="flex flex-col flex-1 gap-2">
+        <div className="flex flex-col flex-1 gap-4">
           {profile.bio.map((paragraph, index) => {
             const hasTokens = paragraph.includes('{{');
-            const className =
-              index === 1 ? 'text-content-secondary' : index === 3 ? undefined : 'text-lg';
+            const className = '';
+              // index === 0 ? 'text-lg' : 'text-content-secondary';
             return (
               <Body key={index} className={className}>
                 {hasTokens
@@ -43,9 +43,7 @@ export default function Sidebar(): React.ReactElement {
               </Body>
             );
           })}
-        </div>
-        <div>
-          <div className="flex gap-4 mt-2">
+          <div className="flex gap-4 -mt-3">
             {flags.contact.email.enabled && (
               <Link
                 href={`mailto:${profile.contact.email}`}
@@ -70,6 +68,8 @@ export default function Sidebar(): React.ReactElement {
               </Link>
             )}
           </div>
+        </div>
+        <div>
         </div>
       </div>
 
