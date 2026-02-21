@@ -6,7 +6,8 @@
  * JSX components (Video, Image with dimensions) for things markdown can't express.
  */
 
-import type { ComponentPropsWithoutRef } from 'react';
+import type { ComponentPropsWithoutRef, ReactElement } from 'react';
+import React from 'react';
 import { H1, H2, H3, H4, H5, H6, Strong, Em } from '@/components/ui/Typography';
 import Link from '@/components/ui/Link';
 import Divider from '@/components/ui/Divider';
@@ -119,15 +120,31 @@ function createImageComponent(ctx: ContentContext) {
 /**
  * Create MDX component overrides.
  * - Without context: base element overrides (headings, links, lists, hr, bold, italic)
- * - With context: adds image path resolution
+ * - With context: adds image path resolution and p unwrap for block images
  */
 export function createMDXComponents(ctx?: ContentContext) {
   if (!ctx) {
     return baseComponents;
   }
 
+  const MdxImage = createImageComponent(ctx);
+
+  // MDX wraps ![alt](src) in a <p>; our img renders <figure>. <p> cannot contain <figure>.
+  // When the only child is the image component, render children without wrapping in <p>.
+  const p: (typeof baseComponents)['p'] = (props) => {
+    const count = React.Children.count(props.children);
+    if (count === 1) {
+      const child = React.Children.toArray(props.children)[0];
+      if (React.isValidElement(child) && (child as ReactElement).type === MdxImage) {
+        return <>{props.children}</>;
+      }
+    }
+    return baseComponents.p(props);
+  };
+
   return {
     ...baseComponents,
-    img: createImageComponent(ctx),
+    p,
+    img: MdxImage,
   };
 }
