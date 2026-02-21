@@ -42,7 +42,12 @@ export default function Link({
   block = false,
 }: LinkBaseProps) {
   const layout = block ? LAYOUT_BLOCK : LAYOUT_INLINE;
-  const styles = twMerge(layout, variantStyles[variant], className);
+  const styles = twMerge(
+    layout,
+    variantStyles[variant],
+    block ? 'no-underline' : '',
+    className
+  );
 
   return (
     <NextLink

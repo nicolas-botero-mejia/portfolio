@@ -6,7 +6,7 @@ import { LinkedInIcon } from '@/components/ui';
 import { Body, Caption } from '@/components/ui/Typography';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { parseBioTokens } from '@/lib/richText';
-import { profile } from '@/data';
+import { profile, routes } from '@/data';
 import { useFeatureFlags } from '@/components/FeatureFlagsProvider';
 
 export default function Sidebar(): React.ReactElement {
@@ -27,13 +27,17 @@ export default function Sidebar(): React.ReactElement {
   };
 
   return (
-    <div className="flex flex-col justify-between p-8 lg:h-full">
+    <div className="flex flex-col justify-between lg:h-full">
+      {/* Name/Logo */}
+      <Link href={routes.home} className="py-3 px-8 border-b border-border-default font-medium" block>
+          {profile.name}
+      </Link>
       {/* Bio */}
-      <div className="flex flex-col flex-1 justify-between space-y-3">
+      <div className="flex flex-col flex-1 justify-between px-8 py-7 space-y-3 text-content-muted">
         <div className="flex flex-col flex-1 gap-4">
           {profile.bio.map((paragraph, index) => {
             const hasTokens = paragraph.includes('{{');
-            const className = '';
+            const className = 'text-content-muted/60';
               // index === 0 ? 'text-lg' : 'text-content-secondary';
             return (
               <Body key={index} className={className}>
@@ -69,12 +73,10 @@ export default function Sidebar(): React.ReactElement {
             )}
           </div>
         </div>
-        <div>
-        </div>
       </div>
 
       {/* Bottom Section - Location & Availability */}
-      <div className="border-t border-border-default pt-8 mt-8 space-y-3">
+      <div className="border-t border-border-default px-8 py-7 space-y-3">
         {flags.contact.availability.enabled && (
           <div>
             <Body className="text-content-muted font-medium">{profile.contact.availability}</Body>
