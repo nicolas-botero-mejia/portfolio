@@ -144,6 +144,9 @@ Use this sequence so work builds on itself and nothing is blocked.
 - [x] Create Card component and subcomponents (CardHeader, CardTitle, CardDescription, CardMeta, CardImage, CardListItem)
 - [x] Create Badge component
 - [x] Add remaining UI components (Button, Tabs, Tooltip, Dialog, ScrollArea, ContentNavigation, CheckIcon)
+- [x] Add SegmentedControl, IconButton, and Toggle UI components
+- [x] Extract Sidebar as standalone layout component (`src/components/layout/Sidebar.tsx` — profile display, contact options; split from SplitLayout)
+- [x] Replace custom SVG icon wrappers (CheckIcon, LinkedInIcon, ScrollIcon) with lucide-react throughout app
 - [x] Add theme support (light/dark)
 - [x] Complete UI barrel export (`src/components/ui/index.ts` — add missing Divider, Link, Skeleton, Breadcrumb, Typography exports)
 - [x] Use `<Button>` component in ServerPasswordPrompt (replace hardcoded `<button>` for design system consistency)
@@ -158,6 +161,7 @@ Use this sequence so work builds on itself and nothing is blocked.
   - [x] Link component (MDX `a` → DS styled Link with internal/external handling)
   - [x] Divider component (`---` → DS styled horizontal rule)
   - [x] Image component (`img` → DS styled image with optional caption)
+  - [x] Add remark-breaks plugin for natural line-break handling in MDX
   - [ ] Callout/Blockquote component (`> blockquote` → DS styled callout)
   - [ ] InlineCode component (`` `code` `` → DS styled inline code)
   - [ ] CodeBlock component (` ```block``` ` → DS styled code block with syntax highlighting)
@@ -581,6 +585,7 @@ This is the learning and tooling project. Building tests and stories against a l
 
 ## Change log
 
+- **Feb 2026 (sidebar + component pass):** Extracted `Sidebar` as a standalone layout component (`src/components/layout/Sidebar.tsx`) from `SplitLayout`, now fully responsible for profile display and contact options. Added three new UI components: `SegmentedControl` (used in DevToolsPanel), `IconButton`, and `Toggle`. Enhanced `Button` for improved functionality and accessibility. Replaced all custom inline SVG icons with `lucide-react` throughout the app (DevToolsPanel, SplitLayout, CardHeader, ScrollPrompt, ServerPasswordPrompt, WorkClient; removed `CheckIcon`, `LinkedInIcon`, `ScrollIcon` wrappers). Added `remark-breaks` plugin to MDX rendering pipeline for natural line-break handling. Added `Badge` `info` variant with new semantic token wiring in `primitiveTokens.ts` and `semanticTokens.ts`. Fixed unique ID on DevToolsPanel Popover content for accessibility. Improved work item frontmatter fields for metadata clarity; updated work item page and MDX loader accordingly. Refined layout and typography style consistency across `TopNav`, `PageHeader`, `PageLayout`, and `Typography`. Standardized `PageLayout` `maxWidth` across all section pages. Updated About page prose content and archived Sainapsis MDX as `_sainapsis.mdx` (not yet migrated to Bridge — still Project 3.2). Archived `_aquads.mdx` and `_ocean.mdx` as backup copies.
 - **Feb 2026 (tailwind-merge):** Added `tailwind-merge` v3 (Tailwind 4 compatible) to resolve Tailwind utility class conflicts in Typography components. Updated `Typography` base component to use `twMerge()` instead of string concatenation so `className` overrides (e.g. `mt-0`, `mb-0`) correctly win over component defaults. Custom semantic tokens (`text-content-*`, `bg-background-*`) are not deduplicated by twMerge but this is a non-issue in practice.
 - **Feb 2026 (appearance type refactor):** Made `APPEARANCE_OPTIONS` the single source of truth for appearance mode. Added `as const` to the options array and derived `AppearanceMode` type from it (`(typeof APPEARANCE_OPTIONS)[number]['value']`). Default value in `features.appearance` now references `APPEARANCE_OPTIONS[0].value` instead of a disconnected string literal. Eliminates manual type/value synchronization.
 - **Feb 2026 (SectionGate):** Added client-side `SectionGate` component (`src/components/SectionGate.tsx`) so DevToolsPanel feature flag overrides work for section routing. Server-side `notFound()` guards on listing pages (work, experiments, reading, writing) now bypass in development mode, letting the client-side gate check runtime flags from `FeatureFlagsProvider`. Production behavior unchanged (server gates access). Keeps access control on the server for prod while enabling dev-time toggling via localStorage overrides.
@@ -598,5 +603,5 @@ This is the learning and tooling project. Building tests and stories against a l
 
 ---
 
-**Last updated:** February 2026
+**Last updated:** February 21, 2026
 **Review:** As needed (iteration)
