@@ -76,6 +76,19 @@ public/images/
 
 Use the same extension consistently (e.g. `.png` or `.jpg`) if you like; the app only cares that the path in frontmatter matches.
 
+## Image specs
+
+Recommended dimensions, format, and file size per level.
+
+| Level | Dimensions | Ratio | Format | Max size |
+|-------|------------|-------|--------|----------|
+| `hero` | 1600×900 | 16:9 | PNG for UI/screenshots · JPG for photos | 200 KB |
+| `thumbnail` | 1200×675 | 16:9 | PNG | 200 KB |
+| `1`, `2`, `3`, … (in-body) | 1600×900 | 16:9 | PNG for UI/screenshots · JPG for photos | 200 KB |
+| `og` | 1200×630 | ~1.91:1 | JPG or PNG | 300 KB |
+
+**Mobile note:** `thumbnail` is rendered via Next.js `<Image>` with `sizes="(max-width: 640px) 80vw, 40vw"` — the browser receives a correctly-sized file on all screen sizes. `hero` and in-body images are rendered with a plain `<img>` tag and are not resized for mobile — every device downloads the same file. Keep these under 200 KB and export pre-compressed from your design tool.
+
 ## Path helpers
 
 - **Generic:** `src/lib/contentPaths.ts`
@@ -83,7 +96,7 @@ Use the same extension consistently (e.g. `.png` or `.jpg`) if you like; the app
   - `getImagePath(contentType, subType, slug, level, ext?)` → same with any level
 - **Work-only convenience:** `getWorkHeroImagePath(subType, slug)`, `getWorkThumbnailPath(subType, slug)`, `getWorkImagePath(subType, slug, level)`
 
-**Use in code (not in MDX):** The helpers are used for derived image paths. Listing cards use `getWorkThumbnailPath()` for thumbnails. Hero images and in-body images are authored directly in MDX (e.g. `![Alt](/images/work/products/ocean-hero.png)`) using the full path — there is no frontmatter field or MDX-level helper, so authors follow the naming convention.
+**Use in code (not in MDX):** The helpers are used for derived image paths. Listing cards use `getWorkThumbnailPath()` for thumbnails. Hero and in-body images are authored in MDX in either of two ways: **shorthand** — `![Caption](hero)` resolves to `/images/{contentType}/{subType}/{slug}-hero.png` (or `![Caption](detail.jpg)` for custom level and extension); **full path** — `![Caption](/images/work/products/ocean-hero.png)` is used as-is.
 
 ## Migration from old layout
 

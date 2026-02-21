@@ -276,8 +276,13 @@ Example for work products:
 - Content: `content/work/products/ocean.mdx`
 - Assets: `public/images/work/products/ocean-hero.png`, `ocean-thumbnail.png`, `ocean-1.png`, …
 
-Reference in MDX:
+Reference in MDX — shorthand (resolved from `public/images/{contentType}/{subType}/{slug}-{name}.{ext}`) or full path:
+
 ```markdown
+![Hero or caption](hero)
+![Detail](1)
+![Screenshot](dashboard.jpg)
+
 ![Alt text](/images/work/products/ocean-hero.png)
 ```
 

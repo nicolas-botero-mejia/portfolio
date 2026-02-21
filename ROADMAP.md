@@ -536,6 +536,7 @@ This is the learning and tooling project. Building tests and stories against a l
 - [ ] **Add "Back to top" button**
 - [ ] **Research: Multilingual (EN + ES)** — evaluate scope and complexity before committing
 - [ ] **Research: Image optimization strategy** — evaluate `next/image` for automatic format conversion (WebP/AVIF), responsive `srcset`, lazy loading with blur placeholders, and CDN-level caching. Compare trade-offs vs plain `<img>`.
+- [ ] **Implement responsive MDX images** — replace the plain `<img>` in `src/lib/mdxComponents.tsx` with Next.js `<Image>` using a build-time image metadata pipeline (width/height per file) so `hero` and in-body images serve correctly-sized files on mobile. Currently, all devices download the same full-resolution file (see `docs/ASSETS.md` mobile note).
 - [ ] **Research: Git-based CMS for content editing** — evaluate Keystatic, Tina CMS, and Decap CMS as optional GUI layers over existing MDX files. Key criteria: zero migration (reads/writes current MDX directly), free tier, no vendor lock-in, Next.js App Router compatibility. Current file-based approach is the baseline to beat.
 
 ### Milestone 8.4 – Future ideas (parking lot)
