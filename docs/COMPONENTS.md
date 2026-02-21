@@ -43,6 +43,7 @@ Design system components for the portfolio. Token-driven; Tailwind utilities map
 - **ScrollPrompt** – Fully configurable: `label` (e.g. "Scroll for more"), optional `onVisible` callback for load-more, and `once` to control whether it fires every time it enters view or only once. Use the same component anywhere you need a scroll affordance or infinite-scroll trigger.
 - **Cards** – Work listing uses an overlay pattern (16:9 image + gradient + text overlay). That pattern is implemented in `WorkClient`; if we need the same overlay card elsewhere (e.g. featured work in MDX), extract an `OverlayCard` (or similar) into `ui/` and use it from both places.
 - **MDX usage** – MDX files can import any component from `@/components/ui`. Use the same primitives (Badge, Card, PageHeader, **Breadcrumb**, **Link**, **Divider**, **EmptyState**, **Typography** (H1–H4, Lead, Body, Caption), **Skeleton**) so MDX and JSX pages stay visually and semantically consistent. Prefer passing data via props (e.g. from frontmatter) rather than duplicating layout logic inside MDX.
+- **Images in MDX** – Markdown images (`![alt](hero)` or full path) are rendered with Next.js `<Image>` via the override in `src/lib/mdxComponents.tsx` (responsive sizes, AVIF/WebP, lazy loading). No separate Image component in `ui/` for body images; CardImage and WorkClient use `<Image>` for cards and thumbnails.
 
 **Best practice:** Before creating a new component, ask: "Is this design system or page-specific?" If it’s reusable (2+ places or clear variants), put it in `ui/`. If it’s page-specific, keep it in the feature folder or inline.
 
@@ -59,7 +60,7 @@ Design system components for the portfolio. Token-driven; Tailwind utilities map
 | **Link** | Internal vs external styling | Button as="link" exists; might want dedicated Link with variants |
 | **Input** | Forms, search | Add when we have forms |
 | **Typography** | H1–H4, Body, Caption | Prose handles MDX; standalone for structured content |
-| **Image** | Optimized image with blur | Next/Image wrapper with aspect ratio, placeholder |
+| **Image** | MDX body images | Next/Image via MDX override in `mdxComponents.tsx`; CardImage and WorkClient use Next/Image for cards and thumbnails. Responsive srcset, AVIF/WebP. |
 | **Avatar** | Profile photos | About, team sections |
 | **Breadcrumb** | Navigation trail | Work sample (work item) pages |
 | **Skeleton** | Loading states | If we add loading UIs |

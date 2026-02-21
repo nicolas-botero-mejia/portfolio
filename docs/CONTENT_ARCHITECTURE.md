@@ -162,7 +162,7 @@ Page routes fetch MDX content and render it:
 
 ## Assets (images and media)
 
-Images use **one folder per contentType then subType** (e.g. `work/products/`, `writing/posts/`, `experiments/design/`); no slug subfolders; the filename carries slug + level (e.g. `ocean-hero.png`). See [docs/ASSETS.md](ASSETS.md) for the full layout, naming convention, and path helpers.
+Images use **one folder per contentType then subType** (e.g. `work/products/`, `writing/posts/`, `experiments/design/`); no slug subfolders; the filename carries slug + level (e.g. `ocean-hero.png`). MDX images (shorthand or full path) are rendered with Next.js `<Image>` for responsive srcset, AVIF/WebP, and lazy loading. See [docs/ASSETS.md](ASSETS.md) for the full layout, naming convention, path helpers, and Next.js image config.
 
 ## Adding New Content
 

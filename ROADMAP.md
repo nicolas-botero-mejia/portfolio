@@ -198,7 +198,10 @@ Use this sequence so work builds on itself and nothing is blocked.
 
 - [ ] **Migrate Sainapsis product to Bridge** (rewrite MDX content, update frontmatter; hero/thumbnail images already exist as `bridge-hero.png`/`bridge-thumbnail.png`; remove sainapsis assets)
 - [ ] **Review and polish product case studies** (Ocean, AquaDS, Bridge — verify metrics, proofread, check formatting)
-- [ ] **Optimize images** (compression, appropriate dimensions for hero and thumbnail)
+- [ ] **Optimize images**
+  - [x] Configure Next.js image formats (WebP/AVIF) and device sizes in `next.config.ts`
+  - [x] Replace native `<img>` in MDX component override with `next/image` (responsive `sizes`, format conversion, lazy loading; see `src/lib/mdxComponents.tsx`)
+  - [ ] Compress existing hero and thumbnail assets (e.g. ImageOptim, Squoosh, or sharp script)
 - [ ] **Audit SEO meta** (verify all pages have unique, optimized title 50-60 chars + description 150-160 chars; product meta titles shortened and double-attribution bug fixed in architecture review)
 
 ### Milestone 3.3 – SEO Optimization
@@ -535,9 +538,8 @@ This is the learning and tooling project. Building tests and stories against a l
 - [ ] **Add rate limiting for password protection** (e.g. attempts per IP per window)
 - [ ] **Add "Back to top" button**
 - [ ] **Research: Multilingual (EN + ES)** — evaluate scope and complexity before committing
-- [ ] **Research: Image optimization strategy** — evaluate `next/image` for automatic format conversion (WebP/AVIF), responsive `srcset`, lazy loading with blur placeholders, and CDN-level caching. Compare trade-offs vs plain `<img>`.
-- [ ] **Implement responsive MDX images** — replace the plain `<img>` in `src/lib/mdxComponents.tsx` with Next.js `<Image>` using a build-time image metadata pipeline (width/height per file) so `hero` and in-body images serve correctly-sized files on mobile. Currently, all devices download the same full-resolution file (see `docs/ASSETS.md` mobile note).
 - [ ] **Research: Git-based CMS for content editing** — evaluate Keystatic, Tina CMS, and Decap CMS as optional GUI layers over existing MDX files. Key criteria: zero migration (reads/writes current MDX directly), free tier, no vendor lock-in, Next.js App Router compatibility. Current file-based approach is the baseline to beat.
+- [ ] **Research: Build-time image optimization pipeline** — current setup delegates format conversion (AVIF/WebP), resizing, and caching to Vercel's edge image optimization, which works well but creates a hard dependency on Vercel. Evaluate a build-time alternative: source images in an `assets/` folder, a `sharp`/`squoosh` script as a pre-build step, and `public/images/` as the output (optimized files only). Key questions: does it actually improve cold-load performance on Vercel? Does it meaningfully reduce the Vercel dependency (Next.js `<Image>` still requires a server or CDN for responsive srcsets)? Is the added tooling and two-directory workflow worth it for a portfolio with ~10–20 images? Likely not — but worth knowing.
 
 ### Milestone 8.4 – Future ideas (parking lot)
 
@@ -586,6 +588,8 @@ This is the learning and tooling project. Building tests and stories against a l
 
 ## Change log
 
+- **Feb 2026 (roadmap: build-time image optimization research):** Added investigation item to 8.3 — explore build-time image optimization pipeline as an alternative to the current Vercel-dependent runtime approach. Captures the trade-offs and key questions without committing to a change.
+- **Feb 2026 (image optimization & responsive MDX):** Moved image optimization from Project 8.3 to 3.2. Configured Next.js `images` in `next.config.ts` (AVIF/WebP, deviceSizes, imageSizes). Replaced native `<img>` in MDX override (`src/lib/mdxComponents.tsx`) with Next.js `<Image>` — responsive `sizes`, default 800×600 with `height: auto`, lazy loading and format conversion handled by Next.js. Removed "Research: Image optimization strategy" and "Implement responsive MDX images" from 8.3 (done in 3.2). Compression of existing assets remains a manual subtask in 3.2.
 - **Feb 2026 (sidebar + component pass):** Extracted `Sidebar` as a standalone layout component (`src/components/layout/Sidebar.tsx`) from `SplitLayout`, now fully responsible for profile display and contact options. Added three new UI components: `SegmentedControl` (used in DevToolsPanel), `IconButton`, and `Toggle`. Enhanced `Button` for improved functionality and accessibility. Replaced all custom inline SVG icons with `lucide-react` throughout the app (DevToolsPanel, SplitLayout, CardHeader, ScrollPrompt, ServerPasswordPrompt, WorkClient; removed `CheckIcon`, `LinkedInIcon`, `ScrollIcon` wrappers). Added `remark-breaks` plugin to MDX rendering pipeline for natural line-break handling. Added `Badge` `info` variant with new semantic token wiring in `primitiveTokens.ts` and `semanticTokens.ts`. Fixed unique ID on DevToolsPanel Popover content for accessibility. Improved work item frontmatter fields for metadata clarity; updated work item page and MDX loader accordingly. Refined layout and typography style consistency across `TopNav`, `PageHeader`, `PageLayout`, and `Typography`. Standardized `PageLayout` `maxWidth` across all section pages. Updated About page prose content and archived Sainapsis MDX as `_sainapsis.mdx` (not yet migrated to Bridge — still Project 3.2). Archived `_aquads.mdx` and `_ocean.mdx` as backup copies.
 - **Feb 2026 (tailwind-merge):** Added `tailwind-merge` v3 (Tailwind 4 compatible) to resolve Tailwind utility class conflicts in Typography components. Updated `Typography` base component to use `twMerge()` instead of string concatenation so `className` overrides (e.g. `mt-0`, `mb-0`) correctly win over component defaults. Custom semantic tokens (`text-content-*`, `bg-background-*`) are not deduplicated by twMerge but this is a non-issue in practice.
 - **Feb 2026 (appearance type refactor):** Made `APPEARANCE_OPTIONS` the single source of truth for appearance mode. Added `as const` to the options array and derived `AppearanceMode` type from it (`(typeof APPEARANCE_OPTIONS)[number]['value']`). Default value in `features.appearance` now references `APPEARANCE_OPTIONS[0].value` instead of a disconnected string literal. Eliminates manual type/value synchronization.

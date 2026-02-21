@@ -8,6 +8,7 @@
 
 import type { ComponentPropsWithoutRef, ReactElement } from 'react';
 import React from 'react';
+import Image from 'next/image';
 import { H1, H2, H3, H4, H5, H6, Strong, Em } from '@/components/ui/Typography';
 import Link from '@/components/ui/Link';
 import Divider from '@/components/ui/Divider';
@@ -95,13 +96,18 @@ function createImageComponent(ctx: ContentContext) {
   return function MdxImage(props: ComponentPropsWithoutRef<'img'>) {
     const rawSrc = typeof props.src === 'string' ? props.src : '';
     const resolvedSrc = rawSrc ? resolveImageSrc(rawSrc, ctx) : '';
+    const w = typeof props.width === 'number' ? props.width : Number(props.width) || 800;
+    const h = typeof props.height === 'number' ? props.height : Number(props.height) || 600;
     return (
       <figure className="my-8">
-        <img
+        <Image
           src={resolvedSrc}
           alt={props.alt ?? ''}
+          width={w}
+          height={h}
           className="w-full rounded-lg"
-          loading="lazy"
+          style={{ height: 'auto' }}
+          sizes="(max-width: 768px) 100vw, 800px"
         />
         {props.alt && (
           <figcaption className="mt-2 text-center text-sm text-content-muted">

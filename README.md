@@ -9,7 +9,7 @@
 
 **Live Site:** [nicolas-botero-mejia.com](#) *(coming soon)*
 **Status:** Pre-launch; in development (see [ROADMAP.md](ROADMAP.md))
-**Current focus:** Project 2 (2.1 → 2.2) — Architecture, design system, mobile
+**Current focus:** Project 2.2 → 3 → 4 (path to launch)
 
 ---
 
@@ -113,15 +113,14 @@ portfolio/
 - **Tailwind CSS 4** - Utility-first CSS framework
 - **Design system** - Use UI components instead of raw HTML: `Link` (not `<a>`), `Typography` / `H1`–`H4` (not raw `<h1>`–`<h4>`), `Button` (not `<button>`), `Badge` (not `<span>` for labels/tags). See [docs/COMPONENTS.md](docs/COMPONENTS.md) and [CLAUDE.md](CLAUDE.md) for the full component inventory and token pipeline.
 - **Framer Motion** - Animation library
-- **React Wrap Balancer** - Typography
 
 ### Content Management
 - **MDX** - Markdown with React components (next-mdx-remote, gray-matter)
 - **Zod** - Schema validation
 
 ### SEO & Analytics
-- **next-seo** - SEO optimization
-- **next-sitemap** - Automatic sitemap
+- **Next.js Metadata API** + custom `seo.ts` - Meta titles, descriptions, Open Graph, Twitter Cards
+- **next-sitemap** - Sitemap generation (planned for Project 3.1)
 - **Google Analytics + Amplitude** - Page views and event tracking
 
 ### Deployment
@@ -232,13 +231,21 @@ seo:
 
 ### Adding Images to Work Samples
 
+Images in MDX are rendered with **Next.js `<Image>`** (responsive sizes, AVIF/WebP, lazy loading). Use either:
+
+**Markdown shorthand** (resolved from content context — see [docs/ASSETS.md](docs/ASSETS.md)):
+
+```markdown
+![Caption](hero)
+![Detail screenshot](dashboard.jpg)
+```
+
+**Full path:** `![Alt](/images/work/products/ocean-hero.png)`
+
+**Explicit dimensions in JSX** (when you need exact width/height):
+
 ```jsx
-<Image
-  src="/images/work/products/sainapsis-handoff-timeline.png"
-  alt="Timeline showing 2-month handoff cycle with weekly priority changes"
-  width={1200}
-  height={600}
-/>
+<Image src="/images/work/products/handoff-timeline.png" alt="Timeline" width={1200} height={600} />
 ```
 
 ---

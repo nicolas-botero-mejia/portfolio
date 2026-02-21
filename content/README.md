@@ -286,7 +286,7 @@ Reference in MDX — shorthand (resolved from `public/images/{contentType}/{subT
 ![Alt text](/images/work/products/ocean-hero.png)
 ```
 
-Full layout, levels, and rationale: [docs/ASSETS.md](../docs/ASSETS.md).
+Images are rendered with Next.js `<Image>` (responsive sizes, AVIF/WebP, lazy loading). Full layout, levels, and path helpers: [docs/ASSETS.md](../docs/ASSETS.md).
 
 ## Design System Components
 
@@ -303,4 +303,4 @@ All content can use design system components (coming soon):
 
 ---
 
-**Last Updated:** February 12, 2026
+**Last Updated:** February 2026
