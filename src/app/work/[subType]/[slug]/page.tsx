@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from '@/components/ui/Link';
 import { getAllWork, getWorkItemBySlug, getAdjacentWork, type WorkItem } from '@/lib/mdx';
 import MDXRenderer from '@/components/MDXRenderer';
-import { routes, getRoute, getWorkTypeLabel, CONTENT_SLUGS, site } from '@/data';
+import { getRoute, getWorkTypeLabel, CONTENT_SLUGS, site } from '@/data';
 import { generatePageMetadata } from '@/lib/seo';
 import { Metadata } from 'next';
 import { requiresPassword, isAuthenticated } from '@/lib/serverPasswordAuth';
@@ -98,16 +98,8 @@ export default async function WorkItemPage({ params }: WorkItemPageProps) {
         title={frontmatter.title}
         company={frontmatter.company}
       />
-      <article className="px-8 py-16 lg:px-16 lg:py-24">
+      <article className="px-8 py-16 lg:px-16 lg:py-4">
         <div className="max-w-3xl">
-        {/* Back Link */}
-        <Link
-          href={routes.work}
-          className="inline-flex items-center text-sm text-content-muted hover:text-content-primary mb-8 transition-colors"
-        >
-          ← Back to work
-        </Link>
-
         {/* Header */}
         <header className="mb-12">
           <H1 className="mb-4">{frontmatter.title}</H1>

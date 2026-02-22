@@ -6,6 +6,7 @@ import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { navigation } from '@/data';
 import { useFeatureFlags } from '@/components/FeatureFlagsProvider';
 import NavLink from '@/components/ui/NavLink';
+import Link from '@/components/ui/Link';
 
 const SCROLL_THRESHOLD = 10;
 
@@ -16,6 +17,8 @@ export default function TopNav({ scrollContainerId }: { scrollContainerId: strin
     const section = flags.sections[item.sectionKey as keyof typeof flags.sections];
     return section?.enabled ?? item.visible;
   });
+
+  const backTarget = visibleNav.find((item) => pathname.startsWith(item.href + '/'));
 
   const [visible, setVisible] = useState(true);
   const lastScrollY = useRef(0);
@@ -45,23 +48,36 @@ export default function TopNav({ scrollContainerId }: { scrollContainerId: strin
 
   return (
     <nav
-      className={`sticky top-0 z-10 flex items-center justify-end gap-6 px-8 py-4 bg-background-surface/20 backdrop-blur-sm transition-transform duration-200 ${
+      className={`sticky top-0 z-10 flex items-center justify-between px-8 py-4 bg-background-surface/20 backdrop-blur-sm transition-transform duration-200 ${
         visible ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
-      {visibleNav.map((item) => {
-        const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
-        return (
-          <NavLink
-            key={item.name}
-            href={item.href}
-            active={isActive}
-            onClick={() => handleNavClick(item.name)}
+      <div className="min-w-0 flex-1">
+        {backTarget ? (
+          <Link
+            href={backTarget.href}
+            className="inline-flex items-center text-sm text-content-muted hover:text-content-primary transition-colors"
+            onClick={() => handleNavClick(backTarget.name)}
           >
-            {item.name}
-          </NavLink>
-        );
-      })}
+            ← Back to {backTarget.name}
+          </Link>
+        ) : null}
+      </div>
+      <div className="flex items-center gap-6 shrink-0">
+        {visibleNav.map((item) => {
+          const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+          return (
+            <NavLink
+              key={item.name}
+              href={item.href}
+              active={isActive}
+              onClick={() => handleNavClick(item.name)}
+            >
+              {item.name}
+            </NavLink>
+          );
+        })}
+      </div>
     </nav>
   );
 }
