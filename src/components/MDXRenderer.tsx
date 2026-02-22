@@ -1,5 +1,6 @@
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkBreaks from 'remark-breaks';
+import { remarkAnnotations } from '@/lib/remarkAnnotations';
 import { createMDXComponents, type ContentContext } from '@/lib/mdxComponents';
 
 interface MDXRendererProps {
@@ -15,7 +16,7 @@ export default function MDXRenderer({ content, contentContext }: MDXRendererProp
       <MDXRemote
         source={content}
         components={components}
-        options={{ mdxOptions: { remarkPlugins: [remarkBreaks] } }}
+        options={{ mdxOptions: { remarkPlugins: [remarkBreaks, remarkAnnotations()] } }}
       />
     </div>
   );

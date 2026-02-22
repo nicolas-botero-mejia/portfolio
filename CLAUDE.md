@@ -405,6 +405,7 @@ Push to `main` → auto-deploys. Environment variables set in Vercel dashboard.
 | Doc | Purpose |
 |-----|---------|
 | [docs/WORK_ITEM_TERMINOLOGY.md](docs/WORK_ITEM_TERMINOLOGY.md) | Internal "work item" vs user-facing "work sample" |
+| [docs/MDX_AUTHORING.md](docs/MDX_AUTHORING.md) | MDX authoring syntax: images, tables, annotations, callouts, code blocks |
 
 ### Architecture & Design System
 | Doc | Purpose |
