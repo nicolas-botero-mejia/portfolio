@@ -18,13 +18,15 @@ Single reference for writing MDX content: images, tables (grid vs semantic), ann
 
 ## Full-width
 
-Place `[full-width]: #` immediately before an image (or other block) to break it out of the content column so it spans the full viewport width.
+Place `[full-width]: #` immediately before an image (or other block) to break it out of the content column so it spans the full main content area (viewport on mobile; viewport minus sidebar on desktop).
 
 ```md
 [full-width]: #
 
 ![Hero overview](hero)
 ```
+
+**Implementation note (for maintainers):** Full-bleed uses negative margins matching article padding (`-ml-8` / `lg:-ml-16`) and explicit width (`w-screen` mobile; `lg:w-[calc(100vw_-_400px)]` desktop). The `400px` matches the sidebar width in `SplitLayout.tsx`. If the layout or sidebar width changes, update both `SplitLayout.tsx` and the full-bleed div in `src/lib/mdxComponents.tsx`.
 
 ## Tables
 

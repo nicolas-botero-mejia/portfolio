@@ -16,7 +16,7 @@ export default function MDXRenderer({ content, contentContext }: MDXRendererProp
       <MDXRemote
         source={content}
         components={components}
-        options={{ mdxOptions: { remarkPlugins: [remarkBreaks, remarkAnnotations()] } }}
+        options={{ mdxOptions: { remarkPlugins: [remarkBreaks, remarkAnnotations] } }}
       />
     </div>
   );

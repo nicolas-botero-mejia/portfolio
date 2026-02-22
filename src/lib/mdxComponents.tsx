@@ -143,10 +143,9 @@ function createImageComponent(ctx: ContentContext) {
     const w = typeof props.width === 'number' ? props.width : Number(props.width) || 800;
     const h = typeof props.height === 'number' ? props.height : Number(props.height) || 600;
     const dataProps = props as Record<string, string | undefined>;
-    const fullWidth = dataProps['data-full-width'] === 'true';
     const caption = dataProps['data-caption'];
     const showCaption = typeof caption === 'string' && caption.length > 0;
-    const figureContent = (
+    return (
       <figure className="my-8">
         <Image
           src={resolvedSrc}
@@ -162,14 +161,6 @@ function createImageComponent(ctx: ContentContext) {
         )}
       </figure>
     );
-    if (fullWidth) {
-      return (
-        <div className="relative left-1/2 -translate-x-1/2 w-screen max-w-[100vw]">
-          {figureContent}
-        </div>
-      );
-    }
-    return figureContent;
   };
 }
 
@@ -245,7 +236,17 @@ export function createMDXComponents(ctx?: ContentContext) {
       nonBr.every(
         (child) => React.isValidElement(child) && (child as ReactElement).type === MdxImage
       );
+    const dataProps = props as Record<string, string | undefined>;
+    const fullWidth = dataProps['data-full-width'] === 'true';
     if (allImages) {
+      if (fullWidth) {
+        // Full-bleed: 400px matches sidebar width at lg (SplitLayout). If sidebar changes, update here and SplitLayout.
+        return (
+          <div className="-ml-8 w-screen lg:-ml-16 lg:w-[calc(100vw-400px)]">
+            {props.children}
+          </div>
+        );
+      }
       return <>{props.children}</>;
     }
     return baseComponents.p(props);

@@ -53,13 +53,18 @@ export function remarkAnnotations() {
       const nextType = (nextNode as { type: string }).type;
       if (!BLOCK_TYPES.has(nextType)) return;
 
-      // If next block is a paragraph with a single image, attach to the image so the img component receives props
+      // If next block is a paragraph with a single image: full-width goes on the paragraph (p component wraps);
+      // caption and others go on the image so the img component receives them.
       if (nextType === 'paragraph') {
         const par = nextNode as Paragraph;
         const children = par.children;
         if (Array.isArray(children) && children.length === 1) {
           const only = children[0];
           if (only && (only as { type?: string }).type === 'image') {
+            if (parsed.key === 'full-width') {
+              setDataProps(nextNode as { data?: Record<string, unknown> }, parsed.key, parsed.value);
+              return;
+            }
             setDataProps(only as { data?: Record<string, unknown> }, parsed.key, parsed.value);
             return;
           }

@@ -16,7 +16,7 @@ export default function SplitLayout({ children }: SplitLayoutProps): React.React
       </aside>
 
       {/* Right Panel - Scrollable Content Area */}
-      <main id={MAIN_CONTENT_ID} className="flex-1 lg:ml-[400px] lg:h-screen lg:overflow-y-auto">
+      <main id={MAIN_CONTENT_ID} className="flex-1 overflow-x-hidden lg:ml-[400px] lg:h-screen lg:overflow-y-auto">
         <TopNav scrollContainerId={MAIN_CONTENT_ID} />
         <div className="min-h-screen">{children}</div>
       </main>
