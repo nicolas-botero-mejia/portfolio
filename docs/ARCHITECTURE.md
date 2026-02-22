@@ -22,8 +22,6 @@
 
 Work items use **hierarchical** URLs: `/work/[subType]/[slug]` (e.g., `/work/products/ocean`, `/work/features/billing`). The app route is `src/app/work/[subType]/[slug]/page.tsx`. This mirrors the content folder structure and is consistent with all other content sections (`/writing/posts/[slug]`, `/reading/books/[slug]`).
 
-Legacy flat URLs (`/work/ocean`) are permanently redirected via `next.config.ts`.
-
 ---
 
 ## Work Page Architecture
