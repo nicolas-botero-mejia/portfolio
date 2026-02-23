@@ -10,6 +10,7 @@ import { isSubTypeEnabled } from '@/config/features';
 import ServerPasswordPrompt from '@/components/auth/ServerPasswordPrompt';
 import WorkItemTracker from '@/components/WorkItemTracker';
 import ContentNavigation from '@/components/ui/ContentNavigation';
+import PageLayout from '@/components/ui/PageLayout';
 import WorkItemHeader from '@/components/work/WorkItemHeader';
 import RelatedWorkSection from '@/components/work/RelatedWorkSection';
 
@@ -99,27 +100,23 @@ export default async function WorkItemPage({ params }: WorkItemPageProps) {
         company={frontmatter.company}
       />
 
-      <div className="min-h-screen bg-background-muted">
-        <article className="px-8 py-16 lg:px-8 lg:py-4">
-          <div className="mx-auto max-w-3xl">
-            <WorkItemHeader frontmatter={frontmatter} />
+      <PageLayout as="article" maxWidth="prose" background="bg-background-muted">
+        <WorkItemHeader frontmatter={frontmatter} />
 
-            {/* Content */}
-            <MDXRenderer
-              content={content}
-              contentContext={{ contentType: CONTENT_SLUGS.WORK, subType, slug }}
-            />
+        {/* Content */}
+        <MDXRenderer
+          content={content}
+          contentContext={{ contentType: CONTENT_SLUGS.WORK, subType, slug }}
+        />
 
-            <RelatedWorkSection items={relatedItems} />
+        <RelatedWorkSection items={relatedItems} />
 
-            {/* Next/Previous Navigation */}
-            <ContentNavigation
-              prev={prev ? { href: getRoute(CONTENT_SLUGS.WORK, prev.subType, prev.slug), title: prev.frontmatter.title } : null}
-              next={next ? { href: getRoute(CONTENT_SLUGS.WORK, next.subType, next.slug), title: next.frontmatter.title } : null}
-            />
-          </div>
-        </article>
-      </div>
+        {/* Next/Previous Navigation */}
+        <ContentNavigation
+          prev={prev ? { href: getRoute(CONTENT_SLUGS.WORK, prev.subType, prev.slug), title: prev.frontmatter.title } : null}
+          next={next ? { href: getRoute(CONTENT_SLUGS.WORK, next.subType, next.slug), title: next.frontmatter.title } : null}
+        />
+      </PageLayout>
     </>
   );
 }

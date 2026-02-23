@@ -6,22 +6,25 @@ const MAX_WIDTH = {
 
 interface PageLayoutProps {
   children: React.ReactNode;
-  maxWidth?: keyof typeof MAX_WIDTH;
+  as?: 'section' | 'article';
   background?: string;
+  maxWidth?: keyof typeof MAX_WIDTH;
   className?: string;
 }
 
 export default function PageLayout({
   children,
-  maxWidth = 'md',
+  as = 'section',
   background = 'bg-background-surface',
-  className = '',
+  maxWidth = 'md',
+  className = 'mx-auto',
 }: PageLayoutProps) {
+  const Wrapper = as === 'article' ? 'article' : 'section';
   return (
-    <div className={background}>
-      <section className="px-8 py-12 lg:px-6 lg:py-4">
-        <div className={`mx-auto ${MAX_WIDTH[maxWidth]} ${className}`}>{children}</div>
-      </section>
+    <div className={`min-h-screen ${background}`}>
+      <Wrapper className="px-8 py-12 lg:px-8 lg:py-4">
+        <div className={`${MAX_WIDTH[maxWidth]} ${className}`}>{children}</div>
+      </Wrapper>
     </div>
   );
 }
