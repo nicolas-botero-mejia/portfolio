@@ -44,6 +44,9 @@ export const featureGroups = {
 
 export const features = {
   /** Content sections — controls navigation visibility, route access, and SEO indexing. */
+  /** Appearance mode — 'auto' follows system, 'light'/'dark' force the theme. */
+  appearance: 'auto' satisfies AppearanceMode,
+
   sections: {
     work: {
       label: 'Work',
@@ -74,7 +77,7 @@ export const features = {
     },
     writing: {
       label: 'Writing',
-      enabled: true,
+      enabled: false,
       subTypes: {
         posts: { label: 'Posts', enabled: true },
         thoughts: { label: 'Thoughts', enabled: true },
@@ -87,18 +90,6 @@ export const features = {
     colophon: { label: 'Colophon', enabled: true },
   } satisfies Record<string, SectionFlag>,
 
-  /** Analytics providers */
-  analytics: {
-    googleAnalytics: { label: 'Google Analytics', enabled: true },
-    amplitude: { label: 'Amplitude', enabled: true },
-  },
-
-  /** Appearance mode — 'auto' follows system, 'light'/'dark' force the theme. */
-  appearance: 'auto' satisfies AppearanceMode,
-
-  /** Password protection for locked work items */
-  passwordProtection: { label: 'Password Protection', enabled: true },
-
   /** Sidebar contact section elements */
   contact: {
     email: { label: 'Email', enabled: true },
@@ -106,6 +97,15 @@ export const features = {
     location: { label: 'Location', enabled: true },
     availability: { label: 'Availability', enabled: true },
   },
+
+  /** Analytics providers */
+  analytics: {
+    googleAnalytics: { label: 'Google Analytics', enabled: true },
+    amplitude: { label: 'Amplitude', enabled: true },
+  },
+
+  /** Password protection for locked work items */
+  passwordProtection: { label: 'Password Protection', enabled: true },
 
   /** SEO features */
   seo: {

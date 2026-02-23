@@ -9,6 +9,7 @@ import NavLink from '@/components/ui/NavLink';
 import Link from '@/components/ui/Link';
 
 const SCROLL_THRESHOLD = 10;
+// Nav height (h-16 = 4rem); keep in sync with SplitLayout content pt-16.
 
 export default function TopNav({ scrollContainerId }: { scrollContainerId: string }) {
   const pathname = usePathname();
@@ -48,9 +49,10 @@ export default function TopNav({ scrollContainerId }: { scrollContainerId: strin
 
   return (
     <nav
-      className={`sticky top-0 z-10 flex items-center justify-between px-8 py-2 bg-background-surface/20 backdrop-blur-sm transition-transform duration-200 ${
+      className={`fixed top-0 left-0 right-0 lg:left-[400px] z-10 h-16 flex items-center justify-between px-8 py-2 bg-background-surface/20 backdrop-blur-sm transition-transform duration-200 ${
         visible ? 'translate-y-0' : '-translate-y-full'
       }`}
+      aria-label="Main navigation"
     >
       <div className="min-w-0 flex-1">
         {backTarget ? (

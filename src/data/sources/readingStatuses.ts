@@ -9,14 +9,14 @@ export interface ReadingStatus {
   badgeVariant: 'success' | 'warning' | 'neutral';
 }
 
-export const readingStatuses: ReadingStatus[] = [
-  { slug: 'read', label: 'READ', badgeVariant: 'success' },
-  { slug: 'reading', label: 'READING', badgeVariant: 'warning' },
-  { slug: 'to-read', label: 'TO READ', badgeVariant: 'neutral' },
-];
-
 export const READING_STATUS_SLUGS = {
   READ: 'read',
   READING: 'reading',
   TO_READ: 'to-read',
 } as const;
+
+export const readingStatuses: ReadingStatus[] = [
+  { slug: READING_STATUS_SLUGS.READ, label: 'READ', badgeVariant: 'success' },
+  { slug: READING_STATUS_SLUGS.READING, label: 'READING', badgeVariant: 'warning' },
+  { slug: READING_STATUS_SLUGS.TO_READ, label: 'TO READ', badgeVariant: 'neutral' },
+];

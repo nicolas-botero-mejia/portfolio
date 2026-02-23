@@ -18,7 +18,10 @@ export default function SplitLayout({ children }: SplitLayoutProps): React.React
       {/* Right Panel - Scrollable Content Area */}
       <main id={MAIN_CONTENT_ID} className="flex-1 overflow-x-hidden lg:ml-[400px] lg:h-screen lg:overflow-y-auto">
         <TopNav scrollContainerId={MAIN_CONTENT_ID} />
-        {children}
+        {/* Content padding matches TopNav height (pt-16 = 4rem); keep in sync with TopNav h-16. */}
+        <div className="pt-16">
+          {children}
+        </div>
       </main>
     </div>
   );

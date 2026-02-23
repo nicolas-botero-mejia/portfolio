@@ -29,7 +29,7 @@ export default function Sidebar(): React.ReactElement {
   return (
     <div className="flex flex-col justify-between lg:h-full">
       {/* Name/Logo */}
-      <Link href={routes.home} className="py-3 px-8 border-b leading-relaxed border-border-default font-medium" block>
+      <Link href={routes.home} className="h-16 py-4.5 px-8 border-b leading-relaxed border-border-default font-medium" block>
           {profile.name}
       </Link>
       {/* Bio */}
@@ -37,10 +37,8 @@ export default function Sidebar(): React.ReactElement {
         <div className="flex flex-col flex-1 gap-4">
           {profile.bio.map((paragraph, index) => {
             const hasTokens = paragraph.includes('{{');
-            const className = 'text-content-muted/60';
-              // index === 0 ? 'text-lg' : 'text-content-secondary';
             return (
-              <Body key={index} className={className}>
+              <Body key={index} className="text-content-muted/60">
                 {hasTokens
                   ? parseBioTokens(paragraph, handleExternalLinkClick)
                   : paragraph}
