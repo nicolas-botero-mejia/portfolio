@@ -4,7 +4,7 @@ import { H1, H2 } from '@/components/ui/Typography';
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-4 lg:ml-[400px]">
+    <div className="flex min-h-screen flex-col items-center justify-center px-4 lg:ml-[var(--sidebar-w)]">
       <div className="max-w-md text-center">
         <H1 className="mb-2 text-6xl text-border-default">404</H1>
         <H2 className="mb-4">Page not found</H2>

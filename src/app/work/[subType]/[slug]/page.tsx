@@ -100,7 +100,7 @@ export default async function WorkItemPage({ params }: WorkItemPageProps) {
         company={frontmatter.company}
       />
 
-      <PageLayout as="article" maxWidth="prose" background="bg-background-muted">
+      <PageLayout as="article" maxWidth="prose">
         <WorkItemHeader frontmatter={frontmatter} />
 
         {/* Content */}

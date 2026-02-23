@@ -240,9 +240,9 @@ export function createMDXComponents(ctx?: ContentContext) {
     const fullWidth = dataProps['data-full-width'] === 'true';
     if (allImages) {
       if (fullWidth) {
-        // Full-bleed: 400px matches sidebar width at lg (SplitLayout). If sidebar changes, update here and SplitLayout.
-        return (
-          <div className="-ml-8 w-screen lg:-ml-16 lg:w-[calc(100vw-400px)]">
+        // Full-bleed: width uses --sidebar-w from globals.css so sidebar and content stay in sync.
+          return (
+          <div className="-ml-8 w-screen lg:-ml-16 lg:w-[calc(100vw_-_var(--sidebar-w))]">
             {props.children}
           </div>
         );

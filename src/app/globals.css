@@ -16,7 +16,20 @@ body {
 }
 
 /* Smooth scrolling for anchor links */
-html {
+html, main {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px; /* Account for fixed header */
+  scroll-padding-top: var(--top-nav-h); /* Account for fixed header */
+}
+
+/* Layout constants: single source of truth for sidebar width and top nav height. Components use var(--sidebar-w) and var(--top-nav-h). */
+@layer base {
+  :root {
+    --sidebar-w: 0px;
+    --top-nav-h: 4rem;
+  }
+  @media (min-width: 1024px) {
+    :root {
+      --sidebar-w: var(--container-md); /* alias to Tailwind's md container scale (28rem / 448px); change here to retune */
+    }
+  }
 }

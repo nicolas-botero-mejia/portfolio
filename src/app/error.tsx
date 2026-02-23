@@ -17,7 +17,7 @@ export default function Error({ error, reset }: ErrorProps) {
   }, [error]);
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-4 lg:ml-[400px]">
+    <div className="flex min-h-screen flex-col items-center justify-center px-4 lg:ml-[var(--sidebar-w)]">
       <div className="max-w-md text-center">
         <H1 className="mb-4">Something went wrong</H1>
         <p className="mb-8 text-content-muted">
