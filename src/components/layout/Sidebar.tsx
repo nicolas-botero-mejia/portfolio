@@ -29,11 +29,11 @@ export default function Sidebar(): React.ReactElement {
   return (
     <div className="flex flex-col justify-between lg:h-full">
       {/* Name/Logo */}
-      <Link href={routes.home} className="py-3 px-8 border-b border-border-default font-medium" block>
+      <Link href={routes.home} className="py-3 px-8 border-b leading-relaxed border-border-default font-medium" block>
           {profile.name}
       </Link>
       {/* Bio */}
-      <div className="flex flex-col flex-1 justify-between px-8 py-7 space-y-3 text-content-muted">
+      <div className="flex flex-col flex-1 justify-between px-8 py-6 space-y-3 text-content-muted">
         <div className="flex flex-col flex-1 gap-4">
           {profile.bio.map((paragraph, index) => {
             const hasTokens = paragraph.includes('{{');

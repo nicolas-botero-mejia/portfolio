@@ -1,6 +1,6 @@
 'use client';
 
-import NextLink from 'next/link';
+import Button from '@/components/ui/Button';
 
 interface NavLinkProps {
   href: string;
@@ -10,13 +10,8 @@ interface NavLinkProps {
   className?: string;
 }
 
-// 1. Layout & typography — primitive scale
-const LAYOUT =
-  'text-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-background-primary focus-visible:ring-offset-2 rounded';
-
-// 2. Semantic colors — role-based (active vs inactive)
-const ACTIVE_STYLES = 'text-content-primary font-medium';
-const INACTIVE_STYLES = 'text-content-muted hover:text-content-primary';
+// Active state overlay: subtle bg + primary text. Do not override focus (Button provides focus-visible ring).
+const ACTIVE_CLASS = 'bg-background-subtle text-content-primary';
 
 export default function NavLink({
   href,
@@ -26,12 +21,16 @@ export default function NavLink({
   className = '',
 }: NavLinkProps) {
   return (
-    <NextLink
+    <Button
+      as="link"
       href={href}
+      variant="ghost"
+      size="md"
       onClick={onClick}
-      className={`${LAYOUT} ${active ? ACTIVE_STYLES : INACTIVE_STYLES} ${className}`}
+      ariaCurrent={active ? 'page' : undefined}
+      className={active ? `${ACTIVE_CLASS} ${className}`.trim() : className}
     >
       {children}
-    </NextLink>
+    </Button>
   );
 }

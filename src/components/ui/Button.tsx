@@ -19,10 +19,15 @@ interface ButtonAsButton extends ButtonBaseProps {
   type?: 'button' | 'submit' | 'reset';
 }
 
+export type AriaCurrent = 'page' | 'step' | 'location' | 'date' | 'time' | true;
+
 interface ButtonAsLink extends ButtonBaseProps {
   as: 'link';
   href: string;
   external?: boolean;
+  /** Set on the underlying link for accessibility (e.g. aria-current="page" for current nav item). */
+  ariaCurrent?: AriaCurrent;
+  onClick?: () => void;
 }
 
 export type ButtonProps = ButtonAsButton | ButtonAsLink;
@@ -33,9 +38,9 @@ const BASE =
 
 // 2. Size — primitive scale
 const SIZE_STYLES: Record<ButtonSize, string> = {
-  sm: 'rounded-md px-3 py-1.5 text-xs',
-  md: 'rounded-lg px-4 py-2 text-sm',
-  lg: 'rounded-lg px-6 py-3 text-base',
+  sm: 'rounded-sm px-2 py-1 text-xs',
+  md: 'rounded-md px-3 py-2 text-sm',
+  lg: 'rounded-lg px-4 py-3 text-base',
 };
 
 // 3. Semantic colors — role-based (variants); exported for IconButton
@@ -60,7 +65,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(fu
   const styles = `${BASE} ${SIZE_STYLES[size]} ${VARIANT_STYLES[variant]} ${className}`;
 
   if (props.as === 'link') {
-    const { href, external } = props;
+    const { href, external, ariaCurrent, onClick } = props;
     return (
       <Link
         ref={ref as React.Ref<HTMLAnchorElement>}
@@ -69,8 +74,9 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(fu
         rel={external ? 'noopener noreferrer' : undefined}
         className={disabled ? `${styles} pointer-events-none opacity-50` : styles}
         aria-disabled={disabled ? true : undefined}
+        aria-current={ariaCurrent}
         tabIndex={disabled ? -1 : undefined}
-        onClick={disabled ? (e) => e.preventDefault() : undefined}
+        onClick={disabled ? (e) => e.preventDefault() : onClick ? (e) => onClick() : undefined}
       >
         {children}
       </Link>

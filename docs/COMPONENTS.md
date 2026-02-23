@@ -7,7 +7,7 @@ Design system components for the portfolio. Token-driven; Tailwind utilities map
 | Component | Purpose | Variants | Token Usage |
 |-----------|---------|----------|-------------|
 | **Badge** | Labels, tags, status pills | default, success, warning, neutral | background, content, border, status roles |
-| **Button** | Primary actions, CTAs | primary, secondary, ghost; sizes sm, md (default), lg | action/\* roles |
+| **Button** | Primary actions, CTAs | primary, secondary, ghost; sizes sm, md (default), lg; `as="link"` with optional `ariaCurrent` | action/\* roles |
 | **IconButton** | Icon-only actions (e.g. Radix triggers) | same variants + sizes; `aria-label` required; `as="button"\|"link"` | imports VARIANT_STYLES from Button |
 | **Toggle** | On/off switch (role="switch") | — | action-primary-bg, background-muted, content-inverted |
 | **SegmentedControl** | Single-choice from options (role="radiogroup") | — | action-primary-bg, content-inverted, background-surface/subtle, border-default |
@@ -29,6 +29,7 @@ Design system components for the portfolio. Token-driven; Tailwind utilities map
 | **ScrollPrompt** | Scroll-for-more affordance (icon + label) | — | content-muted; label configurable |
 | **Breadcrumb** | Navigation trail (e.g. Work → Work sample) | — | content-primary/muted, border |
 | **Link** | Styled internal/external links | default, muted, ghost | content, border (underline) |
+| **NavLink** | Nav items (e.g. TopNav) | Composes Button ghost + active state | ghost button + background-subtle when active; uses Button `ariaCurrent="page"` when active |
 | **Divider** | Section separation | horizontal, vertical; optional label | border-subtle, content-muted |
 | **EmptyState** | No content yet / no results | — | background-subtle, border-subtle, content-primary/muted |
 | **Typography** | H1–H4, Lead, Body, Caption for MDX | h1–h4, lead, body, caption | content-primary/secondary/muted |
