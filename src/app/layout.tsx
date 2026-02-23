@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/app/globals.css";
 import SplitLayout from "@/components/layout/SplitLayout";
 import AnalyticsProvider from "@/components/AnalyticsProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -30,7 +30,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body className="font-sans antialiased">
+      <body className="antialiased">
         <FeatureFlagsProvider>
           <ThemeProvider>
             <AnalyticsProvider>
