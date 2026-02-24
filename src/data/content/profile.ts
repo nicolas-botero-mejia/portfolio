@@ -1,4 +1,4 @@
-import { COMPANY_SLUGS } from '@/data/sources/companies';
+import { COMPANY_SLUGS } from '../sources/companies';
 
 const { SAINAPSIS, MASIV, PAYU_LATAM } = COMPANY_SLUGS;
 

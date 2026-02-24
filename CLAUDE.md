@@ -265,7 +265,7 @@ portfolio/
 - **TypeScript:** Strict mode, explicit return types preferred
 - **React:** Functional components with hooks, Server Components by default
 - **Tailwind:** Semantic tokens for colors, primitive scale for layout (see Design System above)
-- **Imports:** Absolute imports with `@/` prefix (maps to `src/`)
+- **Imports:** Cross-boundary use `@/` (maps to `src/`); same-module use relative (`./`, `../`). Use `@/` when importing across top-level folders (`app`, `components`, `lib`, `data`, `config`). Use relative when both files are in the same logical module (e.g. within `src/data/`, within `src/components/ui/`, or same folder). Barrel files and data-layer internals use relative; consumers use `@/`.
 - **Constants over literals:** Always use existing constants instead of string literals. Content type slugs use `CONTENT_SLUGS.*` (from `@/data`), image variants use `IMAGE_VARIANTS.*`, default extension uses `DEFAULT_IMAGE_EXT` (both from `@/lib/contentPaths`). Never hardcode values like `'work'`, `'hero'`, `'thumbnail'`, `'png'` when a constant exists.
 
 ### File Naming

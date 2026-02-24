@@ -12,7 +12,7 @@ import Image from 'next/image';
 import { H1, H2, H3, H4, H5, H6, Strong, Em } from '@/components/ui/Typography';
 import Link from '@/components/ui/Link';
 import Divider from '@/components/ui/Divider';
-import { getImagePath } from '@/lib/contentPaths';
+import { getImagePath } from './contentPaths';
 
 export interface ContentContext {
   contentType: string;

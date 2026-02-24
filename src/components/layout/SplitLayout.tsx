@@ -1,5 +1,5 @@
-import TopNav from '@/components/layout/TopNav';
-import Sidebar from '@/components/layout/Sidebar';
+import TopNav from './TopNav';
+import Sidebar from './Sidebar';
 
 interface SplitLayoutProps {
   children: React.ReactNode;

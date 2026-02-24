@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { ScrollIcon } from '@/components/ui/icons';
+import { ScrollIcon } from './icons';
 
 interface ScrollPromptProps {
   /** Configurable label under the icon (e.g. "Scroll for more", "Load more") */
