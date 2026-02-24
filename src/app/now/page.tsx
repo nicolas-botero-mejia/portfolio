@@ -40,7 +40,7 @@ export default async function NowPage({ searchParams }: NowPageProps) {
   const hasMore = entriesToShow.length < allEntries.length;
 
   return (
-    <PageLayout maxWidth="lg">
+    <PageLayout maxWidth="prose">
       <PageHeader
         title={pageMeta.frontmatter.title}
         description={

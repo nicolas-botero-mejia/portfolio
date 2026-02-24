@@ -16,7 +16,7 @@ export default function ColophonPage() {
   const page = getPageOrNotFound(CONTENT_SLUGS.COLOPHON);
 
   return (
-    <PageLayout maxWidth="lg">
+    <PageLayout maxWidth="prose">
         <PageHeader
           title={page.frontmatter.title}
           description={page.frontmatter.description}

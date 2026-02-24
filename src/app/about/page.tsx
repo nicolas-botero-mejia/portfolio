@@ -16,7 +16,7 @@ export default function AboutPage() {
   const page = getPageOrNotFound(CONTENT_SLUGS.ABOUT);
 
   return (
-    <PageLayout maxWidth="lg">
+    <PageLayout maxWidth="prose">
         <PageHeader
           title={page.frontmatter.title}
           description={page.frontmatter.description}
