@@ -29,7 +29,7 @@ export default function Sidebar(): React.ReactElement {
   return (
     <div className="flex flex-col justify-between lg:h-full">
       {/* Name/Logo */}
-      <Link href={routes.home} className="h-16 py-4.5 px-8 border-b leading-relaxed border-border-default font-medium" block>
+      <Link href={routes.home} className="h-[var(--top-nav-h)] py-3 px-8 border-b leading-relaxed border-border-default text-3xl font-medium" block>
           {profile.name}
       </Link>
       {/* Bio */}
