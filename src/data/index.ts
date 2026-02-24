@@ -17,7 +17,9 @@ export {
   spacing,
   typography,
   radii,
-  border,
+  leading,
+  tracking,
+  shadow,
 } from './sources/tokens';
 export type { TokenCollection, SemanticTheme } from './sources/tokens';
 

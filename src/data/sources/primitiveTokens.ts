@@ -1,6 +1,6 @@
 /**
  * Primitive design tokens - raw palette and scales.
- * Single source of truth for colors, spacing, typography, radii, borders.
+ * Single source of truth for colors, spacing, typography, radii, leading, tracking, shadows.
  * Hex values for Figma compatibility; Tailwind @theme consumes these.
  */
 
@@ -127,22 +127,57 @@ export const typography = {
 // =============================================================================
 
 export const radii = {
+  none: 0,
   sm: 4,
   md: 6,
   lg: 8,
   xl: 12,
   '2xl': 16,
   '3xl': 24,
+  full: 9999,
 } as const;
 
 // =============================================================================
-// BORDERS
+// LEADING (line height - unitless)
 // =============================================================================
 
-export const border = {
-  width: {
-    default: 1,
-    thick: 2,
+export const leading = {
+  none: 1,
+  tight: 1.25,
+  snug: 1.375,
+  normal: 1.5,
+  relaxed: 1.625,
+  loose: 2,
+} as const;
+
+// =============================================================================
+// TRACKING (letter spacing - em)
+// =============================================================================
+
+export const tracking = {
+  tighter: '-0.05em',
+  tight: '-0.025em',
+  normal: '0em',
+  wide: '0.025em',
+  wider: '0.05em',
+  widest: '0.1em',
+} as const;
+
+// =============================================================================
+// SHADOWS (box + drop)
+// =============================================================================
+
+export const shadow = {
+  box: {
+    sm: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+    md: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+    lg: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+    xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+  },
+  drop: {
+    sm: '0 1px 2px rgb(0 0 0 / 0.05)',
+    md: '0 4px 3px rgb(0 0 0 / 0.07)',
+    lg: '0 10px 8px rgb(0 0 0 / 0.04), 0 4px 3px rgb(0 0 0 / 0.1)',
   },
 } as const;
 
@@ -155,5 +190,7 @@ export type TokenCollection = {
   spacing: Record<string, number>;
   typography: Record<string, number | string>;
   radii: Record<string, number>;
-  border: Record<string, number>;
+  leading: Record<string, number>;
+  tracking: Record<string, string>;
+  shadow: Record<string, string>;
 };

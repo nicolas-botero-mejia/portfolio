@@ -4,7 +4,16 @@
  */
 
 import type { TokenCollection } from '../sources/tokens';
-import { colors, themes, spacing, typography, radii, border } from '../sources/tokens';
+import {
+  colors,
+  themes,
+  spacing,
+  typography,
+  radii,
+  leading,
+  tracking,
+  shadow,
+} from '../sources/tokens';
 
 type FlattenOptions = {
   separator: string;
@@ -89,14 +98,22 @@ export function getTokensForFigma(): TokenCollection {
     ...getFontFamilyForFigma(),
   };
   const radiiFlat = flattenObject<number>(radii, '', { separator: '-' });
-  const borderFlat = flattenObject<number>(border, '', { separator: '-', stripKeys: ['width'] });
+  const leadingFlat = flattenObject<number>(leading, '', { separator: '-' });
+  const trackingFlat = flattenObject<string>(tracking, '', { separator: '-' });
+  const shadowBoxFlat = flattenObject<string>(shadow.box, '', { separator: '-' });
+  const shadowDropFlat = flattenObject<string>(shadow.drop, '', { separator: '-' });
 
   return {
     colors: figmaColors,
     spacing: spacingFlat,
     typography: typographyFlat,
     radii: radiiFlat,
-    border: borderFlat,
+    leading: leadingFlat,
+    tracking: trackingFlat,
+    shadow: {
+      box: shadowBoxFlat,
+      drop: shadowDropFlat,
+    },
   };
 }
 
@@ -109,7 +126,12 @@ export interface CSSTokens {
     fontFamily: Record<string, string>;
   };
   radii: Record<string, number>;
-  border: Record<string, number>;
+  leading: Record<string, number>;
+  tracking: Record<string, string>;
+  shadow: {
+    box: Record<string, string>;
+    drop: Record<string, string>;
+  };
 }
 
 export interface CSSThemeOutput {
@@ -127,7 +149,10 @@ export function getTokensForCSS(): CSSThemeOutput {
 
   const spacingFlat = flattenObject<number>(spacing, '', { separator: '-' });
   const radiiFlat = flattenObject<number>(radii, '', { separator: '-' });
-  const borderFlat = flattenObject<number>(border, '', { separator: '-', stripKeys: ['width'] });
+  const leadingFlat = flattenObject<number>(leading, '', { separator: '-' });
+  const trackingFlat = flattenObject<string>(tracking, '', { separator: '-' });
+  const shadowBoxFlat = flattenObject<string>(shadow.box, '', { separator: '-' });
+  const shadowDropFlat = flattenObject<string>(shadow.drop, '', { separator: '-' });
 
   return {
     default: {
@@ -145,7 +170,12 @@ export function getTokensForCSS(): CSSThemeOutput {
         ),
       },
       radii: Object.fromEntries(Object.entries(radiiFlat).map(([k, v]) => [toCssPath(k), v])),
-      border: Object.fromEntries(Object.entries(borderFlat).map(([k, v]) => [toCssPath(k), v])),
+      leading: { ...leadingFlat },
+      tracking: { ...trackingFlat },
+      shadow: {
+        box: { ...shadowBoxFlat },
+        drop: { ...shadowDropFlat },
+      },
     },
     dark: {
       colors: darkColorVars,

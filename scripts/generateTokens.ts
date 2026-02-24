@@ -42,8 +42,24 @@ function generateCSS(): string {
     lines.push(`  ${varName}: ${value}px;`);
   }
 
-  for (const [key, value] of Object.entries(defaultTokens.border)) {
-    lines.push(`  --border-${key}: ${value}px;`);
+  // Leading (unitless)
+  for (const [key, value] of Object.entries(defaultTokens.leading)) {
+    lines.push(`  --leading-${key}: ${value};`);
+  }
+
+  // Tracking (em strings — already include unit)
+  for (const [key, value] of Object.entries(defaultTokens.tracking)) {
+    lines.push(`  --tracking-${key}: ${value};`);
+  }
+
+  // Box shadows
+  for (const [key, value] of Object.entries(defaultTokens.shadow.box)) {
+    lines.push(`  --shadow-${key}: ${value};`);
+  }
+
+  // Drop shadows
+  for (const [key, value] of Object.entries(defaultTokens.shadow.drop)) {
+    lines.push(`  --drop-shadow-${key}: ${value};`);
   }
 
   lines.push('}');
