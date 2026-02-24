@@ -352,7 +352,7 @@ Use these when building a **bridge** (e.g. plugin that receives code from outsid
 ## Token Architecture
 
 - **Source of truth:** `src/data/sources/primitiveTokens.ts`, `semanticTokens.ts` (see also ROADMAP — token generation, Figma sync).
-- **Primitives** collection: raw palette (colors, spacing, typography, radii, border). Single mode.
+- **Primitives** collection: raw palette (colors, spacing, typography, radii, leading, tracking, shadow). Single mode.
 - **Semantics** collection: role-based tokens aliasing primitives. Light/Dark modes for theming.
 - Semantic variables reference primitives via `{ type: 'VARIABLE_ALIAS', id: variableId }`.
 - Use `setBoundVariableForPaint()` for fills/strokes; `setValueForMode()` for the alias.
@@ -509,7 +509,7 @@ Either rename to reflect the broader role (e.g. "token pipeline") or keep `resol
 
 | Figma | Code |
 |-------|------|
-| **Primitives** collection | `primitiveTokens.ts` (colors, spacing, typography, radii, border) |
+| **Primitives** collection | `primitiveTokens.ts` (colors, spacing, typography, radii, leading, tracking, shadow) |
 | **Semantics** collection | `semanticTokens.ts` (themes.light, themes.dark) |
 | Variable name `colors/gray/50` | `colors.gray[50]` |
 | Variable name `spacing/4` | `spacing[4]` |

@@ -83,7 +83,10 @@ Scale-based — use standard Tailwind utilities that resolve to our theme values
 | spacing | `px-2.5`, `py-4`, `gap-6`, `p-8` (4px base scale) |
 | fontSize | `text-xs` (12), `text-sm` (14), `text-base` (16), `text-lg` (18), up to `text-6xl` (60) |
 | fontWeight | `font-normal` (400), `font-medium` (500), `font-semibold` (600), `font-bold` (700) |
-| radii | `rounded-sm` (4), `rounded-md` (6), `rounded-lg` (8), `rounded-xl` (12) |
+| radii | `rounded-none`, `rounded-sm` (4), `rounded-md` (6), `rounded-lg` (8), `rounded-xl` (12), `rounded-full` |
+| leading | `leading-tight`, `leading-normal`, `leading-relaxed`, `leading-loose` |
+| tracking | `tracking-tight`, `tracking-normal`, `tracking-wider`, `tracking-widest` |
+| shadow | box: `shadow-sm`, `shadow-md`, `shadow-lg`, `shadow-xl`; drop: `drop-shadow-sm`, `drop-shadow-md`, `drop-shadow-lg` |
 | fontFamily | `font-sans` (system stack), `font-mono` (monospace) |
 
 ### Component Style Pattern
