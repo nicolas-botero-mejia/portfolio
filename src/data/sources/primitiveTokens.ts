@@ -192,5 +192,8 @@ export type TokenCollection = {
   radii: Record<string, number>;
   leading: Record<string, number>;
   tracking: Record<string, string>;
-  shadow: Record<string, string>;
+  shadow: {
+    box: Record<string, string>;
+    drop: Record<string, string>;
+  };
 };
