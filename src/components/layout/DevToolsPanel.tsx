@@ -110,6 +110,10 @@ export default function DevToolsPanel() {
             )}
           </div>
 
+          <FlagSection title={featureGroups.appearance}>
+            <AppearanceSelector />
+          </FlagSection>
+
           <FlagSection title={featureGroups.sections}>
             {sectionKeys.map((key) => {
               const section = features.sections[key];
@@ -149,10 +153,6 @@ export default function DevToolsPanel() {
                 <FlagRow key={key} label={flag.label} path={path} isOverridden={path in overrides} />
               );
             })}
-          </FlagSection>
-
-          <FlagSection title={featureGroups.appearance}>
-            <AppearanceSelector />
           </FlagSection>
 
           <FlagSection title={featureGroups.other}>

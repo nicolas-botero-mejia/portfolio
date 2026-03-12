@@ -16,7 +16,7 @@ seo:
   keywords: ["keyword 1", "keyword 2", "keyword 3"]
 ---
 
-# Product Name
+![Product overview](hero)
 
 ## Overview
 
@@ -37,6 +37,8 @@ What you were responsible for, who you worked with, your specific contributions.
 
 ## Process
 
+![Process diagram](1)
+
 ### Discovery
 What you learned through research, user interviews, data analysis.
 
@@ -54,6 +56,63 @@ Measurable outcomes, business impact, user feedback.
 1. **Lesson 1:** What you learned
 2. **Lesson 2:** What you'd do differently
 3. **Lesson 3:** What worked well
+
+## Images & Layout
+
+Copy-paste reference for annotations and tables. See [docs/MDX_AUTHORING.md](docs/MDX_AUTHORING.md) for full syntax.
+
+**Images** — shorthand (resolved from `public/images/work/products/{slug}-{name}.png`) or full path:
+
+![Hero or section caption](hero)
+![Detail](detail)
+![Custom extension](screenshot.jpg)
+![Full path](/images/work/products/your-slug-hero.png)
+
+**Full-width image** — annotation on the line immediately before the block:
+
+[full-width]: #
+
+![Wide hero](hero)
+
+**Custom caption** (opt-in; shows caption below image):
+
+[caption: The redesigned flow — conversion up 23%.]: #
+
+![Onboarding screens](onboarding)
+
+**Grid (default)** — markdown table with no annotation renders as a responsive div grid. Empty header row hides labels:
+
+|   |   |   |
+|---|---|---|
+| ![One](hero) | ![Two](detail) | ![Three](1) |
+
+**Grid with column labels** — put text in the header cells:
+
+| Before | After | Context |
+|--------|-------|---------|
+| ![Old](1) | ![New](2) | Supporting copy or another image |
+
+**Semantic table** (borders, for data) — use `[table]: #` before the table:
+
+[table]: #
+
+| Metric | Before | After |
+|--------|--------|-------|
+| NPS    | 32     | 67    |
+
+**Callout** — highlight a blockquote:
+
+[callout]: #
+
+> Reducing friction at handoff cut back-and-forth by 40%.
+
+**Code block with filename**:
+
+[filename: tokens.css]: #
+
+```css
+--color-primary: #0066ff;
+```
 
 ---
 
